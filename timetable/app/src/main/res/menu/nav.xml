@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_calendar"
+        android:enabled="true"
+        android:title="@string/nav_calendar"
+        android:icon="@drawable/nav_calendar"
+        />
+
+    <item android:id="@+id/nav_todo"
+        android:enabled="true"
+        android:title="@string/nav_todo"
+        android:icon="@drawable/nav_list"
+        />
+
+    <item android:id="@+id/nav_note"
+        android:enabled="true"
+        android:title="@string/nav_note"
+        android:icon="@drawable/nav_note"/>
+
+    <item android:id="@+id/nav_setting"
+        android:enabled="true"
+        android:title="@string/nav_setting"
+        android:icon="@drawable/nav_settings"/>
+
+</menu>
