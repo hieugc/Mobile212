@@ -1,18 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+
+    <ImageView
+        android:id="@+id/default_todo_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nav_todo"
-        android:textSize="32dp"
+        android:src="@drawable/default_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/todo_float_button_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTintMode="src_in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="16dp"
+        >
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/todo_float_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/todo_float_button"
+            app:icon="@drawable/icon_add"
+            app:iconTint="@color/white"
+            app:collapsedSize = "@dimen/float_button"/>
+
+        <Button
+            android:id="@+id/todo_meeting_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:textAllCaps="false"
+            android:layout_above="@+id/todo_assignment_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="60dp"
+            android:text="@string/todo_meeting_button"
+            android:textSize="@dimen/button"
+            app:cornerRadius="@dimen/button_radius" />
+
+        <Button
+            android:id="@+id/todo_assignment_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_alignParentEnd="true"
+            android:textAllCaps="false"
+            android:layout_above="@+id/todo_float_button"
+            android:layout_marginRight="60dp"
+            android:text="@string/todo_assignment_button"
+            android:textSize="@dimen/button"
+            app:cornerRadius="@dimen/button_radius" />
+
+    </RelativeLayout>
+//dư
+    <FrameLayout
+        android:id="@+id/fragment_contain_todo_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

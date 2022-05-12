@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item   android:height="@dimen/todo_form_button_h"
+            android:width="@dimen/todo_form_button_w">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/nav_primary"></solid>
+            <corners android:radius="20dp"></corners>
+        </shape>
+    </item>
+</layer-list>

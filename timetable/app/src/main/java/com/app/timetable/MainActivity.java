@@ -14,9 +14,18 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
+    //calendar
     fragment_calendar calendarView = new fragment_calendar();
+
+    //todo
     fragment_todo todoView = new fragment_todo();
+    fragment_todo_meeting_form meeting_form = new fragment_todo_meeting_form();
+    fragment_todo_assignment_form assignment_form = new fragment_todo_assignment_form();
+
+    //note
     fragment_note noteView = new fragment_note();
+
+    //setting
     fragment_setting settingView = new fragment_setting();
 
     @Override
@@ -25,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_main);
+
+        init();
 
         bottomNavigationView = findViewById(R.id.nav_bot);
 
@@ -55,4 +66,20 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, calendarView).commit();
 
     }
+
+    private void init(){
+        //calendar
+
+        //todo
+        todoView.set_meet_form(meeting_form);
+        meeting_form.setTodoView(todoView);
+        todoView.set_assignment_form(assignment_form);
+        assignment_form.setTodoView(todoView);
+
+        //note
+
+        //setting
+
+    }
+
 }

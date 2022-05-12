@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/meet_form_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/primary_background"
+        >
+
+        <ImageView
+            android:id="@+id/todo_meet_form_close"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/icon_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:text="@string/todo_meeting_button"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/todo_form_title"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/todo_meet_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/todo_form"
+        android:orientation="vertical"
+        android:layout_below="@id/meet_form_title"
+        >
+
+        <LinearLayout
+            android:id="@id/todo_meet_form_line_1"
+            style="@style/margin_todo_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/todo_meeting_form_time"
+                android:textColor="@color/black"
+                android:textSize="@dimen/button" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@id/todo_meet_form_line_2"
+            style="@style/margin_todo_form"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:hint="@string/todo_meeting_form_subtile"
+            app:boxStrokeColor="@color/nav_primary"
+
+            app:boxStrokeErrorColor="@color/error_form"
+            app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_1"
+            app:startIconContentDescription="@string/todo_meeting_form_subtile"
+
+            app:startIconDrawable="@drawable/icon_info"
+            app:startIconTint="@color/nav_primary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/meeting_form_sub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+
+                app:boxBackgroundColor="@color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@id/todo_meet_form_line_3"
+            style="@style/margin_todo_form"
+            android:layout_width="match_parent"
+
+
+            android:layout_height="wrap_content"
+            android:hint="@string/todo_meeting_form_location"
+            app:boxStrokeColor="@color/nav_primary"
+
+            app:boxStrokeErrorColor="@color/error_form"
+            app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_2"
+
+            app:startIconContentDescription="@string/todo_meeting_form_location"
+            app:startIconDrawable="@drawable/todo_meet_form_location"
+            app:startIconTint="@color/nav_primary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/meeting_form_local"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:boxBackgroundColor="@color/white"
+
+                app:boxStrokeColor="@color/nav_primary"
+                app:boxStrokeErrorColor="@color/error_form" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@id/todo_meet_form_line_4"
+            style="@style/margin_todo_form"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:hint="@string/todo_meeting_form_link"
+            app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_3"
+
+            app:startIconContentDescription="@string/todo_meeting_form_link"
+            app:startIconDrawable="@drawable/icon_link"
+            app:startIconTint="@color/nav_primary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/meeting_form_link"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+
+                app:boxBackgroundColor="@color/white"
+
+                app:boxStrokeColor="@color/nav_primary"
+                app:boxStrokeErrorColor="@color/error_form" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@id/todo_meet_form_line_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/todo_meet_form_add_time"
+                android:text="@string/todo_meeting_form_alert"
+                android:textColor="@color/black"
+                android:textSize="@dimen/nav_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/todo_meet_form_add_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/todo_meet_form_add_time"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginRight="40dp"
+                android:src="@drawable/icon_time_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/nav_primary" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/meet_form_button_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_button"
+            android:text="@string/todo_save"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="@dimen/button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/todo_meet_form_add_time_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dialog"
+        android:visibility="invisible"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giờ"
+                android:textSize="@dimen/button"
+                android:textColor="@color/black"
+
+                android:layout_marginLeft="60dp"
+
+                app:layout_constraintBottom_toTopOf="@+id/meet_form_timepicker"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/todo_meet_form_minus_dialog"/>
+            <TextView
+                android:id="@+id/todo_meet_form_minus_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phút"
+                android:textSize="@dimen/button"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@+id/meet_form_timepicker"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <TimePicker
+                android:id="@+id/meet_form_timepicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner"
+                android:numbersInnerTextColor="@color/black"
+                android:numbersTextColor="@color/black"
+                android:background="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
