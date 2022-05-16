@@ -43,6 +43,7 @@ public class fragment_todo_assignment_form extends Fragment {
         // Inflate the layout for this fragment
         View assignment_form = inflater.inflate(R.layout.fragment_todo_assignment_form, container, false);
 
+
         todo_assignment_form_time_left = assignment_form.findViewById(R.id.todo_assignment_form_time_left);
         todo_assignment_form_add_time_start = assignment_form.findViewById(R.id.todo_assignment_form_add_time_start);
         todo_assignment_form_add_time_end = assignment_form.findViewById(R.id.todo_assignment_form_add_time_end);

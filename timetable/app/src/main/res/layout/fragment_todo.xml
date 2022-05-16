@@ -21,26 +21,26 @@
 
     <RelativeLayout
         android:id="@+id/todo_float_button_background"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:backgroundTintMode="src_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingBottom="16dp"
         >
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/todo_float_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/todo_float_button"
+            android:elevation="10dp"
+            android:src="@drawable/icon_add"
             app:collapsedSize="@dimen/float_button"
-            app:icon="@drawable/icon_add"
-            app:iconTint="@color/white" />
+            app:fabSize="mini" />
 
         <Button
             android:id="@+id/todo_meeting_button"
@@ -61,13 +61,13 @@
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_alignParentEnd="true"
-            android:textAllCaps="false"
             android:layout_above="@+id/todo_float_button"
+            android:layout_alignParentEnd="true"
             android:layout_marginRight="60dp"
             android:text="@string/todo_assignment_button"
+            android:textAllCaps="false"
             android:textSize="@dimen/button"
+            android:visibility="invisible"
             app:cornerRadius="@dimen/button_radius" />
 
     </RelativeLayout>
