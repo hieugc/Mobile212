@@ -2,35 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/meet_form_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/primary_background"
-        >
-
-        <ImageView
-            android:id="@+id/todo_meet_form_close"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="14dp"
-            android:src="@drawable/icon_close"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/white_background">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:text="@string/todo_meeting_button"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/nav_primary"
             android:textSize="@dimen/todo_form_title"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -38,29 +28,181 @@
         android:id="@+id/todo_meet_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/todo_form"
-        android:orientation="vertical"
         android:layout_below="@id/meet_form_title"
-        >
+        android:background="@drawable/todo_form"
+        android:orientation="vertical">
 
-        <LinearLayout
+
+        <ImageView
+            android:id="@+id/todo_meet_form_close"
+            android:layout_width="@dimen/todo_form_icon"
+            android:layout_height="@dimen/todo_form_icon"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="12dp"
+
+            android:layout_marginRight="20dp"
+            android:src="@drawable/icon_close"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
             android:id="@id/todo_meet_form_line_1"
             style="@style/margin_todo_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/todo_meet_form_line_1_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="12dp"
                 android:text="@string/todo_meeting_form_time"
-                android:textColor="@color/black"
-                android:textSize="@dimen/button" />
-        </LinearLayout>
+
+                style="@style/todo_meet_form_description"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/todo_meet_form_line_1_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/todo_meet_form_day_title"
+                        style="@style/todo_title_picker"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+
+                        android:text="@string/todo_meeting_form_day" />
+
+                    <NumberPicker
+                        android:id="@+id/todo_meet_form_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+                        android:scaleX="0.8"
+
+                        android:layout_below="@id/todo_meet_form_day_title"
+                        android:theme="@style/todo_number_picker" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/todo_meet_form_month_title"
+                        style="@style/todo_title_picker"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+
+                        android:text="@string/todo_meeting_form_month" />
+
+                    <NumberPicker
+                        android:id="@+id/todo_meet_form_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+                        android:scaleX="0.8"
+
+                        android:layout_below="@id/todo_meet_form_month_title"
+                        android:theme="@style/todo_number_picker" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <TextView
+                        android:id="@+id/todo_meet_form_year_title"
+                        style="@style/todo_title_picker"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+
+                        android:text="@string/todo_meeting_form_year" />
+
+                    <NumberPicker
+                        android:id="@+id/todo_meet_form_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+                        android:scaleX="0.8"
+
+                        android:layout_below="@id/todo_meet_form_year_title"
+                        android:theme="@style/todo_number_picker" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/todo_meet_form_hour_title"
+                        style="@style/todo_title_picker"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+
+                        android:text="@string/todo_meeting_form_hour" />
+
+                    <NumberPicker
+                        android:id="@+id/todo_meet_form_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+                        android:scaleX="0.8"
+
+                        android:layout_below="@id/todo_meet_form_hour_title"
+                        android:theme="@style/todo_number_picker" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/todo_meet_form_minus_title"
+                        style="@style/todo_title_picker"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+
+                        android:text="@string/todo_meeting_form_minus" />
+
+                    <NumberPicker
+                        android:id="@+id/todo_meet_form_minus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+                        android:scaleX="0.8"
+
+                        android:layout_below="@id/todo_meet_form_minus_title"
+                        android:theme="@style/todo_number_picker" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@id/todo_meet_form_line_2"
@@ -69,12 +211,11 @@
 
             android:layout_height="wrap_content"
             android:hint="@string/todo_meeting_form_subtile"
+            android:textColorHint="@color/nav_primary"
             app:boxStrokeColor="@color/nav_primary"
-
             app:boxStrokeErrorColor="@color/error_form"
             app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_1"
             app:startIconContentDescription="@string/todo_meeting_form_subtile"
-
             app:startIconDrawable="@drawable/icon_info"
             app:startIconTint="@color/nav_primary">
 
@@ -83,6 +224,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
+                android:text=" "
 
                 app:boxBackgroundColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -95,6 +237,7 @@
 
             android:layout_height="wrap_content"
             android:hint="@string/todo_meeting_form_location"
+            android:textColorHint="@color/nav_primary"
             app:boxStrokeColor="@color/nav_primary"
 
             app:boxStrokeErrorColor="@color/error_form"
@@ -109,6 +252,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:boxBackgroundColor="@color/white"
+                android:text=" "
 
                 app:boxStrokeColor="@color/nav_primary"
                 app:boxStrokeErrorColor="@color/error_form" />
@@ -121,6 +265,7 @@
 
             android:layout_height="wrap_content"
             android:hint="@string/todo_meeting_form_link"
+            android:textColorHint="@color/nav_primary"
             app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_3"
 
             app:startIconContentDescription="@string/todo_meeting_form_link"
@@ -132,6 +277,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
+                android:text=" "
 
                 app:boxBackgroundColor="@color/white"
 
@@ -140,105 +286,203 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@id/todo_meet_form_line_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
             app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_4">
 
             <TextView
+                android:id="@+id/todo_meet_form_line_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:labelFor="@+id/todo_meet_form_add_time"
                 android:text="@string/todo_meeting_form_alert"
-                android:textColor="@color/black"
-                android:textSize="@dimen/nav_title"
+
+                style="@style/todo_meet_form_description"
+
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/todo_meet_form_add_time"
+                app:layout_constraintRight_toLeftOf="@id/todo_meet_form_refresh_time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/todo_meet_form_add_time"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginRight="40dp"
-                android:src="@drawable/icon_time_add"
+                android:id="@+id/todo_meet_form_refresh_time"
+                android:layout_width="@dimen/todo_form_icon"
+                android:layout_height="@dimen/todo_form_icon"
+                android:layout_marginRight="0dp"
+                android:src="@drawable/icon_refresh"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/nav_primary" />
+
+            <TextView
+                android:id="@+id/todo_meet_form_add_time_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/background_button_secondary"
+
+                android:text="00:00"
+                android:textAlignment="center"
+                android:textColor="@color/nav_primary"
+                android:textSize="@dimen/nav_title"
+                android:textStyle="bold"
+                android:gravity="center"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/nav_primary" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/meet_form_button_done"
+            style="@style/button_primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_button"
+
+            android:layout_marginBottom="20dp"
+
             android:text="@string/todo_save"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textSize="@dimen/button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_5" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/todo_meet_form_add_time_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialog"
-        android:visibility="invisible"
-        >
+        android:visibility="invisible">
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <TextView
+                style="@style/todo_title_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Giờ"
-                android:textSize="@dimen/button"
-                android:textColor="@color/black"
 
-                android:layout_marginLeft="60dp"
+                android:layout_marginBottom="10dp"
 
-                app:layout_constraintBottom_toTopOf="@+id/meet_form_timepicker"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/todo_meet_form_minus_dialog"/>
-            <TextView
-                android:id="@+id/todo_meet_form_minus_dialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phút"
-                android:textSize="@dimen/button"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@+id/meet_form_timepicker"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                android:drawableBottom="@drawable/line"
+                android:drawablePadding="10dp"
+                android:paddingTop="10dp"
 
-            <TimePicker
-                android:id="@+id/meet_form_timepicker"
+                android:text="@string/todo_meeting_form_dialog_title"
+                app:layout_constraintBottom_toTopOf="@id/todo_meet_form_pick_dialog"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/todo_meet_form_dialog_close"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:paddingTop="10dp"
+
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_close"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/todo_meet_form_pick_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:timePickerMode="spinner"
-                android:numbersInnerTextColor="@color/black"
-                android:numbersTextColor="@color/black"
-                android:background="@color/white"
-                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+
+                android:paddingBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginRight="10dp">
+
+                    <TextView
+                        android:id="@+id/todo_meet_form_hour_dialog"
+                        style="@style/todo_title_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginLeft="18dp"
+
+                        android:text="@string/todo_meeting_form_hour" />
+
+                    <NumberPicker
+                        android:id="@+id/meet_form_hour_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+
+                        android:layout_below="@id/todo_meet_form_hour_dialog"
+                        android:theme="@style/todo_number_picker" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="10dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/todo_meet_form_minus_dialog"
+                        style="@style/todo_title_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginLeft="13dp"
+
+                        android:text="@string/todo_meeting_form_minus" />
+
+                    <NumberPicker
+                        android:id="@+id/meet_form_minus_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+
+                        android:layout_below="@id/todo_meet_form_minus_dialog"
+
+                        android:theme="@style/todo_number_picker" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/meet_form_button_dialog_done"
+                style="@style/button_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="20dp"
+
+                android:text="@string/todo_save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

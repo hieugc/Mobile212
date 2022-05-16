@@ -3,28 +3,43 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.215" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/background_button.xml" value="0.1475" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/background_button_secondary.xml" value="0.2055" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/background_line_bot.xml" value="0.331" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/background_white_stroke.xml" value="0.233" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/box.xml" value="0.2055" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/form.xml" value="0.254" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/ic_launcher_background.xml" value="0.231" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/icon_add.xml" value="0.231" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/icon_add_circle.xml" value="0.215" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/icon_close.xml" value="0.1545" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/icon_info.xml" value="0.1475" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/icon_link.xml" value="0.1475" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/icon_time_add.xml" value="0.1475" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/line.xml" value="0.2055" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/nav_active.xml" value="0.233" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/nav_list.xml" value="0.233" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/nav_note.xml" value="0.1885" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/primary_background.xml" value="0.254" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/selected.xml" value="0.33" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/todo_floating_button.xml" value="0.185" />
-        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/todo_form.xml" value="0.2755" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/todo_form.xml" value="0.2" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/todo_meet_form_location.xml" value="0.1475" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/white_background.xml" value="0.2755" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/activity_main.xml" value="0.2046875" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/dialog_time_picker.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_calendar.xml" value="0.25" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_note.xml" value="0.2520833333333333" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_setting.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo.xml" value="0.25" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo_assignment_form.xml" value="0.25" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo_meeting_form.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/timepicker.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/todo_meet_item.xml" value="0.3625" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/menu/nav.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.215" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.215" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/timetable/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1935" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/timetable/app/src/main/res/drawable-v24/nav_list.xml" value="0.1935" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/timetable/app/src/main/res/drawable-v24/nav_notebook.xml" value="0.1935" />
