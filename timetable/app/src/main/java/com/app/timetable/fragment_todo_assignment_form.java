@@ -31,7 +31,7 @@ public class fragment_todo_assignment_form extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View assignment_form = inflater.inflate(R.layout.fragment_todo_meeting_form, container, false);
+        View assignment_form = inflater.inflate(R.layout.fragment_todo_assignment_form, container, false);
 
         //close
         todo_assignment_form_close = assignment_form.findViewById(R.id.todo_assignment_form_close);

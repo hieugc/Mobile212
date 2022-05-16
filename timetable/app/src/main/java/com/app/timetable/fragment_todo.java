@@ -20,11 +20,14 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Locale;
 
@@ -32,7 +35,7 @@ public class fragment_todo extends Fragment {
     public fragment_todo(){
     }
     ImageView default_todo_layout;
-    ExtendedFloatingActionButton todo_floating_button;
+    FloatingActionButton todo_floating_button;
     RelativeLayout todo_floating_button_background;
     Button todo_meeting_button, todo_assignment_button;
     fragment_todo_meeting_form todo_meeting_form;
@@ -104,7 +107,7 @@ public class fragment_todo extends Fragment {
         todo_floating_button_background.setBackgroundTintMode(Mode.SRC_IN);
         todo_floating_button_background.setBackgroundColor(0);
 
-        todo_floating_button.setIconResource(R.drawable.icon_add);
+        todo_floating_button.setImageResource(R.drawable.icon_add);
 
         todo_meeting_button.setVisibility(INVISIBLE);
         todo_assignment_button.setVisibility(INVISIBLE);
@@ -115,7 +118,7 @@ public class fragment_todo extends Fragment {
         todo_floating_button_background.setBackgroundTintMode(Mode.SRC_OVER);
         todo_floating_button_background.setBackgroundColor(Color.parseColor("#CC333333"));
 
-        todo_floating_button.setIconResource(R.drawable.icon_close);
+        todo_floating_button.setImageResource(R.drawable.icon_close);
 
         todo_meeting_button.setVisibility(VISIBLE);
         todo_assignment_button.setVisibility(VISIBLE);

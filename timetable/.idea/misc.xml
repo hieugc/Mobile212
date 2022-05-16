@@ -3,6 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/nav_calendar.xml" value="0.1" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/activity_main.xml" value="0.14629629629629629" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_bk_time_table.xml" value="0.264" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_bk_time_table_selection.xml" value="0.35104166666666664" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_calendar.xml" value="0.2171875" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_note.xml" value="0.2171875" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo.xml" value="0.4" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo_assignment_form.xml" value="0.2171875" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo_meeting_form.xml" value="0.2171875" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/timetable_list_item.xml" value="0.36302083333333335" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/timetable_list_item_selection.xml" value="0.4" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/menu/nav.xml" value="0.21388888888888888" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/background_button.xml" value="0.1475" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/form.xml" value="0.254" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/ic_launcher_background.xml" value="0.231" />
