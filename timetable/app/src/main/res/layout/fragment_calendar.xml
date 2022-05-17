@@ -2,17 +2,315 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/nav_calendar"
-        android:textSize="32dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/tkb_list_background"
+        android:layout_width="match_parent"
+        android:paddingTop="20dp"
+        android:paddingHorizontal="30dp"
+        android:layout_height="400dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingVertical="5dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/subject_1"
+            android:background="#EB3B5A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/start_time_1"
+                android:text="7:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/start_time_1"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/end_time_1"
+                android:text="9:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Giải tích 2"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="35dp"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/start_time_1"
+                android:id="@+id/subject_name_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_bell_1"
+                android:paddingRight="10dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingVertical="5dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/subject_2"
+            android:background="#FA8231"
+            app:layout_constraintTop_toBottomOf="@id/subject_1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/start_time_2"
+                android:text="7:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/start_time_2"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/end_time_2"
+                android:text="9:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Đại số tuyến tính"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="35dp"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/start_time_2"
+                android:id="@+id/subject_name_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_bell_1"
+                android:paddingRight="10dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingVertical="5dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/subject_3"
+            android:background="#3867D6"
+            app:layout_constraintTop_toBottomOf="@id/subject_2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/start_time_3"
+                android:text="7:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/start_time_3"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/end_time_3"
+                android:text="9:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Đại số tuyến tính"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="35dp"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/start_time_3"
+                android:id="@+id/subject_name_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_bell_1"
+                android:paddingRight="10dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingVertical="5dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/subject_4"
+            android:background="#20BF6B"
+            app:layout_constraintTop_toBottomOf="@id/subject_3"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/start_time_4"
+                android:text="7:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/start_time_4"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/end_time_4"
+                android:text="9:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Đại số tuyến tính"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="35dp"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/start_time_4"
+                android:id="@+id/subject_name_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_bell_1"
+                android:paddingRight="10dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingVertical="5dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/subject_5"
+            android:background="#0FB9B1"
+            app:layout_constraintTop_toBottomOf="@id/subject_4"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/start_time_5"
+                android:text="7:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/start_time_5"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/end_time_5"
+                android:text="9:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Đại số tuyến tính"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="35dp"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/start_time_5"
+                android:id="@+id/subject_name_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_bell_1"
+                android:paddingRight="10dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingVertical="5dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/subject_6"
+            android:background="#802D98DA"
+            app:layout_constraintTop_toBottomOf="@id/subject_5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/start_time_6"
+                android:text="7:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/start_time_6"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/end_time_6"
+                android:text="9:00"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="Đại số tuyến tính"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="35dp"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/start_time_6"
+                android:id="@+id/subject_name_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_bell_1"
+                android:paddingRight="10dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/nav_calendar"-->
+<!--        android:textSize="32dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

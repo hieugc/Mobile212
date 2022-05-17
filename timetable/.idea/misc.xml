@@ -3,6 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/drawable/background_button.xml" value="0.138" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/drawable/ic_bell_1.xml" value="0.1" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/drawable/nav_active.xml" value="0.138" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/drawable/nav_calendar.xml" value="0.138" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/drawable/nav_list.xml" value="0.138" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/drawable/primary_background.xml" value="0.138" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/drawable/tkb_list_background.xml" value="0.138" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/drawable/todo_meet_form_location.xml" value="0.138" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/drawable/white_background.xml" value="0.138" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/font/roboto.xml" value="0.1" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/layout/fragment_calendar.xml" value="0.22" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/layout/fragment_note.xml" value="0.1796875" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/layout/fragment_setting.xml" value="0.1796875" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/layout/fragment_todo.xml" value="0.1796875" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/layout/fragment_todo_assignment_form.xml" value="0.1796875" />
+        <entry key="..\:/HCMUT/HK212/Mobile Application/Mobile212/timetable/app/src/main/res/layout/fragment_todo_meeting_form.xml" value="0.1796875" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/background_button.xml" value="0.1475" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/form.xml" value="0.254" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/ic_launcher_background.xml" value="0.231" />
