@@ -64,12 +64,35 @@
                     android:textColor="@color/black" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/dateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/locationLayout"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/date_img"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_date" />
+
+                <TextView
+                    android:id="@+id/date_selection_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Thứ 4"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/timeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/locationLayout"
+                android:layout_below="@+id/dateLayout"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp">
 

@@ -112,6 +112,8 @@ public class LogInFragment extends Fragment {
                 else
                 {
                     BKEL_USER bkel_user = new BKEL_USER(-1, username, password);
+//                    boolean success = dataBaseHelper.addOne(bkel_user);
+//                    Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
                     BKEL_USER user = dataBaseHelper.getOne(bkel_user);
                     if(user == null)
                     {
@@ -120,12 +122,16 @@ public class LogInFragment extends Fragment {
                     }
                     else
                     {
-                        Toast.makeText(view.getContext(), "Success", Toast.LENGTH_SHORT).show();
-                        bkTimeTableFragment = new BkTimeTableFragment();
+//                        BKTimeTable bkTimeTable = new BKTimeTable(-1,"Đồ án đa ngành (CO3011)", "H1-603","Thứ --","7:00 - 8:50", "01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|","212",1);
+//                        boolean success = dataBaseHelper.addOne(bkTimeTable);
+//                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
+//                        BKTimeTable bkTimeTable1 = new BKTimeTable(-1,"Nguyên lý ngôn ngữ lập trình (CO3005)","H6-109","Thứ 4","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|","212",1);
+//                        success = dataBaseHelper.addOne(bkTimeTable1);
+//                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
+                        bkTimeTableFragment = new BkTimeTableFragment(user.getId());
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
                     }
                     //Toast.makeText(view.getContext(), "Username: "+username+"\nPassword: "+password, Toast.LENGTH_SHORT).show();
-
                 }
 
             }
