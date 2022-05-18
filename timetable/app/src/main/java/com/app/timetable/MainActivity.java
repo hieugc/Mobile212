@@ -1,7 +1,9 @@
 package com.app.timetable;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     //setting
     fragment_setting settingView = new fragment_setting();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(){
         //calendar
         calendarView.set_new_tkb(new_subject);
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void init_data(){
         meetings.add(new meeting(
                 1,
@@ -139,13 +144,15 @@ public class MainActivity extends AppCompatActivity {
         assignments.add(new assignment(
                 1,
                 "BTL 1",
-                "7",
+                "07:00 10/11/2019",
+                "07:00 10/11/2022",
                 false
         ));
         assignments.add(new assignment(
                 2,
                 "BTL 2",
-                "7",
+                "07:00 10/11/2021",
+                "07:00 10/11/2022",
                 false
         ));
     }

@@ -25,19 +25,19 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.ArrayList;
 public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_RecViewAdapter.ViewHolder>{
 
-    private ArrayList<meeting> meeting;
+    private ArrayList<meeting> meetings;
     private FragmentActivity fragmentActivity;
 
     private ItemClickListener listener;
 
-    public todo_meet_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<meeting> meeting, ItemClickListener listener) {
+    public todo_meet_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<meeting> meetings, ItemClickListener listener) {
         this.fragmentActivity = fragmentActivity;
-        this.meeting = meeting;
+        this.meetings = meetings;
         this.listener = listener;
     }
 
-    public ArrayList<Model.meeting> getMeeting() {
-        return meeting;
+    public ArrayList<Model.meeting> getMeetings() {
+        return meetings;
     }
 
     public FragmentActivity getFragmentActivity() {
@@ -66,7 +66,7 @@ public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_Rec
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final meeting meet = meeting.get(position);
+        final meeting meet = meetings.get(position);
         if(meet == null) return;
 
         holder.bind_data(meet);
@@ -96,11 +96,11 @@ public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_Rec
 
     @Override
     public int getItemCount() {
-        return meeting.size();
+        return meetings.size();
     }
 
     public void setMeeting(ArrayList<meeting> meeting) {
-        this.meeting = meeting;
+        this.meetings = meeting;
         notifyDataSetChanged();
     }
 

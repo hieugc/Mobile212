@@ -22,9 +22,12 @@ public class todo_check_list_RecViewAdapter extends RecyclerView.Adapter<todo_ch
     private ArrayList<list_check> list_checks;
     private FragmentActivity fragmentActivity;
 
-    public todo_check_list_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<list_check> list_checks) {
+    private ItemClickListener listener;
+
+    public todo_check_list_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<list_check> list_checks, ItemClickListener listener) {
         this.fragmentActivity = fragmentActivity;
         this.list_checks = list_checks;
+        this.listener = listener;
     }
 
     @NonNull
