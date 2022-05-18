@@ -4,15 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/btn_radio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:checked="true" />
+        style="@style/Widget.AppCompat.CompoundButton.RadioButton"/>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/parent_selection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -31,7 +30,7 @@
             android:background="@color/nav_primary">
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/name_selection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -44,7 +43,7 @@
                 android:id="@+id/locationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/name"
+                android:layout_below="@+id/name_selection"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp">
 
@@ -55,7 +54,7 @@
                     android:src="@drawable/ic_location" />
 
                 <TextView
-                    android:id="@+id/location_txt"
+                    android:id="@+id/location_selection_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -79,7 +78,7 @@
                     android:src="@drawable/ic_time" />
 
                 <TextView
-                    android:id="@+id/time_txt"
+                    android:id="@+id/time_selection_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -104,7 +103,7 @@
                     android:src="@drawable/ic_calendar" />
 
                 <TextView
-                    android:id="@+id/week_txt"
+                    android:id="@+id/week_selection_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class BkTimeTableFragment extends Fragment {
 
     private RecyclerView timetableView;
+    private DataBaseHelper dataBaseHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,19 +25,23 @@ public class BkTimeTableFragment extends Fragment {
         // Inflate the layout for this fragment
         View bkTimeTable =  inflater.inflate(R.layout.fragment_bk_time_table, container, false);
 
+        dataBaseHelper = new DataBaseHelper(bkTimeTable.getContext());
+
         timetableView = bkTimeTable.findViewById(R.id.bk_timetable_recyclerView);
+
 
         ArrayList<BKTimeTable> timetable = new ArrayList<>();
 
         timetable.add(new BKTimeTable("Đồ án đa ngành (CO3011)", "H1-603","7:00 - 8:50", "01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|"));
         timetable.add(new BKTimeTable("Nguyên lý ngôn ngữ lập trình (CO3005)","H6-109","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|"));
 
-        TimeTableRecViewAdapter adapter = new TimeTableRecViewAdapter(bkTimeTable.getContext());
+        TimeTableRecViewAdapter adapter = new TimeTableRecViewAdapter(getActivity());
 
         adapter.setTimetable(timetable);
 
         timetableView.setAdapter(adapter);
         timetableView.setLayoutManager(new LinearLayoutManager(bkTimeTable.getContext()));
+
 
         return bkTimeTable;
     }

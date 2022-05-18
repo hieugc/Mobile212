@@ -31,4 +31,7 @@
     <string name="select_all">Chọn tất cả</string>
     <string name="Cancel">Huỷ</string>
     <string name="todo_assignment_form_list_add_list">Thêm công việc mới</string>
+    <string name="log_in">Đăng nhập</string>
+    <string name="username">Tài khoản</string>
+    <string name="password">Mật khẩu</string>
 </resources>

@@ -13,7 +13,7 @@ public class fragment_calendar extends Fragment {
     public fragment_calendar(){}
 
     private Button btn_goto;
-    private BkTimeTableFragment bkTimeTableFragment = new BkTimeTableFragment();
+    private LogInFragment logInFragment = new LogInFragment();
 
 
     @Override
@@ -26,7 +26,7 @@ public class fragment_calendar extends Fragment {
         btn_goto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, logInFragment).commit();
             }
         });
 

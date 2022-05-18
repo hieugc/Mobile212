@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -20,10 +21,12 @@ public class TimeTableRecViewAdapter extends RecyclerView.Adapter<TimeTableRecVi
 
     private ArrayList<BKTimeTable> timetable = new ArrayList<>();
 
-    private Context context;
+    private FragmentActivity fragmentActivity;
 
-    public TimeTableRecViewAdapter(Context context) {
-        this.context = context;
+    private BkTimeTableSelectionFragment bkTimeTableSelectionFragment;
+
+    public TimeTableRecViewAdapter(FragmentActivity fragmentActivity) {
+        this.fragmentActivity = fragmentActivity;
     }
 
     @NonNull
@@ -44,6 +47,8 @@ public class TimeTableRecViewAdapter extends RecyclerView.Adapter<TimeTableRecVi
         holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                bkTimeTableSelectionFragment = new BkTimeTableSelectionFragment(timetable.get(position).getName());
+                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableSelectionFragment).commit();
                 return false;
             }
         });
