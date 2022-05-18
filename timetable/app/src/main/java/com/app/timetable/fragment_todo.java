@@ -25,21 +25,32 @@ import android.widget.Toast;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Locale;
+
+import Model.ItemClickListener;
+import Model.meeting;
+import Model.todo_meet_RecViewAdapter;
 
 public class fragment_todo extends Fragment {
     public fragment_todo(){
     }
     ImageView default_todo_layout;
+    RecyclerView todo_meeting;
+
+    //dialog
     FloatingActionButton todo_floating_button;
     RelativeLayout todo_floating_button_background;
     Button todo_meeting_button, todo_assignment_button;
     fragment_todo_meeting_form todo_meeting_form;
     fragment_todo_assignment_form todo_assignment_form;
+
 
     public void set_meet_form(fragment_todo_meeting_form form) {
         todo_meeting_form = form;
@@ -56,6 +67,51 @@ public class fragment_todo extends Fragment {
         View todoView = inflater.inflate(R.layout.fragment_todo, container, false);
         //default_layout
         default_todo_layout = todoView.findViewById(R.id.default_todo_layout);
+        todo_meeting = todoView.findViewById(R.id.todo_meet_item_recycleView);
+
+
+        ArrayList<meeting> meetings = new ArrayList<>();
+
+        meetings.add(new meeting(
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+        meetings.add(new meeting(
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "",
+                "00:05",
+                true
+        ));
+        meetings.add(new meeting(
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "",
+                "abc link",
+                "00:05",
+                false
+        ));
+        meetings.add(new meeting(
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "",
+                "",
+                "00:05",
+                false
+        ));
+        todo_meet_RecViewAdapter adapter = new todo_meet_RecViewAdapter(todoView.getContext());
+
+        adapter.setMeeting(meetings);
+
+        todo_meeting.setAdapter(adapter);
+        todo_meeting.setLayoutManager(new LinearLayoutManager(todoView.getContext()));
+
+
 
         todo_floating_button = todoView.findViewById(R.id.todo_float_button);
         todo_floating_button_background = todoView.findViewById(R.id.todo_float_button_background);

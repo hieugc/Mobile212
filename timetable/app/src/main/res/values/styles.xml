@@ -66,4 +66,10 @@
         <item name="colorPrimary">@color/white</item>
     </style>
 
+    <style name="text_item">
+        <item name="android:textSize">@dimen/item_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxLength">40</item>
+    </style>
+
 </resources>

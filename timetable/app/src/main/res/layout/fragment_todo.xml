@@ -15,9 +15,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        android:visibility="visible"
+        android:visibility="invisible"
         />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/todo_meet_item_recycleView"/>
+
+    </ScrollView>
 
     <RelativeLayout
         android:id="@+id/todo_float_button_background"
@@ -71,13 +83,5 @@
             app:cornerRadius="@dimen/button_radius" />
 
     </RelativeLayout>
-
-
-
-//dư
-    <FrameLayout
-        android:id="@+id/fragment_contain_todo_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
