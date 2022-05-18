@@ -49,8 +49,11 @@ public class TimeTableSelRecViewAdapter extends RecyclerView.Adapter<TimeTableSe
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.header_txt.setText(timetable.get(position).getName());
         holder.location_txt.setText(timetable.get(position).getLocation());
+        holder.date_txt.setText(timetable.get(position).getDate());
         holder.time_txt.setText(timetable.get(position).getTime());
         holder.week_txt.setText(timetable.get(position).getWeek());
+        Log.d("List: ", bkTimeTableList.toString());
+        Log.d("Id", String.valueOf(timetable.get(position).getName()));
         for(int i = 0; i < bkTimeTableList.size(); i++) {
             if (bkTimeTableList.get(i).equals(timetable.get(position).getName()))
             {
@@ -104,13 +107,14 @@ public class TimeTableSelRecViewAdapter extends RecyclerView.Adapter<TimeTableSe
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
 
-        private TextView header_txt, location_txt, time_txt, week_txt;
+        private TextView header_txt, location_txt, date_txt, time_txt, week_txt;
         private CheckBox btn_select;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             header_txt = itemView.findViewById(R.id.name_selection);
             location_txt = itemView.findViewById(R.id.location_selection_txt);
+            date_txt = itemView.findViewById(R.id.date_selection_txt);
             time_txt = itemView.findViewById(R.id.time_selection_txt);
             week_txt = itemView.findViewById(R.id.week_selection_txt);
             btn_select = itemView.findViewById(R.id.btn_radio);
