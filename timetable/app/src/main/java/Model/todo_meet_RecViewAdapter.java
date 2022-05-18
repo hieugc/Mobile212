@@ -67,6 +67,8 @@ public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_Rec
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final meeting meet = meeting.get(position);
+        if(meet == null) return;
+
         holder.bind_data(meet);
         holder.title.setText(meet.getTitle());
         holder.time.setText(meet.getTime());

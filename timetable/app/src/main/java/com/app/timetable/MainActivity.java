@@ -12,6 +12,12 @@ import com.google.android.material.navigation.NavigationBarView;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import Model.assignment;
+import Model.list_check;
+import Model.meeting;
+
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     //calendar
@@ -21,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
     fragment_todo todoView = new fragment_todo();
     fragment_todo_meeting_form meeting_form = new fragment_todo_meeting_form();
     fragment_todo_assignment_form assignment_form = new fragment_todo_assignment_form();
+    // TODO: 18/05/2022
+    //data
+    ArrayList<meeting> meetings = new ArrayList<>();
+    ArrayList<assignment> assignments = new ArrayList<>();
+    ArrayList<list_check> list_checks = new ArrayList<>();
+
 
     //note
     fragment_note noteView = new fragment_note();
@@ -75,11 +87,66 @@ public class MainActivity extends AppCompatActivity {
         meeting_form.setTodoView(todoView);
         todoView.set_assignment_form(assignment_form);
         assignment_form.setTodoView(todoView);
+        init_data();
+        //data
+        todoView.setList_checks(list_checks);
+        todoView.setMeetings(meetings);
+        todoView.setAssignments(assignments);
 
         //note
 
         //setting
 
+    }
+
+    private void init_data(){
+        meetings.add(new meeting(
+                1,
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+
+        list_checks.add(new list_check(
+                1,
+                "Thiet ke mockup",
+                false,
+                1
+        ));
+        list_checks.add(new list_check(
+                2,
+                "Thiet ke mockup B",
+                false,
+                1
+        ));
+        list_checks.add(new list_check(
+                3,
+                "Thiet ke mockup A",
+                false,
+                2
+        ));
+        list_checks.add(new list_check(
+                4,
+                "Thiet ke mockup abc",
+                false,
+                2
+        ));
+
+        assignments.add(new assignment(
+                1,
+                "BTL 1",
+                "7",
+                false
+        ));
+        assignments.add(new assignment(
+                2,
+                "BTL 2",
+                "7",
+                false
+        ));
     }
 
 }

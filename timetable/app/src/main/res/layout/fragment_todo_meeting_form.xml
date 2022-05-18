@@ -225,7 +225,8 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
                 android:text=" "
-
+                android:maxLines="1"
+                android:inputType="textAutoComplete"
                 app:boxBackgroundColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -253,6 +254,8 @@
                 android:layout_height="match_parent"
                 app:boxBackgroundColor="@color/white"
                 android:text=" "
+                android:maxLines="1"
+                android:inputType="textAutoComplete"
 
                 app:boxStrokeColor="@color/nav_primary"
                 app:boxStrokeErrorColor="@color/error_form" />
@@ -278,6 +281,8 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
                 android:text=" "
+                android:inputType="textAutoComplete"
+                android:maxLines="1"
 
                 app:boxBackgroundColor="@color/white"
 
@@ -424,7 +429,6 @@
                         android:layout_height="wrap_content"
 
                         android:layout_marginLeft="18dp"
-
                         android:text="@string/todo_meeting_form_hour" />
 
                     <NumberPicker

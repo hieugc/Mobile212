@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -33,20 +34,19 @@
 
     <RelativeLayout
         android:id="@+id/todo_float_button_background"
-        android:layout_width="match_parent"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:backgroundTintMode="src_in"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="bottom"
         android:paddingBottom="16dp"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/todo_float_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/todo_assignment_button"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/todo_float_button"
             android:elevation="10dp"
@@ -59,13 +59,12 @@
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:textAllCaps="false"
-            android:layout_above="@+id/todo_assignment_button"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="60dp"
             android:text="@string/todo_meeting_button"
+            android:textAllCaps="false"
             android:textSize="@dimen/button"
+            android:visibility="gone"
             app:cornerRadius="@dimen/button_radius" />
 
         <Button
@@ -73,13 +72,13 @@
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/todo_float_button"
+            android:layout_below="@id/todo_meeting_button"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="60dp"
             android:text="@string/todo_assignment_button"
             android:textAllCaps="false"
             android:textSize="@dimen/button"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:cornerRadius="@dimen/button_radius" />
 
     </RelativeLayout>

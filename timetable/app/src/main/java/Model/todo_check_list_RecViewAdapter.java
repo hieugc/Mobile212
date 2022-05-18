@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class todo_check_list_RecViewAdapter extends RecyclerView.Adapter<todo_check_list_RecViewAdapter.ViewHolder> {
 
-    private ArrayList<list_check> list_checks = new ArrayList<>();
+    private ArrayList<list_check> list_checks;
     private FragmentActivity fragmentActivity;
 
     public todo_check_list_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<list_check> list_checks) {
@@ -37,10 +37,9 @@ public class todo_check_list_RecViewAdapter extends RecyclerView.Adapter<todo_ch
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(list_checks.size() > position){
-            final list_check check = list_checks.get(position);
-            holder.setAll(check);
-        }
+        final list_check check = list_checks.get(position);
+        if(check == null) return;
+        holder.setAll(check);
     }
 
     @Override

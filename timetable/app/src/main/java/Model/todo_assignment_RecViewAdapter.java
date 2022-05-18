@@ -21,18 +21,14 @@ import java.util.ArrayList;
 
 public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_assignment_RecViewAdapter.ViewHolder> {
 
-    private ArrayList<list_check> list_checks;
     private ArrayList<assignment> assignments;
-    private RecyclerView.RecycledViewPool pool = new RecyclerView.RecycledViewPool();
+    private ArrayList<list_check> list_checks;
 
     private FragmentActivity fragmentActivity;
-    private View parentView;
-
-    public todo_assignment_RecViewAdapter(View parentView, FragmentActivity fragmentActivity, ArrayList<assignment> assignment, ArrayList<list_check> list_check) {
+    public todo_assignment_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<assignment> assignment, ArrayList<list_check> list_checks) {
         this.fragmentActivity = fragmentActivity;
-        this.list_checks = list_check;
+        this.list_checks = list_checks;
         this.assignments = assignment;
-        this.parentView = parentView;
     }
 
     @NonNull
@@ -49,26 +45,56 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
         if(position < assignments.size()){
             final assignment ass = assignments.get(position);
             Log.e("a", String.valueOf(ass));
-            holder.bindAll(ass, this.list_checks);
+            holder.bindAll(ass);
         }
+    }
+
+    private ArrayList<list_check> splitArr(ArrayList<list_check> list_checks, int id){
+        ArrayList<list_check> res = new ArrayList<>();
+        for(list_check index: list_checks){
+            if(index.getAssign() == id){
+                res.add(index);
+            }
+        }
+        return res;
     }
 
     @Override
     public int getItemCount() {
-        return list_checks.size();
+        if (assignments == null) return 0;
+        return assignments.size();
+    }
+
+    public void setAssignments(ArrayList<assignment> assignments) {
+        this.assignments = assignments;
+        notifyDataSetChanged();
+    }
+
+    public FragmentActivity getFragmentActivity() {
+        return fragmentActivity;
+    }
+
+    public void setFragmentActivity(FragmentActivity fragmentActivity) {
+        this.fragmentActivity = fragmentActivity;
+    }
+
+    public ArrayList<assignment> getAssignments() {
+        return assignments;
     }
 
     public void setList_checks(ArrayList<list_check> list_checks) {
         this.list_checks = list_checks;
-        notifyDataSetChanged();
+    }
+
+    public ArrayList<list_check> getList_checks() {
+        return list_checks;
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
         assignment assignment;
         TextView content, time_assignment_item;
         CheckBox done;
-        androidx.recyclerview.widget.RecyclerView todo_list_assignment_item;
-        ScrollView scrollView;
+        RecyclerView todo_list_assignment_item;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             content = itemView.findViewById(R.id.title_assignment_item);
@@ -76,21 +102,20 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
             done = itemView.findViewById(R.id.check_assignment_item);
 
             todo_list_assignment_item = itemView.findViewById(R.id.todo_list_assignment_item);
-            Log.e("ViewHolder: ", String.valueOf(content));
+
         }
 
-        public void bindAll(assignment ass, ArrayList<list_check> dlist){
+        public void bindAll(assignment ass){
             assignment = ass;
             content.setText(ass.getTitle());
             time_assignment_item.setText(ass.getTime() + " days");
             done.setChecked(ass.getDone());
 
-            todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, dlist);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(todo_list_assignment_item.getContext());
-            layoutManager.setInitialPrefetchItemCount(dlist.size());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
             todo_list_assignment_item.setLayoutManager(layoutManager);
+
+            todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, splitArr(list_checks, ass.getId()));
             todo_list_assignment_item.setAdapter(adapter);
-            todo_list_assignment_item.setRecycledViewPool(pool);
         }
     }
 }
