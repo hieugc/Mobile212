@@ -7,6 +7,7 @@
     <string name="nav_setting">Cài đặt</string>
     <string name="todo_float_button">Thêm công việc</string>
     <string name="todo_meeting_button">Cuộc họp mới</string>
+    <string name="todo_meeting_form">Cuộc họp</string>
     <string name="todo_meeting_form_time">Thời gian:</string>
     <string name="todo_meeting_form_subtile">Tiêu đề:</string>
     <string name="todo_meeting_form_location">Địa điểm:</string>
@@ -23,6 +24,7 @@
     <string name="todo_clear">Xóa</string>
     <string name="todo_cancel">Hủy</string>
     <string name="todo_assignment_button">Bài tập mới</string>
+    <string name="todo_assignment_form">Bài tập</string>
     <string name="todo_assignment_form_list">Danh sách công việc</string>
     <string name="bk_timetable">Thời khoá biểu BK</string>
     <!-- TODO: Remove or change this placeholder text -->

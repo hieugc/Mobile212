@@ -37,6 +37,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_DATE = "DATE";
     public static final String STRING_SEMESTER = "\"212\"";
     public static final String SEMESTER = "212";
+    private static final String COLUMN_LINK_ASSIGN = "LINK_" + TABLE_ASSIGN;
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "Mobile.db", null, 1);
@@ -93,6 +94,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_CONTENT + " TEXT, "
                 + COLUMN_LINK_NOTE + " INTEGER,"
+                + COLUMN_LINK_ASSIGN + " INTEGER,"
                 + COLUMN_CHECKED + " BOOL, FOREIGN KEY("+COLUMN_LINK_NOTE+") REFERENCES "+TABLE_NOTE+"("+COLUMN_ID+") )";
         db.execSQL(sql);
     }

@@ -93,6 +93,10 @@
     <style name="RoundShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
+    <style name="text_item">
+        <item name="android:textSize">@dimen/item_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxLength">40</item>
     </style>
 
 </resources>
