@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:text="@string/todo_meeting_button"
+            android:text="@string/todo_meeting_form"
             android:textAlignment="center"
             android:textColor="@color/nav_primary"
             android:textSize="@dimen/todo_form_title"

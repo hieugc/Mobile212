@@ -35,14 +35,15 @@
             android:text="Bài tập lớn 1"
             style="@style/todo_title_picker"
             android:layout_toEndOf="@id/check_assignment_item"/>
+
         <ImageView
+            android:id="@+id/edit_asssignment_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_edit"
-            app:tint="@color/nav_primary"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            />
+            android:src="@drawable/icon_edit"
+            app:tint="@color/nav_primary" />
 
         <TextView
             android:id="@+id/label_assignment_item"
@@ -57,22 +58,21 @@
 
         <TextView
             android:id="@+id/time_assignment_item"
+            style="@style/todo_title_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7 ngày"
-            style="@style/todo_title_picker"
-            android:textColor="@color/error_form"
-            android:layout_toEndOf="@id/label_assignment_item"
             android:layout_below="@id/title_assignment_item"
             android:layout_marginLeft="5dp"
-            />
+            android:layout_toEndOf="@id/label_assignment_item"
+            android:text="7 ngày"
+            android:textColor="@color/error_form" />
 
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/head_assignment_item"
+        android:layout_below="@+id/head_assignment_item"
         >
 
         <androidx.recyclerview.widget.RecyclerView

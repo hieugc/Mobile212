@@ -14,20 +14,46 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.timetable.BKTimeTable;
 import com.app.timetable.R;
+import com.app.timetable.TimeTableSelRecViewAdapter;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
-public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_RecViewAdapter.ViewHolder> {
+public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_RecViewAdapter.ViewHolder>{
 
-    private ArrayList<meeting> meeting = new ArrayList<>();
-    private Context context;
+    private ArrayList<meeting> meeting;
+    private FragmentActivity fragmentActivity;
 
-    public todo_meet_RecViewAdapter(Context context) {
-        this.context = context;
+    private ItemClickListener listener;
+
+    public todo_meet_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<meeting> meeting, ItemClickListener listener) {
+        this.fragmentActivity = fragmentActivity;
+        this.meeting = meeting;
+        this.listener = listener;
+    }
+
+    public ArrayList<Model.meeting> getMeeting() {
+        return meeting;
+    }
+
+    public FragmentActivity getFragmentActivity() {
+        return fragmentActivity;
+    }
+
+    public ItemClickListener getListener() {
+        return listener;
+    }
+
+    public void setFragmentActivity(FragmentActivity fragmentActivity) {
+        this.fragmentActivity = fragmentActivity;
+    }
+
+    public void set_todo_Listener(ItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -41,6 +67,7 @@ public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_Rec
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final meeting meet = meeting.get(position);
+        holder.bind_data(meet);
         holder.title.setText(meet.getTitle());
         holder.time.setText(meet.getTime());
         if(meet.getLocation() == ""){
@@ -55,11 +82,12 @@ public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_Rec
         else {
             holder.link.setText(meet.getLink());
         }
-        holder.done.setSelected(meet.getDone());
+        holder.done.setChecked(meet.getDone());
+        Log.e("click", "onBindViewHolder: " + holder.done.isClickable());
         holder.done.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                Log.e("check", "onCheckedChanged: " + b );
+                Log.e("check", String.valueOf(b));
             }
         });
     }
@@ -75,11 +103,13 @@ public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_Rec
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
+        private meeting meets;
         TextView title, time, location, link;
         CheckBox done;
         RelativeLayout f_local_meeting_item, f_link_meeting_item;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             title = itemView.findViewById(R.id.title_meeting_item);
             time = itemView.findViewById(R.id.time_meeting_item);
             location = itemView.findViewById(R.id.local_meeting_item);
@@ -87,6 +117,17 @@ public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_Rec
             done = itemView.findViewById(R.id.check_meeting_item);
             f_local_meeting_item = itemView.findViewById(R.id.f_local_meeting_item);
             f_link_meeting_item = itemView.findViewById(R.id.f_link_meeting_item);
+
+            time.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onClick(view, meets);
+                }
+            });
         }
+        private void bind_data(meeting meets){
+            this.meets = meets;
+        }
+
     }
 }

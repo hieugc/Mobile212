@@ -9,7 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        style="@style/Widget.AppCompat.CompoundButton.RadioButton"/>
+        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+        android:buttonTint="@color/nav_primary"
+        />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"

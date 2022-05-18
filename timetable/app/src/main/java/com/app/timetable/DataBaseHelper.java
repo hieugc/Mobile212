@@ -27,6 +27,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_ASSIGN = "ASSIGN";
     public static final String TABLE_CHECKLIST = "CHECKLIST";
     public static final String COLUMN_CHECKED = "CHECKED";
+    private static final String COLUMN_LINK_ASSIGN = "LINK_" + TABLE_ASSIGN;
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "Mobile.db", null, 1);
@@ -70,6 +71,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_CONTENT + " TEXT, "
                 + COLUMN_LINK_NOTE + " INTEGER,"
+                + COLUMN_LINK_ASSIGN + " INTEGER,"
                 + COLUMN_CHECKED + " BOOL )";
         db.execSQL(sql);
     }

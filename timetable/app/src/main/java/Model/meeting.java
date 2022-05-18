@@ -10,13 +10,14 @@ import androidx.fragment.app.Fragment;
 import com.app.timetable.R;
 
 public class meeting{
-    public meeting(String time, String title, String location, String link, String alert, Boolean done){
+    public meeting(int id, String time, String title, String location, String link, String alert, Boolean done){
         this.time = time;
         this.title = title;
         this.location = location;
         this.link = link;
         this.alert = alert;
         this.done = done;
+        this.id = id;
     }
     private String time;
     private String title;
@@ -24,6 +25,15 @@ public class meeting{
     private String link;
     private String alert;
     private Boolean done;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getAlert() {
         return alert;
