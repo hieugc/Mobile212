@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     //calendar
     fragment_calendar calendarView = new fragment_calendar();
+    fragment_new_subject new_subject = new fragment_new_subject();
 
     //todo
     fragment_todo todoView = new fragment_todo();
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void init(){
         //calendar
-
+        calendarView.set_new_tkb(new_subject);
         //todo
         todoView.set_meet_form(meeting_form);
         meeting_form.setTodoView(todoView);

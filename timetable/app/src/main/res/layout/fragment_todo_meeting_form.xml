@@ -187,55 +187,56 @@
             app:layout_constraintTop_toBottomOf="@+id/todo_meet_form_line_5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/todo_meet_form_add_time_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialog"
-        android:visibility="invisible"
-        >
+        android:visibility="invisible">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
 
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            app:layout_constraintTop_toTopOf="parent">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
                 android:text="Giờ"
-                android:textSize="@dimen/button"
                 android:textColor="@color/black"
 
-                android:layout_marginLeft="60dp"
+                android:textSize="@dimen/button"
 
                 app:layout_constraintBottom_toTopOf="@+id/meet_form_timepicker"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/todo_meet_form_minus_dialog"/>
+                app:layout_constraintRight_toLeftOf="@+id/todo_meet_form_minus_dialog" />
+
             <TextView
                 android:id="@+id/todo_meet_form_minus_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phút"
-                android:textSize="@dimen/button"
                 android:textColor="@color/black"
+                android:textSize="@dimen/button"
                 app:layout_constraintBottom_toTopOf="@+id/meet_form_timepicker"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent" />
 
             <TimePicker
                 android:id="@+id/meet_form_timepicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:timePickerMode="spinner"
+                android:background="@color/white"
                 android:numbersInnerTextColor="@color/black"
                 android:numbersTextColor="@color/black"
-                android:background="@color/white"
-                app:layout_constraintTop_toTopOf="parent"
+                android:timePickerMode="spinner"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

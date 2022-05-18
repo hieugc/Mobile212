@@ -2,315 +2,107 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
+    android:background="@color/white"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="23sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="T3/2022"/>
+        <LinearLayout
+            android:background="@drawable/calendar_dropdown_button_background"
+            android:layout_marginLeft="10dp"
+            android:layout_width="15dp"
+            android:gravity="center"
+            android:layout_height="15dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_down_icon"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="50dp"
+        app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/tkb_list_background"
         android:layout_width="match_parent"
-        android:paddingTop="20dp"
+        android:paddingTop="25dp"
         android:paddingHorizontal="30dp"
-        android:layout_height="400dp">
+        android:layout_height="450dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:paddingVertical="5dp"
-            android:paddingLeft="10dp"
-            android:id="@+id/subject_1"
-            android:background="#EB3B5A"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tkb_list"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/start_time_1"
-                android:text="7:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/start_time_1"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/end_time_1"
-                android:text="9:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="Giải tích 2"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_marginLeft="35dp"
-                android:textSize="20sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/start_time_1"
-                android:id="@+id/subject_name_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_bell_1"
-                android:paddingRight="10dp"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:paddingVertical="5dp"
-            android:paddingLeft="10dp"
-            android:id="@+id/subject_2"
-            android:background="#FA8231"
-            app:layout_constraintTop_toBottomOf="@id/subject_1"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/start_time_2"
-                android:text="7:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/start_time_2"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/end_time_2"
-                android:text="9:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="Đại số tuyến tính"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_marginLeft="35dp"
-                android:textSize="20sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/start_time_2"
-                android:id="@+id/subject_name_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_bell_1"
-                android:paddingRight="10dp"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:paddingVertical="5dp"
-            android:paddingLeft="10dp"
-            android:id="@+id/subject_3"
-            android:background="#3867D6"
-            app:layout_constraintTop_toBottomOf="@id/subject_2"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/start_time_3"
-                android:text="7:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/start_time_3"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/end_time_3"
-                android:text="9:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="Đại số tuyến tính"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_marginLeft="35dp"
-                android:textSize="20sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/start_time_3"
-                android:id="@+id/subject_name_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_bell_1"
-                android:paddingRight="10dp"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:paddingVertical="5dp"
-            android:paddingLeft="10dp"
-            android:id="@+id/subject_4"
-            android:background="#20BF6B"
-            app:layout_constraintTop_toBottomOf="@id/subject_3"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/start_time_4"
-                android:text="7:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/start_time_4"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/end_time_4"
-                android:text="9:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="Đại số tuyến tính"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_marginLeft="35dp"
-                android:textSize="20sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/start_time_4"
-                android:id="@+id/subject_name_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_bell_1"
-                android:paddingRight="10dp"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:paddingVertical="5dp"
-            android:paddingLeft="10dp"
-            android:id="@+id/subject_5"
-            android:background="#0FB9B1"
-            app:layout_constraintTop_toBottomOf="@id/subject_4"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/start_time_5"
-                android:text="7:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/start_time_5"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/end_time_5"
-                android:text="9:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="Đại số tuyến tính"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_marginLeft="35dp"
-                android:textSize="20sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/start_time_5"
-                android:id="@+id/subject_name_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_bell_1"
-                android:paddingRight="10dp"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:paddingVertical="5dp"
-            android:paddingLeft="10dp"
-            android:id="@+id/subject_6"
-            android:background="#802D98DA"
-            app:layout_constraintTop_toBottomOf="@id/subject_5"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/start_time_6"
-                android:text="7:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                app:layout_constraintTop_toBottomOf="@id/start_time_6"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/end_time_6"
-                android:text="9:00"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="Đại số tuyến tính"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_marginLeft="35dp"
-                android:textSize="20sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/start_time_6"
-                android:id="@+id/subject_name_6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_bell_1"
-                android:paddingRight="10dp"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <RelativeLayout
+        android:id="@+id/calendar_float_button_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTintMode="src_in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="16dp">
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/nav_calendar"-->
-<!--        android:textSize="32dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/calendar_float_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="Thêm môn mới"
+            app:collapsedSize="@dimen/float_button"
+            app:icon="@drawable/icon_add"
+            app:iconTint="@color/white" />
+
+        <Button
+            android:id="@+id/calendar_tkbbk_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/calendar_tkb_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="16dp"
+            android:text="TKB BK"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            android:visibility="visible"
+            app:cornerRadius="@dimen/button_radius" />
+
+        <Button
+            android:id="@+id/calendar_tkb_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/calendar_float_button"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="16dp"
+            android:text="TKB"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            android:visibility="visible"
+            app:cornerRadius="@dimen/button_radius" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
