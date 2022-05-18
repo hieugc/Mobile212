@@ -2,21 +2,19 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/nav_primary"/>
-        </shape>
-    </item>
-    <item android:top="20dp">
-        <shape android:shape="rectangle">
-            <corners android:radius="40dp" android:bottomLeftRadius="0dp" android:bottomRightRadius="0dp"/>
-            <stroke android:width="3dp" android:color="@color/nav_primary"/>
             <solid android:color="@color/white"/>
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="40dp" android:bottomLeftRadius="0dp" android:bottomRightRadius="0dp"/>
+            <stroke android:width="3dp" android:color="@color/nav_primary"/>
+        </shape>
+    </item>
+    <item android:top="20dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="40dp" android:bottomLeftRadius="0dp" android:bottomRightRadius="0dp"/>
             <stroke android:width="3dp" android:color="@color/white"/>
-            <solid android:color="@color/white"/>
         </shape>
     </item>
 </layer-list>

@@ -7,13 +7,33 @@
     <string name="nav_setting">Cài đặt</string>
     <string name="todo_float_button">Thêm công việc</string>
     <string name="todo_meeting_button">Cuộc họp mới</string>
-    <string name="todo_meeting_form_time">Thời gian</string>
-    <string name="todo_meeting_form_subtile">Tiêu đề</string>
-    <string name="todo_meeting_form_location">Địa điểm</string>
-    <string name="todo_meeting_form_link">Liên kết</string>
+    <string name="todo_meeting_form">Cuộc họp</string>
+    <string name="todo_meeting_form_time">Thời gian:</string>
+    <string name="todo_meeting_form_subtile">Tiêu đề:</string>
+    <string name="todo_meeting_form_location">Địa điểm:</string>
+    <string name="todo_meeting_form_link">Liên kết:</string>
     <string name="todo_meeting_form_alert">Báo trước:</string>
+    <string name="todo_meeting_form_dialog_title">Cài đặt báo trước</string>
+    <string name="todo_meeting_form_hour">Giờ</string>
+    <string name="todo_meeting_form_minus">Phút</string>
+    <string name="todo_meeting_form_year">Năm</string>
+    <string name="todo_meeting_form_month">Tháng</string>
+    <string name="todo_meeting_form_day">Ngày</string>
     <string name="todo_done">Xong</string>
     <string name="todo_save">Lưu</string>
+    <string name="todo_clear">Xóa</string>
+    <string name="todo_cancel">Hủy</string>
     <string name="todo_assignment_button">Bài tập mới</string>
+    <string name="todo_assignment_form">Bài tập</string>
     <string name="todo_assignment_form_list">Danh sách công việc</string>
+    <string name="bk_timetable">Thời khoá biểu BK</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add">Thêm</string>
+    <string name="select_all">Chọn tất cả</string>
+    <string name="Cancel">Huỷ</string>
+    <string name="todo_assignment_form_list_add_list">Thêm công việc mới</string>
+    <string name="log_in">Đăng nhập</string>
+    <string name="username">Tài khoản</string>
+    <string name="password">Mật khẩu</string>
 </resources>

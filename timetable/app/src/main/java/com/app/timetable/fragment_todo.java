@@ -20,23 +20,40 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
-public class fragment_todo extends Fragment {
+import Model.ItemClickListener;
+import Model.assignment;
+import Model.list_check;
+import Model.meeting;
+import Model.todo_assignment_RecViewAdapter;
+import Model.todo_meet_RecViewAdapter;
+
+public class fragment_todo extends Fragment implements ItemClickListener{
     public fragment_todo(){
     }
     ImageView default_todo_layout;
-    ExtendedFloatingActionButton todo_floating_button;
+    RecyclerView todo_meeting;
+
+    //dialog
+    FloatingActionButton todo_floating_button;
     RelativeLayout todo_floating_button_background;
     Button todo_meeting_button, todo_assignment_button;
     fragment_todo_meeting_form todo_meeting_form;
     fragment_todo_assignment_form todo_assignment_form;
+
 
     public void set_meet_form(fragment_todo_meeting_form form) {
         todo_meeting_form = form;
@@ -53,6 +70,56 @@ public class fragment_todo extends Fragment {
         View todoView = inflater.inflate(R.layout.fragment_todo, container, false);
         //default_layout
         default_todo_layout = todoView.findViewById(R.id.default_todo_layout);
+        todo_meeting = todoView.findViewById(R.id.todo_meet_item_recycleView);
+
+
+        ArrayList<meeting> meetings = new ArrayList<>();
+
+        meetings.add(new meeting(
+                1,
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+
+        todo_meet_RecViewAdapter adapter = new todo_meet_RecViewAdapter(getActivity(), meetings, this);
+
+        ArrayList<list_check> list_checks = new ArrayList<>();
+        list_checks.add(new list_check(
+                1,
+                "Thiet ke mockup",
+                false,
+                1
+        ));
+        list_checks.add(new list_check(
+                2,
+                "Thiet ke mockup B",
+                false,
+                1
+        ));
+        list_checks.add(new list_check(
+                3,
+                "Thiet ke mockup A",
+                false,
+                1
+        ));
+        ArrayList<assignment> assignments = new ArrayList<>();
+        assignments.add(new assignment(
+                1,
+                "BTL 1",
+                "7",
+                false
+        ));
+
+        //todo_assignment_RecViewAdapter adapter = new todo_assignment_RecViewAdapter(todoView, getActivity(), assignments, list_checks);
+
+        todo_meeting.setAdapter(adapter);
+        todo_meeting.setLayoutManager(new LinearLayoutManager(todo_meeting.getContext()));
+
+
 
         todo_floating_button = todoView.findViewById(R.id.todo_float_button);
         todo_floating_button_background = todoView.findViewById(R.id.todo_float_button_background);
@@ -86,6 +153,7 @@ public class fragment_todo extends Fragment {
                 }
             }
         });
+
         todo_floating_button_background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +172,7 @@ public class fragment_todo extends Fragment {
         todo_floating_button_background.setBackgroundTintMode(Mode.SRC_IN);
         todo_floating_button_background.setBackgroundColor(0);
 
-        todo_floating_button.setIconResource(R.drawable.icon_add);
+        todo_floating_button.setImageResource(R.drawable.icon_add);
 
         todo_meeting_button.setVisibility(INVISIBLE);
         todo_assignment_button.setVisibility(INVISIBLE);
@@ -115,11 +183,15 @@ public class fragment_todo extends Fragment {
         todo_floating_button_background.setBackgroundTintMode(Mode.SRC_OVER);
         todo_floating_button_background.setBackgroundColor(Color.parseColor("#CC333333"));
 
-        todo_floating_button.setIconResource(R.drawable.icon_close);
+        todo_floating_button.setImageResource(R.drawable.icon_close);
 
         todo_meeting_button.setVisibility(VISIBLE);
         todo_assignment_button.setVisibility(VISIBLE);
         todo_floating_button_background.getLayoutParams().height = -1;
     }
 
+    @Override
+    public void onClick(View view, meeting meets) {
+        Log.e(TAG, "onClick: ");
+    }
 }

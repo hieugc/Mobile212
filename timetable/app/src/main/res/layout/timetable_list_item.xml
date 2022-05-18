@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent"
+    android:padding="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    android:layout_margin="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/nav_primary"
+        >
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Đồ án đa ngành (CO31111)"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/locationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/location_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_location" />
+
+            <TextView
+                android:id="@+id/location_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="H1-603"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/locationLayout"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/date_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_date" />
+
+            <TextView
+                android:id="@+id/date_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Thứ 4"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/timeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dateLayout"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/timeImg"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_time" />
+
+            <TextView
+                android:id="@+id/time_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="7:00 - 8:50"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timeLayout"
+            android:layout_marginTop="10dp"
+            android:id="@+id/weekLayout"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/weekImg"
+                android:src="@drawable/ic_calendar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/week_txt"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="nav_title">24dp</dimen>
+    <dimen name="nav_title">24sp</dimen>
     <dimen name="nav_icon">24dp</dimen>
     <dimen name="button">18dp</dimen>
+    <dimen name="item_content">14sp</dimen>
     <dimen name="float_button">36dp</dimen>
     <dimen name="button_radius">48dp</dimen>
-    <dimen name="todo_form_title">36dp</dimen>
+    <dimen name="todo_form_title">24sp</dimen>
+    <dimen name="todo_form_label">18sp</dimen>
+    <dimen name="todo_form_icon">32dp</dimen>
     <dimen name="todo_form_button_w">120dp</dimen>
     <dimen name="todo_form_button_h">48dp</dimen>
+    <dimen name="todo_form_number_picker_height">120dp</dimen>
 </resources>

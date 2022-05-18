@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <CheckBox
+        android:id="@+id/btn_radio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+        android:buttonTint="@color/nav_primary"
+        />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="53dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/btn_radio"
+        android:padding="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/nav_primary">
+
+            <TextView
+                android:id="@+id/name_selection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Đồ án đa ngành (CO31111)"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:id="@+id/locationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name_selection"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/location_img"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_location" />
+
+                <TextView
+                    android:id="@+id/location_selection_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="H1-603"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/locationLayout"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/date_img"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_date" />
+
+                <TextView
+                    android:id="@+id/date_selection_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Thứ 4"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/timeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dateLayout"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/timeImg"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_time" />
+
+                <TextView
+                    android:id="@+id/time_selection_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="7:00 - 8:50"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/weekLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/timeLayout"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/weekImg"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_calendar" />
+
+                <TextView
+                    android:id="@+id/week_selection_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</RelativeLayout>

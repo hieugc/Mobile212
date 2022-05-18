@@ -5,7 +5,6 @@
         android:title="@string/nav_calendar"
         android:icon="@drawable/nav_calendar"
         />
-
     <item android:id="@+id/nav_todo"
         android:enabled="true"
         android:title="@string/nav_todo"
@@ -15,7 +14,7 @@
     <item android:id="@+id/nav_note"
         android:enabled="true"
         android:title="@string/nav_note"
-        android:icon="@drawable/nav_note"/>
+        android:icon="@drawable/ic_note_nav"/>
 
     <item android:id="@+id/nav_setting"
         android:enabled="true"

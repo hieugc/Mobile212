@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/box_item"
+    android:padding="5dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="5dp"
+    >
+
+    <CheckBox
+        android:id="@+id/check_meeting_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/title_meeting_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Báo cáo đồ án"
+        style="@style/todo_title_picker"
+        android:layout_toRightOf="@id/check_meeting_item"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_edit"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        app:tint="@color/nav_primary" />
+
+    <TextView
+        android:id="@+id/time_meeting_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="08:00 20/05/2022"
+        style="@style/text_item"
+        android:layout_below="@+id/title_meeting_item"
+        android:layout_toRightOf="@id/check_meeting_item"
+        />
+
+    <RelativeLayout
+        android:id="@+id/f_local_meeting_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/time_meeting_item"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/check_meeting_item"
+        >
+        <ImageView
+            android:id="@+id/icon_local_meeting_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/todo_meet_form_location"
+            app:tint="@color/nav_primary" />
+
+        <TextView
+            android:id="@+id/local_meeting_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="phường 5, Gò Công, Tiền Giang"
+            style="@style/text_item"
+            android:layout_toEndOf="@id/icon_local_meeting_item"
+            android:layout_marginLeft="5dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/f_link_meeting_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/f_local_meeting_item"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/check_meeting_item"
+        >
+        <ImageView
+            android:id="@+id/icon_link_meeting_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_link"
+            app:tint="@color/nav_primary" />
+
+        <TextView
+            android:id="@+id/link_meeting_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="abcd-ákdasdk"
+            style="@style/text_item"
+            android:layout_toEndOf="@id/icon_link_meeting_item"
+            android:layout_marginLeft="5dp"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

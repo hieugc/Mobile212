@@ -57,10 +57,7 @@
         android:id="@+id/calendar_float_button_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTintMode="src_in"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="16dp">
+        android:backgroundTintMode="src_in">
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/calendar_float_button"
