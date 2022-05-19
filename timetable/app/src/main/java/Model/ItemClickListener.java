@@ -2,6 +2,9 @@ package Model;
 
 import android.view.View;
 
+import com.app.timetable.fragment_todo_meeting_form;
+
 public interface ItemClickListener {
-    void onClick(View view, meeting meets);
+    void onCheckClick(int pos, meeting meets);
+    void onEditClick(meeting meets);
 }
