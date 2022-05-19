@@ -157,6 +157,7 @@ public class fragment_todo extends Fragment implements ItemClickListener{
     }
 
     private ArrayList<todo_item> createTodo(){
+        return null;
     }
     private int check(String date1, String date2){
         //year

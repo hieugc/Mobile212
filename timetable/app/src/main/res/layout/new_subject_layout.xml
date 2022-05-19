@@ -229,6 +229,8 @@
                     android:textSize="17sp"
                     android:text="Ngày học:"/>
                 <TextView
+                    android:id="@+id/day_t2"
+                    android:backgroundTintMode="src_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/calendar_shape_background"
@@ -239,6 +241,8 @@
                     android:paddingVertical="3dp"
                     android:layout_marginLeft="10dp"/>
                 <TextView
+                    android:id="@+id/day_t3"
+                    android:backgroundTintMode="src_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/calendar_shape_background"
@@ -249,6 +253,8 @@
                     android:paddingVertical="3dp"
                     android:layout_marginLeft="5dp"/>
                 <TextView
+                    android:id="@+id/day_t4"
+                    android:backgroundTintMode="src_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/calendar_shape_background"
@@ -259,6 +265,8 @@
                     android:paddingVertical="3dp"
                     android:layout_marginLeft="5dp"/>
                 <TextView
+                    android:id="@+id/day_t5"
+                    android:backgroundTintMode="src_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/calendar_shape_background"
@@ -276,6 +284,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/day_t6"
+                    android:backgroundTintMode="src_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/calendar_shape_background"
@@ -285,6 +295,8 @@
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="3dp"/>
                 <TextView
+                    android:id="@+id/day_t7"
+                    android:backgroundTintMode="src_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/calendar_shape_background"
@@ -295,9 +307,11 @@
                     android:paddingVertical="3dp"
                     android:layout_marginLeft="5dp"/>
                 <TextView
+                    android:backgroundTintMode="src_in"
+                    android:id="@+id/day_cn"
+                    android:background="@drawable/calendar_shape_background"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/calendar_shape_background"
                     android:text="CN"
                     android:textSize="17sp"
                     android:textColor="@color/black"
@@ -319,9 +333,11 @@
                 android:textColor="@color/black"
                 android:textSize="17sp"/>
             <TextView
+                android:id="@+id/study_time_start"
                 android:background="@drawable/calendar_shape_background"
-                android:layout_width="wrap_content"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Bắt đầu"
                 android:textColor="@color/black"
                 android:paddingVertical="5dp"
@@ -335,8 +351,10 @@
                 android:textSize="20sp"
                 android:layout_marginLeft="20dp"/>
             <TextView
+                android:id="@+id/study_time_end"
                 android:background="@drawable/calendar_shape_background"
-                android:layout_width="wrap_content"
+                android:layout_width="85dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:text="Kết thúc"
                 android:textColor="@color/black"
@@ -348,24 +366,25 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:backgroundTintMode="src_in"
-        android:id="@+id/add_lecturer_info_background"
+        android:id="@+id/popup_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#47333333"
+        android:backgroundTintMode="src_in"
         android:visibility="invisible">
 
     </RelativeLayout> // layout thêm thông tin giảng viên
+
     <LinearLayout
-        android:visibility="invisible"
-        android:backgroundTintMode="src_in"
-        android:layout_centerInParent="true"
         android:id="@+id/add_lecturer_info_layout"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:background="@drawable/calendar_popup_background"
+        android:backgroundTintMode="src_in"
         android:orientation="vertical"
-        android:paddingVertical="15dp">
+        android:paddingVertical="15dp"
+        android:visibility="invisible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -391,7 +410,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/custom_input"
-            android:inputType="text"
+            android:inputType="textAutoComplete|text"
             android:paddingStart="12dp"
             android:textColor="@color/black"
             android:textColorHint="#BBBBBB" />
@@ -412,7 +431,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/custom_input"
-            android:inputType="number"
+            android:inputType="textAutoComplete|number"
             android:paddingStart="12dp"
             android:textColor="@color/black"
             android:textColorHint="#BBBBBB" />
@@ -433,12 +452,13 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/custom_input"
-            android:inputType="textEmailAddress"
+            android:inputType="textAutoComplete|textEmailAddress"
             android:paddingStart="12dp"
             android:textColor="@color/black"
             android:textColorHint="#BBBBBB" />
 
         <Button
+            android:backgroundTint="@color/nav_primary"
             android:id="@+id/done_add_info_lecturer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -448,5 +468,116 @@
             android:text="Xong" />
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/study_time_selector"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/calendar_popup_background"
+        android:backgroundTintMode="src_in"
+        android:visibility="invisible">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/calendar_add_time_title"
+            android:layout_width="match_parent"
+            android:layout_height="65dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="Thời gian"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_close_black_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:dividerInsetEnd="16dp"
+                app:dividerInsetStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/calendar_add_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/calendar_add_hours_title"
+                    style="@style/todo_title_picker"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+
+                    android:text="@string/todo_meeting_form_hour" />
+
+                <NumberPicker
+                    android:id="@+id/calendar_add_hours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/todo_form_number_picker_height"
+                    android:layout_below="@id/calendar_add_hours_title"
+                    android:scaleX="0.8"
+                    android:theme="@style/todo_number_picker" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/calendar_add_minutes_title"
+                    style="@style/todo_title_picker"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+
+                    android:text="@string/todo_meeting_form_minus" />
+
+                <NumberPicker
+                    android:id="@+id/calendar_add_minutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/todo_form_number_picker_height"
+                    android:layout_below="@id/calendar_add_minutes_title"
+                    android:scaleX="0.8"
+                    android:theme="@style/todo_number_picker" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/done_add_time_study"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/nav_primary"
+            android:text="Xong" />
+    </RelativeLayout>
 
 </RelativeLayout>

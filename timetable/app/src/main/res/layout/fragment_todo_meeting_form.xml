@@ -116,9 +116,9 @@
                         android:id="@+id/todo_meet_form_month"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/todo_form_number_picker_height"
-                        android:scaleX="0.8"
-
                         android:layout_below="@id/todo_meet_form_month_title"
+
+                        android:scaleX="0.8"
                         android:theme="@style/todo_number_picker" />
 
                 </RelativeLayout>
@@ -168,9 +168,9 @@
                         android:id="@+id/todo_meet_form_hour"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/todo_form_number_picker_height"
-                        android:scaleX="0.8"
-
                         android:layout_below="@id/todo_meet_form_hour_title"
+
+                        android:scaleX="0.8"
                         android:theme="@style/todo_number_picker" />
 
                 </RelativeLayout>
