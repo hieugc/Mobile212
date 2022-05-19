@@ -36,4 +36,14 @@
     <string name="log_in">Đăng nhập</string>
     <string name="username">Tài khoản</string>
     <string name="password">Mật khẩu</string>
+    <string name="calendar_pager">Thời khóa biểu gọn gàng, thao tác trên các môn học nhanh chóng và tiện lợi.</string>
+    <string name="todo_pager">Dễ dàng lưu trữ thông tin buổi họp và theo dõi tiến trình bài tập.</string>
+    <string name="bk_calendar_pager">Thực hiện thêm TKB Bách Khoa tự động hoặc tự tạo TKB thủ công cho chính bạn.</string>
+    <string name="note_pager">Danh sách ghi chú giúp bạn ghi lại những thông tin cần thiết trong buổi học.</string>
+    <string name="calendar_pager_heading">Thời khoá biểu/Lịch học</string>
+    <string name="todo_heading">Cuộc họp/Bài tập</string>
+    <string name="note_heading">Ghi chú/Lời nhắc</string>
+    <string name="bk_calendar_heading">Thời khoá biểu Bách Khoa</string>
+    <string name="skip">Bỏ qua</string>
+    <string name="finish">Hoàn Tất</string>
 </resources>

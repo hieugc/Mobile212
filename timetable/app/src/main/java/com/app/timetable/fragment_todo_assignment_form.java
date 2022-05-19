@@ -1,5 +1,8 @@
 package com.app.timetable;
 
+import static com.google.android.material.datepicker.MaterialDatePicker.thisMonthInUtcMilliseconds;
+import static com.google.android.material.datepicker.MaterialDatePicker.todayInUtcMilliseconds;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +14,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointForward;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class fragment_todo_assignment_form extends Fragment {
 
@@ -42,6 +54,43 @@ public class fragment_todo_assignment_form extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View assignment_form = inflater.inflate(R.layout.fragment_todo_assignment_form, container, false);
+
+
+        //Date Range Picker
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        calendar.clear();
+
+        long today = MaterialDatePicker.todayInUtcMilliseconds();
+        calendar.setTimeInMillis(today);
+
+        calendar.add(Calendar.YEAR, 1);
+        long next_year = calendar.getTimeInMillis();
+
+
+        CalendarConstraints.Builder builder = new CalendarConstraints.Builder();
+        builder.setOpenAt(today);
+        builder.setStart(today);
+        builder.setEnd(next_year);
+        builder.setValidator(DateValidatorPointForward.now());
+
+
+        MaterialDatePicker picker = MaterialDatePicker.Builder.dateRangePicker()
+                .setTitleText("Chọn ngày")
+                .setTheme(R.style.ThemeOverlay_App_DatePicker)
+                .setCalendarConstraints(builder.build())
+                .build();
+
+        //SHOW DATE PICKER
+        picker.show(getActivity().getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Object selection) {
+                Toast.makeText(getContext(), picker.getHeaderText(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 
         todo_assignment_form_time_left = assignment_form.findViewById(R.id.todo_assignment_form_time_left);

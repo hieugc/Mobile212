@@ -6,11 +6,13 @@
 
     <CheckBox
         android:id="@+id/btn_radio"
+        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+        android:button="@drawable/selector_checkbox"
         android:buttonTint="@color/nav_primary"
+        android:layout_marginStart="10dp"
         />
 
     <com.google.android.material.card.MaterialCardView

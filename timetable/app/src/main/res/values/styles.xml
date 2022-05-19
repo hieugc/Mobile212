@@ -101,4 +101,34 @@
         <item name="android:maxLength">40</item>
     </style>
 
+    <style name="Theme.App" parent="Theme.MaterialComponents">
+        <item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
+        <item name="materialCalendarFullscreenTheme">@style/CustomThemeOverlay_MaterialCalendar_FullScreen</item>
+    </style>
+
+    <style name="ThemeOverlay.App.DatePicker" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+        <!-- Customize text field of the text input mode. -->
+    </style>
+
+    <style name="CustomThemeOverlay_MaterialCalendar_FullScreen"
+        parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen"
+        >
+        <item name="materialCalendarStyle">@style/Custom_MaterialCalendar.FullScreen</item>
+    </style>
+
+    <style name="Custom_MaterialCalendar.FullScreen"
+        parent="@style/Widget.MaterialComponents.MaterialCalendar.Fullscreen">
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+
 </resources>

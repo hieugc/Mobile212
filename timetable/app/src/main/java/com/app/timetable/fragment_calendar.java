@@ -34,14 +34,15 @@ public class fragment_calendar extends Fragment {
     private Button calendar_tkbbk_button, calendar_tkb_button;
     private RelativeLayout calendar_float_button_background;
     private fragment_new_subject tkb_new_subject;
+    private LogInFragment logInFragment;
 
 
     public void set_new_tkb(fragment_new_subject form) {
         tkb_new_subject = form;
     }
-//    public void set_new_tkbbk(fragment_todo_assignment_form form) {
-//        todo_assignment_form = form;
-//    }
+    public void set_new_tkbbk(LogInFragment logInFragment) {
+        this.logInFragment = logInFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +59,13 @@ public class fragment_calendar extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,tkb_new_subject).commit();
+            }
+        });
+
+        calendar_tkbbk_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, logInFragment).commit();
             }
         });
 
