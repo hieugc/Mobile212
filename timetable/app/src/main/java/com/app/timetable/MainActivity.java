@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<meeting> meetings = new ArrayList<>();
     ArrayList<assignment> assignments = new ArrayList<>();
     ArrayList<list_check> list_checks = new ArrayList<>();
+
 
 
     //note
@@ -101,6 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, calendarView).commit();
 
+//        FloatingActionButton addNoteBtn = findViewById(R.id.note_add);
+//        addNoteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v){
+//                startActivity(new Intent(MainActivity.this,add_note.class ));
+//            }
+//        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -115,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
         assignment_form.setTodoView(todoView);
         init_data();
         //data
-        todoView.setList_checks(list_checks);
-        todoView.setMeetings(meetings);
-        todoView.setAssignments(assignments);
+//        todoView.setList_checks(list_checks);
+//        todoView.setMeetings(meetings);
+//        todoView.setAssignments(assignments);
 
         //note
 
