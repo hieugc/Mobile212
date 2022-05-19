@@ -23,12 +23,14 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
 
     private ArrayList<assignment> assignments;
     private ArrayList<list_check> list_checks;
-
     private FragmentActivity fragmentActivity;
-    public todo_assignment_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<assignment> assignment, ArrayList<list_check> list_checks) {
+
+    private ItemClickListener listener;
+    public todo_assignment_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<assignment> assignment, ArrayList<list_check> list_checks, ItemClickListener listener) {
         this.fragmentActivity = fragmentActivity;
         this.list_checks = list_checks;
         this.assignments = assignment;
+        this.listener = listener;
     }
 
     @NonNull
@@ -108,13 +110,13 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
         public void bindAll(assignment ass){
             assignment = ass;
             content.setText(ass.getTitle());
-            time_assignment_item.setText(ass.getTime() + " days");
+            time_assignment_item.setText(ass.getTime());
             done.setChecked(ass.getDone());
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
             todo_list_assignment_item.setLayoutManager(layoutManager);
 
-            todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, splitArr(list_checks, ass.getId()));
+            todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, splitArr(list_checks, ass.getId()), listener);
             todo_list_assignment_item.setAdapter(adapter);
         }
     }

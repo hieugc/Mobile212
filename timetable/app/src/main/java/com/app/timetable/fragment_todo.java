@@ -27,6 +27,7 @@ import Model.list_check;
 import Model.meeting;
 import Model.todo_assignment_RecViewAdapter;
 import Model.todo_item;
+import Model.todo_item_RecViewAdapter;
 
 public class fragment_todo extends Fragment implements ItemClickListener{
     public fragment_todo(){
@@ -77,10 +78,12 @@ public class fragment_todo extends Fragment implements ItemClickListener{
 
         todo_meeting = todoView.findViewById(R.id.todo_meet_item_recycleView);
 
-        todo_assignment_RecViewAdapter adapter = new todo_assignment_RecViewAdapter(getActivity(), assignments, list_checks);
+
+        todo_item_RecViewAdapter adapter = new todo_item_RecViewAdapter(getActivity(), createTodo(), this);
         Log.e(TAG, String.valueOf(list_checks));
         todo_meeting.setAdapter(adapter);
         todo_meeting.setLayoutManager(new LinearLayoutManager(todo_meeting.getContext()));
+
 
         todo_floating_button = todoView.findViewById(R.id.todo_float_button);
         todo_floating_button_background = todoView.findViewById(R.id.todo_float_button_background);
@@ -147,8 +150,6 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         todo_floating_button_background.setBackgroundColor(Color.parseColor("#CC333333"));
 
         todo_floating_button.setImageResource(R.drawable.icon_close);
-
-
     }
 
     @Override
@@ -157,8 +158,51 @@ public class fragment_todo extends Fragment implements ItemClickListener{
     }
 
     private ArrayList<todo_item> createTodo(){
-        return null;
+        int idx1 = 0, idx2 = 0;
+        ArrayList<todo_item> todo_items = new ArrayList<>();
+        while (idx2 < this.assignments.size() && idx1 < this.meetings.size()){
+            int check = check(this.meetings.get(idx1).getTime(), this.assignments.get(idx2).getTimeStart());
+            if(check == 1){
+                todo_items.add(new todo_item(null, null, this.meetings.get(idx1)));
+                idx1 += 1;
+            }
+            else if(check == 2){
+                todo_items.add(new todo_item(this.assignments.get(idx2), create(this.assignments.get(idx2).getId()), null));
+                idx2 += 1;
+            }
+            else {
+                todo_items.add(new todo_item(null, null, this.meetings.get(idx1)));
+                idx1 += 1;
+                todo_items.add(new todo_item(this.assignments.get(idx2), create(this.assignments.get(idx2).getId()), null));
+                idx2 += 1;
+            }
+        }
+
+        if(idx1 < this.meetings.size()) {
+            while (idx1 < this.meetings.size()){
+                todo_items.add(new todo_item(null, null, this.meetings.get(idx1)));
+                idx1 += 1;
+            }
+        }
+        else if(idx2 < this.assignments.size()){
+            while (idx2 < this.assignments.size()){
+                todo_items.add(new todo_item(this.assignments.get(idx2), create(this.assignments.get(idx2).getId()), null));
+                idx2 += 1;
+            }
+        }
+        return todo_items;
     }
+
+    private ArrayList<list_check> create(int id){
+        ArrayList<list_check> list_checks = new ArrayList<>();
+        for (list_check check: this.list_checks){
+            if (check.getAssign() == id){
+                list_checks.add(check);
+            }
+        }
+        return list_checks;
+    }
+
     private int check(String date1, String date2){
         //year
         if(getYear(date1) > getYear(date2)) return 1;

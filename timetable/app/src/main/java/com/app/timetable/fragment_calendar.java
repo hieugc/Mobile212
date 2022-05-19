@@ -1,5 +1,6 @@
 package com.app.timetable;
 
+import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
@@ -29,7 +30,7 @@ public class fragment_calendar extends Fragment {
     private RecyclerView recyclerView;
     private SubjectAdapter adapter;
     private ArrayList<Subject> subjects;
-    private ExtendedFloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
     private Button calendar_tkbbk_button, calendar_tkb_button;
     private RelativeLayout calendar_float_button_background;
     private fragment_new_subject tkb_new_subject;
@@ -47,6 +48,7 @@ public class fragment_calendar extends Fragment {
         // Inflate the layout for this fragment
         View calendarView = inflater.inflate(R.layout.fragment_calendar, container, false);
         recyclerView = (RecyclerView) calendarView.findViewById(R.id.tkb_list);
+
         floatingActionButton = calendarView.findViewById(R.id.calendar_float_button);
         calendar_tkb_button = calendarView.findViewById(R.id.calendar_tkb_button);
         calendar_tkbbk_button = calendarView.findViewById(R.id.calendar_tkbbk_button);
@@ -62,7 +64,7 @@ public class fragment_calendar extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if (calendar_float_button_background.getBackgroundTintMode() == PorterDuff.Mode.SRC_IN){
+                if (calendar_tkbbk_button.getVisibility() == GONE){
                     open_float_button_background();
                 }
                 else{
@@ -74,7 +76,7 @@ public class fragment_calendar extends Fragment {
         calendar_float_button_background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (calendar_float_button_background.getBackgroundTintMode() == PorterDuff.Mode.SRC_OVER){
+                if (calendar_tkbbk_button.getVisibility() == VISIBLE){
                     close_float_button_background();
                 }
             }
@@ -98,27 +100,25 @@ public class fragment_calendar extends Fragment {
     }
 
     private void close_float_button_background(){
-//        todo_floating_button_background.getLayoutParams().width = -2;//wrap_content
-//        todo_floating_button_background.getLayoutParams().height = -2;//wrap_content
-        calendar_float_button_background.setBackgroundTintMode(PorterDuff.Mode.SRC_IN);
-//        todo_floating_button_background.setBackgroundColor(0);
+        calendar_float_button_background.getLayoutParams().width = -2;//wrap_content
+        calendar_float_button_background.getLayoutParams().height = -2;//wrap_content
+        calendar_float_button_background.setBackgroundColor(0);
 
-        floatingActionButton.setIconResource(R.drawable.icon_add);
+        floatingActionButton.setImageResource(R.drawable.icon_add);
 
-        calendar_tkb_button.setVisibility(INVISIBLE);
-        calendar_tkbbk_button.setVisibility(INVISIBLE);
+        calendar_tkb_button.setVisibility(View.GONE);
+        calendar_tkbbk_button.setVisibility(View.GONE);
     }
 
     private void open_float_button_background(){
-//        todo_floating_button_background.getLayoutParams().width = -1;//match_parent/match_parent
-        calendar_float_button_background.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
-//        todo_floating_button_background.setBackgroundColor(Color.parseColor("#CC333333"));
+        calendar_float_button_background.getLayoutParams().width = -1;//match_parent/
+        calendar_float_button_background.getLayoutParams().height = -1;
+        calendar_float_button_background.setBackgroundColor(Color.parseColor("#CC333333"));
 
-        floatingActionButton.setIconResource(R.drawable.icon_close);
+        floatingActionButton.setImageResource(R.drawable.icon_close);
 
         calendar_tkb_button.setVisibility(VISIBLE);
         calendar_tkbbk_button.setVisibility(VISIBLE);
-//        todo_floating_button_background.getLayoutParams().height = -1;
     }
 
 }
