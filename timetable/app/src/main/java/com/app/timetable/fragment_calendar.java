@@ -140,7 +140,6 @@ public class fragment_calendar extends Fragment {
                         childTextView.setTextColor(Color.RED);
                     else
                         childTextView.setTextColor(Color.BLACK);
-
                 }
 
 
@@ -169,7 +168,7 @@ public class fragment_calendar extends Fragment {
             }
         });
 
-        calendarRecyclerView.addItemDecoration(new DividerItemDecoration(calendarView.getContext(), LinearLayoutManager.HORIZONTAL));
+//        calendarRecyclerView.addItemDecoration(new DividerItemDecoration(calendarView.getContext(), LinearLayoutManager.HORIZONTAL));
 
         calendarRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -208,6 +207,7 @@ public class fragment_calendar extends Fragment {
         subjects.add(new Subject("Đại số tuyến tính","7:00","9:50",""));
         subjects.add(new Subject("Giáo dục thể chất","10:00","11:50","Note.."));
         subjects.add(new Subject("Hệ thống số","7:00","9:50",""));
+        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
         subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
         subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
 
@@ -252,9 +252,6 @@ public class fragment_calendar extends Fragment {
             calendarList.add(calendar);
 
         }
-
-
-
         // notify adapter about data set changes
         // so that it will render the list with new data
 
