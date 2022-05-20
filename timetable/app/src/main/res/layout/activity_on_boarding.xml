@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OnBoardingActivity"
+    android:background="@drawable/background_on_boarding_screen">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/pager">
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pager"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/skip_on_boarding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/skip"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/skip_txt"
+            android:layout_marginEnd="5dp"/>
+
+        <ImageView
+            android:id="@+id/skip_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/skip_arrow" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

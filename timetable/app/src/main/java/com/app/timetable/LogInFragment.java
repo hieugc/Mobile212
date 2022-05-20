@@ -1,5 +1,7 @@
 package com.app.timetable;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,8 @@ public class LogInFragment extends Fragment {
     private Button btn_login, btn_clear;
     private BkTimeTableFragment bkTimeTableFragment;
     private DataBaseHelper dataBaseHelper;
+    private SharedPreferences sharedPreferences;
+    private String username, password;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,7 +36,27 @@ public class LogInFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_log_in, container, false);
 
+        sharedPreferences = view.getContext().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+
+
+
         dataBaseHelper = new DataBaseHelper(view.getContext());
+
+
+        username = sharedPreferences.getString("username", "");
+        password = sharedPreferences.getString("password", "");
+
+        if(!username.equals("") && !password.equals(""))
+        {
+            BKEL_USER user = new BKEL_USER(-1, username, password);
+            user = dataBaseHelper.getOne(user);
+
+            if(user != null)
+            {
+                bkTimeTableFragment = new BkTimeTableFragment(user.getId());
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
+            }
+        }
 
         username_txt = view.findViewById(R.id.username_txt);
         password_txt = view.findViewById(R.id.password_txt);
@@ -122,6 +147,12 @@ public class LogInFragment extends Fragment {
                     }
                     else
                     {
+                        SharedPreferences.Editor editor = view.getContext().getSharedPreferences("user_settings", Context.MODE_PRIVATE).edit();
+                        editor.putString("username", user.getUsername());
+                        editor.putString("password", user.getPassword());
+
+                        editor.commit();
+
 //                        BKTimeTable bkTimeTable = new BKTimeTable(-1,"Đồ án đa ngành (CO3011)", "H1-603","Thứ --","7:00 - 8:50", "01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|","212",1);
 //                        boolean success = dataBaseHelper.addOne(bkTimeTable);
 //                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();

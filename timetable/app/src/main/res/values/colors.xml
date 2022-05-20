@@ -17,5 +17,6 @@
     <color name="fifth_item">#0FB9B1</color>
     <color name="sixth_item">#802D98DA</color>
     <color name ="choosen_day">#144141</color>
+    <color name="inactive">#C4C4C4</color>
 
 </resources>

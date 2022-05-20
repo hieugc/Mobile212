@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.timetable.R;
+import com.app.timetable.fragment_todo;
 
 import java.util.ArrayList;
 
@@ -20,13 +21,14 @@ public class todo_item_RecViewAdapter extends RecyclerView.Adapter<todo_item_Rec
 
     private ArrayList<todo_item> items;
     private FragmentActivity fragmentActivity;
-
+    private com.app.timetable.fragment_todo fragment_todo;
     private ItemClickListener listener;
 
-    public todo_item_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<todo_item> items, ItemClickListener listener) {
+    public todo_item_RecViewAdapter(FragmentActivity fragmentActivity, com.app.timetable.fragment_todo fragment_todo, ArrayList<todo_item> items, ItemClickListener listener) {
         this.fragmentActivity = fragmentActivity;
         this.items = items;
         this.listener = listener;
+        this.fragment_todo = fragment_todo;
     }
 
     @NonNull
@@ -46,7 +48,7 @@ public class todo_item_RecViewAdapter extends RecyclerView.Adapter<todo_item_Rec
         if (check.getType() == 1){
             ArrayList<meeting> meetings = new ArrayList<>();
             meetings.add(check.getMeetings());
-            todo_meet_RecViewAdapter adapter = new todo_meet_RecViewAdapter(fragmentActivity, meetings, this.listener);
+            todo_meet_RecViewAdapter adapter = new todo_meet_RecViewAdapter(fragmentActivity, fragment_todo, meetings, this.listener);
             holder.todo_item.setAdapter(adapter);
         }
         else if(check.getType() == 2){

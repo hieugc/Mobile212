@@ -3,14 +3,19 @@ package com.app.timetable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -21,10 +26,13 @@ import Model.list_check;
 import Model.meeting;
 
 public class MainActivity extends AppCompatActivity {
+    private SharedPreferences sharedPreferences;
+
     BottomNavigationView bottomNavigationView;
     //calendar
     fragment_calendar calendarView = new fragment_calendar();
     fragment_new_subject new_subject = new fragment_new_subject();
+    LogInFragment logInFragment = new LogInFragment();
 
     //todo
     fragment_todo todoView = new fragment_todo();
@@ -35,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<meeting> meetings = new ArrayList<>();
     ArrayList<assignment> assignments = new ArrayList<>();
     ArrayList<list_check> list_checks = new ArrayList<>();
+
 
 
     //note
@@ -50,6 +59,21 @@ public class MainActivity extends AppCompatActivity {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
 //        getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE);
+
+        boolean on_boarding = sharedPreferences.getBoolean("on_boarding", false);
+
+        if(!on_boarding)
+        {
+            Intent intent = new Intent(MainActivity.this, OnBoardingActivity.class);
+            startActivity(intent);
+            SharedPreferences.Editor editor = getSharedPreferences("user_settings", MODE_PRIVATE).edit();
+
+            editor.putBoolean("on_boarding", true);
+            editor.commit();
+        }
+
 
         init();
 
@@ -81,6 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, calendarView).commit();
 
+//        FloatingActionButton addNoteBtn = findViewById(R.id.note_add);
+//        addNoteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v){
+//                startActivity(new Intent(MainActivity.this,add_note.class ));
+//            }
+//        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -88,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         //calendar
         calendarView.set_new_tkb(new_subject);
         new_subject.set_calendar_fragment(calendarView);
+        calendarView.set_new_tkbbk(logInFragment);
         //todo
         todoView.set_meet_form(meeting_form);
         meeting_form.setTodoView(todoView);
@@ -95,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
         assignment_form.setTodoView(todoView);
         init_data();
         //data
-        todoView.setList_checks(list_checks);
-        todoView.setMeetings(meetings);
-        todoView.setAssignments(assignments);
+//        todoView.setList_checks(list_checks);
+//        todoView.setMeetings(meetings);
+//        todoView.setAssignments(assignments);
 
         //note
 
