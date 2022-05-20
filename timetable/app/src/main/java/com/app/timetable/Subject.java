@@ -28,6 +28,10 @@ public class Subject {
         this.startHour = startHour;
         this.endHour = endHour;
         this.note = note;
+        this.classRoom = "";
+        this.classGroup = "";
+        this.startDate = "";
+        this.endDate = "";
     }
 
     public void setClassName(String name){

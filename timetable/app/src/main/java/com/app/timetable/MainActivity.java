@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     private void init(){
         //calendar
         calendarView.set_new_tkb(new_subject);
+        new_subject.set_calendar_fragment(calendarView);
         //todo
         todoView.set_meet_form(meeting_form);
         meeting_form.setTodoView(todoView);

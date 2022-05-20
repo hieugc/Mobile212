@@ -87,6 +87,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="15dp"/>
         <TextView
+            android:id="@+id/group_subject_id"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="25dp"
             android:layout_width="match_parent"

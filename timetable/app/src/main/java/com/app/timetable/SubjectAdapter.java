@@ -1,5 +1,6 @@
 package com.app.timetable;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.fragment.app.Fragment;
@@ -21,11 +23,17 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
     private Context context;
     private int colors[] = {R.color.first_item,R.color.sec_item,R.color.third_item,R.color.fourth_item,R.color.fifth_item,R.color.sixth_item};
     private String colors2[] = {"#FFD5677B","#FA8231","#3867D6","#20BF6B","#0FB9B1","#802D98DA"};
-    private fragment_new_subject new_subject;
+    private fragment_calendar_info_subject info_subject;
+
+    private ISendDataListener mISendDataListener;
+    public interface ISendDataListener{
+        void sendData(Subject subject);
+    }
     public SubjectAdapter(List subjectList, Context context){
         this.subjectList = subjectList;
         this.context = context;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
         private View itemview;
@@ -98,17 +106,17 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
         holder.starthour.setText(subject.getStartHour());
         holder.endhour.setText(subject.getEndHour());
         holder.note.setText(subject.getNote());
-//        holder.setItemClickListener(new ItemClickListener() {
-//            @Override
-//            public void onClick(View view, int position, boolean isLongClick) {
-//                if(isLongClick)
-//                    Toast.makeText(context, "Long Click: "+subjectList.get(position), Toast.LENGTH_SHORT).show();
-//                else {
-//                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, new_subject).commit();
-////                    Toast.makeText(context, " " + subjectList.get(position), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+        holder.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position, boolean isLongClick) {
+                if(isLongClick)
+                    Toast.makeText(context, "Long Click: "+subjectList.get(position), Toast.LENGTH_SHORT).show();
+                else {
+                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, info_subject).commit();
+//                    Toast.makeText(context, " " + subjectList.get(position), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override

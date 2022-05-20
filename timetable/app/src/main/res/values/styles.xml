@@ -65,6 +65,11 @@
         <item name="android:textSize">@dimen/button</item>
         <item name="colorPrimary">@color/white</item>
     </style>
+    <style name="roboto_normal" >
+        //parent="@android:style/TextAppearance.Small"
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 <!--    <style name="AlertDialogTheme">-->
 <!--        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>-->
