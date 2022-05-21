@@ -1,16 +1,20 @@
 package com.app.timetable;
 
-public class Note {
-    private int id;
-    private String title;
-    private String content;
+import io.realm.RealmObject;
 
+public class Note extends RealmObject {
+     private int id;
+     private String title;
+     private String content;
+//     private long createdTime;
     public Note(int id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
     }
+    public Note(){
 
+    }
     public int getId() {
         return id;
     }

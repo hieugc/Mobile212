@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <RelativeLayout
         android:id="@+id/todo_float_button_background"
@@ -20,7 +21,9 @@
             android:layout_height="300px"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="?attr/actionBarTheme"
+
+            />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/note_add"
@@ -34,14 +37,26 @@
             android:src="@drawable/icon_add"
             app:collapsedSize="@dimen/float_button"
             app:fabSize="mini" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="415dp"
+            android:layout_height="585dp"
+
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="-4dp"
+            android:layout_marginBottom="46dp" />
+
         <TextView
             android:id="@+id/textView3"
             android:layout_width="132dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="-5dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="282dp"
             android:padding="10dp"
             android:text="Ghi chú"
             android:textSize="28dp"
@@ -51,16 +66,15 @@
             android:id="@+id/textView4"
             android:layout_width="153dp"
             android:layout_height="32dp"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="85dp"
-            android:layout_marginEnd="249dp"
+            android:layout_marginTop="83dp"
+            android:layout_marginEnd="251dp"
             android:text="Danh sásh ghi chú"
             android:textStyle="bold"
-            />
+            tools:ignore="MissingConstraints" />
 
+        />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
