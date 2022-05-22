@@ -12,7 +12,6 @@
         <activity
             android:name=".OnBoardingActivity"
             android:exported="false"
-
             />
         <activity
             android:name=".MainActivity"
