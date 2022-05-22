@@ -4,15 +4,20 @@ import static com.google.android.material.datepicker.MaterialDatePicker.thisMont
 import static com.google.android.material.datepicker.MaterialDatePicker.todayInUtcMilliseconds;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +25,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
@@ -27,24 +34,48 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.TimeZone;
 
-public class fragment_todo_assignment_form extends Fragment {
+import Model.ItemClickListener;
+import Model.assignment;
+import Model.list_check;
+import Model.meeting;
+import Model.todo_check_list_form_RecViewAdapter;
+import Model.todo_check_list_form_dialog_RecViewAdapter;
+
+public class fragment_todo_assignment_form extends Fragment implements ItemClickListener {
 
     public fragment_todo_assignment_form(){
         //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain_todo_form, this).commit();
     }
-    ConstraintLayout todo_assignment_form_dialog, todo_assignment_form_dialog_add_time, todo_assignment_form_dialog_add_list;
+    ConstraintLayout todo_assignment_form_dialog;
+    RelativeLayout todo_assignment_form_dialog_add_list;
     Button assignment_form_button_done;
     ImageView todo_assignment_form_close, todo_assignment_form_add_time, todo_assignment_form_add_list;
     EditText assignment_form_sub;
     fragment_todo todoView;
     LinearLayout todo_assignment_time_show;
+    RecyclerView list_item_form, list_item_dialog;
 
     //time show
     TextView todo_assignment_form_add_time_start, todo_assignment_form_add_time_end, todo_assignment_form_time_left;
+
+    //dialog
+    TextView todo_assignment_form_add_list_head_text_back, todo_assignment_form_add_list_head_text_done, todo_contain_add_list_label_button;
+    ImageView todo_assignment_form_add_list_head_back, todo_contain_add_list_button;
+    //data
+    ArrayList<assignment> assignments;
+    ArrayList<list_check> list_checks;
+
+    public void setList_checks(ArrayList<list_check> list_checks){
+        this.list_checks = list_checks;
+    }
+    public void setAssignments(ArrayList<assignment> assignments){
+        this.assignments = assignments;
+    }
 
     private static final String TAG = "MyActivity";
     public void setTodoView(fragment_todo view){
@@ -55,6 +86,10 @@ public class fragment_todo_assignment_form extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View assignment_form = inflater.inflate(R.layout.fragment_todo_assignment_form, container, false);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        Log.e(TAG, "height = " + displayMetrics.heightPixels + " width = " + displayMetrics.widthPixels);
 
 
         todo_assignment_form_time_left = assignment_form.findViewById(R.id.todo_assignment_form_time_left);
@@ -70,8 +105,6 @@ public class fragment_todo_assignment_form extends Fragment {
                        close();
                     }
                 });
-
-
         //title
         assignment_form_sub = assignment_form.findViewById(R.id.assignment_form_sub);
 
@@ -85,16 +118,13 @@ public class fragment_todo_assignment_form extends Fragment {
 
         //onclicklist
 
-
-        //int h = requireView().getHeight();
-        //Log.e("height", String.valueOf(h));
         //offdialog
         todo_assignment_form_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 close_add_list_dialog();
             }
-        });
+        });//done
         todo_assignment_form_add_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +132,7 @@ public class fragment_todo_assignment_form extends Fragment {
                     showCalendar();
                 }
             }
-        });
+        });//done
         todo_assignment_form_add_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +140,63 @@ public class fragment_todo_assignment_form extends Fragment {
                     open_add_list_dialog();
                 }
             }
+        });//done
+        todo_assignment_form_add_list_head_text_back = assignment_form.findViewById(R.id.todo_assignment_form_add_list_head_text_back);
+        todo_assignment_form_add_list_head_text_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //close dialog
+                close_add_list_dialog();
+            }
         });
+        todo_assignment_form_add_list_head_back = assignment_form.findViewById(R.id.todo_assignment_form_add_list_head_back);
+        todo_assignment_form_add_list_head_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //close dialog
+                close_add_list_dialog();
+            }
+        });
+        todo_assignment_form_add_list_head_text_done = assignment_form.findViewById(R.id.todo_assignment_form_add_list_head_text_done);
+        todo_assignment_form_add_list_head_text_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //add item
+                //close dialog
+                close_add_list_dialog();
+            }
+        });
+        //
+        todo_contain_add_list_label_button = assignment_form.findViewById(R.id.todo_contain_add_list_label_button);
+        todo_contain_add_list_label_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        todo_contain_add_list_button = assignment_form.findViewById(R.id.todo_contain_add_list_button);
+        todo_contain_add_list_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        //show list
+        list_item_form = assignment_form.findViewById(R.id.list_item_form);
+        if(list_checks != null){
+            todo_check_list_form_RecViewAdapter adapter = new todo_check_list_form_RecViewAdapter(getActivity(), list_checks, this);
+            list_item_form.setAdapter(adapter);
+            list_item_form.setLayoutManager(new LinearLayoutManager(list_item_form.getContext()));
+        }
+        list_item_dialog = assignment_form.findViewById(R.id.list_item_dialog);
+        if(list_checks != null){
+            todo_check_list_form_dialog_RecViewAdapter adapter = new todo_check_list_form_dialog_RecViewAdapter(getActivity(), list_checks, this);
+            list_item_dialog.setAdapter(adapter);
+            list_item_dialog.setLayoutManager(new LinearLayoutManager(list_item_dialog.getContext()));
+        }
 
 
         //button
@@ -264,9 +350,28 @@ public class fragment_todo_assignment_form extends Fragment {
     private void close_add_list_dialog(){
         todo_assignment_form_dialog.setVisibility(View.GONE);
         todo_assignment_form_dialog_add_list.setVisibility(View.GONE);
+        closeKeyBoard();
+    }
+    private void closeKeyBoard(){
+        View view = list_item_dialog.getFocusedChild();
+        Log.e("check", String.valueOf(view));
+        if(view != null){
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
     private void open_add_list_dialog(){
         todo_assignment_form_dialog.setVisibility(View.VISIBLE);
         todo_assignment_form_dialog_add_list.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onCheckClick(int pos, meeting meets) {
+
+    }
+
+    @Override
+    public void onEditClick(meeting meets) {
+
     }
 }

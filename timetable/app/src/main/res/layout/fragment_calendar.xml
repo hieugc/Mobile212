@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
     <LinearLayout
+        android:id=""
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -52,6 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/subject_show_layout"
+        app:layout_constraintTop_toBottomOf="@id/"
         android:layout_marginBottom="30dp"
         android:layout_width="match_parent"
         android:gravity="center"
@@ -101,7 +103,9 @@
         android:layout_width="match_parent"
         android:paddingTop="25dp"
         android:paddingHorizontal="30dp"
-        android:layout_height="450dp">
+        android:layout_height="wrap_content"
+        android:overScrollMode="always"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tkb_list"

@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     fragment_calendar calendarView = new fragment_calendar();
     fragment_new_subject new_subject = new fragment_new_subject();
     LogInFragment logInFragment = new LogInFragment();
-
     //todo
     fragment_todo todoView = new fragment_todo();
     fragment_todo_meeting_form meeting_form = new fragment_todo_meeting_form();

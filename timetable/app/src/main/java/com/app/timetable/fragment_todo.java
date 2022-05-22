@@ -44,7 +44,6 @@ public class fragment_todo extends Fragment implements ItemClickListener{
 
     //data
     ArrayList<meeting> meetings;
-    //
     ArrayList<assignment> assignments;
     ArrayList<list_check> list_checks;
 
@@ -173,6 +172,125 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         todo_assignment_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                todo_assignment_form.setAssignments(null);
+                ArrayList<list_check> list = new ArrayList<>();
+                list.add(new list_check(
+                        1,
+                        "Thiet ke mockup",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        2,
+                        "Thiet ke mockup B",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        3,
+                        "Thiet ke mockup A",
+                        false,
+                        2
+                ));
+                list.add(new list_check(
+                        4,
+                        "Thiet ke mockup abc",
+                        false,
+                        2
+                ));list.add(new list_check(
+                        1,
+                        "Thiet ke mockup",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        2,
+                        "Thiet ke mockup B",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        3,
+                        "Thiet ke mockup A",
+                        false,
+                        2
+                ));
+                list.add(new list_check(
+                        4,
+                        "Thiet ke mockup abc",
+                        false,
+                        2
+                ));list.add(new list_check(
+                        1,
+                        "Thiet ke mockup",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        2,
+                        "Thiet ke mockup B",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        3,
+                        "Thiet ke mockup A",
+                        false,
+                        2
+                ));
+                list.add(new list_check(
+                        4,
+                        "Thiet ke mockup abc",
+                        false,
+                        2
+                ));list.add(new list_check(
+                        1,
+                        "Thiet ke mockup",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        2,
+                        "Thiet ke mockup B",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        3,
+                        "Thiet ke mockup A",
+                        false,
+                        2
+                ));
+                list.add(new list_check(
+                        4,
+                        "Thiet ke mockup abc",
+                        false,
+                        2
+                ));list.add(new list_check(
+                        1,
+                        "Thiet ke mockup",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        2,
+                        "Thiet ke mockup B",
+                        false,
+                        1
+                ));
+                list.add(new list_check(
+                        3,
+                        "Thiet ke mockup A",
+                        false,
+                        2
+                ));
+                list.add(new list_check(
+                        4,
+                        "Thiet ke mockup abc",
+                        false,
+                        2
+                ));
+                todo_assignment_form.setList_checks(list);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todo_assignment_form).commit();
             }
         });
