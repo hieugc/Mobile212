@@ -112,7 +112,7 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
                 if(isLongClick)
                     Toast.makeText(context, "Long Click: "+subjectList.get(position), Toast.LENGTH_SHORT).show();
                 else {
-                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, info_subject).commit();
+                    //((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, info_subject).commit();
 //                    Toast.makeText(context, " " + subjectList.get(position), Toast.LENGTH_SHORT).show();
                 }
             }

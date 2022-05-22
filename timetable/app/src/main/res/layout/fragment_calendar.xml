@@ -1,126 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent">
+
     <LinearLayout
-        android:id=""
+        android:id="@+id/month_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
-            android:layout_marginLeft="10dp"
-            android:layout_width="120dp"
-            android:gravity="center"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
             <TextView
-                android:textSize="23sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="T3/2022"
                 android:textColor="@color/black"
-                android:text="T3/2022"/>
+                android:textSize="23sp" />
+
             <LinearLayout
-                android:layout_marginLeft="8dp"
-                android:gravity="center"
-                android:background="@drawable/calendar_dropdown_button_background"
                 android:layout_width="15dp"
-                android:layout_height="15dp">
+                android:layout_height="15dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/calendar_dropdown_button_background"
+                android:gravity="center">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_down_icon"/>
+                    android:src="@drawable/ic_down_icon" />
             </LinearLayout>
 
         </LinearLayout>
+
         <com.google.android.material.divider.MaterialDivider
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleY="2.5"
+            android:layout_marginTop="10dp"
+            app:dividerColor="@color/divider"
             app:dividerInsetEnd="50dp"
             app:dividerInsetStart="50dp" />
-
     </LinearLayout>
 
     <LinearLayout
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/subject_show_layout"
-        app:layout_constraintTop_toBottomOf="@id/"
-        android:layout_marginBottom="30dp"
+        android:id="@+id/date_pickerLayout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
-        android:layout_height="120dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/month_picker">
+
         <LinearLayout
             android:id="@+id/backward_calendar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_width="20dp"
-            android:gravity="center"
-            android:layout_height="20dp">
-            <ImageView
+            android:gravity="center">
 
-                android:scaleX="0.6"
-                android:scaleY="0.6"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_back_icon"/>
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:src="@drawable/ic_back_icon" />
         </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendar_recyclerview"
-            android:layout_weight="2"
-            android:layout_width="50dp"
-            android:layout_height="100dp"/>
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="2" />
+
         <LinearLayout
             android:id="@+id/forward_calendar"
-            android:rotation="180"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_width="20dp"
             android:gravity="center"
-            android:layout_height="20dp">
+            android:rotation="180">
+
             <ImageView
-                android:scaleX="0.6"
-                android:scaleY="0.6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_back_icon"/>
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:src="@drawable/ic_back_icon" />
         </LinearLayout>
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:id="@+id/subject_show_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/tkb_list_background"
         android:layout_width="match_parent"
-        android:paddingTop="25dp"
-        android:paddingHorizontal="30dp"
         android:layout_height="wrap_content"
-        android:overScrollMode="always"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date_pickerLayout"
+        android:paddingHorizontal="30dp"
+        android:paddingTop="25dp"
+        android:background="@drawable/tkb_list_background"
+        android:overScrollMode="always">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tkb_list"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:id="@+id/calendar_float_button_background"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
         android:gravity="bottom"
         android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -132,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/calendar_tkb_button"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="16dp"
             android:contentDescription="@string/todo_float_button"
             android:elevation="10dp"
             android:src="@drawable/icon_add"
@@ -142,41 +149,40 @@
         <Button
             android:id="@+id/calendar_tkbbk_button"
             style="@style/Widget.MaterialComponents.Button"
-            android:backgroundTint="#80000000"
-            android:layout_width="170dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="60dp"
             android:text="@string/bk_timetable"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="@dimen/button"
             android:visibility="gone"
             app:cornerRadius="@dimen/button_radius"/>
 
         <Button
             android:id="@+id/calendar_tkb_button"
             style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="170dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/calendar_tkbbk_button"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="5dp"
-            android:backgroundTint="#80000000"
+            android:layout_marginEnd="60dp"
             android:text="Thời khóa biểu"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="@dimen/button"
             android:visibility="gone"
             app:cornerRadius="@dimen/button_radius" />
 
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/calendar_popup_bg"
-        android:visibility="invisible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#47333333"/>
+        android:background="@color/dialog"/>
     <RelativeLayout
-        android:visibility="invisible"
+        android:visibility="gone"
         android:id="@+id/calendar_popup_notification"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
     <RelativeLayout
         android:id="@+id/todo_float_button_background"
         android:layout_width="match_parent"
@@ -14,7 +13,6 @@
         android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -73,8 +71,6 @@
             android:text="Danh sásh ghi chú"
             android:textStyle="bold"
             tools:ignore="MissingConstraints" />
-
-        />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
