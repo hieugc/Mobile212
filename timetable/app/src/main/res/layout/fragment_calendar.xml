@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_width="match_parent"
@@ -12,9 +12,8 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_alignParentTop="true"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -58,9 +57,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/month_picker">
+        android:layout_below="@id/month_picker"
+        >
 
         <LinearLayout
             android:id="@+id/backward_calendar"
@@ -102,27 +100,26 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/subject_show_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/date_pickerLayout"
-        android:paddingHorizontal="30dp"
-        android:paddingTop="25dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/date_pickerLayout"
         android:background="@drawable/tkb_list_background"
-        android:overScrollMode="always">
+        android:overScrollMode="always"
+        android:paddingHorizontal="30dp"
+        android:paddingTop="25dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tkb_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:overScrollMode="always"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
         android:id="@+id/calendar_float_button_background"
@@ -130,8 +127,9 @@
         android:layout_height="wrap_content"
         android:gravity="bottom"
         android:paddingBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        >
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/calendar_float_button"
@@ -180,103 +178,106 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dialog"/>
-    <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/calendar_popup_notification"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/calendar_popup_background"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-
-                style="@style/roboto_normal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Thiết lập chuông báo"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+        android:background="@color/dialog">
+        <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/calendar_popup_notification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
-
-                <NumberPicker
-                    android:id="@+id/calendar_hour_notification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/todo_form_number_picker_height"
-                    android:scaleX="0.8"
-                    android:theme="@style/todo_number_picker" />
+                android:layout_centerInParent="true"
+                android:background="@drawable/calendar_popup_background"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/calendar_hour_notification_title"
+
+                    style="@style/roboto_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="45dp"
-                    android:text="giờ"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="20dp"
+                    android:text="Thiết lập chuông báo"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
-                    android:textSize="16sp" />
-
-                <NumberPicker
-                    android:id="@+id/calendar_minutes_notification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/todo_form_number_picker_height"
-                    android:layout_marginLeft="10dp"
-                    android:scaleX="0.8"
-                    android:theme="@style/todo_number_picker" />
-
-                <TextView
-                    android:id="@+id/calendar_minutes_notification_title"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="45dp"
-                    android:text="phút"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp">
 
+                    <NumberPicker
+                        android:id="@+id/calendar_hour_notification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+                        android:scaleX="0.8"
+                        android:theme="@style/todo_number_picker" />
+
+                    <TextView
+                        android:id="@+id/calendar_hour_notification_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="45dp"
+                        android:text="giờ"
+                        android:textColor="@color/black"
+
+                        android:textSize="16sp" />
+
+                    <NumberPicker
+                        android:id="@+id/calendar_minutes_notification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+                        android:layout_marginLeft="10dp"
+                        android:scaleX="0.8"
+                        android:theme="@style/todo_number_picker" />
+
+                    <TextView
+                        android:id="@+id/calendar_minutes_notification_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="45dp"
+                        android:text="phút"
+                        android:textColor="@color/black"
+
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:checked="true"
+                    android:minWidth="220dp"
+                    android:text="Mở chuông báo"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:checked="true"
+                    android:minWidth="220dp"
+                    android:text="Áp dụng tất cả"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/done_add_time_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/nav_primary"
+                    android:text="Xong" />
             </LinearLayout>
+        </RelativeLayout>
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:checked="true"
-                android:minWidth="220dp"
-                android:text="Mở chuông báo"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:checked="true"
-                android:minWidth="220dp"
-                android:text="Áp dụng tất cả"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/done_add_time_study"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/nav_primary"
-                android:text="Xong" />
-        </LinearLayout>
     </RelativeLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
