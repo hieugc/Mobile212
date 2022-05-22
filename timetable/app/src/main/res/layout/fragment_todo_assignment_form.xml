@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/todo_assignment_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -42,8 +42,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="12dp"
             android:src="@drawable/icon_close"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_alignParentEnd="true"
             android:layout_marginRight="20dp"
             />
 
@@ -53,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_alignParentStart="true"
             android:paddingTop="10dp"
             >
 
@@ -72,6 +71,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/nav_primary"
                 android:maxLength="100"
+                android:lines="1"
+                android:inputType="text"
                 />
         </LinearLayout>
 
@@ -80,7 +81,8 @@
             style="@style/margin_todo_form_assign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/todo_assignment_form_line_1">
+            android:layout_below="@+id/todo_assignment_form_line_1"
+            >
 
             <TextView
                 android:id="@+id/todo_assignment_form_time"
@@ -152,10 +154,11 @@
         </RelativeLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/todo_assignment_form_line_3"
             style="@style/margin_todo_form_assign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/todo_assignment_form_line_2"
+            android:layout_below="@+id/todo_assignment_form_line_2"
             >
 
             <TextView
@@ -185,50 +188,36 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/assignment_form_button_done"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_button"
-            android:text="@string/todo_save"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textSize="@dimen/button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="20dp"
-            />
+            android:layout_below="@id/todo_assignment_form_line_3"
+            android:overScrollMode="ifContentScrolls"
+            >
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/assignment_form_button_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/button_primary"
+
+        android:text="@string/todo_save"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="20dp"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/todo_assignment_form_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialog"
-        android:visibility="visible">
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/todo_assignment_form_dialog_add_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <CalendarView
-                android:id="@+id/todo_assignment_form_calendar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:filterTouchesWhenObscured="true"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/todo_assignment_form_dialog_add_list"

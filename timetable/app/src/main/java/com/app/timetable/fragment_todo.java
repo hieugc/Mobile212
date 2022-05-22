@@ -150,9 +150,12 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         todo_meeting = todoView.findViewById(R.id.todo_meet_item_recycleView);
         if(assignments == null && meetings == null){
             default_todo_layout.setVisibility(VISIBLE);
+            Log.e("check", String.valueOf(assignments));
+            Log.e("check", String.valueOf(meetings));
         }
         else{
             default_todo_layout.setVisibility(View.GONE);
+            Log.e("check", "nonull");
             item_show();
         }
 
@@ -312,36 +315,20 @@ public class fragment_todo extends Fragment implements ItemClickListener{
             else {
                 if(getDay(date1) > getDay(date2)) return 1;
                 else if(getDay(date1) < getDay(date2)) return 2;
-                else {
-                    if(getHour(date1) > getMonth(date2)) return 1;
-                    else if(getHour(date1) < getHour(date2)) return 2;
-                    else {
-                        if(getMonth(date1) > getMonth(date2)) return 1;
-                        else if(getMonth(date1) < getMonth(date2)) return 2;
-                    }
-                }
             }
         }
         return 0;
     }
     private int getYear(String date){
-        final int i = Integer.parseInt(date.split(" ")[1].split("/")[2]);
+        final int i = Integer.parseInt(date.split("/")[2]);
         return i;
     }
     private int getMonth(String date){
-        final int i = Integer.parseInt(date.split(" ")[1].split("/")[1]);
+        final int i = Integer.parseInt(date.split("/")[1]);
         return i;
     }
     private int getDay(String date){
-        final int i = Integer.parseInt(date.split(" ")[1].split("/")[0]);
-        return i;
-    }
-    private int getHour(String date){
-        final int i = Integer.parseInt(date.split(" ")[0].split(":")[0]);
-        return i;
-    }
-    private int getMinus(String date){
-        final int i = Integer.parseInt(date.split(" ")[0].split(":")[1]);
+        final int i = Integer.parseInt(date.split("/")[0]);
         return i;
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    >
+
+    <ImageView
+        android:id="@+id/remove_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_remove"
+        app:tint="@color/error_form" />
+
+    <EditText
+        android:id="@+id/content_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/nav_primary"
+        android:inputType="textAutoComplete"
+        android:maxLines="1"
+        android:maxLength="50"
+        android:hint="nội dung công việc"
+        android:paddingLeft="10dp"
+        android:layout_toEndOf="@id/remove_list_item"
+        android:layout_toLeftOf="@id/edit_list_item"
+        style="@style/todo_title_picker"/>
+
+    <ImageView
+        android:id="@+id/edit_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_edit"
+        app:tint="@color/nav_primary"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        />
+
+</RelativeLayout>

@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<assignment> assignments = new ArrayList<>();
     ArrayList<list_check> list_checks = new ArrayList<>();
 
-
-
     //note
     fragment_note noteView = new fragment_note();
 
@@ -121,15 +119,16 @@ public class MainActivity extends AppCompatActivity {
         new_subject.set_calendar_fragment(calendarView);
         calendarView.set_new_tkbbk(logInFragment);
         //todo
-        todoView.set_meet_form(meeting_form);
-        meeting_form.setTodoView(todoView);
-        todoView.set_assignment_form(assignment_form);
-        assignment_form.setTodoView(todoView);
         init_data();
+        meeting_form.setTodoView(todoView);
+        assignment_form.setTodoView(todoView);
+        todoView.set_meet_form(meeting_form);
+        todoView.set_assignment_form(assignment_form);
+
         //data
-//        todoView.setList_checks(list_checks);
-//        todoView.setMeetings(meetings);
-//        todoView.setAssignments(assignments);
+        todoView.setList_checks(list_checks);
+        todoView.setMeetings(meetings);
+        todoView.setAssignments(assignments);
 
         //note
 
@@ -177,15 +176,15 @@ public class MainActivity extends AppCompatActivity {
         assignments.add(new assignment(
                 1,
                 "BTL 1",
-                "07:00 10/11/2019",
-                "07:00 10/11/2022",
+                "10/11/2019",
+                "10/11/2022",
                 false
         ));
         assignments.add(new assignment(
                 2,
                 "BTL 2",
-                "07:00 10/11/2021",
-                "07:00 10/11/2022",
+                "10/11/2021",
+                "10/11/2022",
                 false
         ));
     }

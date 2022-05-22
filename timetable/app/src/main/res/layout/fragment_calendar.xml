@@ -146,7 +146,7 @@
             android:text="@string/bk_timetable"
             android:textAllCaps="false"
             android:textSize="14sp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cornerRadius="@dimen/button_radius"/>
 
         <Button
@@ -161,7 +161,7 @@
             android:text="Thời khóa biểu"
             android:textAllCaps="false"
             android:textSize="14sp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:cornerRadius="@dimen/button_radius" />
 
     </RelativeLayout>

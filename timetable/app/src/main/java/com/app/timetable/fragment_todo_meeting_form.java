@@ -69,16 +69,16 @@ public class fragment_todo_meeting_form extends Fragment {
         if (bundle != null){
             String func = bundle.getString("func");
             if(func == "edit_meeting"){
-                String title = bundle.getString("title");
-                String location = bundle.getString("location");
-                String link = bundle.getString("link");
+                CharSequence title = bundle.getString("title").trim();
+                CharSequence location = bundle.getString("location").trim();
+                CharSequence link = bundle.getString("link").trim();
                 String time = bundle.getString("time");
                 String alert = bundle.getString("alert");
                 String id = bundle.getString("id");
                 done = bundle.getString("done");
-                Log.e("create_meeting", title.trim());
-                Log.e("create_meeting", location.trim());
-                Log.e("create_meeting", link.trim());
+                Log.e("create_meeting", String.valueOf(title));
+                Log.e("create_meeting", String.valueOf(location));
+                Log.e("create_meeting", String.valueOf(link));
                 Log.e("create_meeting", time.trim());
                 Log.e("create_meeting", alert.trim());
 
