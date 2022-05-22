@@ -16,6 +16,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.card.MaterialCardView;
+
 import java.util.List;
 
 public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHolder>{
@@ -38,7 +40,7 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
         private View itemview;
         public TextView subjectname,starthour,endhour, note;
-        public ConstraintLayout layout;
+        public MaterialCardView layout;
         private ItemClickListener itemClickListener;
         public ViewHolder(View itemView){
             super(itemView);
@@ -46,7 +48,7 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
             itemview = itemView;
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
-            layout = (ConstraintLayout) itemView.findViewById(R.id.subject_layout);
+            layout = itemView.findViewById(R.id.subject_layout);
             subjectname = itemView.findViewById(R.id.subject_name);
             starthour = itemView.findViewById(R.id.start_time);
             endhour = itemView.findViewById(R.id.end_time);

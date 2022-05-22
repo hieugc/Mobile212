@@ -46,4 +46,8 @@
     <string name="bk_calendar_heading">Thời khoá biểu Bách Khoa</string>
     <string name="skip">Bỏ qua</string>
     <string name="finish">Hoàn Tất</string>
+    <string name="note">Ghi chú</string>
+    <string name="add_note">Tạo ghi chú mới</string>
+    <string name="note_heading_hint">Tiêu đề</string>
+    <string name="content_hint">Nội dung</string>
 </resources>

@@ -79,8 +79,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendar_recyclerview"
             android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="2" />
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_gravity="center"/>
 
         <LinearLayout
             android:id="@+id/forward_calendar"
@@ -105,10 +106,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/date_pickerLayout"
+        android:layout_marginTop="20dp"
         android:background="@drawable/tkb_list_background"
         android:overScrollMode="always"
         android:paddingHorizontal="30dp"
-        android:paddingTop="25dp">
+        android:paddingTop="25dp"
+        android:paddingBottom="10dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tkb_list"

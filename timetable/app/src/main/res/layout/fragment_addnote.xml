@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,87 +7,64 @@
     tools:context=".AddnoteFragment"
     >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300px"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-205dp"
-        tools:layout_editor_absoluteY="-4dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="Tất cả ghi chú"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.186"
-        app:layout_constraintStart_toStartOf="@+id/toolbar2"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/add_note_heading"
+        android:padding="10dp"
+        android:background="@color/nav_primary">
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="46dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="60dp"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_black_arrot" />
+        <TextView
+            android:id="@+id/add_note_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@+id/back_btn_note"
+            android:text="@string/add_note"
+            android:textColor="@color/black"
+            android:textSize="@dimen/headings"
+            android:textStyle="bold"/>
 
-    <LinearLayout
-        android:layout_width="419dp"
+        <ImageButton
+            android:id="@+id/back_btn_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@color/nav_primary"
+            android:src="@drawable/ic_black_arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/done_txt"
+            android:text="XONG"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/note_heading_editText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.651"
-        android:layout_marginTop="200dp">
+        android:layout_below="@+id/add_note_heading"
+        android:hint="@string/note_heading_hint"
+        android:lines="3"
+        android:layout_marginStart="5dp"/>
 
-        <EditText
-            android:id="@+id/name_input"
-            android:layout_width="419dp"
-            android:layout_height="90dp"
-            android:layout_margin="5dp"
-            android:hint="Tiêu đề"
-            android:padding="10dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="112dp" />
-
-        <EditText
-            android:id="@+id/name_input1"
-            android:layout_width="408dp"
-            android:layout_height="450dp"
-            android:layout_margin="5dp"
-            android:gravity="top"
-            android:hint=" Nội dung"
-            android:lines="30"
-            android:padding="10dp"
-            tools:layout_editor_absoluteX="8p"
-            tools:layout_editor_absoluteY="112dp" />
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        style="?android:attr/borderlessButtonStyle"
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/note_content_editText"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="332dp"
-        android:layout_marginTop="60dp"
-        android:text="Xong"
-        android:textColor="@color/black"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_below="@+id/note_heading_editText"
+        android:gravity="top"
+        android:hint="@string/content_hint"
+        android:lines="30"
+        android:layout_marginStart="5dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

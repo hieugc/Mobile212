@@ -135,7 +135,6 @@ public class fragment_calendar extends Fragment {
                     View childView = recyclerView.getChildAt(i);
                     TextView childTextView = (TextView) (childView.findViewById(R.id.calendar_day));
                     String childTextViewText = (String) (childTextView.getText());
-
                     if (childTextViewText.equals("Sun"))
                         childTextView.setTextColor(Color.RED);
                     else

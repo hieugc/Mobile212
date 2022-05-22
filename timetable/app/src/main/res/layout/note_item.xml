@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:id="@+id/note_item">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/noteLayout">
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="38dp"
+            android:src="@mipmap/img_1"
+            android:id="@+id/note_img"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/note_img">
+
+            <TextView
+                android:id="@+id/note_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lời nhắc 1"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/note_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/note_txt"
+                android:text="abcdef"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/note_time_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:text="11/04/2021" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/noteLayout"
+        app:dividerColor="@color/divider"
+        android:layout_marginTop="10dp"/>
+
+</RelativeLayout>

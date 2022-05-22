@@ -12,4 +12,5 @@
     <dimen name="todo_form_button_w">120dp</dimen>
     <dimen name="todo_form_button_h">48dp</dimen>
     <dimen name="todo_form_number_picker_height">120dp</dimen>
+    <dimen name="headings">25sp</dimen>
 </resources>
