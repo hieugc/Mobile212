@@ -1,8 +1,13 @@
 package Model;
 
+import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -66,6 +71,25 @@ public class todo_check_list_form_dialog_RecViewAdapter extends RecyclerView.Ada
         public void setAll(list_check list) {
             this.list_checks = list;
             content_list_item.setText(list.getContent());
+
+            content_list_item.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    Log.e("check", "change");
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(editable.toString().trim().equals("")) return;
+                    list_checks.setContent(String.valueOf(editable));
+                    listener.addListCheck(list_checks);
+                }
+            });
         }
     }
 }

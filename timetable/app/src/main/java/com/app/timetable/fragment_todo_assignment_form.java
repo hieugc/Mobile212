@@ -52,7 +52,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain_todo_form, this).commit();
     }
     ConstraintLayout todo_assignment_form_dialog;
-    RelativeLayout todo_assignment_form_dialog_add_list;
+    RelativeLayout todo_assignment_form_dialog_add_list, todo_assignment_form;
     Button assignment_form_button_done;
     ImageView todo_assignment_form_close, todo_assignment_form_add_time, todo_assignment_form_add_list;
     EditText assignment_form_sub;
@@ -70,6 +70,8 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     ArrayList<assignment> assignments;
     ArrayList<list_check> list_checks;
 
+    View assignment_form;
+
     public void setList_checks(ArrayList<list_check> list_checks){
         this.list_checks = list_checks;
     }
@@ -85,7 +87,8 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View assignment_form = inflater.inflate(R.layout.fragment_todo_assignment_form, container, false);
+        assignment_form = inflater.inflate(R.layout.fragment_todo_assignment_form, container, false);
+        todo_assignment_form = assignment_form.findViewById(R.id.todo_assignment_form);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -138,6 +141,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             public void onClick(View view) {
                 if(todo_assignment_form_dialog.getVisibility() == View.GONE){
                     open_add_list_dialog();
+                    show_recycle_dialog();
                 }
             }
         });//done
@@ -164,6 +168,10 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 //add item
                 //close dialog
                 close_add_list_dialog();
+                if(!list_checks.isEmpty()){
+                    if (list_checks.get(list_checks.size() - 1).getContent().trim().equals("")) list_checks.remove(list_checks.size()-1);
+                }
+                show_recycle();
             }
         });
         //
@@ -171,7 +179,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         todo_contain_add_list_label_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                add_list_item_dialog();
             }
         });
 
@@ -179,23 +187,21 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         todo_contain_add_list_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                add_list_item_dialog();
             }
         });
 
 
         //show list
         list_item_form = assignment_form.findViewById(R.id.list_item_form);
-        if(list_checks != null){
-            todo_check_list_form_RecViewAdapter adapter = new todo_check_list_form_RecViewAdapter(getActivity(), list_checks, this);
-            list_item_form.setAdapter(adapter);
-            list_item_form.setLayoutManager(new LinearLayoutManager(list_item_form.getContext()));
+        if(!list_checks.isEmpty()){
+            show_recycle();
+            Log.e("check", "he");
         }
         list_item_dialog = assignment_form.findViewById(R.id.list_item_dialog);
-        if(list_checks != null){
-            todo_check_list_form_dialog_RecViewAdapter adapter = new todo_check_list_form_dialog_RecViewAdapter(getActivity(), list_checks, this);
-            list_item_dialog.setAdapter(adapter);
-            list_item_dialog.setLayoutManager(new LinearLayoutManager(list_item_dialog.getContext()));
+        if(!list_checks.isEmpty()){
+            show_recycle_dialog();
+            Log.e("check", "he");
         }
 
 
@@ -213,7 +219,16 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
         return assignment_form;
     }
-
+    private void show_recycle_dialog(){
+        todo_check_list_form_dialog_RecViewAdapter adapter = new todo_check_list_form_dialog_RecViewAdapter(getActivity(), list_checks, this);
+        list_item_dialog.setAdapter(adapter);
+        list_item_dialog.setLayoutManager(new LinearLayoutManager(list_item_dialog.getContext()));
+    }
+    private void show_recycle(){
+        todo_check_list_form_RecViewAdapter adapter = new todo_check_list_form_RecViewAdapter(getActivity(), list_checks, this);
+        list_item_form.setAdapter(adapter);
+        list_item_form.setLayoutManager(new LinearLayoutManager(list_item_form.getContext()));
+    }
     private void close(){
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
     }
@@ -319,6 +334,22 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         return day.trim();
     }
 
+    private void add_list_item_dialog(){
+        if(!(!list_checks.isEmpty() && list_checks.get((list_checks.size() - 1)).getContent().trim().equals("")) || list_checks.isEmpty()){
+            list_check node = new list_check(list_checks.size(), "", false, -1);
+            list_checks.add(node);
+        }
+        show_recycle_dialog();
+    }
+    private void remove_list_item_dialog(list_check listCheck){
+        if(!list_checks.isEmpty()){
+            for (int i = listCheck.getId() + 1; i < list_checks.size(); i++){
+                list_checks.get(i).setId(i - 1);
+            }
+            list_checks.remove(listCheck.getId());
+        }
+    }
+
     private String hash_month(String month){
         if (month.trim().toUpperCase().indexOf("JAN") != -1) return "01";
         if (month.trim().toUpperCase().indexOf("FEB") != -1) return "02";
@@ -348,12 +379,13 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         todo_assignment_form_time_left.setVisibility(View.VISIBLE);
     }
     private void close_add_list_dialog(){
+        closeKeyBoard();
         todo_assignment_form_dialog.setVisibility(View.GONE);
         todo_assignment_form_dialog_add_list.setVisibility(View.GONE);
-        closeKeyBoard();
+        todo_assignment_form.setVisibility(View.VISIBLE);
     }
     private void closeKeyBoard(){
-        View view = list_item_dialog.getFocusedChild();
+        View view = assignment_form.findFocus();
         Log.e("check", String.valueOf(view));
         if(view != null){
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -363,6 +395,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     private void open_add_list_dialog(){
         todo_assignment_form_dialog.setVisibility(View.VISIBLE);
         todo_assignment_form_dialog_add_list.setVisibility(View.VISIBLE);
+        todo_assignment_form.setVisibility(View.GONE);
     }
 
     @Override
@@ -373,5 +406,20 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     @Override
     public void onEditClick(meeting meets) {
 
+    }
+
+    @Override
+    public void addListCheck(list_check listCheck) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(!imm.isAcceptingText()){
+            list_checks.get(listCheck.getId()).setContent(listCheck.getContent());
+            show_e();
+            add_list_item_dialog();
+        }
+
+        Log.e("check", String.valueOf(imm.isAcceptingText()));
+    }
+    private void show_e(){
+        for (list_check l: list_checks) Log.e("check", l.getId() + " " + l.getContent());
     }
 }
