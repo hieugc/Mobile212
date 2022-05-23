@@ -183,12 +183,11 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/todo_assignment_form_line_3"
             android:layout_above="@id/assignment_form_button_done"
-            android:overScrollMode="ifContentScrolls"
+            android:layout_below="@id/todo_assignment_form_line_3"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            >
+            android:overScrollMode="ifContentScrolls">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_item_form"
@@ -226,8 +225,8 @@
             android:background="@color/white"
 
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
             <RelativeLayout
                 android:id="@+id/todo_assignment_form_add_list_head"
@@ -293,7 +292,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/todo_contain_add_list"
-                android:layout_below="@id/todo_assignment_form_add_list_head">
+                android:layout_below="@id/todo_assignment_form_add_list_head"
+                android:isScrollContainer="true"
+                >
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/list_item_dialog"

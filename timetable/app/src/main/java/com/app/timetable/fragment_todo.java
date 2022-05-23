@@ -32,7 +32,7 @@ import Model.todo_item_RecViewAdapter;
 public class fragment_todo extends Fragment implements ItemClickListener{
     public fragment_todo(){
     }
-    fragment_todo_meeting_form todo_meeting_form;
+    fragment_todo_meeting_form todo_meeting_form = new fragment_todo_meeting_form();
     fragment_todo_assignment_form todo_assignment_form;
     ImageView default_todo_layout;
     RecyclerView todo_meeting;
@@ -246,12 +246,20 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         bundle.putString("alert", meets.getAlert());
         bundle.putString("done", String.valueOf(meets.getDone()));
 
+        todo_meeting_form.subtitle.setText(meets.getTitle());
+        todo_meeting_form.location.setText(meets.getLocation());
+        todo_meeting_form.link.setText(meets.getLink());
         todo_meeting_form.setArguments(bundle);
         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todo_meeting_form).commit();
     }
 
     @Override
     public void addListCheck(list_check listCheck) {
+
+    }
+
+    @Override
+    public void addListCheckItem() {
 
     }
 

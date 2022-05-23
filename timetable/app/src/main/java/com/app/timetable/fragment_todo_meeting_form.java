@@ -1,35 +1,28 @@
 package com.app.timetable;
 
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-
-import Model.meeting;
 
 public class fragment_todo_meeting_form extends Fragment {
 
@@ -56,6 +49,9 @@ public class fragment_todo_meeting_form extends Fragment {
         fragment_todo = fragment;
     }
 
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -72,6 +68,7 @@ public class fragment_todo_meeting_form extends Fragment {
                 CharSequence title = bundle.getString("title").trim();
                 CharSequence location = bundle.getString("location").trim();
                 CharSequence link = bundle.getString("link").trim();
+
                 String time = bundle.getString("time");
                 String alert = bundle.getString("alert");
                 String id = bundle.getString("id");
@@ -80,11 +77,16 @@ public class fragment_todo_meeting_form extends Fragment {
                 Log.e("create_meeting", String.valueOf(location));
                 Log.e("create_meeting", String.valueOf(link));
                 Log.e("create_meeting", time.trim());
-                Log.e("create_meeting", alert.trim());
-
-                this.subtitle.setText(title);
+                Log.e("create_meeting", alert.trim() + this.subtitle.isTextInputLayoutFocusedRectEnabled());
+                this.subtitle.getText().clear();
+                this.subtitle.getText().append(title);
                 this.location.setText(location);
-                this.link.setText(link);
+                this.link.setText(String.valueOf(link));
+
+                Log.e("create_meeting_link", this.subtitle.getText().toString());
+                Log.e("create_meeting_link", this.location.getText().toString());
+                Log.e("create_meeting_link", this.link.getText().toString());
+
 
                 this.todo_meet_form_add_time_show.setText(alert.trim());
                 this.meet_form_hour_picker.setValue(Integer.parseInt(alert.split(":")[0]));
@@ -121,27 +123,34 @@ public class fragment_todo_meeting_form extends Fragment {
         }
         else{
             meet_form_button_remove.setVisibility(View.GONE);
-            Calendar now = Calendar.getInstance();
-            todo_meet_form_day.setValue(now.get(Calendar.DAY_OF_MONTH));
-            todo_meet_form_month.setValue(now.get(Calendar.MONTH) + 1);
-            todo_meet_form_year.setValue(now.get(Calendar.YEAR));
-            todo_meet_form_hour.setValue(now.get(Calendar.HOUR_OF_DAY));
-            todo_meet_form_minus.setValue(now.get(Calendar.MINUTE));
+            LocalDateTime now = LocalDateTime.now();
+            todo_meet_form_day.setValue(now.getDayOfMonth());
+            todo_meet_form_month.setValue(now.getMonthValue());
+            todo_meet_form_year.setValue(now.getYear());
+            todo_meet_form_hour.setValue(now.getHour());
+            todo_meet_form_minus.setValue(now.getMinute());
 
-            this.subtitle.setText("");
-            this.location.setText("");
-            this.link.setText("");
+            Log.e("create_meeting_sub", this.subtitle.getText().toString());
+            Log.e("create_meeting_local", this.location.getText().toString());
+            Log.e("create_meeting_link", this.link.getText().toString());
+
+            if(true) {
+                this.subtitle.getText().clear();Log.e("check", "bundle null1");
+                this.location.setText("");Log.e("check", "bundle null2");
+                this.link.setText("");Log.e("check", "bundle null3");
+            }
+
             Log.e("check", "bundle null");
             this.todo_meet_form_add_time_show.setText("00:05");
             this.todo_meet_form_minus.setValue(0);
             this.todo_meet_form_hour.setValue(5);
+
             meet_form_button_done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     send("create_meeting", "", "");
                 }
             });
-
         }
 
 
@@ -152,34 +161,33 @@ public class fragment_todo_meeting_form extends Fragment {
                 close_form();
             }
         });
-
-
-        subtitle.addTextChangedListener(new TextWatcher() {
+        subtitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    if(subtitle.getError() != null)
+                    {
+                        subtitle.setError(null);
+                    }
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(subtitle.getError() != null)
-                {
-                    subtitle.setError(null);
+                    Log.e("create_meeting_sub", subtitle.getText().toString());
+                    Log.e("create_meeting_local", location.getText().toString());
+                    Log.e("create_meeting_link", link.getText().toString());
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(editable.toString().trim().equals(""))
-                {
-                    subtitle.setError("Phải nhập nội dụng cuộc họp");
+                else{
+                    if(subtitle.getText().toString().trim().equals(""))
+                    {
+                        subtitle.setError("Phải nhập nội dụng cuộc họp");
+                    }
                 }
             }
         });
         location.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                if(location.isFocused() == false && location.getError() != null){
+                    location.setError(null);
+                }
             }
 
             @Override
@@ -201,7 +209,6 @@ public class fragment_todo_meeting_form extends Fragment {
         link.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -220,6 +227,10 @@ public class fragment_todo_meeting_form extends Fragment {
                 }
             }
         });
+
+        Log.e("create_meeting_sub", this.subtitle.getText().toString());
+        Log.e("create_meeting_local", this.location.getText().toString());
+        Log.e("create_meeting_link", this.link.getText().toString());
 
         //refresh time
         todo_meet_form_refresh_time.setOnClickListener(new View.OnClickListener() {

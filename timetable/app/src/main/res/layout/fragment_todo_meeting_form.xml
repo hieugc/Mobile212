@@ -225,9 +225,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
-                android:text=" "
                 android:maxLines="1"
-                android:inputType="textAutoComplete"
+                android:text="@string/todo_clear"
+                android:inputType="text"
                 app:boxBackgroundColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 

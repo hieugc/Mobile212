@@ -8,4 +8,5 @@ public interface ItemClickListener {
     void onCheckClick(int pos, meeting meets);
     void onEditClick(meeting meets);
     void addListCheck(list_check listCheck);
+    void addListCheckItem();
 }

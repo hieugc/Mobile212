@@ -341,12 +341,22 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         }
         show_recycle_dialog();
     }
-    private void remove_list_item_dialog(list_check listCheck){
+    private void remove_list_item_dialog_id(list_check listCheck){
         if(!list_checks.isEmpty()){
             for (int i = listCheck.getId() + 1; i < list_checks.size(); i++){
                 list_checks.get(i).setId(i - 1);
             }
             list_checks.remove(listCheck.getId());
+        }
+    }
+    private void remove_list_item_dialog_null(){
+        if(!list_checks.isEmpty()){
+            for (int i = 0; i < list_checks.size(); i++){
+                if(list_checks.get(i).getContent().trim().equals("")){
+                    remove_list_item_dialog_id(list_checks.get(i));
+                    i -= 1;
+                }
+            }
         }
     }
 
@@ -410,15 +420,16 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
     @Override
     public void addListCheck(list_check listCheck) {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(!imm.isAcceptingText()){
-            list_checks.get(listCheck.getId()).setContent(listCheck.getContent());
-            show_e();
-            add_list_item_dialog();
-        }
-
-        Log.e("check", String.valueOf(imm.isAcceptingText()));
+        list_checks.get(listCheck.getId()).setContent(listCheck.getContent());
     }
+
+    @Override
+    public void addListCheckItem() {
+        remove_list_item_dialog_null();
+        show_e();
+        add_list_item_dialog();
+    }
+
     private void show_e(){
         for (list_check l: list_checks) Log.e("check", l.getId() + " " + l.getContent());
     }
