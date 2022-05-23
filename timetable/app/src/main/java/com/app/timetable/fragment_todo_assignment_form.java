@@ -69,8 +69,14 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     //data
     ArrayList<assignment> assignments;
     ArrayList<list_check> list_checks;
+    ArrayList<list_check> list_checks_dialog;
+
 
     View assignment_form;
+
+    public void setList_checks_dialog(ArrayList<list_check> list_checks_dialog) {
+        this.list_checks_dialog = list_checks_dialog;
+    }
 
     public void setList_checks(ArrayList<list_check> list_checks){
         this.list_checks = list_checks;
@@ -141,6 +147,10 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             public void onClick(View view) {
                 if(todo_assignment_form_dialog.getVisibility() == View.GONE){
                     open_add_list_dialog();
+                    list_checks_dialog.clear();
+                    for (list_check l: list_checks){
+                        list_checks_dialog.add(l);
+                    }
                     show_recycle_dialog();
                 }
             }
@@ -168,8 +178,12 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 //add item
                 //close dialog
                 close_add_list_dialog();
-                if(!list_checks.isEmpty()){
-                    if (list_checks.get(list_checks.size() - 1).getContent().trim().equals("")) list_checks.remove(list_checks.size()-1);
+                if(!list_checks_dialog.isEmpty()){
+                    if (list_checks_dialog.get(list_checks_dialog.size() - 1).getContent().trim().equals("")) list_checks_dialog.remove(list_checks_dialog.size()-1);
+                }
+                list_checks.clear();
+                for (list_check l: list_checks_dialog){
+                    list_checks.add(l);
                 }
                 show_recycle();
             }
@@ -220,7 +234,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         return assignment_form;
     }
     private void show_recycle_dialog(){
-        todo_check_list_form_dialog_RecViewAdapter adapter = new todo_check_list_form_dialog_RecViewAdapter(getActivity(), list_checks, this);
+        todo_check_list_form_dialog_RecViewAdapter adapter = new todo_check_list_form_dialog_RecViewAdapter(getActivity(), list_checks_dialog, this);
         list_item_dialog.setAdapter(adapter);
         list_item_dialog.setLayoutManager(new LinearLayoutManager(list_item_dialog.getContext()));
     }
@@ -335,13 +349,13 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     }
 
     private void add_list_item_dialog(){
-        if(!(!list_checks.isEmpty() && list_checks.get((list_checks.size() - 1)).getContent().trim().equals("")) || list_checks.isEmpty()){
-            list_check node = new list_check(list_checks.size(), "", false, -1);
-            list_checks.add(node);
+        if(!(!list_checks_dialog.isEmpty() && list_checks_dialog.get((list_checks_dialog.size() - 1)).getContent().trim().equals("")) || list_checks_dialog.isEmpty()){
+            list_check node = new list_check(list_checks_dialog.size(), "", false, -1);
+            list_checks_dialog.add(node);
         }
         show_recycle_dialog();
     }
-    private void remove_list_item_dialog_id(list_check listCheck){
+    private void remove_list_item_dialog_id(list_check listCheck, ArrayList<list_check> list_checks){
         if(!list_checks.isEmpty()){
             for (int i = listCheck.getId() + 1; i < list_checks.size(); i++){
                 list_checks.get(i).setId(i - 1);
@@ -349,11 +363,11 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             list_checks.remove(listCheck.getId());
         }
     }
-    private void remove_list_item_dialog_null(){
+    private void remove_list_item_dialog_null(ArrayList<list_check> list_checks){
         if(!list_checks.isEmpty()){
             for (int i = 0; i < list_checks.size(); i++){
                 if(list_checks.get(i).getContent().trim().equals("")){
-                    remove_list_item_dialog_id(list_checks.get(i));
+                    remove_list_item_dialog_id(list_checks.get(i), list_checks);
                     i -= 1;
                 }
             }
@@ -420,17 +434,42 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
     @Override
     public void addListCheck(list_check listCheck) {
-        list_checks.get(listCheck.getId()).setContent(listCheck.getContent());
+        list_checks_dialog.get(listCheck.getId()).setContent(listCheck.getContent());
     }
 
     @Override
     public void addListCheckItem() {
-        remove_list_item_dialog_null();
+        remove_list_item_dialog_null(list_checks_dialog);
         show_e();
         add_list_item_dialog();
     }
 
+    @Override
+    public void removeListCheckItem(list_check listCheck) {
+        remove_list_item_dialog_id(listCheck, list_checks_dialog);
+        show_recycle_dialog();
+    }
+
+    @Override
+    public void removeListCheck(list_check listCheck) {
+        remove_list_item_dialog_id(listCheck, list_checks);
+        show_recycle();
+    }
+
+    @Override
+    public void openAddListCheck() {
+        if(todo_assignment_form_dialog.getVisibility() == View.GONE){
+            open_add_list_dialog();
+            list_checks_dialog.clear();
+            for (list_check l: list_checks){
+                list_checks_dialog.add(l);
+            }
+            show_recycle_dialog();
+        }
+    }
+
     private void show_e(){
+        for (list_check l: list_checks_dialog) Log.e("check", l.getId() + " " + l.getContent());
         for (list_check l: list_checks) Log.e("check", l.getId() + " " + l.getContent());
     }
 }

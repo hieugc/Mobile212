@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         todoView.set_assignment_form(assignment_form);
 
         //data
-        todoView.setList_checks(list_checks);
         todoView.setMeetings(meetings);
         todoView.setAssignments(assignments);
 
@@ -186,6 +185,18 @@ public class MainActivity extends AppCompatActivity {
                 "10/11/2022",
                 false
         ));
+        for (assignment a: assignments){
+            a.setList_checks(classify_list_check(a.getId()));
+        }
+    }
+    private ArrayList<list_check> classify_list_check(int id){
+        ArrayList<list_check> list_checks = new ArrayList<>();
+        for (list_check check: this.list_checks){
+            if (check.getAssign() == id){
+                list_checks.add(check);
+            }
+        }
+        return list_checks;
     }
 
 }

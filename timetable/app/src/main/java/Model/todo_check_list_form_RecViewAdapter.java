@@ -63,11 +63,23 @@ public class todo_check_list_form_RecViewAdapter extends RecyclerView.Adapter<to
             remove_list_item = itemView.findViewById(R.id.remove_list_item);
             edit_list_item = itemView.findViewById(R.id.edit_list_item);
             content_list_item = itemView.findViewById(R.id.content_list_item);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.openAddListCheck();
+                }
+            });
         }
 
         public void setAll(list_check list) {
             this.list_checks = list;
             content_list_item.setText(list.getContent());
+            remove_list_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.removeListCheck(list_checks);
+                }
+            });
         }
     }
 }

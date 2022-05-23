@@ -120,6 +120,13 @@ public class todo_check_list_form_dialog_RecViewAdapter extends RecyclerView.Ada
                     return false;
                 }
             });
+
+            remove_list_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.removeListCheckItem(list_checks);
+                }
+            });
         }
     }
 }

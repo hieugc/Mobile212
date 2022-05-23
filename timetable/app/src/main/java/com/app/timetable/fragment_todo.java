@@ -45,11 +45,6 @@ public class fragment_todo extends Fragment implements ItemClickListener{
     //data
     ArrayList<meeting> meetings;
     ArrayList<assignment> assignments;
-    ArrayList<list_check> list_checks;
-
-    public void setList_checks(ArrayList<list_check> list_checks) {
-        this.list_checks = list_checks;
-    }
 
     public void setAssignments(ArrayList<assignment> assignments) {
         this.assignments = assignments;
@@ -174,6 +169,7 @@ public class fragment_todo extends Fragment implements ItemClickListener{
             public void onClick(View view) {
                 todo_assignment_form.setAssignments(new ArrayList<>());
                 todo_assignment_form.setList_checks(new ArrayList<>());
+                todo_assignment_form.setList_checks_dialog(new ArrayList<>());
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todo_assignment_form).commit();
             }
         });
@@ -263,9 +259,23 @@ public class fragment_todo extends Fragment implements ItemClickListener{
 
     }
 
+    @Override
+    public void removeListCheckItem(list_check listCheck) {
+
+    }
+
+    @Override
+    public void removeListCheck(list_check listCheck) {
+
+    }
+
+    @Override
+    public void openAddListCheck() {
+
+    }
+
     private void item_show(){
         todo_item_RecViewAdapter adapter = new todo_item_RecViewAdapter(getActivity(), this, createTodo(), this);
-        Log.e(TAG, String.valueOf(list_checks));
         todo_meeting.setAdapter(adapter);
         todo_meeting.setLayoutManager(new LinearLayoutManager(todo_meeting.getContext()));
     }
@@ -283,13 +293,13 @@ public class fragment_todo extends Fragment implements ItemClickListener{
                 idx1 += 1;
             }
             else if(check == 2){
-                todo_items.add(new todo_item(this.assignments.get(idx2), classify_list_check(this.assignments.get(idx2).getId()), null));
+                todo_items.add(new todo_item(this.assignments.get(idx2), this.assignments.get(idx2).getList_checks(), null));
                 idx2 += 1;
             }
             else {
                 todo_items.add(new todo_item(null, null, this.meetings.get(idx1)));
                 idx1 += 1;
-                todo_items.add(new todo_item(this.assignments.get(idx2), classify_list_check(this.assignments.get(idx2).getId()), null));
+                todo_items.add(new todo_item(this.assignments.get(idx2), this.assignments.get(idx2).getList_checks(), null));
                 idx2 += 1;
             }
         }
@@ -302,22 +312,13 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         }
         else if(idx2 < this.assignments.size()){
             while (idx2 < this.assignments.size()){
-                todo_items.add(new todo_item(this.assignments.get(idx2), classify_list_check(this.assignments.get(idx2).getId()), null));
+                todo_items.add(new todo_item(this.assignments.get(idx2), this.assignments.get(idx2).getList_checks(), null));
                 idx2 += 1;
             }
         }
         return todo_items;
     }
 
-    private ArrayList<list_check> classify_list_check(int id){
-        ArrayList<list_check> list_checks = new ArrayList<>();
-        for (list_check check: this.list_checks){
-            if (check.getAssign() == id){
-                list_checks.add(check);
-            }
-        }
-        return list_checks;
-    }
 
     private int check(String date1, String date2){
         //year

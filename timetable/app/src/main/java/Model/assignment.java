@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 import java.text.Format;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class assignment {
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -29,6 +30,15 @@ public class assignment {
             else
                 this.time = String.valueOf(nday_1 - nday_2) + " ngày";
         }
+    }
+    private ArrayList<list_check> list_checks;
+
+    public ArrayList<list_check> getList_checks() {
+        return list_checks;
+    }
+
+    public void setList_checks(ArrayList<list_check> list_checks) {
+        this.list_checks = list_checks;
     }
 
     private int numOfday(String date){

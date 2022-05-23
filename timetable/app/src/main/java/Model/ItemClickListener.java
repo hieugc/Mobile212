@@ -9,4 +9,7 @@ public interface ItemClickListener {
     void onEditClick(meeting meets);
     void addListCheck(list_check listCheck);
     void addListCheckItem();
+    void removeListCheckItem(list_check listCheck);
+    void removeListCheck(list_check listCheck);
+    void openAddListCheck();
 }

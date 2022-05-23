@@ -50,6 +50,76 @@ public class fragment_todo_meeting_form extends Fragment {
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        subtitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    if(subtitle.getError() != null)
+                    {
+                        subtitle.setError(null);
+                    }
+
+                    Log.e("create_meeting_sub", subtitle.getText().toString());
+                    Log.e("create_meeting_local", location.getText().toString());
+                    Log.e("create_meeting_link", link.getText().toString());
+                }
+                else{
+                    if(subtitle.getText().toString().trim().equals(""))
+                    {
+                        subtitle.setError("Phải nhập nội dụng cuộc họp");
+                    }
+                }
+            }
+        });
+        location.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(location.isFocused() == false && location.getError() != null){
+                    location.setError(null);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(location.getError() != null)
+                {
+                    location.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().trim().equals("") && link.getText().toString().trim().equals(""))
+                {
+                    location.setError("Hãy nhập địa điểm/link cuộc họp");
+                }
+            }
+        });
+        link.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(link.getError() != null)
+                {
+                    link.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().trim().equals("") && location.getText().toString().trim().equals(""))
+                {
+                    link.setError("Hãy nhập địa điểm/link cuộc họp");
+                }
+            }
+        });
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -159,72 +229,6 @@ public class fragment_todo_meeting_form extends Fragment {
             @Override
             public void onClick(View view) {
                 close_form();
-            }
-        });
-        subtitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b){
-                    if(subtitle.getError() != null)
-                    {
-                        subtitle.setError(null);
-                    }
-
-                    Log.e("create_meeting_sub", subtitle.getText().toString());
-                    Log.e("create_meeting_local", location.getText().toString());
-                    Log.e("create_meeting_link", link.getText().toString());
-                }
-                else{
-                    if(subtitle.getText().toString().trim().equals(""))
-                    {
-                        subtitle.setError("Phải nhập nội dụng cuộc họp");
-                    }
-                }
-            }
-        });
-        location.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(location.isFocused() == false && location.getError() != null){
-                    location.setError(null);
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(location.getError() != null)
-                {
-                    location.setError(null);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(editable.toString().trim().equals("") && link.getText().toString().trim().equals(""))
-                {
-                    location.setError("Hãy nhập địa điểm/link cuộc họp");
-                }
-            }
-        });
-        link.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(link.getError() != null)
-                {
-                    link.setError(null);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(editable.toString().trim().equals("") && location.getText().toString().trim().equals(""))
-                {
-                    link.setError("Hãy nhập địa điểm/link cuộc họp");
-                }
             }
         });
 
