@@ -38,6 +38,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String STRING_SEMESTER = "\"212\"";
     public static final String SEMESTER = "212";
     private static final String COLUMN_LINK_ASSIGN = "LINK_" + TABLE_ASSIGN;
+    public static final String COLUMN_CREATED_AT = "CREATED_AT";
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "Mobile.db", null, 1);
@@ -149,8 +150,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String sql = "INSERT INTO "+TABLE_NOTE+" " +
-                "("+COLUMN_TITLE+","+COLUMN_CONTENT+") " +
-                "VALUES(\""+note.getTitle()+"\",\""+note.getContent()+"\")";
+                "("+COLUMN_TITLE+","+COLUMN_CONTENT+ ", "+COLUMN_CREATED_AT+")" +
+                "VALUES(\""+note.getTitle()+"\",\""+note.getContent()+"\"," +
+                "datetime(\"now\",\"localtime\"))";
 
         db.execSQL(sql);
         return true;
@@ -170,8 +172,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
                 String content = cursor.getString(2);
+                String date = cursor.getString(3);
 
-                Note note = new Note(0, title, content);
+                Note note = new Note(0, title, content, date);
                 arrayList.add(note);
             }while(cursor.moveToNext());
         }

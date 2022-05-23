@@ -49,7 +49,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/select_all"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         >
 
         <CheckBox

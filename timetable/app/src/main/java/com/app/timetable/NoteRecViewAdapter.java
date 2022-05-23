@@ -11,7 +11,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.ViewHolder>{
 
@@ -25,6 +28,14 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.heading_txt.setText(noteArrayList.get(position).getTitle());
         holder.content_txt.setText(noteArrayList.get(position).getContent());
+        String created_at = noteArrayList.get(position).getDate();
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(created_at);
+            created_at = new SimpleDateFormat("dd/MM/yyyy").format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.time_txt.setText(created_at);
         holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
