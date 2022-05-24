@@ -1,12 +1,10 @@
 package com.app.timetable;
 
 import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,22 +22,18 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.recyclerview.widget.SnapHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class fragment_calendar extends Fragment {
     public fragment_calendar(){}
@@ -48,12 +42,15 @@ public class fragment_calendar extends Fragment {
 
     private RecyclerView subjectRecyclerView, calendarRecyclerView;
     private SubjectAdapter adapter;
-    private ArrayList<Subject> subjects;
+    private ArrayList<Subject> subjectList;
     private FloatingActionButton floatingActionButton;
     private Button calendar_tkbbk_button, calendar_tkb_button;
     private RelativeLayout calendar_float_button_background;
     private fragment_new_subject tkb_new_subject;
+    private fragment_calendar_info_subject info_subject;
     private LinearLayout backward_calendar,forward_calendar;
+
+    private LinearLayout add_subject_success;
 
     private NumberPicker hour_noti, minutes_noti;
     private List<MyCalendar> calendarList= new ArrayList<>();
@@ -61,7 +58,9 @@ public class fragment_calendar extends Fragment {
     private int currentposition;
     private LogInFragment logInFragment;
 
-
+    public void set_info_subject(fragment_calendar_info_subject info_subject){
+        this.info_subject = info_subject;
+    }
     public void set_new_tkb(fragment_new_subject form) {
         tkb_new_subject = form;
     }
@@ -69,11 +68,23 @@ public class fragment_calendar extends Fragment {
         this.logInFragment = logInFragment;
     }
 
+    private ISendDataListener mISendDataListener;
+    public interface ISendDataListener {
+        void sendData(Subject subject);
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        mISendDataListener = (ISendDataListener) getActivity();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View calendarView = inflater.inflate(R.layout.fragment_calendar, container, false);
         subjectRecyclerView = (RecyclerView) calendarView.findViewById(R.id.tkb_list);
+
+        add_subject_success = calendarView.findViewById(R.id.add_subject_successfully);
 
         floatingActionButton = calendarView.findViewById(R.id.calendar_float_button);
         calendar_tkb_button = calendarView.findViewById(R.id.calendar_tkb_button);
@@ -231,21 +242,38 @@ public class fragment_calendar extends Fragment {
 
 
         // recyclerView for subject item
-        subjects = new ArrayList<Subject>();
-//        subjects.add(new Subject("Giải tích 2","7:00","9:50",""));
-//        subjects.add(new Subject("Đại số tuyến tính","7:00","9:50",""));
+        boolean tmpStudyDay[] = {false,false,false,false,false,false,false};
+        subjectList = new ArrayList<Subject>();
+
+//        subjectList.add(new Subject("Giải tích 2","7:00","9:50",""));
+//        subjectList.add(new Subject("Đại số tuyến tính","7:00","9:50",""));
+        subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022","20/06/2022","9:00","10:50",tmpStudyDay,"","",""));
 //        subjects.add(new Subject("Giáo dục thể chất","10:00","11:50","Note.."));
 //        subjects.add(new Subject("Hệ thống số","7:00","9:50",""));
 //        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
 //        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
 //        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
 
-        adapter = new SubjectAdapter(subjects,calendarView.getContext());
+        adapter = new SubjectAdapter(subjectList,calendarView.getContext());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(calendarView.getContext());
 
         subjectRecyclerView.setAdapter(adapter);
         subjectRecyclerView.setLayoutManager(linearLayoutManager);
+        subjectRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(calendarView.getContext(), subjectRecyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Subject subject = subjectList.get(position);
+                sendDataToSubjectInfo(subject);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,info_subject).commit();
+            }
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+
+
+        }));
         return calendarView;
     }
 
@@ -328,6 +356,20 @@ public class fragment_calendar extends Fragment {
 
         calendar_tkb_button.setVisibility(VISIBLE);
         calendar_tkbbk_button.setVisibility(VISIBLE);
+    }
+
+    private void sendDataToSubjectInfo(Subject subject){
+        mISendDataListener.sendData(subject);
+    }
+
+    public void getSubjectToList(Subject subject){
+        Log.d("test functionality",adapter.getItemCount()+"");
+        subjectList.add(subject);
+        adapter.setSubjectList(subjectList);
+        Log.d("test func",subjectList.toString());
+        Log.d("test func2",adapter.getSubjectList().toString());
+        Log.d("test functionality",adapter.getItemCount()+"");
+//        add_subject_success.setVisibility(VISIBLE);
     }
 
 }

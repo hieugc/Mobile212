@@ -1,6 +1,7 @@
 package com.app.timetable;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -46,6 +47,19 @@ public class fragment_new_subject extends Fragment {
     private EditText edttext_subject_name,edttext_group_subject,edttext_subject_room;
 
     private fragment_calendar fragmentCalendar;
+
+    private AddSubject AddSubjectListener;
+
+    public interface AddSubject {
+        void AddSubject(Subject subject);
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        AddSubjectListener = (AddSubject) getActivity();
+    }
 
     public void set_calendar_fragment(fragment_calendar fragment){
         fragmentCalendar = fragment;
@@ -109,6 +123,14 @@ public class fragment_new_subject extends Fragment {
                 className = edttext_subject_name.getText().toString();
                 classGroup = edttext_group_subject.getText().toString();
                 classRoom = edttext_subject_room.getText().toString();
+
+                Subject subject = new Subject(className,classRoom,classGroup,"",startDate,endDate,startHour,endHour,studyDay,lecturerName,lecturerNumber,lecturerMail);
+                addSubjectData(subject);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentCalendar).commit();
+//                private String className,classRoom,classGroup, note;
+//                private String startDate = "",endDate = "",startHour = "",endHour = "";
+//                private boolean[] studyDay = {false,false,false,false,false,false,false};
+//                private String lecturerName = "", lecturerMail = "", lecturerNumber = "";
                 if (TextUtils.isEmpty(className)) {
                     edttext_subject_name.setError("This can't be empty!!");
                 }
@@ -452,5 +474,9 @@ public class fragment_new_subject extends Fragment {
                 dateSetListener, lastSelectedYear, lastSelectedMonth, lastSelectedDayOfMonth);
         // Show
         datePickerDialog.show();
+    }
+
+    private void addSubjectData(Subject subject){
+        AddSubjectListener.AddSubject(subject);
     }
 }

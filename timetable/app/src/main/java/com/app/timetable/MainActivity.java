@@ -25,13 +25,14 @@ import Model.assignment;
 import Model.list_check;
 import Model.meeting;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements fragment_calendar.ISendDataListener, fragment_new_subject.AddSubject {
     private SharedPreferences sharedPreferences;
 
     BottomNavigationView bottomNavigationView;
     //calendar
     fragment_calendar calendarView = new fragment_calendar();
     fragment_new_subject new_subject = new fragment_new_subject();
+    fragment_calendar_info_subject subject_info = new fragment_calendar_info_subject();
     LogInFragment logInFragment = new LogInFragment();
     //todo
     fragment_todo todoView = new fragment_todo();
@@ -117,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
         calendarView.set_new_tkb(new_subject);
         new_subject.set_calendar_fragment(calendarView);
         calendarView.set_new_tkbbk(logInFragment);
+        calendarView.set_info_subject(subject_info);
+        subject_info.set_calendar(calendarView);
+
         //todo
         init_data();
         meeting_form.setTodoView(todoView);
@@ -188,4 +192,14 @@ public class MainActivity extends AppCompatActivity {
         ));
     }
 
+    @Override
+    public void sendData(Subject subject) {
+//        fragment_calendar_info_subject fragment_info = (fragment_calendar_info_subject) getSupportFragmentManager().findFragmentById(R.id.subject_info_layout);
+        subject_info.receiveDataFromCalendarFragment(subject);
+    }
+
+    @Override
+    public void AddSubject(Subject subject) {
+        calendarView.getSubjectToList(subject);
+    }
 }

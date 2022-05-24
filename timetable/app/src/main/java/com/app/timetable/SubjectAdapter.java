@@ -18,20 +18,31 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHolder>{
-    private List subjectList;
+    private ArrayList<Subject> subjectList;
     private Context context;
     private int colors[] = {R.color.first_item,R.color.sec_item,R.color.third_item,R.color.fourth_item,R.color.fifth_item,R.color.sixth_item};
     private String colors2[] = {"#FFD5677B","#FA8231","#3867D6","#20BF6B","#0FB9B1","#802D98DA"};
     private fragment_calendar_info_subject info_subject;
 
     private ISendDataListener mISendDataListener;
+
+    public void setSubjectList(ArrayList<Subject> subjectList) {
+        this.subjectList = subjectList;
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<Subject> getSubjectList() {
+        return subjectList;
+    }
+
     public interface ISendDataListener{
         void sendData(Subject subject);
     }
-    public SubjectAdapter(List subjectList, Context context){
+    public SubjectAdapter(ArrayList<Subject> subjectList, Context context){
         this.subjectList = subjectList;
         this.context = context;
     }
