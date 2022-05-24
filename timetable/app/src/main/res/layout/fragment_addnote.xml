@@ -52,19 +52,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/add_note_heading"
         android:hint="@string/note_heading_hint"
-        android:lines="3"
-        android:layout_marginStart="5dp"/>
+        android:lines="3" />
 
     <EditText
         android:id="@+id/note_content_editText"
-        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/note_heading_editText"
+        android:background="@android:color/transparent"
         android:gravity="top"
         android:hint="@string/content_hint"
-        android:lines="30"
-        android:layout_marginStart="5dp"/>
+        android:lines="30" />
 
 
 </RelativeLayout>
