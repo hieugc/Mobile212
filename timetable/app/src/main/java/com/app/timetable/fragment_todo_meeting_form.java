@@ -63,9 +63,6 @@ public class fragment_todo_meeting_form extends Fragment {
         View meeting_form = inflater.inflate(R.layout.fragment_todo_meeting_form, container, false);
         init(meeting_form);
 
-
-
-
         //close form
         meet_form_close.setOnClickListener(new View.OnClickListener() {
             @Override

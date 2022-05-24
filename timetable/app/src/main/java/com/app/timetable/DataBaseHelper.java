@@ -174,7 +174,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String content = cursor.getString(2);
                 String date = cursor.getString(3);
 
-                Note note = new Note(0, title, content, date);
+                Note note = new Note(id, title, content, date);
                 arrayList.add(note);
             }while(cursor.moveToNext());
         }
@@ -197,11 +197,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst())
         {
-            return true;
+            return false;
         }
         else
         {
-            return false;
+            return true;
         }
     }
 

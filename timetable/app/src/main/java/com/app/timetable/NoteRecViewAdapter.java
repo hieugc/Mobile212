@@ -1,5 +1,6 @@
 package com.app.timetable;
 
+import android.content.DialogInterface;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,10 +23,19 @@ import java.util.Date;
 public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.ViewHolder>{
 
     private ArrayList<Note> noteArrayList;
+    private DataBaseHelper dataBaseHelper;
+    private fragment_note fragmentNote;
 
-    public NoteRecViewAdapter()
-    {
+    public NoteRecViewAdapter(DataBaseHelper dataBaseHelper, fragment_note fragmentNote) {
+        this.dataBaseHelper = dataBaseHelper;
+        this.fragmentNote = fragmentNote;
     }
+
+    public interface OnLongClickListener {
+        boolean onLongClick(ViewHolder viewHolder);
+    }
+
+    private OnLongClickListener listener;
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -39,8 +52,44 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
         holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(view.getContext(), "Item Clicked: "+position, Toast.LENGTH_SHORT).show();
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.time_txt.getLayoutParams();
+                params.removeRule(RelativeLayout.ALIGN_PARENT_END);
+                params.setMarginEnd(5);
+                if(listener != null)
+                {
+                    listener.onLongClick(holder);
+                }
+                holder.delete_box.setVisibility(View.VISIBLE);
                 return false;
+            }
+        });
+
+        holder.delete_box.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(view.getContext(), R.style.RoundShapeTheme);
+                builder.setTitle("Xác nhận xoá ghi chú?");
+                builder.setMessage("Bạn chắc chắn muốn xoá ghi chú này chứ?");
+                builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(view.getContext(), "Huỷ", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        boolean success = dataBaseHelper.deleteOne(noteArrayList.get(position));
+                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
+                        if(success){
+                            setNoteArrayList(dataBaseHelper.getAllNote());
+                            if(getItemCount() == 0) fragmentNote.getNoData_txt().setVisibility(View.VISIBLE);
+                            else fragmentNote.getNoData_txt().setVisibility(View.GONE);
+                            fragmentNote.setCancelView();
+                        }
+                    }
+                });
+                builder.show();
             }
         });
     }
@@ -65,9 +114,13 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
         notifyDataSetChanged();
     }
 
+    public void setListener(OnLongClickListener listener) {
+        this.listener = listener;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView heading_txt, content_txt, time_txt;
-        private RelativeLayout parent;
+        private RelativeLayout parent, delete_box;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,7 +128,16 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
             content_txt = itemView.findViewById(R.id.note_content);
             time_txt = itemView.findViewById(R.id.note_time_txt);
             parent = itemView.findViewById(R.id.note_item);
-
+            delete_box = itemView.findViewById(R.id.delete_box);
         }
+
+        public TextView getTime_txt() {
+            return time_txt;
+        }
+
+        public RelativeLayout getDelete_box() {
+            return delete_box;
+        }
+
     }
 }

@@ -30,6 +30,7 @@
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_bk_time_table.xml" value="0.2916666666666667" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_bk_time_table_selection.xml" value="0.23981481481481481" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_calendar.xml" value="0.264" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_delete_note.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_log_in.xml" value="0.29270833333333335" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_note.xml" value="0.28307692307692306" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_setting.xml" value="0.2875" />
@@ -37,7 +38,8 @@
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo_assignment_form.xml" value="0.264" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/item_view.xml" value="0.2598958333333333" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/new_subject_layout.xml" value="0.35104166666666664" />
-        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/note_item.xml" value="0.264" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/note_item.xml" value="0.6" />
+        <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/note_item_deleted.xml" value="0.264" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/subject_item.xml" value="0.264" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/timepicker.xml" value="0.32395833333333335" />
         <entry key="..\:/Users/loc_m/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/timetable_list_item_selection.xml" value="0.25277777777777777" />
