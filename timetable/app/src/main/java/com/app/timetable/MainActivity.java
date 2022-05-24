@@ -28,8 +28,10 @@ import Model.meeting;
 public class MainActivity extends AppCompatActivity implements fragment_calendar.ISendDataListener, fragment_new_subject.AddSubject {
     private SharedPreferences sharedPreferences;
 
+
     BottomNavigationView bottomNavigationView;
     //calendar
+//    ArrayList<Subject> subjectList = new ArrayList<>();
     fragment_calendar calendarView = new fragment_calendar();
     fragment_new_subject new_subject = new fragment_new_subject();
     fragment_calendar_info_subject subject_info = new fragment_calendar_info_subject();
@@ -115,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(){
         //calendar
+//        subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022",
+//                "20/06/2022","9:00","10:50",tmpStudyDay,"",""
+//                ,""));
         calendarView.set_new_tkb(new_subject);
         new_subject.set_calendar_fragment(calendarView);
         calendarView.set_new_tkbbk(logInFragment);
