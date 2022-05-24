@@ -26,10 +26,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,11 +123,13 @@ public class fragment_calendar extends Fragment {
         // horizontal recyclerView for day
         calendarRecyclerView = (RecyclerView) calendarView.findViewById(R.id.calendar_recyclerview);
         calendarRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(calendarView.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager mLayoutManager = new CenterZoomLayoutManager(calendarView.getContext(), LinearLayoutManager.HORIZONTAL, false);
         calendarRecyclerView.setLayoutManager(mLayoutManager);
+
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(calendarRecyclerView);
+
         mAdapter = new CalendarAdapter(calendarList);
-
-
 
         calendarRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -150,20 +156,17 @@ public class fragment_calendar extends Fragment {
             public void onClick(View v) {
                 currentposition = getCurrentItem();
                 int bottom = calendarRecyclerView.getAdapter().getItemCount()-1;
-                if (bottom-currentposition <4)
-                    currentposition=bottom-1;
-                else
-                    currentposition+=4;
-
-                setCurrentItem(currentposition, 1);
-
+                if (bottom-currentposition >1)
+                {
+                    setCurrentItem(currentposition, 2);
+                }
             }
         });
         backward_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 currentposition = getCurrentItem();
-                setCurrentItem(currentposition-5, 0);
+                setCurrentItem(currentposition-4, 0);
             }
         });
 
@@ -202,13 +205,13 @@ public class fragment_calendar extends Fragment {
 
         // recyclerView for subject item
         subjects = new ArrayList<Subject>();
-        subjects.add(new Subject("Giải tích 2","7:00","9:50",""));
-        subjects.add(new Subject("Đại số tuyến tính","7:00","9:50",""));
-        subjects.add(new Subject("Giáo dục thể chất","10:00","11:50","Note.."));
-        subjects.add(new Subject("Hệ thống số","7:00","9:50",""));
-        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
-        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
-        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
+//        subjects.add(new Subject("Giải tích 2","7:00","9:50",""));
+//        subjects.add(new Subject("Đại số tuyến tính","7:00","9:50",""));
+//        subjects.add(new Subject("Giáo dục thể chất","10:00","11:50","Note.."));
+//        subjects.add(new Subject("Hệ thống số","7:00","9:50",""));
+//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
+//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
+//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
 
         adapter = new SubjectAdapter(subjects,calendarView.getContext());
 
@@ -217,6 +220,12 @@ public class fragment_calendar extends Fragment {
         subjectRecyclerView.setAdapter(adapter);
         subjectRecyclerView.setLayoutManager(linearLayoutManager);
         return calendarView;
+    }
+
+    private int getSnapPostion(SnapHelper snap, RecyclerView.LayoutManager layoutManager){
+        View snapView = snap.findSnapView(layoutManager);
+        int snapPos = layoutManager.getPosition(snapView);
+        return snapPos;
     }
 
     private int getCurrentItem(){
@@ -233,6 +242,10 @@ public class fragment_calendar extends Fragment {
         calendarRecyclerView.smoothScrollToPosition(position);
 
 
+    }
+
+    private void setTest(){
+        calendarRecyclerView.smoothScrollToPosition(6);
     }
 
     private void prepareCalendarData() {

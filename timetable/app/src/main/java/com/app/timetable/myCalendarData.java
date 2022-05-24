@@ -22,7 +22,7 @@ public class myCalendarData  {
         this.startday = calendar.get(Calendar.DAY_OF_MONTH);
         this.currentmonth = calendar.get(Calendar.MONTH);
         this.currentyear=calendar.get(Calendar.YEAR);
-        this.dayofweek= calendar.get(Calendar.DAY_OF_WEEK);
+        this.dayofweek = calendar.get(Calendar.DAY_OF_WEEK);
         this.stringDayofWeek = dateFormat.format(calendar.getTime());
 
     }
