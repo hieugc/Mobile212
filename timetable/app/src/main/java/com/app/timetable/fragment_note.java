@@ -1,4 +1,5 @@
 package com.app.timetable;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,20 +18,21 @@ public class fragment_note extends Fragment {
     private AddnoteFragment addnoteFragment;
     private FloatingActionButton add_btn;
     private RecyclerView note_recycleView;
+    private DataBaseHelper dataBaseHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-          View note_view = inflater.inflate(R.layout.fragment_note, container, false);
+        View note_view = inflater.inflate(R.layout.fragment_note, container, false);
         add_btn = note_view.findViewById(R.id.btn_add_note);
         note_recycleView = note_view.findViewById(R.id.note_recycleView);
         note_recycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        NoteRecViewAdapter adapter = new NoteRecViewAdapter();
-        ArrayList<Note> notes = new ArrayList<>();
+        dataBaseHelper = new DataBaseHelper(note_view.getContext());
 
-        notes.add(new Note(-1, "Lời nhắc 1","abcdef"));
-        notes.add(new Note(-1, "Lời nhắc 2","abcdef"));
+
+        NoteRecViewAdapter adapter = new NoteRecViewAdapter();
+        ArrayList<Note> notes = dataBaseHelper.getAllNote();
 
         adapter.setNoteArrayList(notes);
 

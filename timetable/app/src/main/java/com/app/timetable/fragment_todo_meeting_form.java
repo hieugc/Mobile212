@@ -50,34 +50,54 @@ public class fragment_todo_meeting_form extends Fragment {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onStart() {
-        super.onStart();
-        subtitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b){
-                    if(subtitle.getError() != null)
-                    {
-                        subtitle.setError(null);
-                    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-                    Log.e("create_meeting_sub", subtitle.getText().toString());
-                    Log.e("create_meeting_local", location.getText().toString());
-                    Log.e("create_meeting_link", link.getText().toString());
+        // Inflate the layout for this fragment
+        View meeting_form = inflater.inflate(R.layout.fragment_todo_meeting_form, container, false);
+        init(meeting_form);
+
+
+
+        //close form
+        meet_form_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                close_form();
+            }
+        });
+
+        subtitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(subtitle.getError() != null && !subtitle.isFocused())
+                {
+                    subtitle.setError(null);
                 }
-                else{
-                    if(subtitle.getText().toString().trim().equals(""))
-                    {
-                        subtitle.setError("Phải nhập nội dụng cuộc họp");
-                    }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(subtitle.getError() != null)
+                {
+                    subtitle.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().trim().equals(""))
+                {
+                    subtitle.setError("Phải nhập nội dụng cuộc họp");
                 }
             }
         });
         location.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(location.isFocused() == false && location.getError() != null){
+                if(location.getError() != null && !location.isFocused())
+                {
                     location.setError(null);
                 }
             }
@@ -98,9 +118,14 @@ public class fragment_todo_meeting_form extends Fragment {
                 }
             }
         });
+
         link.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(link.getError() != null && !link.isFocused())
+                {
+                    link.setError(null);
+                }
             }
 
             @Override
@@ -119,122 +144,6 @@ public class fragment_todo_meeting_form extends Fragment {
                 }
             }
         });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        View meeting_form = inflater.inflate(R.layout.fragment_todo_meeting_form, container, false);
-        init(meeting_form);
-
-        String done = "";
-        Bundle bundle = getArguments();
-        Log.e("check", String.valueOf(bundle));
-        if (bundle != null){
-            String func = bundle.getString("func");
-            if(func == "edit_meeting"){
-                CharSequence title = bundle.getString("title").trim();
-                CharSequence location = bundle.getString("location").trim();
-                CharSequence link = bundle.getString("link").trim();
-
-                String time = bundle.getString("time");
-                String alert = bundle.getString("alert");
-                String id = bundle.getString("id");
-                done = bundle.getString("done");
-                Log.e("create_meeting", String.valueOf(title));
-                Log.e("create_meeting", String.valueOf(location));
-                Log.e("create_meeting", String.valueOf(link));
-                Log.e("create_meeting", time.trim());
-                Log.e("create_meeting", alert.trim() + this.subtitle.isTextInputLayoutFocusedRectEnabled());
-                this.subtitle.getText().clear();
-                this.subtitle.getText().append(title);
-                this.location.setText(location);
-                this.link.setText(String.valueOf(link));
-
-                Log.e("create_meeting_link", this.subtitle.getText().toString());
-                Log.e("create_meeting_link", this.location.getText().toString());
-                Log.e("create_meeting_link", this.link.getText().toString());
-
-
-                this.todo_meet_form_add_time_show.setText(alert.trim());
-                this.meet_form_hour_picker.setValue(Integer.parseInt(alert.split(":")[0]));
-                this.meet_form_minus_picker.setValue(Integer.parseInt(alert.split(":")[1]));
-                this.todo_meet_form_year.setValue(Integer.parseInt(time.split(" ")[1].split("/")[2]));
-                this.todo_meet_form_month.setValue(Integer.parseInt(time.split(" ")[1].split("/")[1]));
-                this.todo_meet_form_day.setValue(Integer.parseInt(time.split(" ")[1].split("/")[0]));
-                this.todo_meet_form_minus.setValue(Integer.parseInt(time.split(" ")[0].split(":")[1]));
-                this.todo_meet_form_hour.setValue(Integer.parseInt(time.split(" ")[0].split(":")[0]));
-                this.setArguments(null);
-                meet_form_button_remove.setVisibility(View.VISIBLE);
-                meet_form_button_remove.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("func", "remove_meeting");
-                        bundle.putString("id", id);
-                        fragment_todo.setArguments(bundle);
-                        getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragment_todo).commit();
-                    }
-                });
-
-                final String finalDone = done;
-                meet_form_button_done.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        send("edit_info_meeting", id, finalDone);
-                    }
-                });
-            }
-            else{
-                Log.e("check", "acction fail: " + func);
-            }
-        }
-        else{
-            meet_form_button_remove.setVisibility(View.GONE);
-            LocalDateTime now = LocalDateTime.now();
-            todo_meet_form_day.setValue(now.getDayOfMonth());
-            todo_meet_form_month.setValue(now.getMonthValue());
-            todo_meet_form_year.setValue(now.getYear());
-            todo_meet_form_hour.setValue(now.getHour());
-            todo_meet_form_minus.setValue(now.getMinute());
-
-            Log.e("create_meeting_sub", this.subtitle.getText().toString());
-            Log.e("create_meeting_local", this.location.getText().toString());
-            Log.e("create_meeting_link", this.link.getText().toString());
-
-            if(true) {
-                this.subtitle.getText().clear();Log.e("check", "bundle null1");
-                this.location.setText("");Log.e("check", "bundle null2");
-                this.link.setText("");Log.e("check", "bundle null3");
-            }
-
-            Log.e("check", "bundle null");
-            this.todo_meet_form_add_time_show.setText("00:05");
-            this.todo_meet_form_minus.setValue(0);
-            this.todo_meet_form_hour.setValue(5);
-
-            meet_form_button_done.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    send("create_meeting", "", "");
-                }
-            });
-        }
-
-
-        //close form
-        meet_form_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                close_form();
-            }
-        });
-
-        Log.e("create_meeting_sub", this.subtitle.getText().toString());
-        Log.e("create_meeting_local", this.location.getText().toString());
-        Log.e("create_meeting_link", this.link.getText().toString());
 
         //refresh time
         todo_meet_form_refresh_time.setOnClickListener(new View.OnClickListener() {
@@ -289,6 +198,96 @@ public class fragment_todo_meeting_form extends Fragment {
 
 
         return meeting_form;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        String done = "";
+        Bundle bundle = getArguments();
+        Log.e("check", String.valueOf(bundle));
+        if (bundle != null){
+            String func = bundle.getString("func");
+            if(func == "edit_meeting"){
+                CharSequence title = bundle.getString("title").trim();
+                CharSequence location = bundle.getString("location").trim();
+                CharSequence link = bundle.getString("link").trim();
+                String time = bundle.getString("time");
+                String alert = bundle.getString("alert");
+                String id = bundle.getString("id");
+                done = bundle.getString("done");
+                Log.e("create_meeting", String.valueOf(title));
+                Log.e("create_meeting", String.valueOf(location));
+                Log.e("create_meeting", String.valueOf(link));
+                Log.e("create_meeting", time.trim());
+                Log.e("create_meeting", alert.trim());
+
+                this.subtitle.setText(title);
+                this.location.setText(location);
+                this.link.setText(link);
+                Log.e("check_text", this.link.getText().toString());
+
+                this.todo_meet_form_add_time_show.setText(alert.trim());
+                this.meet_form_hour_picker.setValue(Integer.parseInt(alert.split(":")[0]));
+                this.meet_form_minus_picker.setValue(Integer.parseInt(alert.split(":")[1]));
+                this.todo_meet_form_year.setValue(Integer.parseInt(time.split(" ")[1].split("/")[2]));
+                this.todo_meet_form_month.setValue(Integer.parseInt(time.split(" ")[1].split("/")[1]));
+                this.todo_meet_form_day.setValue(Integer.parseInt(time.split(" ")[1].split("/")[0]));
+                this.todo_meet_form_minus.setValue(Integer.parseInt(time.split(" ")[0].split(":")[1]));
+                this.todo_meet_form_hour.setValue(Integer.parseInt(time.split(" ")[0].split(":")[0]));
+                this.setArguments(null);
+                meet_form_button_remove.setVisibility(View.VISIBLE);
+                meet_form_button_remove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("func", "remove_meeting");
+                        bundle.putString("id", id);
+                        fragment_todo.setArguments(bundle);
+                        getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragment_todo).commit();
+                    }
+                });
+
+                final String finalDone = done;
+                meet_form_button_done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        send("edit_info_meeting", id, finalDone);
+                    }
+                });
+            }
+            else{
+                Log.e("check", "acction fail: " + func);
+            }
+        }
+        else{
+            meet_form_button_remove.setVisibility(View.GONE);
+            Calendar now = Calendar.getInstance();
+            todo_meet_form_day.setValue(now.get(Calendar.DAY_OF_MONTH));
+            todo_meet_form_month.setValue(now.get(Calendar.MONTH) + 1);
+            todo_meet_form_year.setValue(now.get(Calendar.YEAR));
+            todo_meet_form_hour.setValue(now.get(Calendar.HOUR_OF_DAY));
+            todo_meet_form_minus.setValue(now.get(Calendar.MINUTE));
+
+            this.subtitle.setText("");
+            this.location.setText("");
+            this.link.setText("");
+            Log.e("check_text", subtitle.getText().toString());
+            Log.e("check_text", location.getText().toString());
+            Log.e("check_text", link.getText().toString());
+            Log.e("check", "bundle null");
+            this.todo_meet_form_add_time_show.setText("00:05");
+            this.meet_form_hour_picker.setValue(0);
+            this.meet_form_minus_picker.setValue(5);
+            meet_form_button_done.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    send("create_meeting", "", "");
+                }
+            });
+
+        }
     }
 
     private void init(View meeting_form){
@@ -487,8 +486,8 @@ public class fragment_todo_meeting_form extends Fragment {
             this.location.setText("");
             this.link.setText("");
             this.todo_meet_form_add_time_show.setText("00:05");
-            this.todo_meet_form_minus.setValue(0);
-            this.todo_meet_form_hour.setValue(5);
+            this.meet_form_minus_picker.setValue(5);
+            this.meet_form_hour_picker.setValue(0);
 
             fragment_todo.setArguments(bundle);
             getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragment_todo).commit();

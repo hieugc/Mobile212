@@ -31,11 +31,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class fragment_calendar extends Fragment {
     public fragment_calendar(){}
+
+    private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
     private RecyclerView subjectRecyclerView, calendarRecyclerView;
     private SubjectAdapter adapter;
@@ -76,6 +82,28 @@ public class fragment_calendar extends Fragment {
 
         backward_calendar = calendarView.findViewById(R.id.backward_calendar);
         forward_calendar = calendarView.findViewById(R.id.forward_calendar);
+
+        Date today = new Date();
+        String weekday = new SimpleDateFormat("EE").format(today);
+
+        Date theOtherDay = new Date(today.getTime() - 2 * MILLIS_IN_A_DAY);
+        String theOtherDayWeekDate = new SimpleDateFormat("EE").format(theOtherDay);
+        Toast.makeText(getContext(), theOtherDayWeekDate, Toast.LENGTH_SHORT).show();
+
+        Date yesterday = new Date(today.getTime() - MILLIS_IN_A_DAY);
+        String yesterdayWeekDate = new SimpleDateFormat("EE").format(yesterday);
+        Toast.makeText(getContext(), yesterdayWeekDate, Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(getContext(), weekday, Toast.LENGTH_SHORT).show();
+
+        Date tomorrow = new Date(today.getTime() + MILLIS_IN_A_DAY);
+        String tomorrowWeekDate = new SimpleDateFormat("EE").format(tomorrow);
+        Toast.makeText(getContext(), tomorrowWeekDate, Toast.LENGTH_SHORT).show();
+
+        Date theNextDay = new Date(today.getTime() + 2 * MILLIS_IN_A_DAY);
+        String theNextDayWeekDate = new SimpleDateFormat("EE").format(theNextDay);
+        Toast.makeText(getContext(), theNextDayWeekDate, Toast.LENGTH_SHORT).show();
+
 
         setMin_Max(hour_noti,0,23);
         setMin_Max(minutes_noti,0,59);
@@ -122,7 +150,6 @@ public class fragment_calendar extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(calendarView.getContext(), LinearLayoutManager.HORIZONTAL, false);
         calendarRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new CalendarAdapter(calendarList);
-
 
 
         calendarRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

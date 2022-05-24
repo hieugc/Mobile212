@@ -2,6 +2,7 @@ package com.app.timetable;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
@@ -115,7 +116,7 @@ public class LogInFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 if(editable.toString().equals(""))
                 {
-                    password_layout.setError("Username is needed");
+                    password_layout.setError("Password is needed");
                 }
             }
         });

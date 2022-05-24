@@ -21,6 +21,7 @@ public class AddnoteFragment extends Fragment {
     private fragment_note fragmentNote;
     private EditText title_txt, content_txt;
     private TextView done_txt;
+    private DataBaseHelper dataBaseHelper;
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,6 +29,8 @@ public class AddnoteFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_addnote, container, false);
 
+
+        dataBaseHelper = new DataBaseHelper(view.getContext());
 
         back_btn = view.findViewById(R.id.back_btn_note);
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -49,11 +52,13 @@ public class AddnoteFragment extends Fragment {
                 String title = title_txt.getText().toString();
                 String content = content_txt.getText().toString();
 
-                Note note = new Note(-1, title, content);
-                Toast.makeText(view.getContext(), note.toString(), Toast.LENGTH_SHORT).show();
+                Note note = new Note(-1, title, content, "");
+
+                boolean success = dataBaseHelper.addOne(note);
+                Toast.makeText(view.getContext(), "Success "+ success, Toast.LENGTH_SHORT).show();
                 fragmentNote = new fragment_note();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentNote).commit();
-//                getActivity().finish();
+
             }
         });
         return view;
