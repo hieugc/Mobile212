@@ -17,13 +17,14 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:text="Đồ án đa ngành (CO31111)"
+            android:text="Nguyên lý ngôn ngữ lập trình (CO31111) - L01"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"/>
+
 
         <LinearLayout
             android:id="@+id/locationLayout"

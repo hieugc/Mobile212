@@ -28,7 +28,6 @@ import Model.meeting;
 public class MainActivity extends AppCompatActivity implements fragment_calendar.ISendDataListener, fragment_new_subject.AddSubject {
     private SharedPreferences sharedPreferences;
 
-
     BottomNavigationView bottomNavigationView;
     //calendar
 //    ArrayList<Subject> subjectList = new ArrayList<>();

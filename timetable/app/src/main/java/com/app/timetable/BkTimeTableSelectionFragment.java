@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,11 @@ import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class BkTimeTableSelectionFragment extends Fragment {
 
@@ -75,6 +79,94 @@ public class BkTimeTableSelectionFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(view.getContext(), arrayList.toString(), Toast.LENGTH_SHORT).show();
+                        ArrayList<BKTimeTable> bkTimeTables = new ArrayList<>();
+                        for(int j = 0; j < arrayList.size(); j++)
+                        {
+                            bkTimeTables.add(dataBaseHelper.getTimeTable(userId, arrayList.get(j)));
+                        }
+
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                        Calendar calendarForSunday = Calendar.getInstance(TimeZone.getDefault());
+                        int date = 0;
+                        ArrayList<TimeTable> arrayList = new ArrayList<>();
+
+                        for(int j = 0; j < bkTimeTables.size(); j++){
+                            String time = bkTimeTables.get(j).getTime();
+                            String name = bkTimeTables.get(j).getName();
+                            String group = bkTimeTables.get(j).getGroup();
+                            String location = bkTimeTables.get(j).getLocation();
+                            String[] result = time.split(" - ");
+                            String startTime = result[0];
+                            String endTime = result[1];
+                            String theDate;
+                            int timetable_id = bkTimeTables.get(j).getId();
+                            String[] week = bkTimeTables.get(j).getWeek().split("\\|");
+                            String dateOfWeek = bkTimeTables.get(j).getDate();
+                            switch (dateOfWeek)
+                            {
+                                case "Thứ --":
+                                    date = 8;
+                                    break;
+                                case "Thứ 2":
+                                    date = Calendar.MONDAY;
+                                    break;
+                                case "Thứ 3":
+                                    date = Calendar.TUESDAY;
+                                    break;
+                                case "Thứ 4":
+                                    date = Calendar.WEDNESDAY;
+                                    break;
+                                case "Thứ 5":
+                                    date = Calendar.THURSDAY;
+                                    break;
+                                case "Thứ 6":
+                                    date = Calendar.FRIDAY;
+                                    break;
+                                case "Thứ 7":
+                                    date = Calendar.SATURDAY;
+                                    break;
+                                case "Thứ 8":
+                                    date = Calendar.SUNDAY;
+                                    break;
+                            }
+
+                            for (String s : week) {
+                                if (s.equals("--")) continue;
+                                calendar.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 1);
+                                if (date == 8) {
+                                    for (int x = Calendar.SUNDAY; x <= Calendar.SATURDAY; x++) {
+                                        if (x == Calendar.SUNDAY) {
+                                            calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
+                                            calendarForSunday.set(Calendar.DAY_OF_WEEK, x);
+                                            theDate = format.format(calendarForSunday.getTime());
+                                            Log.e("date", format.format(calendarForSunday.getTime()));
+                                            arrayList.add(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                            continue;
+                                        }
+                                        calendar.set(Calendar.DAY_OF_WEEK, x);
+                                        Log.e("date", format.format(calendar.getTime()));
+                                        theDate = format.format(calendar.getTime());
+                                        arrayList.add(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                    }
+                                } else if (date != 0) {
+                                    if (date == Calendar.SUNDAY) {
+                                        calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
+                                        calendarForSunday.set(Calendar.DAY_OF_WEEK, date);
+                                        Log.e("date", format.format(calendarForSunday.getTime()));
+                                        theDate = format.format(calendarForSunday.getTime());
+                                        arrayList.add(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                    } else {
+                                        calendar.set(Calendar.DAY_OF_WEEK, date);
+                                        Log.e("date", format.format(calendar.getTime()));
+                                        theDate = format.format(calendar.getTime());
+                                        arrayList.add(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                    }
+                                }
+                            }
+                        }
+
+                        Log.e("hello", arrayList.toString());
                     }
                 });
                 builder.show();
@@ -83,8 +175,6 @@ public class BkTimeTableSelectionFragment extends Fragment {
 
         ArrayList<BKTimeTable> timetable = dataBaseHelper.getTimeTable(userId);
 
-//        timetable.add(new BKTimeTable(-1,"Đồ án đa ngành (CO3011)", "H1-603","Thứ --","7:00 - 8:50", "01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|","212",1));
-//        timetable.add(new BKTimeTable(-1,"Nguyên lý ngôn ngữ lập trình (CO3005)","H6-109","Thứ 4","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|","212",1));
 
         TimeTableSelRecViewAdapter adapter = new TimeTableSelRecViewAdapter(getActivity(), arrayList);
 

@@ -35,10 +35,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_WEEK = "WEEK";
     public static final String COLUMN_NAME = "NAME";
     public static final String COLUMN_DATE = "DATE";
+    public static final String COLUMN_GROUP = "TEAM";
     public static final String STRING_SEMESTER = "\"212\"";
     public static final String SEMESTER = "212";
-    private static final String COLUMN_LINK_ASSIGN = "LINK_" + TABLE_ASSIGN;
+    public static final String COLUMN_LINK_ASSIGN = "LINK_" + TABLE_ASSIGN;
     public static final String COLUMN_CREATED_AT = "CREATED_AT";
+    public static final String COLUMN_START_TIME = "START_TIME";
+    public static final String COLUMN_END_TIME = "END_TIME";
+    public static final String COLUMN_TA_NAME = "TA_NAME";
+    public static final String COLUMN_TA_NUMBER = "TA_NUMBER";
+    public static final String COLUMN_TA_EMAIL = "TA_EMAIL";
+    public static final String COLUMN_TIMETABLE_ID = "TIMETABLE_ID";
+    public static final String COLUMN_TIMETABLE_TYPE = "TIMETABLE_TYPE";
+    public static final String COLUMN_NOTIFICATION = "NOTI";
+    public static final String COLUMN_NOTIFICATION_TIME = "NOTI_TIME";
+    public static final String TABLE_TIMETABLE = "TIMETABLE";
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "Mobile.db", null, 1);
@@ -58,6 +69,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + " ( " +
                 COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " STRING, " +
+                COLUMN_GROUP + " TEXT , " +
                 COLUMN_LOCATION+" STRING, " +
                 COLUMN_DATE+" STRING, "+
                 COLUMN_TIME+" STRING, " +
@@ -67,10 +79,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(sql);
 
+        sql = "CREATE TABLE " + TABLE_TIMETABLE + " (" +
+                COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_NAME+ " STRING," +
+                COLUMN_GROUP+" STRING," +
+                COLUMN_LOCATION+" STRING," +
+                COLUMN_DATE+" TEXT, " +
+                COLUMN_START_TIME + " TEXT," +
+                COLUMN_END_TIME + " TEXT," +
+                COLUMN_TA_NAME + " STRING," +
+                COLUMN_TA_NUMBER + " INTEGER," +
+                COLUMN_TA_EMAIL + " TEXT," +
+                COLUMN_NOTIFICATION + " INTEGER," +
+                COLUMN_NOTIFICATION_TIME + " INTEGER," +
+                COLUMN_TIMETABLE_TYPE + " INTEGER," +
+                COLUMN_TIMETABLE_ID + " INTEGER)";
+
+        db.execSQL(sql);
+
         sql = "CREATE TABLE " + TABLE_NOTE
                 + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUMN_TITLE + " STRING, "
-                + COLUMN_CONTENT + " TEXT)";
+                + COLUMN_CONTENT + " TEXT," +
+                COLUMN_CREATED_AT + " TEXT)";
 
         db.execSQL(sql);
 
@@ -159,6 +190,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean addOne(TimeTable timeTable)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String sql ="INSERT INTO "+TABLE_TIMETABLE+" (" +
+                COLUMN_ID+","+COLUMN_NAME+","+COLUMN_GROUP+","+COLUMN_LOCATION+","+COLUMN_DATE+","+COLUMN_START_TIME+","+COLUMN_END_TIME+","+COLUMN_TA_NAME+","+COLUMN_TA_NUMBER+","+COLUMN_TA_EMAIL+","+COLUMN_NOTIFICATION+","+COLUMN_NOTIFICATION_TIME+","+COLUMN_TIMETABLE_TYPE+","+COLUMN_TIMETABLE_ID+" ) " +
+                "VALUES (\""+timeTable.getId()+"\",\""+timeTable.getName()+"\",\""+timeTable.getGroup()+"\",\""+timeTable.getDate()+"\",\""+timeTable.getStart_time()+"\",\""+timeTable.getEnd_time()+"\",\""+timeTable.getTA_name()+"\",\""+timeTable.getTA_number()+"\",\""+timeTable.getTA_email()+"\","+timeTable.getNotification()+",\""+timeTable.getNotification_time()+"\","+timeTable.getType()+","+timeTable.getTimetable_id()+")";
+
+        db.execSQL(sql);
+        return true;
+    }
+
     public ArrayList<Note> getAllNote()
     {
         ArrayList<Note> arrayList = new ArrayList<>();
@@ -194,16 +237,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         String sql = "DELETE FROM " + TABLE_NOTE + " WHERE "+ COLUMN_ID +" = "+note.getId();
 
-        Cursor cursor = db.rawQuery(sql, null);
-
-        if(cursor.moveToFirst())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        db.execSQL(sql);
+        return true;
     }
 
     public boolean addOne(BKTimeTable bkTimeTable)
@@ -211,8 +246,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String sql = "INSERT INTO "+TABLE_BK_TIMETABLE+" ("
-                +COLUMN_NAME+","+COLUMN_LOCATION+","+COLUMN_DATE+","+COLUMN_TIME+","+COLUMN_WEEK+","+COLUMN_SEMESTER+","+COLUMN_USERID+") " +
-                "VALUES(\""+bkTimeTable.getName()+"\",\""+bkTimeTable.getLocation()+"\",\""+bkTimeTable.getDate()+"\",\""+bkTimeTable.getTime()+"\",\""+bkTimeTable.getWeek()+"\",\""+bkTimeTable.getSemester()+"\","+bkTimeTable.getUserID()+")";
+                +COLUMN_NAME+","+COLUMN_GROUP+","+COLUMN_LOCATION+","+COLUMN_DATE+","+COLUMN_TIME+","+COLUMN_WEEK+","+COLUMN_SEMESTER+","+COLUMN_USERID+") " +
+                "VALUES(\""+bkTimeTable.getName()+"\",\""+bkTimeTable.getGroup()+"\",\""+bkTimeTable.getLocation()+"\",\""+bkTimeTable.getDate()+"\",\""+bkTimeTable.getTime()+"\",\""+bkTimeTable.getWeek()+"\",\""+bkTimeTable.getSemester()+"\","+bkTimeTable.getUserID()+")";
 
         db.execSQL(sql);
         return true;
@@ -233,12 +268,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             do{
                 int id = cursor.getInt(0);
                 String name = cursor.getString(1);
-                String location = cursor.getString(2);
-                String date = cursor.getString(3);
-                String time =cursor.getString(4);
-                String week = cursor.getString(5);
+                String group = cursor.getString(2);
+                String location = cursor.getString(3);
+                String date = cursor.getString(4);
+                String time =cursor.getString(5);
+                String week = cursor.getString(6);
 
-                BKTimeTable bkTimeTable = new BKTimeTable(id, name, location, date, time, week, SEMESTER, userID);
+                BKTimeTable bkTimeTable = new BKTimeTable(id, name, group, location, date, time, week, SEMESTER, userID);
 
                 arrayList.add(bkTimeTable);
             }while(cursor.moveToNext());
@@ -250,6 +286,39 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         cursor.close();
         return arrayList;
+    }
+
+    public BKTimeTable getTimeTable(int userID, String timeTableName)
+    {
+        String sql = "SELECT * FROM "+TABLE_BK_TIMETABLE+" WHERE "
+                +COLUMN_USERID+" = "+userID+" AND "
+                +COLUMN_SEMESTER+ " = " + STRING_SEMESTER +" AND " +
+                COLUMN_NAME + " = \"" + timeTableName +"\"";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor.moveToFirst())
+        {
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String group = cursor.getString(2);
+            String location = cursor.getString(3);
+            String date = cursor.getString(4);
+            String time =cursor.getString(5);
+            String week = cursor.getString(6);
+
+            BKTimeTable bkTimeTable = new BKTimeTable(id, name, group,  location, date, time, week, SEMESTER, userID);
+            db.close();
+            cursor.close();
+            return bkTimeTable;
+        }
+        else
+        {
+            //failure. DO NOTHING
+            db.close();
+            cursor.close();
+            return null;
+        }
     }
 
 //    public boolean addOne(Meet meet)

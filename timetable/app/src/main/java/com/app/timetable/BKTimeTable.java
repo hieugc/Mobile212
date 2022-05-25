@@ -3,6 +3,7 @@ package com.app.timetable;
 public class BKTimeTable {
     private int id;
     private String name;
+    private String group;
     private String location;
     private String date;
     private String time;
@@ -10,9 +11,10 @@ public class BKTimeTable {
     private String semester;
     private int userID;
 
-    public BKTimeTable(int id, String name, String location, String date, String time, String week, String semester, int userID) {
+    public BKTimeTable(int id, String name, String group, String location, String date, String time, String week, String semester, int userID) {
         this.id = id;
         this.name = name;
+        this.group = group;
         this.location = location;
         this.date = date;
         this.time = time;
@@ -76,11 +78,24 @@ public class BKTimeTable {
         this.date = date;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
     @Override
     public String toString() {
         return "BKTimeTable{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", group='" + group + '\'' +
                 ", location='" + location + '\'' +
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +

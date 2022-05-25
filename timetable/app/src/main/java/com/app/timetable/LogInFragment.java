@@ -39,24 +39,24 @@ public class LogInFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_log_in, container, false);
 
-//        sharedPreferences = view.getContext().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
-//
+        sharedPreferences = view.getContext().getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+
         dataBaseHelper = new DataBaseHelper(view.getContext());
-//
-//        username = sharedPreferences.getString("username", "");
-//        password = sharedPreferences.getString("password", "");
-//
-//        if(!username.equals("") && !password.equals(""))
-//        {
-//            BKEL_USER user = new BKEL_USER(-1, username, password);
-//            user = dataBaseHelper.getOne(user);
-//
-//            if(user != null)
-//            {
-//                bkTimeTableFragment = new BkTimeTableFragment(user.getId());
-//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
-//            }
-//        }
+
+        username = sharedPreferences.getString("username", "");
+        password = sharedPreferences.getString("password", "");
+
+        if(!username.equals("") && !password.equals(""))
+        {
+            BKEL_USER user = new BKEL_USER(-1, username, password);
+            user = dataBaseHelper.getOne(user);
+
+            if(user != null)
+            {
+                bkTimeTableFragment = new BkTimeTableFragment(user.getId());
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
+            }
+        }
 
         username_txt = view.findViewById(R.id.username_txt);
         password_txt = view.findViewById(R.id.password_txt);
@@ -137,9 +137,6 @@ public class LogInFragment extends Fragment {
                 else
                 {
                     String encrypted_password = md5(password);
-                    Log.d("username", username);
-                    Log.d("password", password);
-                    Log.d("encrypted_password", encrypted_password);
                     BKEL_USER bkel_user = new BKEL_USER(-1, username, encrypted_password);
 
 //                    boolean success = dataBaseHelper.addOne(bkel_user);
@@ -152,27 +149,33 @@ public class LogInFragment extends Fragment {
                     }
                     else
                     {
-//                        SharedPreferences.Editor editor = view.getContext().getSharedPreferences("user_settings", Context.MODE_PRIVATE).edit();
-//                        editor.putString("username", user.getUsername());
-//                        editor.putString("password", user.getPassword());
-//
-//                        editor.commit();
-//
-//                        BKTimeTable bkTimeTable = new BKTimeTable(-1,"Đồ án đa ngành (CO3011)", "H1-603","Thứ --","7:00 - 8:50", "01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|","212",1);
+                        SharedPreferences.Editor editor = view.getContext().getSharedPreferences("user_settings", Context.MODE_PRIVATE).edit();
+                        editor.putString("username", user.getUsername());
+                        editor.putString("password", user.getPassword());
+
+                        editor.commit();
+
+//                        BKTimeTable bkTimeTable = new BKTimeTable(-1,"Đồ án đa ngành (CO3011)","L01", "H1-603","Thứ --","7:00 - 8:50", "01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|","212",user.getId());
 //                        boolean success = dataBaseHelper.addOne(bkTimeTable);
 //                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
-//                        BKTimeTable bkTimeTable1 = new BKTimeTable(-1,"Nguyên lý ngôn ngữ lập trình (CO3005)","H6-109","Thứ 4","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|","212",1);
+//                        BKTimeTable bkTimeTable1 = new BKTimeTable(-1,"Nguyên lý ngôn ngữ lập trình (CO3005)","L01","H6-109","Thứ 4","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|","212",user.getId());
 //                        success = dataBaseHelper.addOne(bkTimeTable1);
 //                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
                         bkTimeTableFragment = new BkTimeTableFragment(user.getId());
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
                     }
-                    //Toast.makeText(view.getContext(), "Username: "+username+"\nPassword: "+password, Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
         return  view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        username_layout.setError(null);
+        password_layout.setError(null);
     }
 
     public String md5(String password)
