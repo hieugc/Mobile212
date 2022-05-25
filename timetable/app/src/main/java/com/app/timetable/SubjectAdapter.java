@@ -32,7 +32,7 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
 
     public void setSubjectList(ArrayList<Subject> subjectList) {
         this.subjectList = subjectList;
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     public ArrayList<Subject> getSubjectList() {
