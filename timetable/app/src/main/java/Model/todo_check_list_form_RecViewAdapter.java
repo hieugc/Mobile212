@@ -80,6 +80,9 @@ public class todo_check_list_form_RecViewAdapter extends RecyclerView.Adapter<to
                     listener.removeListCheck(list_checks);
                 }
             });
+            if(list.getLink() == -1){
+                edit_list_item.setVisibility(View.GONE);
+            }
         }
     }
 }

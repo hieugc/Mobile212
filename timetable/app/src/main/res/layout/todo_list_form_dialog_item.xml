@@ -40,4 +40,24 @@
         android:src="@drawable/icon_edit"
         app:tint="@color/nav_primary" />
 
+    <ImageView
+        android:id="@+id/result_edit_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_link"
+        android:layout_toEndOf="@+id/content_list_item"
+        app:tint="@color/nav_primary"
+        android:visibility="gone"
+        android:layout_centerVertical="true"/>
+    <ImageView
+        android:id="@+id/refresh_edit_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_refresh"
+        android:layout_toEndOf="@id/result_edit_list_item"
+        app:tint="@color/nav_primary"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:layout_marginLeft="10dp"/>
+
 </RelativeLayout>

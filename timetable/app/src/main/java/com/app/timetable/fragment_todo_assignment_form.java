@@ -70,7 +70,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     TextView todo_assignment_form_add_list_head_text_back, todo_assignment_form_add_list_head_text_done, todo_contain_add_list_label_button;
     ImageView todo_assignment_form_add_list_head_back, todo_contain_add_list_button;
     //data
-    assignment assignments;
     ArrayList<list_check> list_checks;
     ArrayList<list_check> list_checks_dialog;
 
@@ -83,9 +82,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     public void setList_checks(ArrayList<list_check> list_checks){
         this.list_checks = list_checks;
     }
-    public void setAssignments(assignment assignments){
-        this.assignments = assignments;
-    }
 
     private static final String TAG = "MyActivity";
     public void setTodoView(fragment_todo view){
@@ -93,17 +89,41 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onStart() {
+        super.onStart();
         Bundle bundle = getArguments();
+        if(list_checks.size() == 0){
+            Log.e("form", "0");
+        }
+        else{
+            for (list_check l: list_checks){
+                Log.e("form", l.getContent());
+            }
+        }
+
+        if (list_checks == null){
+            list_checks = new ArrayList<>();
+        }
+        if (list_checks_dialog == null){
+            list_checks_dialog = new ArrayList<>();
+        }
+        if(list_checks.size() == 0){
+            Log.e("form", "0");
+        }
+        else{
+            for (list_check l: list_checks){
+                Log.e("form", l.getContent());
+            }
+        }
         if(bundle != null){
             String func = bundle.getString("func");
             if (func == "edit_assignment"){
                 assignment_form_sub.setText(bundle.getString("title"));
-                time_show(bundle.getString("time_start"), bundle.getString("time_end"), bundle.getString("time_left"));
-                list_checks.clear();
-                for (list_check l: bundle.<list_check>getParcelableArrayList("list_check")){
-                    list_checks.add(l);
+                time_show("Bắt đầu: " + bundle.getString("time_start"), "Kết thúc: " + bundle.getString("time_end"), bundle.getString("time_left"));
+                for (list_check l: list_checks){
+                    Log.e("Check list", l.getContent());
                 }
+                String id = bundle.getString("id");
                 show_recycle();
                 assignment_form_button_remove.setVisibility(View.VISIBLE);
                 assignment_form_button_remove.setOnClickListener(new View.OnClickListener() {
@@ -116,18 +136,66 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
                     }
                 });
+                assignment_form_button_done.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //tạo assignment
+                        Bundle bundle = new Bundle();
+                        bundle.putString("func", "edit_assignment");
+                        bundle.putString("id", id);
+                        bundle.putString("title", assignment_form_sub.getText().toString());
+                        bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
+                        bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
+                        bundle.putParcelableArrayList("list_check", (ArrayList<? extends Parcelable>) list_checks);
+                        todoView.setArguments(bundle);
+                        assignment_form_sub.setText("");
+                        getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
+                        //close();
+                    }
+                });
             }
         }
+        else{
+
+            assignment_form_button_done.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //tạo assignment
+                    Bundle bundle = new Bundle();
+                    bundle.putString("func", "create_assignment");
+                    bundle.putString("title", assignment_form_sub.getText().toString());
+                    bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
+                    bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
+                    bundle.putParcelableArrayList("list_check", (ArrayList<? extends Parcelable>) list_checks);
+                    todoView.setArguments(bundle);
+                    assignment_form_sub.setText("");
+                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
+                    //close();
+                }
+            });
+        }
+
+        if(list_checks != null && list_checks.size() != 0){
+            show_recycle();
+            Log.e("check", "he");
+        }
+        if(list_checks_dialog != null && list_checks_dialog.size() != 0){
+            show_recycle_dialog();
+            Log.e("check", "he");
+        }
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
+
         assignment_form = inflater.inflate(R.layout.fragment_todo_assignment_form, container, false);
         todo_assignment_form = assignment_form.findViewById(R.id.todo_assignment_form);
 
         assignment_form_button_remove = assignment_form.findViewById(R.id.assignment_form_button_remove);
         assignment_form_button_remove.setVisibility(View.GONE);
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        Log.e(TAG, "height = " + displayMetrics.heightPixels + " width = " + displayMetrics.widthPixels);
-
 
         todo_assignment_form_time_left = assignment_form.findViewById(R.id.todo_assignment_form_time_left);
         todo_assignment_form_add_time_start = assignment_form.findViewById(R.id.todo_assignment_form_add_time_start);
@@ -155,17 +223,11 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
         //onclicklist
 
-        //offdialog
-        todo_assignment_form_dialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                close_add_list_dialog();
-            }
-        });//done
         todo_assignment_form_add_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(todo_assignment_form_dialog.getVisibility() == View.GONE){
+                    closeKeyBoard();
                     showCalendar();
                 }
             }
@@ -206,8 +268,8 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 //add item
                 //close dialog
                 close_add_list_dialog();
-                if(!list_checks_dialog.isEmpty()){
-                    if (list_checks_dialog.get(list_checks_dialog.size() - 1).getContent().trim().equals("")) list_checks_dialog.remove(list_checks_dialog.size()-1);
+                if( list_checks_dialog != null){
+                    remove_list_item_dialog_null(list_checks_dialog);
                 }
                 list_checks.clear();
                 for (list_check l: list_checks_dialog){
@@ -236,42 +298,12 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
         //show list
         list_item_form = assignment_form.findViewById(R.id.list_item_form);
-        if(!list_checks.isEmpty()){
-            show_recycle();
-            Log.e("check", "he");
-        }
         list_item_dialog = assignment_form.findViewById(R.id.list_item_dialog);
-        if(!list_checks.isEmpty()){
-            show_recycle_dialog();
-            Log.e("check", "he");
-        }
+
 
 
         //button
         assignment_form_button_done = assignment_form.findViewById(R.id.assignment_form_button_done);
-        assignment_form_button_done.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //tạo assignment
-                    assignments = new assignment(
-                            -1,
-                            assignment_form_sub.getText().toString(),
-                            todo_assignment_form_add_time_start.getText().toString().split(": ")[1],
-                            todo_assignment_form_add_time_end.getText().toString().split(": ")[1],
-                            false
-                    );
-                    assignments.setList_checks(list_checks);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("func", "create_assignment");
-                    bundle.putString("title", assignment_form_sub.getText().toString());
-                    bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
-                    bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
-                    bundle.putParcelableArrayList("list_check", (ArrayList<? extends Parcelable>) list_checks);
-                    todoView.setArguments(bundle);
-                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
-                    //close();
-                }
-        });
 
 
         return assignment_form;
@@ -400,10 +432,15 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     }
     private void remove_list_item_dialog_id(list_check listCheck, ArrayList<list_check> list_checks){
         if(!list_checks.isEmpty()){
-            for (int i = listCheck.getId() + 1; i < list_checks.size(); i++){
-                list_checks.get(i).setId(i - 1);
+            for (int i = 0; i < list_checks.size(); i++){
+                if (list_checks.get(i).getId() == listCheck.getId()){
+                    for (int j = i + 1; j < list_checks.size(); j ++){
+                        list_checks.get(j).setId(list_checks.get(j).getId() - 1);
+                    }
+                    list_checks.remove(i);
+                    break;
+                }
             }
-            list_checks.remove(listCheck.getId());
         }
     }
     private void remove_list_item_dialog_null(ArrayList<list_check> list_checks){
@@ -460,13 +497,14 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         }
     }
     private void open_add_list_dialog(){
+        closeKeyBoard();
         todo_assignment_form_dialog.setVisibility(View.VISIBLE);
         todo_assignment_form_dialog_add_list.setVisibility(View.VISIBLE);
         todo_assignment_form.setVisibility(View.GONE);
     }
 
     @Override
-    public void onCheckClick(int pos, meeting meets) {
+    public void onCheckClick(meeting meets) {
 
     }
 
@@ -509,6 +547,31 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             }
             show_recycle_dialog();
         }
+    }
+
+    @Override
+    public void editAssignment(assignment assign) {
+
+    }
+
+    @Override
+    public void onCheckAssign(assignment assign) {
+
+    }
+
+    @Override
+    public int linkNewNote(list_check listCheck) {
+        return 0;
+    }
+
+    @Override
+    public void unlinkNote(int id) {
+
+    }
+
+    @Override
+    public void openNote(int id) {
+
     }
 
     private void show_e(){

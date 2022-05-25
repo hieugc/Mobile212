@@ -63,16 +63,25 @@ public class todo_check_list_form_dialog_RecViewAdapter extends RecyclerView.Ada
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
         list_check list_checks;
-        ImageView remove_list_item, edit_list_item;
+        ImageView remove_list_item, edit_list_item, result_edit_list_item, refresh_edit_list_item;
         EditText content_list_item;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             remove_list_item = itemView.findViewById(R.id.remove_list_item);
             edit_list_item = itemView.findViewById(R.id.edit_list_item);
             content_list_item = itemView.findViewById(R.id.content_list_item);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                content_list_item.setFocusedByDefault(false);
-            }
+            result_edit_list_item = itemView.findViewById(R.id.result_edit_list_item);
+            refresh_edit_list_item = itemView.findViewById(R.id.refresh_edit_list_item);
+        }
+        private void hide(){
+            result_edit_list_item.setVisibility(View.GONE);
+            refresh_edit_list_item.setVisibility(View.GONE);
+            edit_list_item.setVisibility(View.VISIBLE);
+        }
+        private void visit(){
+            result_edit_list_item.setVisibility(View.VISIBLE);
+            refresh_edit_list_item.setVisibility(View.VISIBLE);
+            edit_list_item.setVisibility(View.GONE);
         }
 
         public void setAll(list_check list) {
@@ -125,6 +134,38 @@ public class todo_check_list_form_dialog_RecViewAdapter extends RecyclerView.Ada
                 @Override
                 public void onClick(View view) {
                     listener.removeListCheckItem(list_checks);
+                }
+            });
+
+
+            if (list.getLink() == -1){
+                hide();
+            }
+            else{
+                visit();
+            }
+            edit_list_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //link to note
+                    list_checks.setLink(listener.linkNewNote(list_checks));
+                    visit();
+                }
+            });
+
+            result_edit_list_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.openNote(list_checks.getLink());
+                }
+            });
+
+            refresh_edit_list_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //remove note
+                    listener.unlinkNote(list_checks.getLink());
+                    hide();
                 }
             });
         }

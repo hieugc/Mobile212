@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -97,6 +98,8 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
         TextView content, time_assignment_item;
         CheckBox done;
         RecyclerView todo_list_assignment_item;
+
+        ImageView edit_asssignment_item;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             content = itemView.findViewById(R.id.title_assignment_item);
@@ -104,7 +107,7 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
             done = itemView.findViewById(R.id.check_assignment_item);
 
             todo_list_assignment_item = itemView.findViewById(R.id.todo_list_assignment_item);
-
+            edit_asssignment_item = itemView.findViewById(R.id.edit_asssignment_item);
         }
 
         public void bindAll(assignment ass){
@@ -112,11 +115,31 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
             content.setText(ass.getTitle());
             time_assignment_item.setText(ass.getTime());
             done.setChecked(ass.getDone());
+            done.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    assignment.setDone(b);
+                    for (int j = 0; j < assignment.getList_checks().size(); j ++){
+                        assignment.getList_checks().get(j).setDone(b);
+                    }
+                    resetView();
+                    listener.onCheckAssign(assignment);
+                }
+            });
+            resetView();
+            edit_asssignment_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.editAssignment(assignment);
+                }
+            });
+        }
+        private void resetView(){
             if(list_checks.size() != 0){
                 LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
                 todo_list_assignment_item.setLayoutManager(layoutManager);
 
-                todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, splitArr(list_checks, ass.getId()), listener);
+                todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, splitArr(list_checks, assignment.getId()), listener);
                 todo_list_assignment_item.setAdapter(adapter);
             }
         }

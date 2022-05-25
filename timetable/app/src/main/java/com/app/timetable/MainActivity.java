@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
         subject_info.set_calendar(calendarView);
 
         //todo
-        init_data();
+        //init_data();
         meeting_form.setTodoView(todoView);
         assignment_form.setTodoView(todoView);
         todoView.set_meet_form(meeting_form);
@@ -147,6 +147,69 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
     private void init_data(){
         meetings.add(new meeting(
                 1,
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+        meetings.add(new meeting(
+                1,
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+        meetings.add(new meeting(
+                1,
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+        meetings.add(new meeting(
+                1,
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+        meetings.add(new meeting(
+                1,
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+        meetings.add(new meeting(
+                1,
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+        meetings.add(new meeting(
+                2,
+                "08:00 20/09/2021",
+                "Báo cáo đồ án",
+                "Đại học Bách Khoa",
+                "abc link",
+                "00:05",
+                false
+        ));
+        meetings.add(new meeting(
+                11,
                 "08:00 20/09/2021",
                 "Báo cáo đồ án",
                 "Đại học Bách Khoa",
@@ -175,6 +238,24 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
         ));
         list_checks.add(new list_check(
                 4,
+                "Thiet ke mockup abc",
+                false,
+                2
+        ));
+        list_checks.add(new list_check(
+                6,
+                "Thiet ke mockup abc",
+                false,
+                2
+        ));
+        list_checks.add(new list_check(
+                7,
+                "Thiet ke mockup abc",
+                false,
+                2
+        ));
+        list_checks.add(new list_check(
+                8,
                 "Thiet ke mockup abc",
                 false,
                 2

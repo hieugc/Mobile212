@@ -121,7 +121,7 @@ public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_Rec
                         }
                         i += 1;
                     }
-                    listener.onCheckClick(meets.getId(), meets);
+                    listener.onCheckClick(meets);
                 }
             });
 
