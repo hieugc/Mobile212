@@ -54,6 +54,16 @@ public class fragment_new_subject extends Fragment {
         void AddSubject(Subject subject);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        edttext_subject_room.setText("");
+        edttext_group_subject.setText("");
+        edttext_subject_name.setText("");
+        edttext_lecturer_mail.setText("");
+        edttext_lecturer_name.setText("");
+        edttext_lecturer_number.setText("");
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -135,7 +145,6 @@ public class fragment_new_subject extends Fragment {
                     edttext_subject_name.setError("This can't be empty!!");
                 }
                 // another field errors haven't implemented
-
 
             }
         });

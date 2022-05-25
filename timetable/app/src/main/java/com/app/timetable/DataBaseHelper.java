@@ -53,6 +53,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 ")";
         db.execSQL(sql);
 
+
         sql = "CREATE TABLE " + TABLE_BK_TIMETABLE
                 + " ( " +
                 COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +

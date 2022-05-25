@@ -36,12 +36,18 @@ import java.util.Date;
 import java.util.List;
 
 public class fragment_calendar extends Fragment {
-    public fragment_calendar(){}
+    public fragment_calendar(){
+        subjectList = new ArrayList<>();
+        subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022",
+                "20/06/2022","9:00","10:50",tmpStudyDay,"",""
+                ,""));
+    }
 
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
     private RecyclerView subjectRecyclerView, calendarRecyclerView;
     private SubjectAdapter adapter;
+    boolean tmpStudyDay[] = {false,false,false,false,false,false,false};
     private ArrayList<Subject> subjectList;
     private FloatingActionButton floatingActionButton;
     private Button calendar_tkbbk_button, calendar_tkb_button;
@@ -57,6 +63,17 @@ public class fragment_calendar extends Fragment {
     private CalendarAdapter mAdapter;
     private int currentposition;
     private LogInFragment logInFragment;
+
+
+
+//        subjectList.add(new Subject("Giải tích 2","7:00","9:50",""));
+//        subjectList.add(new Subject("Đại số tuyến tính","7:00","9:50",""));
+//        subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022","20/06/2022","9:00","10:50",tmpStudyDay,"","",""));
+//        subjects.add(new Subject("Giáo dục thể chất","10:00","11:50","Note.."));
+//        subjects.add(new Subject("Hệ thống số","7:00","9:50",""));
+//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
+//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
+//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
 
     public void set_info_subject(fragment_calendar_info_subject info_subject){
         this.info_subject = info_subject;
@@ -76,6 +93,7 @@ public class fragment_calendar extends Fragment {
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
+
         mISendDataListener = (ISendDataListener) getActivity();
     }
     @Override
@@ -96,27 +114,6 @@ public class fragment_calendar extends Fragment {
 
         backward_calendar = calendarView.findViewById(R.id.backward_calendar);
         forward_calendar = calendarView.findViewById(R.id.forward_calendar);
-
-        Date today = new Date();
-        String weekday = new SimpleDateFormat("EE").format(today);
-
-        Date theOtherDay = new Date(today.getTime() - 2 * MILLIS_IN_A_DAY);
-        String theOtherDayWeekDate = new SimpleDateFormat("EE").format(theOtherDay);
-        Toast.makeText(getContext(), theOtherDayWeekDate, Toast.LENGTH_SHORT).show();
-
-        Date yesterday = new Date(today.getTime() - MILLIS_IN_A_DAY);
-        String yesterdayWeekDate = new SimpleDateFormat("EE").format(yesterday);
-        Toast.makeText(getContext(), yesterdayWeekDate, Toast.LENGTH_SHORT).show();
-
-        Toast.makeText(getContext(), weekday, Toast.LENGTH_SHORT).show();
-
-        Date tomorrow = new Date(today.getTime() + MILLIS_IN_A_DAY);
-        String tomorrowWeekDate = new SimpleDateFormat("EE").format(tomorrow);
-        Toast.makeText(getContext(), tomorrowWeekDate, Toast.LENGTH_SHORT).show();
-
-        Date theNextDay = new Date(today.getTime() + 2 * MILLIS_IN_A_DAY);
-        String theNextDayWeekDate = new SimpleDateFormat("EE").format(theNextDay);
-        Toast.makeText(getContext(), theNextDayWeekDate, Toast.LENGTH_SHORT).show();
 
 
         setMin_Max(hour_noti,0,23);
@@ -242,17 +239,6 @@ public class fragment_calendar extends Fragment {
 
 
         // recyclerView for subject item
-        boolean tmpStudyDay[] = {false,false,false,false,false,false,false};
-        subjectList = new ArrayList<Subject>();
-
-//        subjectList.add(new Subject("Giải tích 2","7:00","9:50",""));
-//        subjectList.add(new Subject("Đại số tuyến tính","7:00","9:50",""));
-        subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022","20/06/2022","9:00","10:50",tmpStudyDay,"","",""));
-//        subjects.add(new Subject("Giáo dục thể chất","10:00","11:50","Note.."));
-//        subjects.add(new Subject("Hệ thống số","7:00","9:50",""));
-//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
-//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
-//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
 
         adapter = new SubjectAdapter(subjectList,calendarView.getContext());
 
@@ -369,7 +355,7 @@ public class fragment_calendar extends Fragment {
         Log.d("test func",subjectList.toString());
         Log.d("test func2",adapter.getSubjectList().toString());
         Log.d("test functionality",adapter.getItemCount()+"");
-//        add_subject_success.setVisibility(VISIBLE);
+        add_subject_success.setVisibility(VISIBLE);
     }
 
 }
