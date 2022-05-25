@@ -12,7 +12,7 @@ public class Subject {
 
 
     public Subject(String className, String classRoom,String classGroup, String note, String startdate,String enddate,
-            String starthour,String endhour, boolean[] studyday){
+            String starthour,String endhour, boolean[] studyday,String lecturerName,String lecturerNumber,String lecturerMail){
         this.className = className;
         this.classRoom = classRoom;
         this.classGroup = classGroup;
@@ -22,6 +22,9 @@ public class Subject {
         this.endHour = endhour;
         this.studyDay = studyday;
         this.note= note;
+        this.lecturerName = lecturerName;
+        this.lecturerNumber = lecturerNumber;
+        this.lecturerMail = lecturerMail;
     }
     public Subject(String classname,String startHour,String endHour,String note){
         this.className = classname;
@@ -66,6 +69,15 @@ public class Subject {
     }
     public void setLecturerNumber(String number){
         this.lecturerNumber = number;
+    }
+    public String getLecturerName(){
+        return lecturerName;
+    }
+    public String getLecturerMail(){
+        return lecturerMail;
+    }
+    public String getLecturerNumber(){
+        return lecturerNumber;
     }
     public String getNote(){
         return this.note;

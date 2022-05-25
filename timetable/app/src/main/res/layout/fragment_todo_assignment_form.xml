@@ -183,31 +183,53 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/assignment_form_button_done"
+            android:layout_above="@id/assignment_form_button_done_c"
             android:layout_below="@id/todo_assignment_form_line_3"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:overScrollMode="ifContentScrolls">
+            android:overScrollMode="always">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_item_form"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="20dp" />
+                android:elevation="20dp"
+                android:overScrollMode="always"
+                />
 
         </ScrollView>
 
-        <Button
-            android:id="@+id/assignment_form_button_done"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/assignment_form_button_done_c"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/button_primary"
-
-            android:text="@string/todo_save"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="15dp"
-            />
+            android:layout_centerInParent="true">
+            <Button
+                android:id="@+id/assignment_form_button_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/button_primary"
+                android:text="@string/todo_save"
+                android:layout_marginBottom="15dp"
+                app:layout_constraintLeft_toRightOf="@id/assignment_form_button_remove"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <Button
+                android:id="@+id/assignment_form_button_remove"
+                style="@style/button_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="@string/todo_clear"
+                app:layout_constraintRight_toLeftOf="@id/assignment_form_button_done"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 
 

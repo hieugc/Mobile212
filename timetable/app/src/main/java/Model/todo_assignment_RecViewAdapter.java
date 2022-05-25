@@ -112,12 +112,13 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
             content.setText(ass.getTitle());
             time_assignment_item.setText(ass.getTime());
             done.setChecked(ass.getDone());
+            if(list_checks.size() != 0){
+                LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
+                todo_list_assignment_item.setLayoutManager(layoutManager);
 
-            LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
-            todo_list_assignment_item.setLayoutManager(layoutManager);
-
-            todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, splitArr(list_checks, ass.getId()), listener);
-            todo_list_assignment_item.setAdapter(adapter);
+                todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, splitArr(list_checks, ass.getId()), listener);
+                todo_list_assignment_item.setAdapter(adapter);
+            }
         }
     }
 }

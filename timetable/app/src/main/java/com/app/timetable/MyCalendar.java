@@ -12,7 +12,25 @@ public class MyCalendar {
     }
 
     public MyCalendar(String day, String date, String month, String year, int i) {
-        this.day = day;
+        if (day.equals("Mon")) {
+            this.day = "T2";
+        }
+        else if (day.equals("Tue")) {
+            this.day = "T3";
+        }
+        else if (day.equals("Wed")) {
+            this.day = "T4";
+        }
+        else if (day.equals("Thu")) {
+            this.day = "T5";
+        }
+        else if (day.equals("Fri")) {
+            this.day = "T6";
+        }
+        else if (day.equals("Sat")) {
+            this.day = "T7";
+        }
+        else this.day ="CN";
         this.date = date;
         this.month = getMonthStr(month);
         this.year = year;

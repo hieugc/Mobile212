@@ -55,10 +55,9 @@
         android:id="@+id/date_pickerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
         android:layout_below="@id/month_picker"
-        >
+        android:layout_marginTop="10dp"
+        android:gravity="center">
 
         <LinearLayout
             android:id="@+id/backward_calendar"
@@ -80,8 +79,8 @@
             android:id="@+id/calendar_recyclerview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_weight="2" />
 
         <LinearLayout
             android:id="@+id/forward_calendar"
@@ -116,7 +115,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tkb_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
             android:overScrollMode="always"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -281,6 +280,35 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/add_subject_successfully"
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:paddingHorizontal="30dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/calendar_popup_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thêm môn thành công!"
+                style="@style/roboto_normal"
+                android:textSize="15dp"/>
+            <Button
+                android:layout_marginTop="15dp"
+                android:layout_width="60dp"
+                android:layout_height="45dp"
+                android:text="OK"/>
+        </LinearLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

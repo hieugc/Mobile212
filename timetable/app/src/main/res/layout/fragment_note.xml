@@ -24,13 +24,24 @@
             />
 
         <TextView
+            android:id="@+id/note_heading_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/note_heading_txt"
             android:text="Danh sách ghi chú"
             android:textColor="@color/black"
-            android:layout_below="@+id/note_heading_txt"
-            android:id="@+id/note_heading_description"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/Cancel"
+            android:textColor="#EC583A"
+            android:textSize="@dimen/headings"
+            android:textStyle="bold"
+            android:id="@+id/cancel_note"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
@@ -68,6 +79,23 @@
             android:src="@drawable/icon_add"
             app:collapsedSize="@dimen/float_button"
             app:fabSize="mini" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        >
+        <TextView
+            android:id="@+id/note_noData_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn chưa có ghi chú nào cả"
+            android:textSize="30sp"
+            android:textColor="@color/nav_primary"
+            android:textStyle="bold"
+            android:visibility="gone"
+            />
     </RelativeLayout>
 
 

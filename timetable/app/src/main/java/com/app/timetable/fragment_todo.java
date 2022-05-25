@@ -132,6 +132,28 @@ public class fragment_todo extends Fragment implements ItemClickListener{
                 }
                 this.setArguments(null);
             }
+            else if(func == "create_assignment"){
+                ArrayList<list_check> list_check = bundle.<list_check>getParcelableArrayList("list_check");
+                int id = 0;
+                if(assignments.size() > 0){
+                    id = assignments.get(assignments.size() - 1).getId() + 1;
+                }
+                assignment new_ass = new assignment(
+                        id,
+                        bundle.getString("title"),
+                        bundle.getString("time_start"),
+                        bundle.getString("time_end"),
+                        false
+                        );
+                for (list_check l: list_check){
+                    l.setAssign(new_ass.getId());
+                    Log.e("check_l",l.getId() + " " + l.getContent() + " " + l.getLink() + " " + l.getAssign() + " " + l.getDone());
+                }
+                new_ass.setList_checks(list_check);
+                assignments.add(new_ass);
+                Log.e("check_l", String.valueOf(new_ass.getId()));
+                this.setArguments(null);
+            }
             else{
                 Log.e("check", "else");
             }
@@ -167,7 +189,7 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         todo_assignment_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                todo_assignment_form.setAssignments(new ArrayList<>());
+                todo_assignment_form.setAssignments(null);
                 todo_assignment_form.setList_checks(new ArrayList<>());
                 todo_assignment_form.setList_checks_dialog(new ArrayList<>());
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todo_assignment_form).commit();

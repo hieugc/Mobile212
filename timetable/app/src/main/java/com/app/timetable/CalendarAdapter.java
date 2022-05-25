@@ -33,7 +33,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.calendar_day_item, parent, false);
 
-
         return new MyViewHolder(itemView);
     }
 
@@ -56,6 +55,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
     public void onViewRecycled (MyViewHolder holder){
 
         recyclecount++;
+
+    }
+
+    private void onScrollChanged(){
 
     }
 }

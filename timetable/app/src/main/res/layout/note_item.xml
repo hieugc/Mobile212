@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp"
     android:id="@+id/note_item">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/noteLayout">
+        android:id="@+id/noteLayout"
+
+        android:layout_margin="10dp">
         <ImageView
             android:layout_width="45dp"
             android:layout_height="38dp"
@@ -45,10 +46,30 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+                android:layout_toStartOf="@+id/delete_box"
                 android:text="11/04/2021" />
 
+            <RelativeLayout
+                android:id="@+id/delete_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@color/divider"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@mipmap/img_2" />
+
+            </RelativeLayout>
+
         </RelativeLayout>
+
     </RelativeLayout>
+
 
 
     <com.google.android.material.divider.MaterialDivider

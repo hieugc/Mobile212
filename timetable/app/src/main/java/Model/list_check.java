@@ -1,6 +1,12 @@
 package Model;
 
-public class list_check {
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+public class list_check implements Parcelable {
     public list_check(int id, String content, Boolean done, int assign){
         this.content = content;
         this.link = -1;
@@ -43,5 +49,26 @@ public class list_check {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setAll(String input){
+        if(input.indexOf("list_check(") != -1){
+            String[] list = input.split("list_check\\(", 1)[1].split("\\)")[0].split(",");
+            for (String s: list) Log.e("check", s);
+            id = Integer.parseInt(list[0]);
+            content = list[1];
+            done = Boolean.valueOf(list[2]);
+            assign = Integer.parseInt(list[3]);
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }

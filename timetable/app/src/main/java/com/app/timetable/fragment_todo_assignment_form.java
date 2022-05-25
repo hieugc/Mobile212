@@ -6,6 +6,7 @@ import static com.google.android.material.datepicker.MaterialDatePicker.todayInU
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -60,6 +61,8 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     LinearLayout todo_assignment_time_show;
     RecyclerView list_item_form, list_item_dialog;
 
+    Button assignment_form_button_remove;
+
     //time show
     TextView todo_assignment_form_add_time_start, todo_assignment_form_add_time_end, todo_assignment_form_time_left;
 
@@ -67,10 +70,9 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     TextView todo_assignment_form_add_list_head_text_back, todo_assignment_form_add_list_head_text_done, todo_contain_add_list_label_button;
     ImageView todo_assignment_form_add_list_head_back, todo_contain_add_list_button;
     //data
-    ArrayList<assignment> assignments;
+    assignment assignments;
     ArrayList<list_check> list_checks;
     ArrayList<list_check> list_checks_dialog;
-
 
     View assignment_form;
 
@@ -81,7 +83,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     public void setList_checks(ArrayList<list_check> list_checks){
         this.list_checks = list_checks;
     }
-    public void setAssignments(ArrayList<assignment> assignments){
+    public void setAssignments(assignment assignments){
         this.assignments = assignments;
     }
 
@@ -92,10 +94,36 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            String func = bundle.getString("func");
+            if (func == "edit_assignment"){
+                assignment_form_sub.setText(bundle.getString("title"));
+                time_show(bundle.getString("time_start"), bundle.getString("time_end"), bundle.getString("time_left"));
+                list_checks.clear();
+                for (list_check l: bundle.<list_check>getParcelableArrayList("list_check")){
+                    list_checks.add(l);
+                }
+                show_recycle();
+                assignment_form_button_remove.setVisibility(View.VISIBLE);
+                assignment_form_button_remove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("func", "remove_meeting");
+                        bundle.putString("id", bundle.getString("id"));
+                        todoView.setArguments(bundle);
+                        getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
+                    }
+                });
+            }
+        }
         // Inflate the layout for this fragment
         assignment_form = inflater.inflate(R.layout.fragment_todo_assignment_form, container, false);
         todo_assignment_form = assignment_form.findViewById(R.id.todo_assignment_form);
 
+        assignment_form_button_remove = assignment_form.findViewById(R.id.assignment_form_button_remove);
+        assignment_form_button_remove.setVisibility(View.GONE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         Log.e(TAG, "height = " + displayMetrics.heightPixels + " width = " + displayMetrics.widthPixels);
@@ -225,7 +253,22 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 @Override
                 public void onClick(View view) {
                     //tạo assignment
-
+                    assignments = new assignment(
+                            -1,
+                            assignment_form_sub.getText().toString(),
+                            todo_assignment_form_add_time_start.getText().toString().split(": ")[1],
+                            todo_assignment_form_add_time_end.getText().toString().split(": ")[1],
+                            false
+                    );
+                    assignments.setList_checks(list_checks);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("func", "create_assignment");
+                    bundle.putString("title", assignment_form_sub.getText().toString());
+                    bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
+                    bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
+                    bundle.putParcelableArrayList("list_check", (ArrayList<? extends Parcelable>) list_checks);
+                    todoView.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
                     //close();
                 }
         });

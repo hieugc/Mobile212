@@ -2,22 +2,20 @@ package Model;
 
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 
-import java.text.Format;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class assignment {
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public assignment(int id, String title, String timeStart, String timeEnd, Boolean done){
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.title = title;
         this.done = done;
         this.id = id;
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        Calendar d = Calendar.getInstance();
+        String now = d.get(Calendar.DAY_OF_MONTH) + "/" + (d.get(Calendar.MONTH) + 1) + "/" + d.get(Calendar.YEAR);
         int year = getYear(timeEnd) - getYear(now);
         if (year < 0){
             this.time = "Đã hết hạn";
@@ -72,6 +70,7 @@ public class assignment {
         }
         return 0;
     }
+
     private int getYear(String date){
         final int i = Integer.parseInt(date.split("/")[2]);
         return i;

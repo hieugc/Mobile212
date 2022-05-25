@@ -57,12 +57,16 @@
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/todo_meet_form_location.xml" value="0.1475" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/drawable/white_background.xml" value="0.2755" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/activity_main.xml" value="0.2046875" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/blank_item_tkb.xml" value="0.2171875" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_calendar.xml" value="0.25" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_note.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo.xml" value="0.25" />
-        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo_assignment_form.xml" value="0.25" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo_assignment_form.xml" value="0.2" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/fragment_todo_meeting_form.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/timepicker.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/todo_assignment_item.xml" value="0.25" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/todo_default.xml" value="0.3625" />
+        <entry key="..\:/Users/phamm/AndroidStudioProjects/Mobile212/timetable/app/src/main/res/layout/todo_item.xml" value="0.3625" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/timetable/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1935" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/timetable/app/src/main/res/drawable-v24/nav_list.xml" value="0.1935" />
         <entry key="..\:/Users/phamm/AndroidStudioProjects/timetable/app/src/main/res/drawable-v24/nav_notebook.xml" value="0.1935" />

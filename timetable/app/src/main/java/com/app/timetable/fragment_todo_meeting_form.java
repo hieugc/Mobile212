@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
@@ -57,8 +56,6 @@ public class fragment_todo_meeting_form extends Fragment {
         // Inflate the layout for this fragment
         View meeting_form = inflater.inflate(R.layout.fragment_todo_meeting_form, container, false);
         init(meeting_form);
-
-
 
         //close form
         meet_form_close.setOnClickListener(new View.OnClickListener() {
@@ -378,9 +375,9 @@ public class fragment_todo_meeting_form extends Fragment {
     }// 00:00 dd/mm/yyyy
 
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private String checkTimeForm(String check){
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"));
+        Calendar d = Calendar.getInstance();
+        String now = d.get(Calendar.HOUR_OF_DAY) + ":" +d.get(Calendar.MINUTE) + " " + d.get(Calendar.DAY_OF_MONTH) + "/" + (d.get(Calendar.MONTH) + 1) + "/" + d.get(Calendar.YEAR);
         int i = check(check, now);
         if(i == 1) return check;
         return now;
