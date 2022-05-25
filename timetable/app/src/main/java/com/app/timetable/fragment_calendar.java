@@ -55,11 +55,14 @@ public class fragment_calendar extends Fragment {
     private fragment_new_subject tkb_new_subject;
     private fragment_calendar_info_subject info_subject;
     private LinearLayout backward_calendar,forward_calendar;
+    private TimeTableAdapter timeTableAdapter;
+    private DateAdapter dateAdapter;
 
     private LinearLayout add_subject_success;
 
     private NumberPicker hour_noti, minutes_noti;
-    private List<MyCalendar> calendarList= new ArrayList<>();
+    private ArrayList<MyCalendar> calendarList= new ArrayList<>();
+    private ArrayList<Date> list = new ArrayList<>();
     private CalendarAdapter mAdapter;
     private int currentposition;
     private LogInFragment logInFragment;
@@ -157,7 +160,8 @@ public class fragment_calendar extends Fragment {
 
 
         // horizontal recyclerView for day
-        calendarRecyclerView = (RecyclerView) calendarView.findViewById(R.id.calendar_recyclerview);
+
+        calendarRecyclerView = calendarView.findViewById(R.id.calendar_recyclerview);
         calendarRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new CenterZoomLayoutManager(calendarView.getContext(), LinearLayoutManager.HORIZONTAL, false);
         calendarRecyclerView.setLayoutManager(mLayoutManager);
@@ -165,102 +169,106 @@ public class fragment_calendar extends Fragment {
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(calendarRecyclerView);
 
-        mAdapter = new CalendarAdapter(calendarList);
+        //mAdapter = new CalendarAdapter(calendarList);
+        dateAdapter = new DateAdapter(calendarView.getContext());
+        ArrayList<Date> dates = new ArrayList<>();
+        Date date = new Date();
+        Date yesterday = new Date(date.getTime() - MILLIS_IN_A_DAY);
+        Date thePreviousDay = new Date(date.getTime() - 2*MILLIS_IN_A_DAY);
+        Date tomorrow = new Date(date.getTime() + MILLIS_IN_A_DAY);
+        Date theNextDay = new Date(date.getTime() + 2*MILLIS_IN_A_DAY);
+        dates.add(thePreviousDay);
+        dates.add(yesterday);
+        dates.add(date);
+        dates.add(tomorrow);
+        dates.add(theNextDay);
 
-        calendarRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView,
-                                   int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int totalItemCount = mLayoutManager.getChildCount();
-                for (int i = 0; i < totalItemCount; i++){
-                    View childView = recyclerView.getChildAt(i);
-                    TextView childTextView = (TextView) (childView.findViewById(R.id.calendar_day));
-                    String childTextViewText = (String) (childTextView.getText());
-                    if (childTextViewText.equals("Sun"))
-                        childTextView.setTextColor(Color.RED);
-                    else
-                        childTextView.setTextColor(Color.BLACK);
-                }
+        dateAdapter.setArrayList(dates);
 
+//        calendarRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView,
+//                                   int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                int totalItemCount = mLayoutManager.getChildCount();
+//                for (int i = 0; i < totalItemCount; i++){
+//                    View childView = recyclerView.getChildAt(i);
+//                    TextView childTextView = (TextView) (childView.findViewById(R.id.calendar_day));
+//                    String childTextViewText = (String) (childTextView.getText());
+//                    if (childTextViewText.equals("Sun"))
+//                        childTextView.setTextColor(Color.RED);
+//                    else
+//                        childTextView.setTextColor(Color.BLACK);
+//                }
+//
+//
+//            }
+//        });
 
-            }
-        });
-
-        forward_calendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentposition = getCurrentItem();
-                int bottom = calendarRecyclerView.getAdapter().getItemCount()-1;
-                if (bottom-currentposition >1)
-                {
-                    setCurrentItem(currentposition, 2);
-                }
-            }
-        });
-        backward_calendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentposition = getCurrentItem();
-                setCurrentItem(currentposition-4, 0);
-            }
-        });
+//        forward_calendar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                currentposition = getCurrentItem();
+//                int bottom = calendarRecyclerView.getAdapter().getItemCount()-1;
+//                if (bottom-currentposition >1)
+//                {
+//                    setCurrentItem(currentposition, 2);
+//                }
+//            }
+//        });
+//        backward_calendar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                currentposition = getCurrentItem();
+//                setCurrentItem(currentposition-4, 0);
+//            }
+//        });
 
 //        calendarRecyclerView.addItemDecoration(new DividerItemDecoration(calendarView.getContext(), LinearLayoutManager.HORIZONTAL));
 
         calendarRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        calendarRecyclerView.setAdapter(mAdapter);
-        calendarRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(calendarView.getContext(), calendarRecyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                MyCalendar calendar = calendarList.get(position);
-                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
+        calendarRecyclerView.setAdapter(dateAdapter);
+//        calendarRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(calendarView.getContext(), calendarRecyclerView, new RecyclerTouchListener.ClickListener() {
+//            @Override
+//            public void onClick(View view, int position) {
+//                MyCalendar calendar = calendarList.get(position);
+//                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
+//
+//                Animation startRotateAnimation = AnimationUtils.makeInChildBottomAnimation(calendarView.getContext());
+//                childTextView.startAnimation(startRotateAnimation);
+//                childTextView.setTextColor(Color.CYAN);
+//                Toast.makeText(calendarView.getContext(), calendar.getDay() + " is selected!", Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//            @Override
+//            public void onLongClick(View view, int position) {
+//                MyCalendar calendar = calendarList.get(position);
+//
+//                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
+//                childTextView.setTextColor(Color.GREEN);
+//
+//                Toast.makeText(calendarView.getContext(), calendar.getDate()+"/" + calendar.getDay()+"/" +calendar.getMonth()+"   selected!", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }));
 
-                Animation startRotateAnimation = AnimationUtils.makeInChildBottomAnimation(calendarView.getContext());
-                childTextView.startAnimation(startRotateAnimation);
-                childTextView.setTextColor(Color.CYAN);
-                Toast.makeText(calendarView.getContext(), calendar.getDay() + " is selected!", Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                MyCalendar calendar = calendarList.get(position);
-
-                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
-                childTextView.setTextColor(Color.GREEN);
-
-                Toast.makeText(calendarView.getContext(), calendar.getDate()+"/" + calendar.getDay()+"/" +calendar.getMonth()+"   selected!", Toast.LENGTH_SHORT).show();
-
-            }
-        }));
-
-        prepareCalendarData();
-
+//        prepareCalendarData();
 
         // recyclerView for subject item
 
-        adapter = new SubjectAdapter(subjectList,calendarView.getContext());
+        timeTableAdapter = new TimeTableAdapter(getActivity(), calendarView.getContext(), this);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(calendarView.getContext());
+        ArrayList<TimeTable> timeTables = new ArrayList<>();
+        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+        timeTableAdapter.setArrayList(timeTables);
 
-        subjectRecyclerView.setAdapter(adapter);
-        subjectRecyclerView.setLayoutManager(linearLayoutManager);
-        subjectRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(calendarView.getContext(), subjectRecyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Subject subject = subjectList.get(position);
-                sendDataToSubjectInfo(subject);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,info_subject).commit();
-            }
-            @Override
-            public void onLongClick(View view, int position) {
+        subjectRecyclerView.setAdapter(timeTableAdapter);
+        subjectRecyclerView.setLayoutManager(new LinearLayoutManager(calendarView.getContext()));
 
-            }
-
-
-        }));
         return calendarView;
     }
 
