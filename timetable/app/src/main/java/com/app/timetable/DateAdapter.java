@@ -3,9 +3,12 @@ package com.app.timetable;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,10 +25,14 @@ import java.util.TimeZone;
 public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
     private ArrayList<Date> arrayList = new ArrayList<>();
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
-    private Context context;
+    private fragment_calendar fragmentCalendar;
 
-    public DateAdapter(Context context) {
-        this.context = context;
+    public DateAdapter() {
+    }
+
+
+    public void setFragmentCalendar(fragment_calendar fragmentCalendar) {
+        this.fragmentCalendar = fragmentCalendar;
     }
 
     @NonNull
@@ -36,14 +43,24 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
         return viewHolder;
     }
 
+    public ArrayList<Date> getArrayList() {
+        return arrayList;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(position == 2)
         {
             holder.cardView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#94E0E0")));
-//            ViewGroup.LayoutParams layoutParams = holder.cardView.getLayoutParams();
-//            layoutParams.height = 30;
-//            layoutParams.width = 30;
+            ViewGroup.LayoutParams layoutParams = holder.txtView_calendar_day.getLayoutParams();
+            layoutParams.height = (int) (layoutParams.height * 1.2);
+            layoutParams.width = (int) (layoutParams.width*1.2);
+            holder.txtView_calendar_day.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+            ViewGroup.LayoutParams layoutParams1 = holder.txtView_calendar_date.getLayoutParams();
+            layoutParams1.width = (int) (layoutParams1.width * 1.2);
+            layoutParams1.height = (int) (layoutParams1.height * 1.2);
+            holder.txtView_calendar_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
         }
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(arrayList.get(position));
@@ -92,6 +109,11 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
                 arrayList.add(tomorrow);
                 arrayList.add(theNextDay);
                 notifyDataSetChanged();
+                fragmentCalendar.setSelectedDate(pickedDate.getTime());
+                fragmentCalendar.setDatePicker();
+                ArrayList<TimeTable> arrayList = new ArrayList<>();
+                arrayList.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+                fragmentCalendar.getTimeTableAdapter().setArrayList(arrayList);
             }
         });
     }

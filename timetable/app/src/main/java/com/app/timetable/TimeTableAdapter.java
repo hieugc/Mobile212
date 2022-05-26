@@ -28,10 +28,17 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
     private fragment_calendar_info_subject info_subject;
     private FragmentActivity fragmentActivity;
 
-    public TimeTableAdapter(FragmentActivity fragmentActivity, Context context, fragment_calendar fragmentCalendar) {
+    public interface onItemClick{
+        public void onClick(TimeTable timeTable);
+    }
+
+    private onItemClick itemClick;
+
+    public TimeTableAdapter(FragmentActivity fragmentActivity, Context context, fragment_calendar fragmentCalendar, onItemClick itemClick) {
         this.fragmentActivity = fragmentActivity;
         this.fragmentCalendar = fragmentCalendar;
         this.context = context;
+        this.itemClick = itemClick;
     }
 
     @NonNull
@@ -47,6 +54,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
         holder.startTime_txt.setText(arrayList.get(position).getStart_time());
         holder.endTime_txt.setText(arrayList.get(position).getEnd_time());
         holder.name_txt.setText(arrayList.get(position).getName());
+        holder.location_txt.setText(arrayList.get(position).getLocation());
         if (position == 0){
             holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.first_item_style));
             holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
@@ -70,6 +78,8 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
         holder.bellLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(itemClick != null)
+                    itemClick.onClick(arrayList.get(position));
             }
         });
     }
@@ -86,7 +96,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView startTime_txt, endTime_txt, name_txt;
+        private TextView startTime_txt, endTime_txt, name_txt, location_txt;
         private RelativeLayout bellLayout, itemLayout;
         private ConstraintLayout timetableLayout;
         private MaterialCardView cardView;
@@ -96,6 +106,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
 
             startTime_txt = itemView.findViewById(R.id.start_time);
             endTime_txt = itemView.findViewById(R.id.end_time);
+            location_txt = itemView.findViewById(R.id.subject_note);
             name_txt = itemView.findViewById(R.id.subject_name);
             bellLayout = itemView.findViewById(R.id.bellLayout);
             itemLayout = itemView.findViewById(R.id.itemLayout);

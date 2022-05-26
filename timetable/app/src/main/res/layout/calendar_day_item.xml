@@ -6,6 +6,7 @@
     android:background="@drawable/calendar_popup_background"
     app:cardElevation="10dp"
     app:cardCornerRadius="10dp"
+    android:layout_centerVertical="true"
     android:layout_margin="5dp"
     android:id="@+id/calendar_item">
 
@@ -21,17 +22,18 @@
 
         <TextView
             android:id="@+id/calendar_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="18dp"
             android:text="T2"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/calendar_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="29dp"
+            android:layout_height="34dp"
             android:text="15"
             android:textAlignment="center"
             android:textColor="@color/black"
