@@ -18,7 +18,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:id="@+id/calendar_dropdown">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,13 +52,13 @@
             app:dividerInsetStart="50dp" />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/date_pickerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/month_picker"
-        android:layout_marginTop="10dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:id="@+id/backward_calendar"
@@ -65,22 +66,24 @@
             android:layout_height="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleX="0.6"
                 android:scaleY="0.6"
-                android:src="@drawable/ic_back_icon" />
+                android:src="@drawable/ic_back_icon"/>
         </LinearLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendar_recyclerview"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="2" />
+            android:layout_centerInParent="true" />
 
         <LinearLayout
             android:id="@+id/forward_calendar"
@@ -88,8 +91,9 @@
             android:layout_height="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:gravity="center"
-            android:rotation="180">
+            android:rotation="180"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -98,7 +102,7 @@
                 android:scaleY="0.6"
                 android:src="@drawable/ic_back_icon" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/subject_show_layout"
@@ -188,6 +192,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/notificationLayout"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -196,12 +201,11 @@
                 android:orientation="vertical">
 
                 <TextView
-
-                    style="@style/roboto_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="Thiết lập chuông báo"
+                    android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 

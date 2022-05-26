@@ -8,32 +8,38 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.recyclerview.widget.SnapHelper;
 
+import java.sql.Time;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.TimeZone;
 
 public class fragment_calendar extends Fragment {
     public fragment_calendar(){
@@ -41,25 +47,45 @@ public class fragment_calendar extends Fragment {
         subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022",
                 "20/06/2022","9:00","10:50",tmpStudyDay,"",""
                 ,""));
+        selectedDate = MaterialDatePicker.todayInUtcMilliseconds();
+        dateAdapter = new DateAdapter();
+        ArrayList<Date> dates = new ArrayList<>();
+        Date date = new Date();
+        Date yesterday = new Date(date.getTime() - MILLIS_IN_A_DAY);
+        Date thePreviousDay = new Date(date.getTime() - 2*MILLIS_IN_A_DAY);
+        Date tomorrow = new Date(date.getTime() + MILLIS_IN_A_DAY);
+        Date theNextDay = new Date(date.getTime() + 2*MILLIS_IN_A_DAY);
+        dates.add(thePreviousDay);
+        dates.add(yesterday);
+        dates.add(date);
+        dates.add(tomorrow);
+        dates.add(theNextDay);
+        dateAdapter.setArrayList(dates);
     }
 
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
-
     private RecyclerView subjectRecyclerView, calendarRecyclerView;
     private SubjectAdapter adapter;
     boolean tmpStudyDay[] = {false,false,false,false,false,false,false};
     private ArrayList<Subject> subjectList;
     private FloatingActionButton floatingActionButton;
-    private Button calendar_tkbbk_button, calendar_tkb_button;
-    private RelativeLayout calendar_float_button_background;
+    private Button calendar_tkbbk_button, calendar_tkb_button, notification_btn;
+    private RelativeLayout calendar_float_button_background, bell_popup_bg;
     private fragment_new_subject tkb_new_subject;
     private fragment_calendar_info_subject info_subject;
-    private LinearLayout backward_calendar,forward_calendar;
+    private LinearLayout backward_calendar,forward_calendar, calendar_dropdown;
+    private TimeTableAdapter timeTableAdapter;
+    private DateAdapter dateAdapter;
+    private long selectedDate;
+    private MaterialDatePicker.Builder pickerBuilder;
+    private MaterialDatePicker<Long> picker;
+    private  CalendarConstraints.Builder builder;
 
-    private LinearLayout add_subject_success;
+    private LinearLayout add_subject_success, notificationLayout;
 
     private NumberPicker hour_noti, minutes_noti;
-    private List<MyCalendar> calendarList= new ArrayList<>();
+    private ArrayList<MyCalendar> calendarList= new ArrayList<>();
+    private ArrayList<Date> list = new ArrayList<>();
     private CalendarAdapter mAdapter;
     private int currentposition;
     private LogInFragment logInFragment;
@@ -81,6 +107,7 @@ public class fragment_calendar extends Fragment {
     public void set_new_tkb(fragment_new_subject form) {
         tkb_new_subject = form;
     }
+
     public void set_new_tkbbk(LogInFragment logInFragment) {
         this.logInFragment = logInFragment;
     }
@@ -88,6 +115,14 @@ public class fragment_calendar extends Fragment {
     private ISendDataListener mISendDataListener;
     public interface ISendDataListener {
         void sendData(Subject subject);
+    }
+
+    public void setSelectedDate(long selectedDate) {
+        this.selectedDate = selectedDate;
+    }
+
+    public TimeTableAdapter getTimeTableAdapter() {
+        return timeTableAdapter;
     }
 
     @Override
@@ -101,8 +136,12 @@ public class fragment_calendar extends Fragment {
         // Inflate the layout for this fragment
         View calendarView = inflater.inflate(R.layout.fragment_calendar, container, false);
         subjectRecyclerView = (RecyclerView) calendarView.findViewById(R.id.tkb_list);
+        dateAdapter.setFragmentCalendar(this);
 
         add_subject_success = calendarView.findViewById(R.id.add_subject_successfully);
+        bell_popup_bg = calendarView.findViewById(R.id.calendar_popup_bg);
+        notification_btn = calendarView.findViewById(R.id.done_add_time_study);
+        notificationLayout = calendarView.findViewById(R.id.notificationLayout);
 
         floatingActionButton = calendarView.findViewById(R.id.calendar_float_button);
         calendar_tkb_button = calendarView.findViewById(R.id.calendar_tkb_button);
@@ -114,6 +153,28 @@ public class fragment_calendar extends Fragment {
 
         backward_calendar = calendarView.findViewById(R.id.backward_calendar);
         forward_calendar = calendarView.findViewById(R.id.forward_calendar);
+        calendar_dropdown = calendarView.findViewById(R.id.calendar_dropdown);
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int year = calendar.get(Calendar.YEAR);
+
+        calendar.set(Calendar.YEAR, year -1 );
+        long lastYear = calendar.getTimeInMillis();
+
+        calendar.set(Calendar.YEAR, year + 1);
+        long nextYear = calendar.getTimeInMillis();
+
+        builder = new CalendarConstraints.Builder();
+        builder.setStart(lastYear);
+        builder.setEnd(nextYear);
+        builder.setOpenAt(selectedDate);
+
+        pickerBuilder = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Chọn ngày")
+                .setTheme(R.style.ThemeOverlay_App_DatePicker)
+                .setSelection(selectedDate)
+                .setCalendarConstraints(builder.build());
+        picker = pickerBuilder.build();
 
 
         setMin_Max(hour_noti,0,23);
@@ -155,9 +216,41 @@ public class fragment_calendar extends Fragment {
             }
         });
 
+        calendar_dropdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                picker.show(getActivity().getSupportFragmentManager(), "CALENDAR_DATE_PICKER");
+            }
+        });
+
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override
+            public void onPositiveButtonClick(Long selection) {
+                selectedDate = selection;
+                Date date = new Date(selection);
+                Date oneDayBefore = new Date(date.getTime() - MILLIS_IN_A_DAY);
+                Date twoDayBefore = new Date(date.getTime() - 2 * MILLIS_IN_A_DAY);
+                Date oneDayAfter = new Date(date.getTime() + MILLIS_IN_A_DAY);
+                Date twoDayAfter = new Date(date.getTime() + 2 * MILLIS_IN_A_DAY);
+
+                ArrayList<Date> dateArrayList = new ArrayList<>();
+                dateArrayList.add(twoDayBefore);
+                dateArrayList.add(oneDayBefore);
+                dateArrayList.add(date);
+                dateArrayList.add(oneDayAfter);
+                dateArrayList.add(twoDayAfter);
+
+                dateAdapter.getArrayList().clear();
+                dateAdapter.setArrayList(dateArrayList);
+
+                Log.e("date", new SimpleDateFormat("dd/MM/yyyy").format(date));
+            }
+        });
+
 
         // horizontal recyclerView for day
-        calendarRecyclerView = (RecyclerView) calendarView.findViewById(R.id.calendar_recyclerview);
+
+        calendarRecyclerView = calendarView.findViewById(R.id.calendar_recyclerview);
         calendarRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new CenterZoomLayoutManager(calendarView.getContext(), LinearLayoutManager.HORIZONTAL, false);
         calendarRecyclerView.setLayoutManager(mLayoutManager);
@@ -165,44 +258,53 @@ public class fragment_calendar extends Fragment {
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(calendarRecyclerView);
 
-        mAdapter = new CalendarAdapter(calendarList);
-
-        calendarRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView,
-                                   int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int totalItemCount = mLayoutManager.getChildCount();
-                for (int i = 0; i < totalItemCount; i++){
-                    View childView = recyclerView.getChildAt(i);
-                    TextView childTextView = (TextView) (childView.findViewById(R.id.calendar_day));
-                    String childTextViewText = (String) (childTextView.getText());
-                    if (childTextViewText.equals("Sun"))
-                        childTextView.setTextColor(Color.RED);
-                    else
-                        childTextView.setTextColor(Color.BLACK);
-                }
+        //mAdapter = new CalendarAdapter(calendarList);
 
 
-            }
-        });
+//        calendarRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView,
+//                                   int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                int totalItemCount = mLayoutManager.getChildCount();
+//                for (int i = 0; i < totalItemCount; i++){
+//                    View childView = recyclerView.getChildAt(i);
+//                    TextView childTextView = (TextView) (childView.findViewById(R.id.calendar_day));
+//                    String childTextViewText = (String) (childTextView.getText());
+//                    if (childTextViewText.equals("Sun"))
+//                        childTextView.setTextColor(Color.RED);
+//                    else
+//                        childTextView.setTextColor(Color.BLACK);
+//                }
+//
+//
+//            }
+//        });
 
         forward_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentposition = getCurrentItem();
-                int bottom = calendarRecyclerView.getAdapter().getItemCount()-1;
-                if (bottom-currentposition >1)
-                {
-                    setCurrentItem(currentposition, 2);
-                }
+                dateAdapter.getArrayList().remove(0);
+                Date date = dateAdapter.getArrayList().get(dateAdapter.getItemCount()-1);
+                Date nextDay = new Date(date.getTime() + MILLIS_IN_A_DAY);
+                dateAdapter.getArrayList().add(nextDay);
+                dateAdapter.notifyDataSetChanged();
+                selectedDate = dateAdapter.getArrayList().get(2).getTime();
+                setDatePicker();
+                Log.e("selected", String.valueOf(selectedDate));
             }
         });
         backward_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentposition = getCurrentItem();
-                setCurrentItem(currentposition-4, 0);
+                dateAdapter.getArrayList().remove(dateAdapter.getItemCount()-1);
+                Date date = dateAdapter.getArrayList().get(0);
+                Date previousDay = new Date(date.getTime() - MILLIS_IN_A_DAY);
+                dateAdapter.getArrayList().add(0, previousDay);
+                dateAdapter.notifyDataSetChanged();
+                selectedDate = dateAdapter.getArrayList().get(2).getTime();
+                setDatePicker();
+                Log.e("selected", String.valueOf(selectedDate));
             }
         });
 
@@ -210,57 +312,78 @@ public class fragment_calendar extends Fragment {
 
         calendarRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        calendarRecyclerView.setAdapter(mAdapter);
-        calendarRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(calendarView.getContext(), calendarRecyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                MyCalendar calendar = calendarList.get(position);
-                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
+        calendarRecyclerView.setAdapter(dateAdapter);
+//        calendarRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(calendarView.getContext(), calendarRecyclerView, new RecyclerTouchListener.ClickListener() {
+//            @Override
+//            public void onClick(View view, int position) {
+//                MyCalendar calendar = calendarList.get(position);
+//                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
+//
+//                Animation startRotateAnimation = AnimationUtils.makeInChildBottomAnimation(calendarView.getContext());
+//                childTextView.startAnimation(startRotateAnimation);
+//                childTextView.setTextColor(Color.CYAN);
+//                Toast.makeText(calendarView.getContext(), calendar.getDay() + " is selected!", Toast.LENGTH_SHORT).show();
+//
+//            }
+//
+//            @Override
+//            public void onLongClick(View view, int position) {
+//                MyCalendar calendar = calendarList.get(position);
+//
+//                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
+//                childTextView.setTextColor(Color.GREEN);
+//
+//                Toast.makeText(calendarView.getContext(), calendar.getDate()+"/" + calendar.getDay()+"/" +calendar.getMonth()+"   selected!", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }));
 
-                Animation startRotateAnimation = AnimationUtils.makeInChildBottomAnimation(calendarView.getContext());
-                childTextView.startAnimation(startRotateAnimation);
-                childTextView.setTextColor(Color.CYAN);
-                Toast.makeText(calendarView.getContext(), calendar.getDay() + " is selected!", Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                MyCalendar calendar = calendarList.get(position);
-
-                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
-                childTextView.setTextColor(Color.GREEN);
-
-                Toast.makeText(calendarView.getContext(), calendar.getDate()+"/" + calendar.getDay()+"/" +calendar.getMonth()+"   selected!", Toast.LENGTH_SHORT).show();
-
-            }
-        }));
-
-        prepareCalendarData();
-
+//        prepareCalendarData();
 
         // recyclerView for subject item
 
-        adapter = new SubjectAdapter(subjectList,calendarView.getContext());
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(calendarView.getContext());
-
-        subjectRecyclerView.setAdapter(adapter);
-        subjectRecyclerView.setLayoutManager(linearLayoutManager);
-        subjectRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(calendarView.getContext(), subjectRecyclerView, new RecyclerTouchListener.ClickListener() {
+        timeTableAdapter = new TimeTableAdapter(getActivity(), calendarView.getContext(), this, new TimeTableAdapter.onItemClick() {
             @Override
-            public void onClick(View view, int position) {
-                Subject subject = subjectList.get(position);
-                sendDataToSubjectInfo(subject);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,info_subject).commit();
+            public void onClick(TimeTable timeTable) {
+                bell_popup_bg.setVisibility(VISIBLE);
+                Log.e("timetable", timeTable.toString());
             }
+        });
+
+        notification_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLongClick(View view, int position) {
-
+            public void onClick(View view) {
+                bell_popup_bg.setVisibility(GONE);
+                Log.e("button", "hey");
             }
+        });
+
+        notificationLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("layout", "hey");
+            }
+        });
+
+        bell_popup_bg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bell_popup_bg.setVisibility(GONE);
+                Log.e("bg", "hey");
+            }
+        });
 
 
-        }));
+
+        ArrayList<TimeTable> timeTables = new ArrayList<>();
+        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+        timeTableAdapter.setArrayList(timeTables);
+
+        subjectRecyclerView.setAdapter(timeTableAdapter);
+        subjectRecyclerView.setLayoutManager(new LinearLayoutManager(calendarView.getContext()));
+
         return calendarView;
     }
 
@@ -357,6 +480,35 @@ public class fragment_calendar extends Fragment {
         Log.d("test func2",adapter.getSubjectList().toString());
         Log.d("test functionality",adapter.getItemCount()+"");
         add_subject_success.setVisibility(VISIBLE);
+    }
+
+    public void setDatePicker()
+    {
+        builder.setOpenAt(selectedDate);
+        picker = pickerBuilder.setSelection(selectedDate).setCalendarConstraints(builder.build()).build();
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override
+            public void onPositiveButtonClick(Long selection) {
+                selectedDate = selection;
+                Date date = new Date(selection);
+                Date oneDayBefore = new Date(date.getTime() - MILLIS_IN_A_DAY);
+                Date twoDayBefore = new Date(date.getTime() - 2 * MILLIS_IN_A_DAY);
+                Date oneDayAfter = new Date(date.getTime() + MILLIS_IN_A_DAY);
+                Date twoDayAfter = new Date(date.getTime() + 2 * MILLIS_IN_A_DAY);
+
+                ArrayList<Date> dateArrayList = new ArrayList<>();
+                dateArrayList.add(twoDayBefore);
+                dateArrayList.add(oneDayBefore);
+                dateArrayList.add(date);
+                dateArrayList.add(oneDayAfter);
+                dateArrayList.add(twoDayAfter);
+
+                dateAdapter.getArrayList().clear();
+                dateAdapter.setArrayList(dateArrayList);
+
+                Log.e("date", new SimpleDateFormat("dd/MM/yyyy").format(date));
+            }
+        });
     }
 
 }
