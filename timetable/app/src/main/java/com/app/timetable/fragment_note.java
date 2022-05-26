@@ -90,7 +90,7 @@ public class fragment_note extends Fragment {
 
     public void setDeleteView()
     {
-        sub_heading_txt.setVisibility(View.GONE);
+        sub_heading_txt.setVisibility(View.INVISIBLE);
         cancel_txt.setVisibility(View.VISIBLE);
         heading_txt.setText(R.string.delete_note);
     }
@@ -100,9 +100,6 @@ public class fragment_note extends Fragment {
         sub_heading_txt.setVisibility(View.VISIBLE);
         cancel_txt.setVisibility(View.GONE);
         heading_txt.setText(R.string.note);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.getTime_txt().getLayoutParams();
-        params.addRule(RelativeLayout.ALIGN_PARENT_END);
-        params.setMarginEnd(0);
         viewHolder.getDelete_box().setVisibility(View.GONE);
     }
 }

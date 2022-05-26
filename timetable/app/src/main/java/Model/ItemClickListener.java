@@ -16,5 +16,5 @@ public interface ItemClickListener {
     void onCheckAssign(assignment assign);
     int linkNewNote(list_check listCheck);
     void unlinkNote(int id);
-    void openNote(int id);
+    void openNote(list_check listCheck, String type);
 }

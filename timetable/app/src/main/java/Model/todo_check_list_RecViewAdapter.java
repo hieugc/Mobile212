@@ -1,6 +1,7 @@
 package Model;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,9 +70,21 @@ public class todo_check_list_RecViewAdapter extends RecyclerView.Adapter<todo_ch
 
         public void setAll(list_check list) {
             this.list_checks = list;
+            Log.e("list", String.valueOf(list.getDone()));
             done.setChecked(list.getDone());
             content.setText(list.getContent());
-            //ch link note
+            if (list.getLink() == -1){
+                link.setVisibility(View.GONE);
+            }
+            else {
+                link.setVisibility(View.VISIBLE);
+            }
+            link.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.openNote(list_checks, "todoView");
+                }
+            });
         }
     }
 }

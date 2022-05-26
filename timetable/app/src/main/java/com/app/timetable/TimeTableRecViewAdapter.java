@@ -40,7 +40,7 @@ public class TimeTableRecViewAdapter extends RecyclerView.Adapter<TimeTableRecVi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.header_txt.setText(timetable.get(position).getName());
+        holder.header_txt.setText(timetable.get(position).getName() +" - "+ timetable.get(position).getGroup());
         holder.location_txt.setText(timetable.get(position).getLocation());
         holder.date_txt.setText(timetable.get(position).getDate());
         holder.time_txt.setText(timetable.get(position).getTime());

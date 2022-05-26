@@ -57,7 +57,7 @@ public class todo_item_RecViewAdapter extends RecyclerView.Adapter<todo_item_Rec
             ArrayList<assignment> assignments = new ArrayList<>();
             assignments.add(check.getAssignments());
             Log.e("recycle", check.getAssignments().getTitle());
-            todo_assignment_RecViewAdapter adapter = new todo_assignment_RecViewAdapter(fragmentActivity, assignments, check.getList_checks() ,this.listener);
+            todo_assignment_RecViewAdapter adapter = new todo_assignment_RecViewAdapter(fragmentActivity, assignments, this.listener);
             holder.todo_item.setAdapter(adapter);
         }
     }

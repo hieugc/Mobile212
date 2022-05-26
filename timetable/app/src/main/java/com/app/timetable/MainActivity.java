@@ -28,8 +28,8 @@ import Model.meeting;
 public class MainActivity extends AppCompatActivity implements fragment_calendar.ISendDataListener, fragment_new_subject.AddSubject {
     private SharedPreferences sharedPreferences;
 
-
     BottomNavigationView bottomNavigationView;
+    DataBaseHelper dataBaseHelper;
     //calendar
 //    ArrayList<Subject> subjectList = new ArrayList<>();
     fragment_calendar calendarView = new fragment_calendar();
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
 //        getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_main);
 
+        dataBaseHelper = new DataBaseHelper(this.getBaseContext());
         sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE);
 
         boolean on_boarding = sharedPreferences.getBoolean("on_boarding", false);
@@ -128,8 +129,12 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
 
         //todo
         //init_data();
+        meetings = dataBaseHelper.getAllMeet();
+        assignments = dataBaseHelper.getAllAssignment();
+
         meeting_form.setTodoView(todoView);
         assignment_form.setTodoView(todoView);
+        todoView.setDataBaseHelper(dataBaseHelper);
         todoView.set_meet_form(meeting_form);
         todoView.set_assignment_form(assignment_form);
 
@@ -145,79 +150,6 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void init_data(){
-        meetings.add(new meeting(
-                1,
-                "08:00 20/09/2021",
-                "Báo cáo đồ án",
-                "Đại học Bách Khoa",
-                "abc link",
-                "00:05",
-                false
-        ));
-        meetings.add(new meeting(
-                1,
-                "08:00 20/09/2021",
-                "Báo cáo đồ án",
-                "Đại học Bách Khoa",
-                "abc link",
-                "00:05",
-                false
-        ));
-        meetings.add(new meeting(
-                1,
-                "08:00 20/09/2021",
-                "Báo cáo đồ án",
-                "Đại học Bách Khoa",
-                "abc link",
-                "00:05",
-                false
-        ));
-        meetings.add(new meeting(
-                1,
-                "08:00 20/09/2021",
-                "Báo cáo đồ án",
-                "Đại học Bách Khoa",
-                "abc link",
-                "00:05",
-                false
-        ));
-        meetings.add(new meeting(
-                1,
-                "08:00 20/09/2021",
-                "Báo cáo đồ án",
-                "Đại học Bách Khoa",
-                "abc link",
-                "00:05",
-                false
-        ));
-        meetings.add(new meeting(
-                1,
-                "08:00 20/09/2021",
-                "Báo cáo đồ án",
-                "Đại học Bách Khoa",
-                "abc link",
-                "00:05",
-                false
-        ));
-        meetings.add(new meeting(
-                2,
-                "08:00 20/09/2021",
-                "Báo cáo đồ án",
-                "Đại học Bách Khoa",
-                "abc link",
-                "00:05",
-                false
-        ));
-        meetings.add(new meeting(
-                11,
-                "08:00 20/09/2021",
-                "Báo cáo đồ án",
-                "Đại học Bách Khoa",
-                "abc link",
-                "00:05",
-                false
-        ));
-
         list_checks.add(new list_check(
                 1,
                 "Thiet ke mockup",

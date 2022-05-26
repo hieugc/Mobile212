@@ -129,6 +129,7 @@ public class fragment_calendar extends Fragment {
         calendar_tkbbk_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                logInFragment = new LogInFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, logInFragment).commit();
             }
         });

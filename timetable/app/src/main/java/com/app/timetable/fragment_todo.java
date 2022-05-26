@@ -3,8 +3,11 @@ package com.app.timetable;
 import static android.view.View.VISIBLE;
 
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import Model.ItemClickListener;
@@ -29,13 +33,20 @@ import Model.todo_assignment_RecViewAdapter;
 import Model.todo_item;
 import Model.todo_item_RecViewAdapter;
 
-public class fragment_todo extends Fragment implements ItemClickListener{
+@SuppressLint("ParcelCreator")
+public class fragment_todo extends Fragment implements ItemClickListener, Parcelable {
     public fragment_todo(){
     }
     fragment_todo_meeting_form todo_meeting_form = new fragment_todo_meeting_form();
     fragment_todo_assignment_form todo_assignment_form;
     ImageView default_todo_layout;
     RecyclerView todo_meeting;
+
+    DataBaseHelper dataBaseHelper;
+
+    public void setDataBaseHelper(DataBaseHelper dataBaseHelper) {
+        this.dataBaseHelper = dataBaseHelper;
+    }
 
     //dialog
     FloatingActionButton todo_floating_button;
@@ -66,6 +77,7 @@ public class fragment_todo extends Fragment implements ItemClickListener{
 
         // Inflate the layout for this fragment
         View todoView = inflater.inflate(R.layout.fragment_todo, container, false);
+        dataBaseHelper = new DataBaseHelper(todoView.getContext());
         //default_layout
         default_todo_layout = todoView.findViewById(R.id.default_todo_layout);
         todo_meeting = todoView.findViewById(R.id.todo_meet_item_recycleView);
@@ -86,6 +98,7 @@ public class fragment_todo extends Fragment implements ItemClickListener{
             public void onClick(View view) {
                 todo_assignment_form.setList_checks(new ArrayList<>());
                 todo_assignment_form.setList_checks_dialog(new ArrayList<>());
+                todo_assignment_form.setList_note(new ArrayList<>());
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todo_assignment_form).commit();
             }
         });
@@ -126,7 +139,7 @@ public class fragment_todo extends Fragment implements ItemClickListener{
                 String alert = bundle.getString("alert");
 
                 meeting m = new meeting(
-                        this.meetings.get(this.meetings.size() - 1).getId() + 1,
+                        -1,
                         time.trim(),
                         title.trim(),
                         location.trim(),
@@ -134,17 +147,17 @@ public class fragment_todo extends Fragment implements ItemClickListener{
                         alert.trim(),
                         false
                 );
+                m.setId(this.dataBaseHelper.addOne(m));
                 this.meetings.add(m);
             }
             else if(func == "remove_meeting"){
                 String id = bundle.getString("id");
-                int idx = 0;
-                for (meeting m: this.meetings){
-                    if (m.getId() == Integer.parseInt(id)){
-                        this.meetings.remove(idx);
+                for (int i = 0; i < meetings.size(); i ++){
+                    if (meetings.get(i).getId() == Integer.parseInt(id)){
+                        this.dataBaseHelper.deleteOne(this.meetings.get(i));
+                        this.meetings.remove(i);
                         break;
                     }
-                    idx += 1;
                 }
             }
             else if(func == "edit_info_meeting"){
@@ -155,61 +168,92 @@ public class fragment_todo extends Fragment implements ItemClickListener{
                 String time = bundle.getString("time");
                 String alert = bundle.getString("alert");
                 String done =  bundle.getString("done");
-                int idx = 0;
+
                 for (meeting m: this.meetings){
                     if (m.getId() == Integer.parseInt(id)){
-                        this.meetings.get(idx).setAlert(alert);
-                        this.meetings.get(idx).setDone(Boolean.valueOf(done));
-                        this.meetings.get(idx).setLink(link);
-                        this.meetings.get(idx).setLocation(location);
-                        this.meetings.get(idx).setTitle(title);
-                        this.meetings.get(idx).setTime(time);
+                        m.setAlert(alert);
+                        m.setDone(Boolean.valueOf(done));
+                        m.setLink(link);
+                        m.setLocation(location);
+                        m.setTitle(title);
+                        m.setTime(time);
+                        this.dataBaseHelper.updateOne(m);
                         break;
                     }
-                    idx += 1;
                 }
             }
-            else if(func == "create_assignment"){
+            else if(func.trim().equals("create_assignment")){
                 ArrayList<list_check> list_check = bundle.<list_check>getParcelableArrayList("list_check");
-                int id = 0;
-                if(assignments.size() > 0){
-                    id = assignments.get(assignments.size() - 1).getId() + 1;
-                }
+                ArrayList<Note> list_note = bundle.<Note>getParcelableArrayList("list_note");
                 assignment new_ass = new assignment(
-                        id,
+                        -1,
                         bundle.getString("title"),
                         bundle.getString("time_start"),
                         bundle.getString("time_end"),
                         false
                 );
-                for (list_check l: list_check){
-                    l.setAssign(new_ass.getId());
+                new_ass.setId(dataBaseHelper.addOne(new_ass));
+                for (int i = 0; i < list_check.size(); i++){
+                    if (list_check.get(i).getLink() != -1){
+                        list_check.get(i).setLink(dataBaseHelper.linkNote(list_note.get(i)));
+                    }
+                    list_check.get(i).setAssign(new_ass.getId());
+                    list_check.get(i).setId(dataBaseHelper.addOne(list_check.get(i)));
                 }
                 new_ass.setList_checks(list_check);
                 assignments.add(new_ass);
                 Log.e("check_l", String.valueOf(new_ass.getId()));
             }
-            else if(func == "edit_assignment"){
+            else if(func.trim().equals("edit_assignment")){
                 int id = Integer.parseInt(bundle.getString("id"));
                 String time_start = bundle.getString("time_start");
                 String time_end = bundle.getString("time_end");
                 String title = bundle.getString("title");
                 ArrayList<list_check> list_checks = bundle.getParcelableArrayList("list_check");
-                for (list_check l: list_checks){
-                    Log.e("check", l.getContent());
-                }
+                ArrayList<Note> list_note = bundle.getParcelableArrayList("list_note");
+
                 for (int idx = 0; idx < assignments.size(); idx ++){
                     if(assignments.get(idx).getId() == id){
-                        assignments.get(idx).setList_checks(list_checks);
+                        for (int i = 0; i < assignments.get(idx).getList_checks().size(); i++){
+                            if (list_checks != null && list_checks.size() != 0 && assignments.get(idx).getList_checks().get(i).getId() == list_checks.get(i).getId()){
+                                if (list_checks.get(i).getLink() == -1 && assignments.get(idx).getList_checks().get(i).getLink() != -1){
+                                    dataBaseHelper.deleteLinkedNote(dataBaseHelper.unlinkNote(assignments.get(idx).getList_checks().get(i)));
+                                }
+                                else if (list_checks.get(i).getLink() != -1 && assignments.get(idx).getList_checks().get(i).getLink() == -1){
+                                    dataBaseHelper.linkNote(list_note.get(i));
+                                }
+                                else {
+                                    dataBaseHelper.updateLinkedNote(list_note.get(i));
+                                }
+                            }
+                            else{
+                                if (assignments.get(idx).getList_checks().get(i).getLink() != -1){
+                                    if(dataBaseHelper.deleteLinkedNote(dataBaseHelper.unlinkNote(assignments.get(idx).getList_checks().get(i)))){
+                                        dataBaseHelper.deleteOne(assignments.get(idx).getList_checks().get(i));
+                                    }
+                                }
+                                else{
+                                    dataBaseHelper.deleteOne(assignments.get(idx).getList_checks().get(i));
+                                }
+                                assignments.get(idx).getList_checks().remove(i);
+                                i -= 1;
+                            }
+                        }
                         assignments.get(idx).setTitle(title);
-                        assignments.get(idx).setTimeEnd(time_end);
                         assignments.get(idx).setTimeStart(time_start);
+                        assignments.get(idx).setTimeEnd(time_end);
+                        dataBaseHelper.updateOne(assignments.get(idx));
                         break;
                     }
                 }
-                for (assignment a: assignments){
-                    for (list_check l: a.getList_checks()){
-                        Log.e("check " + a.getTitle(), l.getContent());
+            }
+            else if(func.trim().equals("remove_assignment")){
+                int id = Integer.parseInt(bundle.getString("id"));
+                for (int idx = 0; idx < assignments.size(); idx ++){
+                    if(assignments.get(idx).getId() == id){
+                        dataBaseHelper.deleteOne(assignments.get(idx));
+                        assignments.remove(idx);
+                        break;
                     }
                 }
             }
@@ -229,6 +273,33 @@ public class fragment_todo extends Fragment implements ItemClickListener{
             default_todo_layout.setVisibility(View.GONE);
             Log.e("check", "nonull");
             item_show();
+        }
+    }
+    private void updateItemInAssign(ArrayList<list_check> list_checks, ArrayList<Note> list_note, int idx){
+        for (int i = 0; i < assignments.get(idx).getList_checks().size(); i++){
+            if (list_checks.size() != 0 && assignments.get(idx).getList_checks().get(i).getId() == list_checks.get(i).getId()){
+                if (list_checks.get(i).getLink() == -1 && assignments.get(idx).getList_checks().get(i).getLink() != -1){
+                    dataBaseHelper.deleteLinkedNote(dataBaseHelper.unlinkNote(assignments.get(idx).getList_checks().get(i)));
+                }
+                else if (list_checks.get(i).getLink() != -1 && assignments.get(idx).getList_checks().get(i).getLink() == -1){
+                    dataBaseHelper.linkNote(list_note.get(i));
+                }
+                else {
+                    dataBaseHelper.updateLinkedNote(list_note.get(i));
+                }
+            }
+            else{
+                if (assignments.get(idx).getList_checks().get(i).getLink() != -1){
+                    if(dataBaseHelper.deleteLinkedNote(dataBaseHelper.unlinkNote(assignments.get(idx).getList_checks().get(i)))){
+                        dataBaseHelper.deleteOne(assignments.get(idx).getList_checks().get(i));
+                    }
+                }
+                else{
+                    dataBaseHelper.deleteOne(assignments.get(idx).getList_checks().get(i));
+                }
+                assignments.get(idx).getList_checks().remove(i);
+                i -= 1;
+            }
         }
     }
 
@@ -260,6 +331,7 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         for (meeting m: meetings){
             if (m.getId() == meets.getId()){
                 meetings.get(i).setDone(meets.getDone());
+                dataBaseHelper.updateOne(meets);
                 break;
             }
             i += 1;
@@ -279,9 +351,6 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         bundle.putString("alert", meets.getAlert());
         bundle.putString("done", String.valueOf(meets.getDone()));
 
-        todo_meeting_form.subtitle.setText(meets.getTitle());
-        todo_meeting_form.location.setText(meets.getLocation());
-        todo_meeting_form.link.setText(meets.getLink());
         todo_meeting_form.setArguments(bundle);
         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todo_meeting_form).commit();
     }
@@ -323,9 +392,11 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         for (list_check l: assign.getList_checks()){
             Log.e("check todo send", l.getContent());
         }
+        bundle.putParcelableArrayList("list_checks", assign.getList_checks());
+        bundle.putParcelableArrayList("list_checks_dialog", new ArrayList<>());
+        bundle.putParcelableArrayList("list_note", dataBaseHelper.getOne(assign.getList_checks()));
+
         todo_assignment_form.setArguments(bundle);
-        todo_assignment_form.setList_checks(assign.getList_checks());
-        todo_assignment_form.setList_checks_dialog(assign.getList_checks());
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todo_assignment_form).commit();
     }
 
@@ -333,9 +404,11 @@ public class fragment_todo extends Fragment implements ItemClickListener{
     public void onCheckAssign(assignment assign) {
         for (int i = 0; i < assignments.size(); i++){
             if(assignments.get(i).getId() == assign.getId()){
-                assignments.get(i).setDone(!assignments.get(i).getDone());
+                assignments.get(i).setDone(assign.getDone());
+                Log.e("done_" + i, String.valueOf(assignments.get(i).getDone()));
                 for (int j = 0; j < assignments.get(i).getList_checks().size(); j ++){
                     assignments.get(i).getList_checks().get(j).setDone(assignments.get(i).getDone());
+                    Log.e("done_" + j, String.valueOf(assignments.get(i).getList_checks().get(j).getDone()));
                 }
                 break;
             }
@@ -353,7 +426,7 @@ public class fragment_todo extends Fragment implements ItemClickListener{
     }
 
     @Override
-    public void openNote(int id) {
+    public void openNote(list_check listCheck, String type) {
 
     }
 
@@ -372,30 +445,30 @@ public class fragment_todo extends Fragment implements ItemClickListener{
         while (idx2 < this.assignments.size() && idx1 < this.meetings.size()){
             int check = check(this.meetings.get(idx1).getTime(), this.assignments.get(idx2).getTimeStart());
             if(check == 1){
-                todo_items.add(new todo_item(null, null, this.meetings.get(idx1)));
+                todo_items.add(new todo_item(null, this.meetings.get(idx1)));
                 idx1 += 1;
             }
             else if(check == 2){
-                todo_items.add(new todo_item(this.assignments.get(idx2), this.assignments.get(idx2).getList_checks(), null));
+                todo_items.add(new todo_item(this.assignments.get(idx2), null));
                 idx2 += 1;
             }
             else {
-                todo_items.add(new todo_item(null, null, this.meetings.get(idx1)));
+                todo_items.add(new todo_item(null, this.meetings.get(idx1)));
                 idx1 += 1;
-                todo_items.add(new todo_item(this.assignments.get(idx2), this.assignments.get(idx2).getList_checks(), null));
+                todo_items.add(new todo_item(this.assignments.get(idx2), null));
                 idx2 += 1;
             }
         }
 
         if(idx1 < this.meetings.size()) {
             while (idx1 < this.meetings.size()){
-                todo_items.add(new todo_item(null, null, this.meetings.get(idx1)));
+                todo_items.add(new todo_item(null,  this.meetings.get(idx1)));
                 idx1 += 1;
             }
         }
         else if(idx2 < this.assignments.size()){
             while (idx2 < this.assignments.size()){
-                todo_items.add(new todo_item(this.assignments.get(idx2), this.assignments.get(idx2).getList_checks(), null));
+                todo_items.add(new todo_item(this.assignments.get(idx2), null));
                 idx2 += 1;
             }
         }
@@ -429,5 +502,15 @@ public class fragment_todo extends Fragment implements ItemClickListener{
     private int getDay(String date){
         final int i = Integer.parseInt(date.split("/")[0]);
         return i;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }

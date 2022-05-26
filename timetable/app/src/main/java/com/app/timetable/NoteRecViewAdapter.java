@@ -52,9 +52,6 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
         holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.time_txt.getLayoutParams();
-                params.removeRule(RelativeLayout.ALIGN_PARENT_END);
-                params.setMarginEnd(5);
                 if(listener != null)
                 {
                     listener.onLongClick(holder);

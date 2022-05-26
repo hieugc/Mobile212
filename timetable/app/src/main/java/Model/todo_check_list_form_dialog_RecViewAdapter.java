@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -137,26 +138,26 @@ public class todo_check_list_form_dialog_RecViewAdapter extends RecyclerView.Ada
                 }
             });
 
+            view();
 
-            if (list.getLink() == -1){
-                hide();
-            }
-            else{
-                visit();
-            }
             edit_list_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //link to note
-                    list_checks.setLink(listener.linkNewNote(list_checks));
-                    visit();
+                    if (!list_checks.getContent().trim().equals("")){
+                        listener.linkNewNote(list_checks);
+                        view();
+                    }
+                    else {
+                        Toast.makeText(view.getContext(), "nothing", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
             result_edit_list_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.openNote(list_checks.getLink());
+                    listener.openNote(list_checks, "_dialog");
                 }
             });
 
@@ -165,9 +166,18 @@ public class todo_check_list_form_dialog_RecViewAdapter extends RecyclerView.Ada
                 public void onClick(View view) {
                     //remove note
                     listener.unlinkNote(list_checks.getLink());
-                    hide();
+                    list_checks.setLink(-1);
+                    view();
                 }
             });
+        }
+        private void view(){
+            if (list_checks.getLink() == -1){
+                hide();
+            }
+            else{
+                visit();
+            }
         }
     }
 }

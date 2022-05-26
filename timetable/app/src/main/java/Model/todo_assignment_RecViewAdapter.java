@@ -23,13 +23,11 @@ import java.util.ArrayList;
 public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_assignment_RecViewAdapter.ViewHolder> {
 
     private ArrayList<assignment> assignments;
-    private ArrayList<list_check> list_checks;
     private FragmentActivity fragmentActivity;
 
     private ItemClickListener listener;
-    public todo_assignment_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<assignment> assignment, ArrayList<list_check> list_checks, ItemClickListener listener) {
+    public todo_assignment_RecViewAdapter(FragmentActivity fragmentActivity, ArrayList<assignment> assignment, ItemClickListener listener) {
         this.fragmentActivity = fragmentActivity;
-        this.list_checks = list_checks;
         this.assignments = assignment;
         this.listener = listener;
     }
@@ -85,14 +83,6 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
         return assignments;
     }
 
-    public void setList_checks(ArrayList<list_check> list_checks) {
-        this.list_checks = list_checks;
-    }
-
-    public ArrayList<list_check> getList_checks() {
-        return list_checks;
-    }
-
     public class ViewHolder extends  RecyclerView.ViewHolder{
         assignment assignment;
         TextView content, time_assignment_item;
@@ -115,17 +105,21 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
             content.setText(ass.getTitle());
             time_assignment_item.setText(ass.getTime());
             done.setChecked(ass.getDone());
-            done.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            done.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    assignment.setDone(b);
+                public void onClick(View view) {
+                    Log.e("ass1", String.valueOf(assignment.getDone()));
+                    assignment.setDone(!assignment.getDone());
+                    Log.e("ass2", String.valueOf(assignment.getDone()));
                     for (int j = 0; j < assignment.getList_checks().size(); j ++){
-                        assignment.getList_checks().get(j).setDone(b);
+                        assignment.getList_checks().get(j).setDone(assignment.getDone());
+                        Log.e("list_", String.valueOf(assignment.getList_checks().get(j).getDone()));
                     }
                     resetView();
                     listener.onCheckAssign(assignment);
                 }
             });
+
             resetView();
             edit_asssignment_item.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,11 +129,11 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
             });
         }
         private void resetView(){
-            if(list_checks.size() != 0){
+            if(assignment.getList_checks().size() != 0){
                 LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
                 todo_list_assignment_item.setLayoutManager(layoutManager);
 
-                todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, splitArr(list_checks, assignment.getId()), listener);
+                todo_check_list_RecViewAdapter adapter = new todo_check_list_RecViewAdapter(fragmentActivity, assignment.getList_checks(), listener);
                 todo_list_assignment_item.setAdapter(adapter);
             }
         }

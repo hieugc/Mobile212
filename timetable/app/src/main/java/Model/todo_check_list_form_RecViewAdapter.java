@@ -83,6 +83,12 @@ public class todo_check_list_form_RecViewAdapter extends RecyclerView.Adapter<to
             if(list.getLink() == -1){
                 edit_list_item.setVisibility(View.GONE);
             }
+            edit_list_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.openNote(list_checks, "");
+                }
+            });
         }
     }
 }

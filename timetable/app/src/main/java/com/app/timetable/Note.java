@@ -1,6 +1,9 @@
 package com.app.timetable;
 
-public class Note {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Note implements Parcelable {
      private int id;
      private String title;
      private String content;
@@ -53,5 +56,15 @@ public class Note {
                 ", content='" + content + '\'' +
                 ", date='" + date + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }
