@@ -434,8 +434,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean updateLinkedNote(Note note){
 
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "UPDATE FROM " + TABLE_NOTE + "\n"
-                    +"SET " + COLUMN_TITLE + " = \"" + note.getTitle() + "\"\n"
+        String sql = "UPDATE " + TABLE_NOTE + "\n"
+                    +"SET " + COLUMN_TITLE + " = \"" + note.getTitle() + "\",\n"
                     +      COLUMN_CONTENT + " = \"" + note.getContent() + "\"\n"
                     +"WHERE " + COLUMN_ID + " = " + note.getId();
         db.execSQL(sql);
@@ -457,6 +457,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 int id_res = cursor.getInt(0);
                 String content = cursor.getString(1);
                 int link = cursor.getInt(2);
+                if (link == 0){
+                    link = -1;
+                }
+                Log.e("link", String.valueOf(link));
                 int assign = cursor.getInt(3);
                 boolean done = Boolean.parseBoolean(cursor.getString(4));
                 list_check listCheck = new list_check(id_res, content, done, assign);
@@ -484,7 +488,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean updateOne(list_check listCheck){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String sql =  "UPDATE FROM " + TABLE_CHECKLIST
+        String sql =  "UPDATE " + TABLE_CHECKLIST
                 + " SET " + COLUMN_CONTENT + " = \"" + listCheck.getContent() + "\", "
                         + COLUMN_LINK_NOTE + " = " + listCheck.getLink() + ", "
                         + COLUMN_LINK_ASSIGN + " = " + listCheck.getAssign() + ", "
@@ -516,8 +520,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String sql = "SELECT * FROM " + TABLE_ASSIGN;
 
         Cursor cursor = db.rawQuery(sql, null);
-        if(cursor.moveToFirst())
+        if(cursor.getCount() > 0)
         {
+            cursor.moveToFirst();
             do{
                 int id_res = cursor.getInt(0);
                 String content = cursor.getString(1);
@@ -535,36 +540,58 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return arrayList;
     }
+    public Note getNote(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM " + TABLE_NOTE + " WHERE " + COLUMN_ID + " = " + id;
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            int id_res = cursor.getInt(0);
+            String title = cursor.getString(1);
+            String content = cursor.getString(2);
+            String date = cursor.getString(3);
+
+            return new Note(id_res, title, content, date);
+        }
+        cursor.close();
+        db.close();
+        Log.e("NoteDB", String.valueOf(cursor) + " " + id);
+        return null;
+    }
     public ArrayList<Note> getOne(ArrayList<list_check> list_checks){
         ArrayList<Note> arrayList = new ArrayList<>();
 
-        SQLiteDatabase db = this.getReadableDatabase();
-
         for (list_check l: list_checks){
+            Log.e("check_li", String.valueOf(l.getLink()));
             if (l.getLink() != -1){
+                SQLiteDatabase db = this.getReadableDatabase();
                 String sql = "SELECT * FROM " + TABLE_NOTE + " WHERE " + COLUMN_ID + " = " + l.getLink();
                 Cursor cursor = db.rawQuery(sql, null);
-                if(cursor.moveToFirst())
+                Log.e("check_end", String.valueOf(cursor.getCount()));
+                Log.e("check_end", String.valueOf(cursor));
+                if(cursor.getCount() > 0)
                 {
+                    cursor.moveToFirst();
                     int id_res = cursor.getInt(0);
+                    Log.e("check_li1", String.valueOf(id_res));
                     String title = cursor.getString(1);
+                    Log.e("check_li1", title);
                     String content = cursor.getString(2);
                     String date = cursor.getString(3);
                     arrayList.add(new Note(id_res, title, content, date));
                 }
                 cursor.close();
+                db.close();
             }
             else{
                 arrayList.add(null);
             }
         }
-
-        db.close();
         return arrayList;
     }
     public int unlinkNote(list_check listCheck){
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "UPDATE FROM " + TABLE_CHECKLIST + " SET " + COLUMN_LINK_NOTE + " = NULL " + " WHERE " + COLUMN_ID + " = " + listCheck.getId();
+        String sql = "UPDATE " + TABLE_CHECKLIST + " SET " + COLUMN_LINK_NOTE + " = NULL " + " WHERE " + COLUMN_ID + " = " + listCheck.getId();
         db.execSQL(sql);
         return listCheck.getLink();
     }
@@ -594,7 +621,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean updateOne(assignment assignment){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String sql =  "UPDATE FROM " + TABLE_ASSIGN
+        String sql =  "UPDATE " + TABLE_ASSIGN
                 + " SET " + COLUMN_TITLE + " = \"" + assignment.getTitle() + "\", "
                 + COLUMN_TIME_START + " = \"" + assignment.getTimeStart() + "\", "
                 + COLUMN_TIME_END + " = \"" + assignment.getTimeEnd() + "\", "
@@ -604,32 +631,4 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
         return true;
     }
-
-//    public boolean addOne(Meet meet)
-//    {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String sql = "INSERT INTO "+TABLE_MEET+" ("
-//                +COLUMN_TITLE+","+COLUMN_TIME+","+COLUMN_LOCATION+","+COLUMN_LINK+","+COLUMN_ALERT+","+COLUMN_CHECKED+") VALUES(" +
-//                meet.getTitle()+","+meet.getTime()+","+meet.getLocation()+","+meet.getLink()+","+meet.getAlert()+","+meet.getChecked()+")";
-//        db.execSQL(sql);
-//        return true;
-//    }
-//
-//    public boolean addOne(Assign assign)
-//    {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String sql = "INSERT INTO "+TABLE_ASSIGN+" ("+COLUMN_TITLE+","+COLUMN_TIME+","+COLUMN_CHECKED+") VALUES(" +
-//                assign.getTitle()+","+assign.getTime()+","+assign.getChecked()+")";
-//        db.execSQL(sql);
-//        return true;
-//    }
-//
-//    public boolean addOne(CheckList checkList)
-//    {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String sql = "INSERT INTO "+TABLE_CHECKLIST+" ("+COLUMN_CONTENT+","+COLUMN_LINK_NOTE+","+COLUMN_CHECKED+") VALUES(" +
-//                checkList.getContent()+","+checkList.getLinkNote()+","+checkList.getChecked()+")";
-//        db.execSQL(sql);
-//        return true;
-//    }
 }

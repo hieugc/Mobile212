@@ -17,4 +17,5 @@ public interface ItemClickListener {
     int linkNewNote(list_check listCheck);
     void unlinkNote(int id);
     void openNote(list_check listCheck, String type);
+    void openNoteView(list_check listCheck);
 }

@@ -75,70 +75,141 @@ public class AddnoteFragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle != null){
             String func = bundle.getString("func");
-            title_txt.setText(bundle.getString("title"));
-            add_note_txt.setText(bundle.getString("head_back"));
-            if (func == "link_note"){
+            if (func.trim().equals("openInfoNote")){
+                Note note = bundle.getParcelable("note");
+                title_txt.setText(note.getTitle());
+                content_txt.setText(note.getContent());
+                add_note_txt.setText("Tất cả Ghi chú");
+                done_txt.setText("Xong");
                 done_txt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String title = title_txt.getText().toString();
-                        Log.e("no", "|" + title.trim() + "|");
-                        if (title.trim().equals("")){
+                        if (title_txt.getText().toString().trim().equals("")){
+                            dataBaseHelper.deleteOne(note);
+                        }
+                        else {
+                            dataBaseHelper.updateLinkedNote(note);
+                        }
+                        fragmentNote = new fragment_note();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentNote).commit();
+                    }
+                });
+                add_note_txt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        fragmentNote = new fragment_note();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentNote).commit();
+                    }
+                });
+            }
+            else{
+                title_txt.setText(bundle.getString("title"));
+                add_note_txt.setText(bundle.getString("head_back"));
+                done_txt.setText(bundle.getString("head_add"));
+                if (func == "link_note"){
+                    done_txt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String title = title_txt.getText().toString();
+                            Log.e("no", "|" + title.trim() + "|");
+                            if (title.trim().equals("")){
+                                returnNote(bundle, null, "linked_note");
+                            }
+                            else{
+                                String content = content_txt.getText().toString();
+                                returnNote(bundle, new Note(-1, title, content, ""), "linked_note");
+                            }
+                        }
+                    });
+                    back_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
                             returnNote(bundle, null, "linked_note");
                         }
-                        else{
-                            String content = content_txt.getText().toString();
-                            returnNote(bundle, new Note(-1, title, content, ""), "linked_note");
+                    });
+                    add_note_txt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            returnNote(bundle, null, "linked_note");
                         }
-                    }
-                });
-                back_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        returnNote(bundle, null, "linked_note");
-                    }
-                });
-                add_note_txt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        returnNote(bundle, null, "linked_note");
-                    }
-                });
-            }
-            else if (func == "open_note"){
-                content_txt.setText(bundle.getString("content"));
-                Note note = bundle.getParcelable("note");
-                done_txt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String title = title_txt.getText().toString();
-                        if (title.trim().equals("")){
-                            returnNote(bundle, null, "opened_note" + bundle.getString("type"));
+                    });
+                }
+                else if (func == "open_note"){
+                    content_txt.setText(bundle.getString("content"));
+                    Note note = bundle.getParcelable("note");
+                    done_txt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String title = title_txt.getText().toString();
+                            if (title.trim().equals("")){
+                                returnNote(bundle, null, "opened_note" + bundle.getString("type"));
+                            }
+                            else{
+                                String content = content_txt.getText().toString();
+                                note.setContent(content);
+                                note.setTitle(title);
+                                returnNote(bundle, note, "opened_note" + bundle.getString("type"));
+                            }
                         }
-                        else{
-                            String content = content_txt.getText().toString();
-                            note.setContent(content);
-                            note.setTitle(title);
+                    });
+                    back_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
                             returnNote(bundle, note, "opened_note" + bundle.getString("type"));
                         }
-                    }
-                });
-                back_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        returnNote(bundle, note, "opened_note" + bundle.getString("type"));
-                    }
-                });
-                add_note_txt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        returnNote(bundle, note, "opened_note" + bundle.getString("type"));
-                    }
-                });
+                    });
+                    add_note_txt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            returnNote(bundle, note, "opened_note" + bundle.getString("type"));
+                        }
+                    });
+                }
+                else if (func.trim().equals("todoOpen")){
+                    content_txt.setText(bundle.getString("content"));
+                    Note note = bundle.getParcelable("note");
+                    done_txt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String title = title_txt.getText().toString();
+                            if (title.trim().equals("")){
+                                returnTodo(bundle, null);
+                            }
+                            else{
+                                String content = content_txt.getText().toString();
+                                note.setContent(content);
+                                note.setTitle(title);
+                                returnTodo(bundle, note);
+                            }
+                        }
+                    });
+                    back_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            returnTodo(bundle, note);
+                        }
+                    });
+                    add_note_txt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            returnTodo(bundle, note);
+                        }
+                    });
+                }
             }
-
             this.setArguments(null);
         }
+    }
+    private void returnTodo(Bundle bundle, Note note){
+        Bundle bundle1 = new Bundle();
+        bundle1.putString("func", "todoOpen");
+        bundle1.putParcelable("note", note);
+        bundle1.putParcelable("listCheck", bundle.getParcelable("listCheck"));
+
+        fragment_todo fragmentTodo = bundle.getParcelable("todoView");
+        fragmentTodo.setArguments(bundle1);
+
+        getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentTodo).commit();
     }
 
     private void returnNote(Bundle bundle, Note note, String func){
@@ -156,6 +227,8 @@ public class AddnoteFragment extends Fragment {
 
         bundle1.putParcelable("note", note);
         bundle1.putParcelable("listCheck", bundle.getParcelable("listCheck"));
+        bundle1.putString("bundle", bundle.getString("bundle"));
+        bundle1.putInt("_id_", bundle.getInt("_id_"));
         fragment_todo_assignment_form fragment_todo_assignment_form = new fragment_todo_assignment_form();
         fragment_todo_assignment_form.setArguments(bundle1);
 

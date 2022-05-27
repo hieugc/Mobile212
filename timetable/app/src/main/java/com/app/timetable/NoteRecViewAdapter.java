@@ -1,6 +1,7 @@
 package com.app.timetable;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,13 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.heading_txt.setText(noteArrayList.get(position).getTitle());
-        holder.content_txt.setText(noteArrayList.get(position).getContent());
+        if (noteArrayList.get(position).getContent().length() > 17){
+            String txt = noteArrayList.get(position).getContent().substring(0, 16) + "...";
+            holder.content_txt.setText(txt);
+        }
+        else{
+            holder.content_txt.setText(noteArrayList.get(position).getContent());
+        }
         String created_at = noteArrayList.get(position).getDate();
         try {
             Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(created_at);
@@ -87,6 +94,20 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
                     }
                 });
                 builder.show();
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("func", "openInfoNote");
+                bundle.putParcelable("note", noteArrayList.get(position));
+
+                AddnoteFragment addnoteFragment = new AddnoteFragment();
+                addnoteFragment.setArguments(bundle);
+
+                fragmentNote.getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, addnoteFragment).commit();
             }
         });
     }

@@ -82,7 +82,7 @@ public class todo_check_list_RecViewAdapter extends RecyclerView.Adapter<todo_ch
             link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.openNote(list_checks, "todoView");
+                    listener.openNoteView(list_checks);
                 }
             });
         }
