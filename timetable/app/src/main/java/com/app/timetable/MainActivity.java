@@ -93,10 +93,12 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
                         return true;
 
                     case R.id.nav_note:
+                        bottomNavigationView.setForeground(null);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, noteView).commit();
                         return true;
 
                     case R.id.nav_setting:
+                        bottomNavigationView.setForeground(null);
                         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, settingView).commit();
                         return true;
                 }
@@ -125,7 +127,9 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
 //                "20/06/2022","9:00","10:50",tmpStudyDay,"",""
 //                ,""));
         calendarView.set_new_tkb(new_subject);
+        calendarView.setBottomNavigationView(bottomNavigationView);
         new_subject.set_calendar_fragment(calendarView);
+        new_subject.setBottomNavigationView(bottomNavigationView);
         calendarView.set_new_tkbbk(logInFragment);
         calendarView.set_info_subject(subject_info);
         subject_info.set_calendar(calendarView);
@@ -143,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
         meeting_form.setTodoView(todoView);
         meeting_form.setBottomNavigationView(bottomNavigationView);
         assignment_form.setTodoView(todoView);
+        assignment_form.setBottomNavigationView(bottomNavigationView);
 
         todoView.setBottomNavigationView(bottomNavigationView);
         todoView.setDataBaseHelper(dataBaseHelper);

@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -51,6 +52,10 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     RecyclerView list_item_form, list_item_dialog;
     String _bundle_ = "";
     int _id_ = -1;
+    private BottomNavigationView bottomNavigationView;
+    public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
+        this.bottomNavigationView = bottomNavigationView;
+    }
 
     Button assignment_form_button_remove;
 
@@ -260,7 +265,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        bottomNavigationView.setForeground(null);
         // Inflate the layout for this fragment
 
         assignment_form = inflater.inflate(R.layout.fragment_todo_assignment_form, container, false);

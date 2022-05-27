@@ -5,13 +5,20 @@ import static com.app.timetable.DataBaseHelper.*;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,6 +30,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -64,6 +72,11 @@ public class fragment_new_subject extends Fragment {
         void AddSubject(Subject subject);
     }
 
+    private BottomNavigationView bottomNavigationView;
+    public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
+        this.bottomNavigationView = bottomNavigationView;
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -86,6 +99,7 @@ public class fragment_new_subject extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        bottomNavigationView.setForeground(null);
         View view = inflater.inflate(R.layout.new_subject_layout, container, false);
 
         dataBaseHelper = new DataBaseHelper(view.getContext());
@@ -101,6 +115,16 @@ public class fragment_new_subject extends Fragment {
         edttext_subject_name = view.findViewById(R.id.edttext_subject_name);
         edttext_group_subject = view.findViewById(R.id.edttext_group_subject);
         edttext_subject_room = view.findViewById(R.id.edttext_subject_room);
+        edttext_subject_room.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_NEXT || i == EditorInfo.IME_ACTION_DONE || keyEvent != null && keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+                    closeKeyBoard();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         save_new_subject_layout = view.findViewById(R.id.save_new_subject);
 
@@ -119,6 +143,16 @@ public class fragment_new_subject extends Fragment {
         popup_bg = view.findViewById(R.id.popup_background);
         done_info_lecturer_bttn = view.findViewById(R.id.done_add_info_lecturer);
         edttext_lecturer_mail = view.findViewById(R.id.edttext_email_lecturer);
+        edttext_lecturer_mail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_NEXT || i == EditorInfo.IME_ACTION_DONE || keyEvent != null && keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+                    closeKeyBoard();
+                    return true;
+                }
+                return false;
+            }
+        });
         edttext_lecturer_name = view.findViewById(R.id.edttext_name_lecturer);
         edttext_lecturer_number = view.findViewById(R.id.edttext_number_lecturer);
         day_t2 = view.findViewById(R.id.day_t2);
@@ -268,14 +302,14 @@ public class fragment_new_subject extends Fragment {
         study_time_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                open_study_time_begin(view);
+                open_study_time_begin();
             }
         });
 
         study_time_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                open_study_time_end(view);
+                open_study_time_end();
             }
         });
 
@@ -422,18 +456,18 @@ public class fragment_new_subject extends Fragment {
         add_info_lecturer_buttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                open_info_lecturer_bg(view);
+                open_info_lecturer_bg();
             }
         });
 
         popup_bg.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if (add_info_lecturer_layout.getBackgroundTintMode() == PorterDuff.Mode.SRC_OVER){
-                    close_info_lecturer_bg(view);
+                if (add_info_lecturer_layout.getVisibility() == View.VISIBLE){
+                    close_info_lecturer_bg();
                 }
-                if (study_time_selector.getBackgroundTintMode() == PorterDuff.Mode.SRC_OVER){
-                    close_popup_selector(view);
+                if (study_time_selector.getVisibility() == View.VISIBLE){
+                    close_popup_selector();
                 }
             }
         });
@@ -461,11 +495,10 @@ public class fragment_new_subject extends Fragment {
         });
     }
 
-    private void open_study_time_begin(View view){
+    private void open_study_time_begin(){
         popup_bg.setVisibility(View.VISIBLE);
-        popup_bg.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
         study_time_selector.setVisibility(View.VISIBLE);
-        study_time_selector.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
+        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
         done_add_time_study_bttn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -479,16 +512,16 @@ public class fragment_new_subject extends Fragment {
                 }
                 startHour=hour_start+":"+minute_start;
                 study_time_start.setText(startHour);
-                close_popup_selector(view);
+                close_popup_selector();
             }
         });
     }
 
-    private void open_study_time_end(View view){
+    private void open_study_time_end(){
         popup_bg.setVisibility(View.VISIBLE);
-        popup_bg.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
         study_time_selector.setVisibility(View.VISIBLE);
-        study_time_selector.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
+        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+        closeKeyBoard();
         done_add_time_study_bttn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -502,33 +535,36 @@ public class fragment_new_subject extends Fragment {
                 }
                 endHour = hour_start+":"+minute_start;
                 study_time_end.setText(endHour);
-                close_popup_selector(view);
+                close_popup_selector();
             }
         });
     }
 
-    private void close_popup_selector(View view){
-        popup_bg.setVisibility(View.INVISIBLE);
-        popup_bg.setBackgroundTintMode(PorterDuff.Mode.SRC_IN);
-        study_time_selector.setVisibility(View.INVISIBLE);
-        study_time_selector.setBackgroundTintMode(PorterDuff.Mode.SRC_IN);
+    private void close_popup_selector(){
+        popup_bg.setVisibility(View.GONE);
+        study_time_selector.setVisibility(View.GONE);
+        bottomNavigationView.setForeground(null);
+        closeKeyBoard();
     }
 
-    private void close_info_lecturer_bg(View view){
-        popup_bg.setVisibility(View.INVISIBLE);
-        popup_bg.setBackgroundTintMode(PorterDuff.Mode.SRC_IN);
-        add_info_lecturer_layout.setVisibility(View.INVISIBLE);
-        add_info_lecturer_layout.setBackgroundTintMode(PorterDuff.Mode.SRC_IN);
+    private void close_info_lecturer_bg(){
+        popup_bg.setVisibility(View.GONE);
+        add_info_lecturer_layout.setVisibility(View.GONE);
+        bottomNavigationView.setForeground(null);
+        closeKeyBoard();
     }
 
-    private void open_info_lecturer_bg(View view){
+    private void open_info_lecturer_bg(){
+        closeKeyBoard();
         edttext_lecturer_number.setText(lecturerNumber);
         edttext_lecturer_name.setText(lecturerName);
         edttext_lecturer_mail.setText(lecturerMail);
+
         add_info_lecturer_layout.setVisibility(View.VISIBLE);
-        add_info_lecturer_layout.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
         popup_bg.setVisibility(View.VISIBLE);
-        popup_bg.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
+
+        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+
         done_info_lecturer_bttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -545,7 +581,7 @@ public class fragment_new_subject extends Fragment {
                 else{
                     add_info_lecturer_buttn.setText("Thêm");
                 }
-                close_info_lecturer_bg(view);
+                close_info_lecturer_bg();
             }
         });
     }
@@ -603,5 +639,12 @@ public class fragment_new_subject extends Fragment {
 
     private void addSubjectData(Subject subject){
         AddSubjectListener.AddSubject(subject);
+    }
+    private void closeKeyBoard(){
+        View view = getActivity().getCurrentFocus();
+        if(view != null){
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

@@ -7,583 +7,606 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/calendar_top_nav"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/calendar_top_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:elevation="20dp"
+            android:paddingBottom="5dp">
+
+            <LinearLayout
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_back_icon"
+                    app:tint="@color/nav_primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Thêm môn mới"
+                    android:textColor="@color/nav_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/save_new_subject"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lưu"
+                    android:textColor="@color/nav_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_alignTop="@id/calendar_top_nav"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp">
 
-            <ImageView
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_back_icon"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tên môn học"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"/>
+                <EditText
+                    android:id="@+id/edttext_subject_name"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/custom_input"
+                    android:inputType="textAutoComplete"
+                    android:textColorHint="#BBBBBB"
+                    android:paddingStart="12dp"
+                    android:hint="VD: Giải tích 2"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"/>
 
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thêm môn mới"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/save_new_subject"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:layout_marginRight="15dp"
-            android:layout_width="40dp"
-            android:layout_height="25dp">
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nhóm - Tổ"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"/>
+                <EditText
+                    android:id="@+id/edttext_group_subject"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/custom_input"
+                    android:inputType="textAutoComplete"
+                    android:textColorHint="#BBBBBB"
+                    android:paddingStart="12dp"
+                    android:hint="VD: L01"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:lines="1"
+                    android:layout_height="35dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phòng học"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"/>
+                <EditText
+                    android:id="@+id/edttext_subject_room"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/custom_input"
+                    android:inputType="textAutoComplete"
+                    android:textColorHint="#BBBBBB"
+                    android:paddingStart="12dp"
+                    android:hint="VD: H6 305"
+                    android:textColor="@color/black"
+                    android:lines="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thông tin giảng viên:"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"/>
+
+                <Button
+                    android:id="@+id/add_lecturer_info_button"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="Thêm"
+                    android:inputType="none"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Lưu"
-                android:textStyle="bold"
-                android:textSize="17sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lịch học:"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"/>
+                <RelativeLayout
+                    android:id="@+id/subject_day_begin_layout"
+                    android:layout_marginStart="18dp"
+                    android:background="@drawable/calendar_shape_background"
+                    android:paddingHorizontal="7dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/subject_day_begin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:text="Ngày đầu"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@id/subject_day_begin"
+                        android:src="@drawable/ic_calendar_icon" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/subject_day_end_layout"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/calendar_shape_background"
+                    android:paddingHorizontal="7dp"
+                    android:paddingVertical="7dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/subject_day_end"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày cuối"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/subject_day_end"
+                        android:src="@drawable/ic_calendar_icon" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:text="Ngày học:"/>
+                    <TextView
+                        android:id="@+id/day_t2"
+                        android:backgroundTintMode="multiply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/calendar_shape_background"
+                        android:text="T2"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="3dp"
+                        android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:id="@+id/day_t3"
+                        android:backgroundTintMode="multiply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/calendar_shape_background"
+                        android:text="T3"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="3dp"
+                        android:layout_marginLeft="5dp"/>
+                    <TextView
+                        android:id="@+id/day_t4"
+                        android:backgroundTintMode="multiply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/calendar_shape_background"
+                        android:text="T4"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="3dp"
+                        android:layout_marginLeft="5dp"/>
+                    <TextView
+                        android:id="@+id/day_t5"
+                        android:backgroundTintMode="multiply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/calendar_shape_background"
+                        android:text="T5"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="3dp"
+                        android:layout_marginLeft="5dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="57dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/day_t6"
+                        android:backgroundTintMode="multiply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/calendar_shape_background"
+                        android:text="T6"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="3dp"/>
+                    <TextView
+                        android:id="@+id/day_t7"
+                        android:backgroundTintMode="multiply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/calendar_shape_background"
+                        android:text="T7"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="3dp"
+                        android:layout_marginLeft="5dp"/>
+                    <TextView
+                        android:backgroundTintMode="multiply"
+                        android:id="@+id/day_cn"
+                        android:background="@drawable/calendar_shape_background"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CN"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="3dp"
+                        android:layout_marginLeft="5dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="35dp"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giờ học:"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"/>
+                <TextView
+                    android:id="@+id/study_time_start"
+                    android:background="@drawable/calendar_shape_background"
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Bắt đầu"
+                    android:textColor="@color/black"
+                    android:paddingVertical="5dp"
+                    android:paddingHorizontal="15dp"
+                    android:layout_marginLeft="22dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="20dp"/>
+                <TextView
+                    android:id="@+id/study_time_end"
+                    android:background="@drawable/calendar_shape_background"
+                    android:layout_width="85dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="Kết thúc"
+                    android:textColor="@color/black"
+                    android:paddingVertical="5dp"
+                    android:paddingHorizontal="15dp"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_alignTop="@id/calendar_top_nav"
-        android:layout_marginTop="50dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tên môn học"
-                android:textSize="17sp"
-                android:textColor="@color/black"/>
-            <EditText
-                android:id="@+id/edttext_subject_name"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/custom_input"
-                android:inputType="text"
-                android:textColorHint="#BBBBBB"
-                android:paddingStart="12dp"
-                android:hint="VD: Giải tích 2"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nhóm - Tổ"
-                android:textSize="17sp"
-                android:textColor="@color/black"/>
-            <EditText
-                android:id="@+id/edttext_group_subject"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/custom_input"
-                android:inputType="text"
-                android:textColorHint="#BBBBBB"
-                android:paddingStart="12dp"
-                android:hint="VD: L01"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Phòng học"
-                android:textSize="17sp"
-                android:textColor="@color/black"/>
-            <EditText
-                android:id="@+id/edttext_subject_room"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="@drawable/custom_input"
-                android:inputType="text"
-                android:textColorHint="#BBBBBB"
-                android:paddingStart="12dp"
-                android:hint="VD: H6 305"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thông tin giảng viên:"
-                android:textSize="17sp"
-                android:textColor="@color/black"/>
-
-            <Button
-                android:id="@+id/add_lecturer_info_button"
-                android:layout_marginLeft="20dp"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Thêm"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lịch học:"
-                android:textColor="@color/black"
-                android:textSize="17sp"/>
-            <RelativeLayout
-                android:id="@+id/subject_day_begin_layout"
-                android:layout_marginStart="18dp"
-                android:background="@drawable/calendar_shape_background"
-                android:paddingHorizontal="7dp"
-                android:paddingVertical="7dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/subject_day_begin"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ngày đầu"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@id/subject_day_begin"
-                    android:src="@drawable/ic_calendar_icon" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/subject_day_end_layout"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/calendar_shape_background"
-                android:paddingHorizontal="7dp"
-                android:paddingVertical="7dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/subject_day_end"
-                    android:layout_gravity="start|center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ngày cuối"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@+id/subject_day_end"
-                    android:src="@drawable/ic_calendar_icon" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_marginTop="15dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:text="Ngày học:"/>
-                <TextView
-                    android:id="@+id/day_t2"
-                    android:backgroundTintMode="multiply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/calendar_shape_background"
-                    android:text="T2"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="3dp"
-                    android:layout_marginLeft="10dp"/>
-                <TextView
-                    android:id="@+id/day_t3"
-                    android:backgroundTintMode="multiply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/calendar_shape_background"
-                    android:text="T3"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="3dp"
-                    android:layout_marginLeft="5dp"/>
-                <TextView
-                    android:id="@+id/day_t4"
-                    android:backgroundTintMode="multiply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/calendar_shape_background"
-                    android:text="T4"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="3dp"
-                    android:layout_marginLeft="5dp"/>
-                <TextView
-                    android:id="@+id/day_t5"
-                    android:backgroundTintMode="multiply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/calendar_shape_background"
-                    android:text="T5"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="3dp"
-                    android:layout_marginLeft="5dp"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="57dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/day_t6"
-                    android:backgroundTintMode="multiply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/calendar_shape_background"
-                    android:text="T6"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="3dp"/>
-                <TextView
-                    android:id="@+id/day_t7"
-                    android:backgroundTintMode="multiply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/calendar_shape_background"
-                    android:text="T7"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="3dp"
-                    android:layout_marginLeft="5dp"/>
-                <TextView
-                    android:backgroundTintMode="multiply"
-                    android:id="@+id/day_cn"
-                    android:background="@drawable/calendar_shape_background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CN"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="3dp"
-                    android:layout_marginLeft="5dp"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:gravity="center_vertical"
-            android:layout_height="35dp"
-            android:layout_marginTop="15dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giờ học:"
-                android:textColor="@color/black"
-                android:textSize="17sp"/>
-            <TextView
-                android:id="@+id/study_time_start"
-                android:background="@drawable/calendar_shape_background"
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Bắt đầu"
-                android:textColor="@color/black"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="15dp"
-                android:layout_marginLeft="22dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:layout_marginLeft="20dp"/>
-            <TextView
-                android:id="@+id/study_time_end"
-                android:background="@drawable/calendar_shape_background"
-                android:layout_width="85dp"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:text="Kết thúc"
-                android:textColor="@color/black"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="15dp"
-                android:layout_marginLeft="20dp"/>
-
-        </LinearLayout>
-    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/popup_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#47333333"
-        android:backgroundTintMode="src_in"
-        android:visibility="gone">
-    </RelativeLayout>
+        android:background="#CC333333"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        >
 
-
-    <LinearLayout
-        android:id="@+id/add_lecturer_info_layout"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/calendar_popup_background"
-        android:backgroundTintMode="src_in"
-        android:orientation="vertical"
-        android:paddingVertical="15dp"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/add_lecturer_info_layout"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Thông tin giảng viên"
-            android:textColor="@color/black"
-            android:textSize="17sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:text="Họ và tên"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/edttext_name_lecturer"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/custom_input"
-            android:inputType="textAutoComplete|text"
-            android:paddingStart="12dp"
-            android:textColor="@color/black"
-            android:textColorHint="#BBBBBB" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:text="Số điện thoại"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/edttext_number_lecturer"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/custom_input"
-            android:inputType="textAutoComplete|number"
-            android:paddingStart="12dp"
-            android:textColor="@color/black"
-            android:textColorHint="#BBBBBB" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:text="Email"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/edttext_email_lecturer"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/custom_input"
-            android:inputType="textAutoComplete|textEmailAddress"
-            android:paddingStart="12dp"
-            android:textColor="@color/black"
-            android:textColorHint="#BBBBBB" />
-
-        <Button
-            android:backgroundTint="@color/nav_primary"
-            android:id="@+id/done_add_info_lecturer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="15dp"
-            android:text="Xong" />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/study_time_selector"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/calendar_popup_background"
-        android:backgroundTintMode="src_in"
-        android:visibility="gone">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/calendar_add_time_title"
-            android:layout_width="match_parent"
-            android:layout_height="65dp">
+            android:layout_centerInParent="true"
+            android:background="@drawable/calendar_popup_background"
+            android:orientation="vertical"
+            android:paddingVertical="15dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:text="Thời gian"
+                android:layout_gravity="center"
+                android:text="Thông tin giảng viên"
                 android:textColor="@color/black"
-                android:textSize="25sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Họ và tên:"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edttext_name_lecturer"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_close_black_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@drawable/custom_input"
+                android:inputType="textAutoComplete"
+                android:lines="1"
+                android:paddingStart="12dp"
+                android:textColor="@color/black"
+                android:textColorHint="#BBBBBB" />
 
-            <com.google.android.material.divider.MaterialDivider
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:dividerInsetEnd="16dp"
-                app:dividerInsetStart="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:text="Số điện thoại:"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
-        <LinearLayout
-            android:id="@+id/calendar_add_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
+            <EditText
+                android:id="@+id/edttext_number_lecturer"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/custom_input"
+                android:inputType="number"
+                android:lines="1"
+                android:paddingStart="12dp"
+                android:textColor="@color/black"
+                android:textColorHint="#BBBBBB" />
 
-            <RelativeLayout
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:text="Email:"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/calendar_add_hours_title"
-                    style="@style/todo_title_picker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:text="@string/todo_meeting_form_hour" />
+            <EditText
+                android:id="@+id/edttext_email_lecturer"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/custom_input"
+                android:inputType="textAutoComplete|textEmailAddress"
+                android:lines="1"
+                android:paddingStart="12dp"
+                android:textColor="@color/black"
+                android:textColorHint="#BBBBBB" />
 
-                <NumberPicker
-                    android:id="@+id/calendar_add_hours"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/todo_form_number_picker_height"
-                    android:layout_below="@id/calendar_add_hours_title"
-                    android:scaleX="0.8"
-                    android:theme="@style/todo_number_picker" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <Button
+                android:id="@+id/done_add_info_lecturer"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/nav_primary"
+                android:text="Xong" />
 
-                <TextView
-                    android:id="@+id/calendar_add_minutes_title"
-                    style="@style/todo_title_picker"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-
-                    android:text="@string/todo_meeting_form_minus" />
-
-                <NumberPicker
-                    android:id="@+id/calendar_add_minutes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/todo_form_number_picker_height"
-                    android:layout_below="@id/calendar_add_minutes_title"
-                    android:scaleX="0.8"
-                    android:theme="@style/todo_number_picker" />
-
-            </RelativeLayout>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/done_add_time_study"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/nav_primary"
-            android:text="Xong" />
+        <RelativeLayout
+            android:id="@+id/study_time_selector"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/calendar_popup_background"
+            android:backgroundTintMode="src_in"
+            android:visibility="gone">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/calendar_add_time_title"
+                android:layout_width="match_parent"
+                android:layout_height="65dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Thời gian"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/ic_close_black_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:dividerInsetEnd="16dp"
+                    app:dividerInsetStart="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/calendar_add_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/calendar_add_hours_title"
+                        style="@style/todo_title_picker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/todo_meeting_form_hour" />
+
+                    <NumberPicker
+                        android:id="@+id/calendar_add_hours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+                        android:layout_below="@id/calendar_add_hours_title"
+                        android:scaleX="0.8"
+                        android:theme="@style/todo_number_picker" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/calendar_add_minutes_title"
+                        style="@style/todo_title_picker"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+
+                        android:text="@string/todo_meeting_form_minus" />
+
+                    <NumberPicker
+                        android:id="@+id/calendar_add_minutes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/todo_form_number_picker_height"
+                        android:layout_below="@id/calendar_add_minutes_title"
+                        android:scaleX="0.8"
+                        android:theme="@style/todo_number_picker" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/done_add_time_study"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/nav_primary"
+                android:text="Xong" />
+        </RelativeLayout>
+
     </RelativeLayout>
+
 
 </RelativeLayout>

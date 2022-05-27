@@ -227,7 +227,7 @@
                 android:textColor="@color/black"
                 android:maxLines="1"
                 android:text="@string/todo_clear"
-                android:inputType="text"
+                android:inputType="textAutoComplete"
                 app:boxBackgroundColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -380,7 +380,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialog"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container_dialog"

@@ -63,7 +63,7 @@ public class fragment_todo_meeting_form extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        bottomNavigationView.setForeground(null);
         // Inflate the layout for this fragment
         View meeting_form = inflater.inflate(R.layout.fragment_todo_meeting_form, container, false);
         init(meeting_form);

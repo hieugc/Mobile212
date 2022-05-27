@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -69,7 +70,7 @@ public class fragment_calendar extends Fragment {
     public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
         this.bottomNavigationView = bottomNavigationView;
     }
-
+    private ImageView imageView;
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     private RecyclerView subjectRecyclerView, calendarRecyclerView;
     private SubjectAdapter adapter;
@@ -141,7 +142,8 @@ public class fragment_calendar extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this
+        bottomNavigationView.setForeground(null);
         View calendarView = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         dataBaseHelper = new DataBaseHelper(calendarView.getContext());
@@ -165,6 +167,8 @@ public class fragment_calendar extends Fragment {
         backward_calendar = calendarView.findViewById(R.id.backward_calendar);
         forward_calendar = calendarView.findViewById(R.id.forward_calendar);
         calendar_dropdown = calendarView.findViewById(R.id.calendar_dropdown);
+
+        imageView = calendarView.findViewById(R.id.image_default);
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int year = calendar.get(Calendar.YEAR);
@@ -202,6 +206,7 @@ public class fragment_calendar extends Fragment {
             @Override
             public void onClick(View view) {
                 logInFragment = new LogInFragment();
+                logInFragment.setBottomNavigationView(bottomNavigationView);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, logInFragment).commit();
             }
         });
@@ -399,14 +404,18 @@ public class fragment_calendar extends Fragment {
         String date = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
 
         ArrayList<TimeTable> timeTables = dataBaseHelper.getTimetableByDate(date);
+        if (timeTables.size() == 0){
+            imageView.setVisibility(VISIBLE);
+        }
+        else{
+            timeTableAdapter.setArrayList(timeTables);
+            subjectRecyclerView.setAdapter(timeTableAdapter);
+            subjectRecyclerView.setLayoutManager(new LinearLayoutManager(calendarView.getContext()));
+        }
         Log.e("timetable", timeTables.toString());
 //        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
 //        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
 //        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
-        timeTableAdapter.setArrayList(timeTables);
-
-        subjectRecyclerView.setAdapter(timeTableAdapter);
-        subjectRecyclerView.setLayoutManager(new LinearLayoutManager(calendarView.getContext()));
 
         return calendarView;
     }
@@ -478,6 +487,7 @@ public class fragment_calendar extends Fragment {
         floatingActionButton.setImageResource(R.drawable.icon_add);
 
         bottomNavigationView.setForeground(null);
+
         calendar_tkb_button.setVisibility(View.GONE);
         calendar_tkbbk_button.setVisibility(View.GONE);
     }
@@ -489,8 +499,8 @@ public class fragment_calendar extends Fragment {
 
 
         bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
-        floatingActionButton.setImageResource(R.drawable.icon_close);
 
+        floatingActionButton.setImageResource(R.drawable.icon_close);
         calendar_tkb_button.setVisibility(VISIBLE);
         calendar_tkbbk_button.setVisibility(VISIBLE);
     }

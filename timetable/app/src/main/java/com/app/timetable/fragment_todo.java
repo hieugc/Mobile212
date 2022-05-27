@@ -83,7 +83,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
     private static final String TAG = "MyActivity";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        bottomNavigationView.setForeground(null);
         // Inflate the layout for this fragment
         View todoView = inflater.inflate(R.layout.fragment_todo, container, false);
         dataBaseHelper = new DataBaseHelper(todoView.getContext());
