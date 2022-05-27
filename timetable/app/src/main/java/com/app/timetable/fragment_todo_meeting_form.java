@@ -1,10 +1,13 @@
 package com.app.timetable;
 
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.time.format.DateTimeFormatter;
@@ -29,20 +33,27 @@ public class fragment_todo_meeting_form extends Fragment {
     public fragment_todo_meeting_form(){
         //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain_todo_form, this).commit();
     }
-    fragment_todo fragment_todo;
+    private fragment_todo fragment_todo;
 
     //info form
-    NumberPicker todo_meet_form_day, todo_meet_form_month, todo_meet_form_year, todo_meet_form_hour, todo_meet_form_minus;
-    TextInputEditText subtitle, location, link;
-    ImageView meet_form_close, todo_meet_form_refresh_time;
-    Button meet_form_button_done, meet_form_button_remove;
-    TextView todo_meet_form_add_time_show, todo_meet_form_line_1_title, todo_meet_form_line_5;
+    private NumberPicker todo_meet_form_day, todo_meet_form_month, todo_meet_form_year, todo_meet_form_hour, todo_meet_form_minus;
+    private TextInputEditText subtitle, location, link;
+    private ImageView meet_form_close, todo_meet_form_refresh_time;
+    private Button meet_form_button_done, meet_form_button_remove;
+    private TextView todo_meet_form_add_time_show, todo_meet_form_line_1_title, todo_meet_form_line_5;
 
     //dialog
-    ConstraintLayout todo_meet_form_add_time_dialog, container_dialog;
-    ImageView todo_meet_form_dialog_close;
-    NumberPicker meet_form_hour_picker, meet_form_minus_picker;
-    Button meet_form_button_dialog_done;
+    private ConstraintLayout todo_meet_form_add_time_dialog, container_dialog;
+    private ImageView todo_meet_form_dialog_close;
+    private NumberPicker meet_form_hour_picker, meet_form_minus_picker;
+    private Button meet_form_button_dialog_done;
+
+
+    private BottomNavigationView bottomNavigationView;
+
+    public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
+        this.bottomNavigationView = bottomNavigationView;
+    }
 
     public void setTodoView(fragment_todo fragment) {
         fragment_todo = fragment;
@@ -203,7 +214,6 @@ public class fragment_todo_meeting_form extends Fragment {
 
         String done = "";
         Bundle bundle = getArguments();
-        Log.e("check", String.valueOf(bundle));
         if (bundle != null){
             String func = bundle.getString("func");
             if(func == "edit_meeting"){
@@ -214,16 +224,10 @@ public class fragment_todo_meeting_form extends Fragment {
                 String alert = bundle.getString("alert");
                 String id = bundle.getString("id");
                 done = bundle.getString("done");
-                Log.e("create_meeting", String.valueOf(title));
-                Log.e("create_meeting", String.valueOf(location));
-                Log.e("create_meeting", String.valueOf(link));
-                Log.e("create_meeting", time.trim());
-                Log.e("create_meeting", alert.trim());
 
                 this.subtitle.setText(title);
                 this.location.setText(location);
                 this.link.setText(link);
-                Log.e("check_text", this.link.getText().toString());
 
                 this.todo_meet_form_add_time_show.setText(alert.trim());
                 this.meet_form_hour_picker.setValue(Integer.parseInt(alert.split(":")[0]));
@@ -242,6 +246,9 @@ public class fragment_todo_meeting_form extends Fragment {
                         bundle.putString("func", "remove_meeting");
                         bundle.putString("id", id);
                         fragment_todo.setArguments(bundle);
+
+                        resetForm();
+
                         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragment_todo).commit();
                     }
                 });
@@ -254,9 +261,6 @@ public class fragment_todo_meeting_form extends Fragment {
                     }
                 });
             }
-            else{
-                Log.e("check", "acction fail: " + func);
-            }
         }
         else{
             meet_form_button_remove.setVisibility(View.GONE);
@@ -267,16 +271,8 @@ public class fragment_todo_meeting_form extends Fragment {
             todo_meet_form_hour.setValue(now.get(Calendar.HOUR_OF_DAY));
             todo_meet_form_minus.setValue(now.get(Calendar.MINUTE));
 
-            this.subtitle.setText("");
-            this.location.setText("");
-            this.link.setText("");
-            Log.e("check_text", subtitle.getText().toString());
-            Log.e("check_text", location.getText().toString());
-            Log.e("check_text", link.getText().toString());
-            Log.e("check", "bundle null");
-            this.todo_meet_form_add_time_show.setText("00:05");
-            this.meet_form_hour_picker.setValue(0);
-            this.meet_form_minus_picker.setValue(5);
+            resetForm();
+
             meet_form_button_done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -338,12 +334,18 @@ public class fragment_todo_meeting_form extends Fragment {
 
     private void close_dialog(){
         if(todo_meet_form_add_time_dialog.getVisibility() == View.VISIBLE){
-            todo_meet_form_add_time_dialog.setVisibility(View.INVISIBLE);
+            todo_meet_form_add_time_dialog.setVisibility(View.GONE);
+            bottomNavigationView.setForeground(null);
         }
     }
 
     private void open_dialog(){
-        if(todo_meet_form_add_time_dialog.getVisibility() == View.INVISIBLE){
+        if(todo_meet_form_add_time_dialog.getVisibility() == View.GONE){
+
+            bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+            todo_meet_form_add_time_dialog.getLayoutParams().height = -1;
+            todo_meet_form_add_time_dialog.getLayoutParams().width = -1;
+
             todo_meet_form_add_time_dialog.setVisibility(View.VISIBLE);
         }
     }
@@ -456,7 +458,6 @@ public class fragment_todo_meeting_form extends Fragment {
             int form_timer_hour = meet_form_hour_picker.getValue();
             int form_timer_minus = meet_form_minus_picker.getValue();
             String form_alert = formatTime(form_timer_hour, form_timer_minus);
-            Log.e("check", form_time);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 form_time = checkTimeForm(form_time);
             }
@@ -479,15 +480,20 @@ public class fragment_todo_meeting_form extends Fragment {
             todo_meet_form_hour.setValue(now.get(Calendar.HOUR_OF_DAY));
             todo_meet_form_minus.setValue(now.get(Calendar.MINUTE));
 
-            this.subtitle.setText("");
-            this.location.setText("");
-            this.link.setText("");
-            this.todo_meet_form_add_time_show.setText("00:05");
-            this.meet_form_minus_picker.setValue(5);
-            this.meet_form_hour_picker.setValue(0);
+            resetForm();
 
             fragment_todo.setArguments(bundle);
             getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragment_todo).commit();
         }
+    }
+
+    private void resetForm(){
+        this.subtitle.setText("");
+        this.location.setText("");
+        this.link.setText("");
+        this.todo_meet_form_add_time_show.setText("00:05");
+        this.meet_form_minus_picker.setValue(5);
+        this.meet_form_hour_picker.setValue(0);
+
     }
 }

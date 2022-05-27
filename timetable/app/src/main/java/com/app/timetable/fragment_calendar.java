@@ -5,6 +5,7 @@ import static android.view.View.VISIBLE;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -61,6 +63,11 @@ public class fragment_calendar extends Fragment {
         dates.add(tomorrow);
         dates.add(theNextDay);
         dateAdapter.setArrayList(dates);
+    }
+
+    private BottomNavigationView bottomNavigationView;
+    public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
+        this.bottomNavigationView = bottomNavigationView;
     }
 
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
@@ -453,6 +460,7 @@ public class fragment_calendar extends Fragment {
 
         floatingActionButton.setImageResource(R.drawable.icon_add);
 
+        bottomNavigationView.setForeground(null);
         calendar_tkb_button.setVisibility(View.GONE);
         calendar_tkbbk_button.setVisibility(View.GONE);
     }
@@ -462,6 +470,8 @@ public class fragment_calendar extends Fragment {
         calendar_float_button_background.getLayoutParams().height = -1;
         calendar_float_button_background.setBackgroundColor(Color.parseColor("#CC333333"));
 
+
+        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
         floatingActionButton.setImageResource(R.drawable.icon_close);
 
         calendar_tkb_button.setVisibility(VISIBLE);

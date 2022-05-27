@@ -104,14 +104,10 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         }
         if(bundle != null){
             String func = bundle.getString("func");
-            Log.e("func", func);
             if (func.trim().equals("edit_assignment")){
                 this._bundle_ = "edit_assignment";
                 assignment_form_sub.setText(bundle.getString("title"));
                 time_show("Bắt đầu: " + bundle.getString("time_start"), "Kết thúc: " + bundle.getString("time_end"), bundle.getString("time_left"));
-                for (list_check l: list_checks){
-                    Log.e("Check list", l.getContent());
-                }
                 this.list_note = bundle.getParcelableArrayList("list_note");
                 this.list_checks = bundle.getParcelableArrayList("list_checks");
                 this.list_checks_dialog = bundle.getParcelableArrayList("list_checks_dialog");
@@ -125,8 +121,8 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                         Bundle bundle = new Bundle();
                         bundle.putString("func", "remove_assignment");
                         bundle.putInt("id", id);
-                        Log.e("bundel_check2", String.valueOf(id));
                         todoView.setArguments(bundle);
+                        assignment_form_sub.setText("");
                         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
                     }
                 });
@@ -148,9 +144,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
                     }
                 });
-                Log.e("edit", String.valueOf(this.list_checks_dialog));
-                Log.e("edit", String.valueOf(this.list_checks));
-                Log.e("edit", String.valueOf(this.list_note));
             }
             else if(func.trim().equals("linked_note")){
                 getLastState(bundle);
@@ -158,11 +151,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 Note note = bundle.getParcelable("note");
                 checkBundle(bundle);
                 if (note != null){
-                    Log.e("dialog", note.getTitle());
                     update_note(note, listCheck, list_checks_dialog);
-                }
-                else {
-                    Log.e("dialog", "null");
                 }
                 open_add_list_dialog();
                 show_recycle_dialog();
@@ -172,12 +161,8 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 list_check listCheck = bundle.getParcelable("listCheck");
                 Note note = bundle.getParcelable("note");
                 checkBundle(bundle);
-                if(note == null){
-                    Log.e("dialog", "null");
-                }
                 update_note(note, listCheck, list_checks_dialog);
 
-                Log.e("dialog", String.valueOf(this.list_checks_dialog));
                 open_add_list_dialog();
                 show_recycle_dialog();
             }
@@ -185,15 +170,11 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 getLastState(bundle);
                 list_check listCheck = bundle.getParcelable("listCheck");
                 Note note = bundle.getParcelable("note");
-                if(note == null){
-                    Log.e("dialog", "null");
-                }
                 checkBundle(bundle);
                 update_note(note, listCheck, list_checks);
                 show_recycle();
             }
             this.setArguments(null);
-            Log.e("func", "end");
         }
 
         todo_assignment_form_add_list.setOnClickListener(new View.OnClickListener() {
@@ -218,8 +199,9 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     Bundle bundle = new Bundle();
                     bundle.putString("func", "remove_assignment");
                     bundle.putInt("id", bundle.getInt("_id_"));
-                    Log.e("bundel_check2", String.valueOf(bundle.getInt("_id_")));
                     todoView.setArguments(bundle);
+
+                    assignment_form_sub.setText("");
                     getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
                 }
             });
@@ -237,6 +219,8 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     bundle.putParcelableArrayList("list_check", (ArrayList<? extends Parcelable>) list_checks);
                     bundle.putParcelableArrayList("list_note", (ArrayList<? extends Parcelable>) list_note);
                     todoView.setArguments(bundle);
+                    assignment_form_sub.setText("");
+
                     assignment_form_sub.setText("");
                     getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
                 }
@@ -271,7 +255,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 }
                 break;
             }
-            Log.e("abc", String.valueOf(list_note));
         }
     }
 
@@ -377,8 +360,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         list_item_form = assignment_form.findViewById(R.id.list_item_form);
         list_item_dialog = assignment_form.findViewById(R.id.list_item_dialog);
 
-
-
         //button
         assignment_form_button_done = assignment_form.findViewById(R.id.assignment_form_button_done);
         assignment_form_button_done.setOnClickListener(new View.OnClickListener() {
@@ -447,12 +428,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             @Override
             public void onPositiveButtonClick(Object selection) {
                 String[] rangedate = picker.getHeaderText().split(" ",7);
-                Log.e("check", picker.getHeaderText());
-                Log.e("check", String.valueOf(rangedate.length));
-                for (String x: rangedate){
-                    Log.e("check", String.valueOf(x));
-                }
-
                 if(rangedate.length == 5){
                     String time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
                     String time_end = "Kết thúc: " + hash_day(rangedate[4]) + "/" + hash_month(rangedate[3]) + "/2022";
@@ -521,7 +496,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             list_check node = new list_check(list_checks_dialog.size(), "", false, -1);
             list_checks_dialog.add(node);
             list_note.add(null);
-            Log.e("dialog", String.valueOf(list_note.size()));
         }
         show_recycle_dialog();
     }
@@ -591,7 +565,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     }
     private void closeKeyBoard(){
         View view = assignment_form.findFocus();
-        Log.e("check", String.valueOf(view));
         if(view != null){
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -622,7 +595,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     @Override
     public void addListCheckItem() {
         remove_list_item_dialog_null(list_checks_dialog);
-        show_e();
         add_list_item_dialog();
     }
 
@@ -724,9 +696,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     public void openNoteView(list_check listCheck) {
 
     }
+    private void resetForm(){
 
-    private void show_e(){
-        for (list_check l: list_checks_dialog) Log.e("check", l.getId() + " " + l.getContent());
-        for (list_check l: list_checks) Log.e("check", l.getId() + " " + l.getContent());
     }
 }

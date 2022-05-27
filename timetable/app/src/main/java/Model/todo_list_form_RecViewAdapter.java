@@ -43,7 +43,6 @@ public class todo_list_form_RecViewAdapter extends RecyclerView.Adapter<todo_lis
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(position < assignments.size()){
             final assignment ass = assignments.get(position);
-            Log.e("a", String.valueOf(ass));
             holder.bindAll(ass);
         }
     }

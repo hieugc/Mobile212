@@ -6,9 +6,12 @@ import static android.view.View.VISIBLE;
 import android.annotation.SuppressLint;
 import android.companion.WifiDeviceFilter;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Type;
@@ -38,25 +42,29 @@ import Model.todo_item_RecViewAdapter;
 public class fragment_todo extends Fragment implements ItemClickListener, Parcelable {
     public fragment_todo(){
     }
-    fragment_todo_meeting_form todo_meeting_form;
-    fragment_todo_assignment_form todo_assignment_form;
-    ImageView default_todo_layout;
-    RecyclerView todo_meeting;
+    private fragment_todo_meeting_form todo_meeting_form;
+    private fragment_todo_assignment_form todo_assignment_form;
+    private ImageView default_todo_layout;
+    private RecyclerView todo_meeting;
 
-    DataBaseHelper dataBaseHelper;
+    private DataBaseHelper dataBaseHelper;
 
     public void setDataBaseHelper(DataBaseHelper dataBaseHelper) {
         this.dataBaseHelper = dataBaseHelper;
     }
 
     //dialog
-    FloatingActionButton todo_floating_button;
-    RelativeLayout todo_floating_button_background;
-    Button todo_meeting_button, todo_assignment_button;
-
+    private FloatingActionButton todo_floating_button;
+    private RelativeLayout todo_floating_button_background;
+    private Button todo_meeting_button, todo_assignment_button;
     //data
-    ArrayList<meeting> meetings;
-    ArrayList<assignment> assignments;
+    private ArrayList<meeting> meetings;
+    private ArrayList<assignment> assignments;
+
+    private BottomNavigationView bottomNavigationView;
+    public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
+        this.bottomNavigationView = bottomNavigationView;
+    }
 
     public void setAssignments(ArrayList<assignment> assignments) {
         this.assignments = assignments;
@@ -132,7 +140,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         Bundle bundle = getArguments();
         if (bundle != null){
             String func = bundle.getString("func");
-            Log.e("funcdo", func);
             if(func == "create_meeting"){
                 String title = bundle.getString("title");
                 String location = bundle.getString("location");
@@ -204,7 +211,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 }
                 new_ass.setList_checks(list_check);
                 assignments.add(new_ass);
-                Log.e("check_l", String.valueOf(new_ass.getId()));
             }
             else if(func.trim().equals("edit_assignment")){
                 int id = Integer.parseInt(bundle.getString("id"));
@@ -213,9 +219,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 String title = bundle.getString("title");
                 ArrayList<list_check> list_checks = bundle.getParcelableArrayList("list_check");
                 ArrayList<Note> list_note = bundle.getParcelableArrayList("list_note");
-
-                Log.e("_listCheck_", String.valueOf(list_checks));
-                Log.e("_listNote_", String.valueOf(list_note));
                 for (int idx = 0; idx < assignments.size(); idx ++){
                     if(assignments.get(idx).getId() == id){
                         ArrayList<list_check> all = dataBaseHelper.getAllListCheck(assignments.get(idx).getId());
@@ -243,23 +246,19 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                         assignments.get(idx).setTimeEnd(time_end);
                         dataBaseHelper.updateOne(assignments.get(idx));
 
-                        Log.e("_Val_", String.valueOf(assignments));
                         break;
                     }
                 }
             }
             else if(func.trim().equals("remove_assignment")){
                 int id = bundle.getInt("id");
-                Log.e("func_" + func, String.valueOf(id));
                 for (int idx = 0; idx < assignments.size(); idx ++){
                     if(assignments.get(idx).getId() == id){
                         dataBaseHelper.deleteOne(assignments.get(idx));
                         assignments.remove(idx);
                         break;
                     }
-                    Log.e("func_" + func, String.valueOf(assignments.get(idx).getId()));
                 }
-                Log.e("func_" + func, "end");
             }
             else if (func.trim().equals("todoOpen")){
                 list_check listCheck = bundle.getParcelable("listCheck");
@@ -273,21 +272,16 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 }
             }
             else{
-                Log.e("check", "else");
             }
-            Log.e("funcdo","end");
             this.setArguments(null);
         }
 
 
         if(assignments == null && meetings == null || assignments.size() == 0 && meetings.size() == 0){
             default_todo_layout.setVisibility(VISIBLE);
-            Log.e("check", String.valueOf(assignments));
-            Log.e("check", String.valueOf(meetings));
         }
         else{
             default_todo_layout.setVisibility(View.GONE);
-            Log.e("check", "nonull");
             item_show();
         }
     }
@@ -323,6 +317,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         todo_meeting_button.setVisibility(View.GONE);
         todo_assignment_button.setVisibility(View.GONE);
 
+        bottomNavigationView.setForeground(null);
         todo_floating_button_background.getLayoutParams().width = 300;
         todo_floating_button_background.getLayoutParams().height = -2;//wrap_content
         todo_floating_button_background.setBackgroundColor(0);
@@ -333,6 +328,8 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
     private void open_float_button_background(){
         todo_meeting_button.setVisibility(VISIBLE);
         todo_assignment_button.setVisibility(VISIBLE);
+        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+
 
         todo_floating_button_background.getLayoutParams().width = -1;//match_parent/match_parent
         todo_floating_button_background.getLayoutParams().height = -1;
@@ -352,7 +349,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
             }
             i += 1;
         }
-        Log.e("check done", String.valueOf(meets.getDone()));
     }
 
     @Override
@@ -401,14 +397,10 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         Bundle bundle = new Bundle();
         bundle.putString("func", "edit_assignment");
         bundle.putInt("id", assign.getId());
-        Log.e("bundel_check", String.valueOf(assign.getId()));
         bundle.putString("title", assign.getTitle());
         bundle.putString("time_start", assign.getTimeStart());
         bundle.putString("time_end", assign.getTimeEnd());
         bundle.putString("time_left", assign.getTime());
-        for (list_check l: assign.getList_checks()){
-            Log.e("check todo send", l.getContent());
-        }
         bundle.putParcelableArrayList("list_checks", assign.getList_checks());
         bundle.putParcelableArrayList("list_checks_dialog", new ArrayList<>());
         bundle.putParcelableArrayList("list_note", dataBaseHelper.getOne(assign.getList_checks()));
@@ -422,10 +414,8 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         for (int i = 0; i < assignments.size(); i++){
             if(assignments.get(i).getId() == assign.getId()){
                 assignments.get(i).setDone(assign.getDone());
-                Log.e("done_" + i, String.valueOf(assignments.get(i).getDone()));
                 for (int j = 0; j < assignments.get(i).getList_checks().size(); j ++){
                     assignments.get(i).getList_checks().get(j).setDone(assignments.get(i).getDone());
-                    Log.e("done_" + j, String.valueOf(assignments.get(i).getList_checks().get(j).getDone()));
                 }
                 break;
             }
@@ -507,7 +497,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 idx2 += 1;
             }
         }
-        Log.e("List", String.valueOf(todo_items));
         return todo_items;
     }
 
