@@ -24,6 +24,8 @@ public class AddnoteFragment extends Fragment {
     private TextView done_txt;
     private DataBaseHelper dataBaseHelper;
 
+
+
     private TextView add_note_txt;
     @Override
 
@@ -88,7 +90,10 @@ public class AddnoteFragment extends Fragment {
                             dataBaseHelper.deleteOne(note);
                         }
                         else {
+                            note.setTitle(title_txt.getText().toString());
+                            note.setContent(content_txt.getText().toString());
                             dataBaseHelper.updateLinkedNote(note);
+
                         }
                         fragmentNote = new fragment_note();
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentNote).commit();

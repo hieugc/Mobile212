@@ -521,6 +521,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     +"SET " + COLUMN_TITLE + " = \"" + note.getTitle() + "\",\n"
                     +      COLUMN_CONTENT + " = \"" + note.getContent() + "\"\n"
                     +"WHERE " + COLUMN_ID + " = " + note.getId();
+        Log.e("note",note.toString());
+        Log.e("sql", sql);
         db.execSQL(sql);
         return true;
     }
