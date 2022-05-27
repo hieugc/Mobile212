@@ -53,6 +53,7 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
         public TextView subjectname,starthour,endhour, note;
         public MaterialCardView layout;
         private ItemClickListener itemClickListener;
+
         public ViewHolder(View itemView){
             super(itemView);
 
@@ -103,10 +104,8 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
             Log.d("check layout","blank");
             return R.layout.blank_item_tkb;
         }
-        else {
-            Log.d("check layout","subject_item");
-            return R.layout.subject_item;
-        }
+        Log.d("check layout","subject_item");
+        return R.layout.subject_item;
     }
 
     @Override
@@ -139,6 +138,9 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
                     }
                 }
             });
+        }
+        else {
+
         }
     }
 
