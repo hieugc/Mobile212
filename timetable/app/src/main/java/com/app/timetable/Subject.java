@@ -1,6 +1,7 @@
 package com.app.timetable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ public class Subject {
     private String className,classRoom,classGroup, note;
     private String startDate,endDate,startHour,endHour;
     private boolean[] studyDay = {false,false,false,false,false,false,false};
+    private String study;
     private String lecturerName, lecturerMail, lecturerNumber;
 
 
@@ -103,6 +105,20 @@ public class Subject {
     public String getEndHour(){
         return this.endHour;
     }
+
+    public String getStudy() {
+        return study;
+    }
+
+    public void setStudy(String study) {
+        this.study = study;
+    }
+
+    public boolean[] getStudyDate()
+    {
+        return studyDay;
+    }
+
     public int[] getStudyDay(){
         List<Integer> list = new ArrayList<Integer>();
         for (int index = 0; index < this.studyDay.length;index++){
@@ -118,4 +134,22 @@ public class Subject {
         return ret;
     }
 
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "className='" + className + '\'' +
+                ", classRoom='" + classRoom + '\'' +
+                ", classGroup='" + classGroup + '\'' +
+                ", note='" + note + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", startHour='" + startHour + '\'' +
+                ", endHour='" + endHour + '\'' +
+                ", studyDay=" + Arrays.toString(studyDay) +
+                ", lecturerName='" + lecturerName + '\'' +
+                ", lecturerMail='" + lecturerMail + '\'' +
+                ", lecturerNumber='" + lecturerNumber + '\'' +
+                '}';
+    }
 }

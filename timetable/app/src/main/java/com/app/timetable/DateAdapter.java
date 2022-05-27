@@ -26,10 +26,14 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
     private ArrayList<Date> arrayList = new ArrayList<>();
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     private fragment_calendar fragmentCalendar;
+    private DataBaseHelper dataBaseHelper;
 
     public DateAdapter() {
     }
 
+    public void setDataBaseHelper(DataBaseHelper dataBaseHelper) {
+        this.dataBaseHelper = dataBaseHelper;
+    }
 
     public void setFragmentCalendar(fragment_calendar fragmentCalendar) {
         this.fragmentCalendar = fragmentCalendar;
@@ -111,8 +115,8 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
                 notifyDataSetChanged();
                 fragmentCalendar.setSelectedDate(pickedDate.getTime());
                 fragmentCalendar.setDatePicker();
-                ArrayList<TimeTable> arrayList = new ArrayList<>();
-                arrayList.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+                String date = new SimpleDateFormat("dd/MM/yyyy").format(pickedDate);
+                ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(date);
                 fragmentCalendar.getTimeTableAdapter().setArrayList(arrayList);
             }
         });

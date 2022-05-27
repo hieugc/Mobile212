@@ -56,6 +56,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NOTIFICATION = "NOTI";
     public static final String COLUMN_NOTIFICATION_TIME = "NOTI_TIME";
     public static final String TABLE_TIMETABLE = "TIMETABLE";
+    public static final String TABLE_SUBJECT = "SUBJECT";
+    public static final String COLUMN_START_DATE = "START_DATE";
+    public static final String COLUMN_END_DATE = "END_DATE";
+    public static final String COLUMN_STUDY_DAY = "STUDY_DAY";
 
     public DataBaseHelper(@Nullable Context context) {
         super(context, "Mobile.db", null, 1);
@@ -94,12 +98,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 COLUMN_START_TIME + " TEXT," +
                 COLUMN_END_TIME + " TEXT," +
                 COLUMN_TA_NAME + " STRING," +
-                COLUMN_TA_NUMBER + " INTEGER," +
+                COLUMN_TA_NUMBER + " STRING," +
                 COLUMN_TA_EMAIL + " TEXT," +
                 COLUMN_NOTIFICATION + " INTEGER," +
-                COLUMN_NOTIFICATION_TIME + " INTEGER," +
+                COLUMN_NOTIFICATION_TIME + " STRING," +
                 COLUMN_TIMETABLE_TYPE + " INTEGER," +
                 COLUMN_TIMETABLE_ID + " INTEGER)";
+
+        db.execSQL(sql);
+
+        sql = "CREATE TABLE " + TABLE_SUBJECT + " (" +
+                COLUMN_ID+" INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_NAME+" STRING," +
+                COLUMN_GROUP+" STRING," +
+                COLUMN_LOCATION+" STRING," +
+                COLUMN_START_DATE + " TEXT," +
+                COLUMN_END_DATE + " TEXT," +
+                COLUMN_START_TIME+" TEXT," +
+                COLUMN_END_TIME+" TEXT," +
+                COLUMN_STUDY_DAY + " TEXT," +
+                COLUMN_TA_NAME+" STRING," +
+                COLUMN_TA_NUMBER+" STRING," +
+                COLUMN_TA_EMAIL+" STRING" +
+                ")";
 
         db.execSQL(sql);
 
@@ -198,13 +219,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public int getNewlyInsertedSubject()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM "+TABLE_SUBJECT+" ORDER BY ID DESC LIMIT 1";
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor.moveToFirst())
+        {
+            return cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return 0;
+    }
+
+    public boolean addOne(Subject subject)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String sql = "INSERT INTO "+TABLE_SUBJECT+" (" +
+                COLUMN_NAME+","+COLUMN_GROUP+","+COLUMN_LOCATION+","+COLUMN_START_DATE+","+COLUMN_END_DATE+","+COLUMN_START_TIME+","+COLUMN_END_TIME+","+COLUMN_STUDY_DAY+","+COLUMN_TA_NAME+","+COLUMN_TA_NUMBER+","+COLUMN_TA_EMAIL+") " +
+                "VALUES(\""+subject.getClassName()+"\",\""+subject.getClassGroup()+"\",\""+subject.getClassRoom()+"\",\""+subject.getStartDate()+"\",\""+subject.getEndDate()+"\",\""+subject.getStartHour()+"\",\""+subject.getEndHour()+"\",\""+subject.getStudy()+"\",\""+subject.getLecturerName()+"\",\""+subject.getLecturerNumber()+"\",\""+subject.getLecturerMail()+"\")";
+        db.execSQL(sql);
+        return true;
+    }
+
     public boolean addOne(TimeTable timeTable)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String sql ="INSERT INTO "+TABLE_TIMETABLE+" (" +
-                COLUMN_ID+","+COLUMN_NAME+","+COLUMN_GROUP+","+COLUMN_LOCATION+","+COLUMN_DATE+","+COLUMN_START_TIME+","+COLUMN_END_TIME+","+COLUMN_TA_NAME+","+COLUMN_TA_NUMBER+","+COLUMN_TA_EMAIL+","+COLUMN_NOTIFICATION+","+COLUMN_NOTIFICATION_TIME+","+COLUMN_TIMETABLE_TYPE+","+COLUMN_TIMETABLE_ID+" ) " +
-                "VALUES (\""+timeTable.getId()+"\",\""+timeTable.getName()+"\",\""+timeTable.getGroup()+"\",\""+timeTable.getDate()+"\",\""+timeTable.getStart_time()+"\",\""+timeTable.getEnd_time()+"\",\""+timeTable.getTA_name()+"\",\""+timeTable.getTA_number()+"\",\""+timeTable.getTA_email()+"\","+timeTable.getNotification()+",\""+timeTable.getNotification_time()+"\","+timeTable.getType()+","+timeTable.getTimetable_id()+")";
+        String sql ="INSERT INTO "+TABLE_TIMETABLE+" ("
+                +COLUMN_NAME+","+COLUMN_GROUP+","+COLUMN_LOCATION+","+COLUMN_DATE+","+COLUMN_START_TIME+","+COLUMN_END_TIME+","+COLUMN_TA_NAME+","+COLUMN_TA_NUMBER+","+COLUMN_TA_EMAIL+","+COLUMN_NOTIFICATION+","+COLUMN_NOTIFICATION_TIME+","+COLUMN_TIMETABLE_TYPE+","+COLUMN_TIMETABLE_ID+" ) " +
+                "VALUES (\""+timeTable.getName()+"\",\""+timeTable.getGroup()+"\",\""+timeTable.getLocation()+"\",\""+timeTable.getDate()+"\",\""+timeTable.getStart_time()+"\",\""+timeTable.getEnd_time()+"\",\""+timeTable.getTA_name()+"\",\""+timeTable.getTA_number()+"\",\""+timeTable.getTA_email()+"\","+timeTable.getNotification()+",\""+timeTable.getNotification_time()+"\","+timeTable.getType()+","+timeTable.getTimetable_id()+")";
 
         db.execSQL(sql);
         return true;
@@ -327,6 +373,43 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cursor.close();
             return null;
         }
+    }
+
+    public ArrayList<TimeTable> getTimetableByDate(String date)
+    {
+        ArrayList<TimeTable> tables = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = "SELECT * FROM "+TABLE_TIMETABLE+" WHERE "+COLUMN_DATE+" = \""+date+"\"";
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor.moveToFirst())
+        {
+            do{
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String group = cursor.getString(2);
+                String location = cursor.getString(3);
+                String start_time = cursor.getString(5);
+                String end_time = cursor.getString(6);
+                String TA_name = cursor.getString(7);
+                String TA_number = cursor.getString(8);
+                String TA_email = cursor.getString(9);
+                int noti = cursor.getInt(10);
+                boolean notification;
+                notification = noti == 1;
+                String notification_time = cursor.getString(11);
+                int type = cursor.getInt(12);
+                int timetable_id = cursor.getInt(13);
+
+                tables.add(new TimeTable(id, name, group, location, date, start_time, end_time, TA_name, TA_number, TA_email, notification, notification_time, type, timetable_id));
+
+            }while(cursor.moveToNext());
+        }
+        else {
+            //DO NOTHING
+        }
+        cursor.close();
+        db.close();
+        return tables;
     }
 
     public int addOne(meeting meet)

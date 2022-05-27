@@ -89,6 +89,7 @@ public class fragment_calendar extends Fragment {
     private CalendarAdapter mAdapter;
     private int currentposition;
     private LogInFragment logInFragment;
+    private DataBaseHelper dataBaseHelper;
 
 
 
@@ -135,6 +136,9 @@ public class fragment_calendar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View calendarView = inflater.inflate(R.layout.fragment_calendar, container, false);
+
+        dataBaseHelper = new DataBaseHelper(calendarView.getContext());
+        dateAdapter.setDataBaseHelper(dataBaseHelper);
         subjectRecyclerView = (RecyclerView) calendarView.findViewById(R.id.tkb_list);
         dateAdapter.setFragmentCalendar(this);
 
@@ -243,6 +247,10 @@ public class fragment_calendar extends Fragment {
                 dateAdapter.getArrayList().clear();
                 dateAdapter.setArrayList(dateArrayList);
 
+                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
+                timeTableAdapter.setArrayList(arrayList);
+
                 Log.e("date", new SimpleDateFormat("dd/MM/yyyy").format(date));
             }
         });
@@ -291,6 +299,9 @@ public class fragment_calendar extends Fragment {
                 dateAdapter.notifyDataSetChanged();
                 selectedDate = dateAdapter.getArrayList().get(2).getTime();
                 setDatePicker();
+                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
+                timeTableAdapter.setArrayList(arrayList);
                 Log.e("selected", String.valueOf(selectedDate));
             }
         });
@@ -304,6 +315,9 @@ public class fragment_calendar extends Fragment {
                 dateAdapter.notifyDataSetChanged();
                 selectedDate = dateAdapter.getArrayList().get(2).getTime();
                 setDatePicker();
+                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
+                timeTableAdapter.setArrayList(arrayList);
                 Log.e("selected", String.valueOf(selectedDate));
             }
         });
@@ -375,10 +389,13 @@ public class fragment_calendar extends Fragment {
 
 
 
-        ArrayList<TimeTable> timeTables = new ArrayList<>();
-        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
-        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
-        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
+
+        ArrayList<TimeTable> timeTables = dataBaseHelper.getTimetableByDate(date);
+        Log.e("timetable", timeTables.toString());
+//        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+//        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
+//        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
         timeTableAdapter.setArrayList(timeTables);
 
         subjectRecyclerView.setAdapter(timeTableAdapter);

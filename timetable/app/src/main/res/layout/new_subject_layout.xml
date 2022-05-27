@@ -28,7 +28,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thêm môn mới"
-                style="@style/roboto_normal"
                 android:textStyle="bold"
                 android:textSize="18sp"/>
         </LinearLayout>
@@ -45,8 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="Lưu"
                 android:textStyle="bold"
-                android:textSize="17sp"
-                style="@style/roboto_normal"/>
+                android:textSize="17sp" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -167,53 +165,59 @@
                 android:text="Lịch học:"
                 android:textColor="@color/black"
                 android:textSize="17sp"/>
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/subject_day_begin_layout"
-                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
                 android:background="@drawable/calendar_shape_background"
                 android:paddingHorizontal="7dp"
                 android:paddingVertical="7dp"
-                android:layout_width="110dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/subject_day_begin"
-                    android:layout_gravity="left|center_vertical"
+                    android:layout_gravity="start|center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ngày đầu"
                     android:textColor="@color/black"
-                    android:textSize="15dp"/>
+                    android:textSize="15sp"/>
+
                 <ImageView
-                    android:layout_gravity="right|center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_calendar_icon"/>
-            </FrameLayout>
+                    android:layout_gravity="end|center"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/subject_day_begin"
+                    android:src="@drawable/ic_calendar_icon" />
+            </RelativeLayout>
 
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/subject_day_end_layout"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/calendar_shape_background"
                 android:paddingHorizontal="7dp"
                 android:paddingVertical="7dp"
-                android:layout_width="110dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/subject_day_end"
-                    android:layout_gravity="left|center_vertical"
+                    android:layout_gravity="start|center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ngày cuối"
                     android:textColor="@color/black"
-                    android:textSize="15dp"/>
+                    android:textSize="15sp"/>
+
                 <ImageView
-                    android:layout_gravity="right|center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_calendar_icon"/>
-            </FrameLayout>
+                    android:layout_gravity="end|center"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/subject_day_end"
+                    android:src="@drawable/ic_calendar_icon" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -375,9 +379,9 @@
         android:layout_height="match_parent"
         android:background="#47333333"
         android:backgroundTintMode="src_in"
-        android:visibility="invisible">
+        android:visibility="gone">
+    </RelativeLayout>
 
-    </RelativeLayout> // layout thêm thông tin giảng viên
 
     <LinearLayout
         android:id="@+id/add_lecturer_info_layout"
@@ -388,7 +392,7 @@
         android:backgroundTintMode="src_in"
         android:orientation="vertical"
         android:paddingVertical="15dp"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -480,7 +484,7 @@
         android:layout_centerInParent="true"
         android:background="@drawable/calendar_popup_background"
         android:backgroundTintMode="src_in"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/calendar_add_time_title"
@@ -532,10 +536,8 @@
                     android:id="@+id/calendar_add_hours_title"
                     style="@style/todo_title_picker"
                     android:layout_width="wrap_content"
-
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-
                     android:text="@string/todo_meeting_form_hour" />
 
                 <NumberPicker
