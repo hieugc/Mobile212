@@ -70,7 +70,6 @@ public class todo_check_list_RecViewAdapter extends RecyclerView.Adapter<todo_ch
 
         public void setAll(list_check list) {
             this.list_checks = list;
-            Log.e("list", String.valueOf(list.getDone()));
             done.setChecked(list.getDone());
             content.setText(list.getContent());
             if (list.getLink() == -1){

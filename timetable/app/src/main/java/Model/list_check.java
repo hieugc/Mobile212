@@ -20,6 +20,27 @@ public class list_check implements Parcelable {
     private int id;
     private int assign;
 
+    protected list_check(Parcel in) {
+        content = in.readString();
+        link = in.readInt();
+        byte tmpDone = in.readByte();
+        done = tmpDone == 0 ? null : tmpDone == 1;
+        id = in.readInt();
+        assign = in.readInt();
+    }
+
+    public static final Creator<list_check> CREATOR = new Creator<list_check>() {
+        @Override
+        public list_check createFromParcel(Parcel in) {
+            return new list_check(in);
+        }
+
+        @Override
+        public list_check[] newArray(int size) {
+            return new list_check[size];
+        }
+    };
+
     public void setAssign(int assign) {
         this.assign = assign;
     }
@@ -69,6 +90,10 @@ public class list_check implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeString(content);
+        parcel.writeInt(link);
+        parcel.writeByte((byte) (done == null ? 0 : done ? 1 : 2));
+        parcel.writeInt(id);
+        parcel.writeInt(assign);
     }
 }

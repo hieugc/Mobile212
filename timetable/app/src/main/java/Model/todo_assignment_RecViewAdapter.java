@@ -45,7 +45,6 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(position < assignments.size()){
             final assignment ass = assignments.get(position);
-            Log.e("a", String.valueOf(ass));
             holder.bindAll(ass);
         }
     }
@@ -108,12 +107,9 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
             done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.e("ass1", String.valueOf(assignment.getDone()));
                     assignment.setDone(!assignment.getDone());
-                    Log.e("ass2", String.valueOf(assignment.getDone()));
                     for (int j = 0; j < assignment.getList_checks().size(); j ++){
                         assignment.getList_checks().get(j).setDone(assignment.getDone());
-                        Log.e("list_", String.valueOf(assignment.getList_checks().get(j).getDone()));
                     }
                     resetView();
                     listener.onCheckAssign(assignment);

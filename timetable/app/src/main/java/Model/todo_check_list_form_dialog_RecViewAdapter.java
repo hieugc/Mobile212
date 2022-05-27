@@ -110,7 +110,6 @@ public class todo_check_list_form_dialog_RecViewAdapter extends RecyclerView.Ada
                 public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                     if(i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_NEXT){
                         if(keyEvent == null || !keyEvent.isShiftPressed()){
-                            Log.e("check", "true");
                             list_checks.setContent(String.valueOf(content_list_item.getText()));
                             listener.addListCheck(list_checks);
                             return true;
@@ -118,7 +117,6 @@ public class todo_check_list_form_dialog_RecViewAdapter extends RecyclerView.Ada
                     }
                     else if( i == EditorInfo.IME_ACTION_DONE || keyEvent != null && keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
                         if(keyEvent == null || !keyEvent.isShiftPressed()){
-                            Log.e("check", "true");
                             InputMethodManager imm = (InputMethodManager) fragmentActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(content_list_item.getWindowToken(), 0);
                             list_checks.setContent(String.valueOf(content_list_item.getText()));

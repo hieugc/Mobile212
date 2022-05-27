@@ -49,14 +49,12 @@ public class todo_item_RecViewAdapter extends RecyclerView.Adapter<todo_item_Rec
         if (check.getType() == 1){
             ArrayList<meeting> meetings = new ArrayList<>();
             meetings.add(check.getMeetings());
-            Log.e("recycle", String.valueOf(items.size()));
             todo_meet_RecViewAdapter adapter = new todo_meet_RecViewAdapter(fragmentActivity, fragment_todo, meetings, this.listener);
             holder.todo_item.setAdapter(adapter);
         }
         else if(check.getType() == 2){
             ArrayList<assignment> assignments = new ArrayList<>();
             assignments.add(check.getAssignments());
-            Log.e("recycle", check.getAssignments().getTitle());
             todo_assignment_RecViewAdapter adapter = new todo_assignment_RecViewAdapter(fragmentActivity, assignments, this.listener);
             holder.todo_item.setAdapter(adapter);
         }
