@@ -20,9 +20,12 @@ public class BkTimeTableFragment extends Fragment {
     private RecyclerView timetableView;
     private DataBaseHelper dataBaseHelper;
     private int userid;
+    private fragment_calendar fragmentCalendar;
 
-    public BkTimeTableFragment(int id) {
+
+    public BkTimeTableFragment(int id, fragment_calendar fragmentCalendar) {
         this.userid = id;
+        this.fragmentCalendar = fragmentCalendar;
     }
 
     @Override
@@ -41,7 +44,8 @@ public class BkTimeTableFragment extends Fragment {
 //        timetable.add(new BKTimeTable(-1,"Đồ án đa ngành (CO3011)", "H1-603","Thứ --","7:00 - 8:50", "01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|","212",1));
 //        timetable.add(new BKTimeTable(-1,"Nguyên lý ngôn ngữ lập trình (CO3005)","H6-109","Thứ 4","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|","212",1));
 
-        TimeTableRecViewAdapter adapter = new TimeTableRecViewAdapter(getActivity());
+        TimeTableRecViewAdapter adapter = new TimeTableRecViewAdapter(getActivity(), fragmentCalendar);
+
 
         adapter.setTimetable(timetable);
 

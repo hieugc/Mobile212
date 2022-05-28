@@ -35,6 +35,7 @@ import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import androidx.recyclerview.widget.SnapHelper;
 
@@ -110,6 +111,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private MaterialDatePicker.Builder pickerBuilder;
     private MaterialDatePicker<Long> picker;
     private  CalendarConstraints.Builder builder;
+    private TimeTable notification_popup_timetable;
+    private SwitchMaterial notification_switch, notification_switch_all;
 
     private LinearLayout add_subject_success, notificationLayout;
 
@@ -191,6 +194,10 @@ public class fragment_calendar extends Fragment implements Parcelable {
         notification_btn = calendarView.findViewById(R.id.done_add_time_study);
         notificationLayout = calendarView.findViewById(R.id.notificationLayout);
 
+        notification_switch = calendarView.findViewById(R.id.notification_switch);
+        notification_switch_all = calendarView.findViewById(R.id.notification_switch_all);
+
+
         floatingActionButton = calendarView.findViewById(R.id.calendar_float_button);
         calendar_tkb_button = calendarView.findViewById(R.id.calendar_tkb_button);
         calendar_tkbbk_button = calendarView.findViewById(R.id.calendar_tkbbk_button);
@@ -240,7 +247,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
         calendar_tkbbk_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logInFragment = new LogInFragment();
+                logInFragment = new LogInFragment(fragment_calendar.this);
                 logInFragment.setBottomNavigationView(bottomNavigationView);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, logInFragment).commit();
             }
@@ -297,7 +304,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
-
+                setImageView(arrayList);
                 Log.e("date", new SimpleDateFormat("dd/MM/yyyy").format(date));
             }
         });
@@ -346,9 +353,10 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 dateAdapter.notifyDataSetChanged();
                 selectedDate = dateAdapter.getArrayList().get(2).getTime();
                 setDatePicker();
-                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
+                setImageView(arrayList);
                 Log.e("selected", String.valueOf(selectedDate));
             }
         });
@@ -362,9 +370,10 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 dateAdapter.notifyDataSetChanged();
                 selectedDate = dateAdapter.getArrayList().get(2).getTime();
                 setDatePicker();
-                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
+                setImageView(arrayList);
                 Log.e("selected", String.valueOf(selectedDate));
             }
         });
@@ -406,6 +415,13 @@ public class fragment_calendar extends Fragment implements Parcelable {
         timeTableAdapter = new TimeTableAdapter(getActivity(), calendarView.getContext(), this, new TimeTableAdapter.onItemClick() {
             @Override
             public void onClick(TimeTable timeTable) {
+                notification_popup_timetable = timeTable;
+                notification_switch.setChecked(timeTable.getNotification());
+                String[] notification_time = timeTable.getNotification_time().split(":");
+                int hour = Integer.parseInt(notification_time[0]);
+                int minute = Integer.parseInt(notification_time[1]);
+                hour_noti.setValue(hour);
+                minutes_noti.setValue(minute);
                 bell_popup_bg.setVisibility(VISIBLE);
                 Log.e("timetable", timeTable.toString());
             }
@@ -416,7 +432,33 @@ public class fragment_calendar extends Fragment implements Parcelable {
             @Override
             public void onClick(View view) {
                 bell_popup_bg.setVisibility(GONE);
-                Log.e("button", "hey");
+                Log.e("noti", ""+notification_switch.isChecked());
+                Log.e("all", ""+notification_switch_all.isChecked());
+                String hour = hour_noti.getValue()+"";
+                String minute = minutes_noti.getValue()+"";
+                if (hour.length() == 1) {
+                    hour = "0" + hour;
+                }
+                if (minute.length() == 1){
+                    minute = "0" + minute;
+                }
+                String notification_time = hour+":"+minute;
+                notification_popup_timetable.setNotification(notification_switch.isChecked());
+                notification_popup_timetable.setNotification_time(notification_time);
+                dataBaseHelper.updateOne(notification_popup_timetable);
+
+                if(notification_switch_all.isChecked())
+                {
+                    ArrayList<TimeTable> timeTables = dataBaseHelper.getTimeTablesByForeignID(notification_popup_timetable.getTimetable_id());
+                    for(int i = 0; i < timeTables.size(); i++)
+                    {
+                        timeTables.get(i).setNotification(notification_switch.isChecked());
+                        timeTables.get(i).setNotification_time(notification_time);
+                        dataBaseHelper.updateOne(timeTables.get(i));
+                    }
+                }
+                Log.e("button", notification_time);
+                notification_switch_all.setChecked(false);
             }
         });
 
@@ -431,6 +473,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
             @Override
             public void onClick(View view) {
                 bell_popup_bg.setVisibility(GONE);
+                notification_switch_all.setChecked(false);
                 Log.e("bg", "hey");
             }
         });
@@ -440,14 +483,11 @@ public class fragment_calendar extends Fragment implements Parcelable {
         String date = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
 
         ArrayList<TimeTable> timeTables = dataBaseHelper.getTimetableByDate(date);
-        if (timeTables.size() == 0){
-            imageView.setVisibility(VISIBLE);
-        }
-        else{
-            timeTableAdapter.setArrayList(timeTables);
-            subjectRecyclerView.setAdapter(timeTableAdapter);
-            subjectRecyclerView.setLayoutManager(new LinearLayoutManager(calendarView.getContext()));
-        }
+        timeTableAdapter.setArrayList(timeTables);
+        subjectRecyclerView.setAdapter(timeTableAdapter);
+        subjectRecyclerView.setLayoutManager(new LinearLayoutManager(calendarView.getContext()));
+        setImageView(timeTables);
+
         Log.e("timetable", timeTables.toString());
 //        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
 //        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
@@ -535,10 +575,10 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private void open_float_button_background(){
         calendar_float_button_background.getLayoutParams().width = -1;//match_parent/
         calendar_float_button_background.getLayoutParams().height = -1;
-        calendar_float_button_background.setBackgroundColor(Color.parseColor("#CC333333"));
+        calendar_float_button_background.setBackgroundColor(Color.parseColor("#52232F34"));
 
 
-        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#52232F34")));
 
         floatingActionButton.setImageResource(R.drawable.icon_close);
         calendar_tkb_button.setVisibility(VISIBLE);
@@ -583,9 +623,22 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 dateAdapter.getArrayList().clear();
                 dateAdapter.setArrayList(dateArrayList);
 
+                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
+                timeTableAdapter.setArrayList(arrayList);
+                setImageView(arrayList);
                 Log.e("date", new SimpleDateFormat("dd/MM/yyyy").format(date));
             }
         });
+    }
+
+    public void setImageView(ArrayList<TimeTable> timeTables){
+        if (timeTables.size() == 0){
+            imageView.setVisibility(VISIBLE);
+        }
+        else{
+            imageView.setVisibility(GONE);
+        }
     }
 
 }

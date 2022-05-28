@@ -248,9 +248,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
+        int noti;
+        if(timeTable.getNotification())
+            noti = 1;
+        else
+            noti = 0;
+
         String sql ="INSERT INTO "+TABLE_TIMETABLE+" ("
                 +COLUMN_NAME+","+COLUMN_GROUP+","+COLUMN_LOCATION+","+COLUMN_DATE+","+COLUMN_START_TIME+","+COLUMN_END_TIME+","+COLUMN_TA_NAME+","+COLUMN_TA_NUMBER+","+COLUMN_TA_EMAIL+","+COLUMN_NOTIFICATION+","+COLUMN_NOTIFICATION_TIME+","+COLUMN_TIMETABLE_TYPE+","+COLUMN_TIMETABLE_ID+" ) " +
-                "VALUES (\""+timeTable.getName()+"\",\""+timeTable.getGroup()+"\",\""+timeTable.getLocation()+"\",\""+timeTable.getDate()+"\",\""+timeTable.getStart_time()+"\",\""+timeTable.getEnd_time()+"\",\""+timeTable.getTA_name()+"\",\""+timeTable.getTA_number()+"\",\""+timeTable.getTA_email()+"\","+timeTable.getNotification()+",\""+timeTable.getNotification_time()+"\","+timeTable.getType()+","+timeTable.getTimetable_id()+")";
+                "VALUES (\""+timeTable.getName()+"\",\""+timeTable.getGroup()+"\",\""+timeTable.getLocation()+"\",\""+timeTable.getDate()+"\",\""+timeTable.getStart_time()+"\",\""+timeTable.getEnd_time()+"\",\""+timeTable.getTA_name()+"\",\""+timeTable.getTA_number()+"\",\""+timeTable.getTA_email()+"\","+noti+",\""+timeTable.getNotification_time()+"\","+timeTable.getType()+","+timeTable.getTimetable_id()+")";
 
         db.execSQL(sql);
         return true;
@@ -410,26 +416,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return tables;
-    }
-    public boolean updateOne(TimeTable timeTable){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "UPDATE " + TABLE_TIMETABLE
-                + " SET "  + COLUMN_NAME + " = \"" + timeTable.getName() + "\", "
-                        + COLUMN_GROUP +" = \"" + timeTable.getGroup() + "\", "
-                        + COLUMN_LOCATION + " = \"" + timeTable.getLocation() + "\", "
-                        + COLUMN_DATE + " = \"" + timeTable.getDate() + "\", "
-                        + COLUMN_START_TIME + " = \"" + timeTable.getStart_time() + "\", "
-                        + COLUMN_END_TIME + " = \"" + timeTable.getEnd_time() + "\", "
-                        + COLUMN_TA_NAME + " = \"" + timeTable.getTA_name() + "\", "
-                        + COLUMN_TA_NUMBER + " = \"" + timeTable.getTA_number() + "\", "
-                        + COLUMN_TA_EMAIL + " = \"" + timeTable.getTA_email() + "\", "
-                        + COLUMN_NOTIFICATION + " = " + timeTable.getNotification() + ", "
-                        + COLUMN_NOTIFICATION_TIME + " = \"" + timeTable.getNotification_time() + "\", "
-                        + COLUMN_TIMETABLE_TYPE + " = " + timeTable.getType() + ", "
-                        + COLUMN_TIMETABLE_ID + " = " + timeTable.getTimetable_id()
-                + " WHERE " + COLUMN_ID + " = " + timeTable.getId();
-        db.execSQL(sql);
-        return true;
     }
 
     public int addOne(meeting meet)
@@ -735,5 +721,73 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(sql);
         return true;
+    }
+
+    public boolean updateOne(TimeTable timeTable)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int noti;
+        if(timeTable.getNotification())
+            noti = 1;
+        else noti = 0;
+
+        String sql = "UPDATE "+TABLE_TIMETABLE+" " +
+                "SET "+COLUMN_NAME +" = \"" + timeTable.getName()+"\"," +
+                COLUMN_GROUP+" = \""+timeTable.getGroup()+"\"," +
+                COLUMN_LOCATION+" = \""+timeTable.getLocation()+"\"," +
+                COLUMN_DATE+" = \""+timeTable.getDate()+"\"," +
+                COLUMN_START_TIME+" =\""+timeTable.getStart_time()+"\"," +
+                COLUMN_END_TIME+" =\""+timeTable.getEnd_time()+"\"," +
+                COLUMN_TA_NAME+" =\""+timeTable.getTA_name()+"\"," +
+                COLUMN_TA_NUMBER+" =\""+timeTable.getTA_number()+"\"," +
+                COLUMN_TA_EMAIL+" =\""+timeTable.getTA_email()+"\"," +
+                COLUMN_NOTIFICATION+" ="+noti+"," +
+                COLUMN_NOTIFICATION_TIME+" =\""+timeTable.getNotification_time()+"\"," +
+                COLUMN_TIMETABLE_TYPE+" =\""+timeTable.getType()+"\"," +
+                COLUMN_TIMETABLE_ID+" =\""+timeTable.getTimetable_id()+"\"" +
+                " WHERE "+COLUMN_ID+" = "+timeTable.getId();
+        db.execSQL(sql);
+        return true;
+    }
+
+    public ArrayList<TimeTable> getTimeTablesByForeignID(int timetable_id)
+    {
+        ArrayList<TimeTable> timeTables = new ArrayList<>();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String sql = "SELECT * FROM "+TABLE_TIMETABLE+" WHERE "+COLUMN_TIMETABLE_TYPE+" = 1 AND "+COLUMN_TIMETABLE_ID+" = "+timetable_id;
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if(cursor.moveToFirst())
+        {
+            do{
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String group = cursor.getString(2);
+                String location = cursor.getString(3);
+                String date = cursor.getString(4);
+                String start_time = cursor.getString(5);
+                String end_time = cursor.getString(6);
+                String TA_name = cursor.getString(7);
+                String TA_number = cursor.getString(8);
+                String TA_email = cursor.getString(9);
+                int noti = cursor.getInt(10);
+                boolean notification;
+                notification = noti == 1;
+                String notification_time = cursor.getString(11);
+                int type = cursor.getInt(12);
+
+                timeTables.add(new TimeTable(id, name, group, location, date, start_time, end_time, TA_name, TA_number, TA_email, notification, notification_time, type , timetable_id));
+
+            }while(cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return timeTables;
     }
 }

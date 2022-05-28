@@ -33,6 +33,7 @@ public class BkTimeTableSelectionFragment extends Fragment {
     private BkTimeTableFragment bkTimeTableFragment;
     private CheckBox btn_select_all;
     private DataBaseHelper dataBaseHelper;
+    private fragment_calendar fragmentCalendar;
 
     private ArrayList<String> arrayList = new ArrayList();
 
@@ -41,12 +42,15 @@ public class BkTimeTableSelectionFragment extends Fragment {
         this.userId = userId;
     }
 
+    public void setFragmentCalendar(fragment_calendar fragmentCalendar) {
+        this.fragmentCalendar = fragmentCalendar;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bk_time_table_selection, container, false);
-
         dataBaseHelper = new DataBaseHelper(view.getContext());
 
         timetableView = view.findViewById(R.id.bk_timetable_recyclerView_selection);
@@ -58,7 +62,7 @@ public class BkTimeTableSelectionFragment extends Fragment {
         cancel_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bkTimeTableFragment = new BkTimeTableFragment(userId);
+                bkTimeTableFragment = new BkTimeTableFragment(userId, fragmentCalendar);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
             }
         });
@@ -89,7 +93,6 @@ public class BkTimeTableSelectionFragment extends Fragment {
                         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
                         Calendar calendarForSunday = Calendar.getInstance(TimeZone.getDefault());
                         int date = 0;
-                        ArrayList<TimeTable> arrayList = new ArrayList<>();
 
                         for(int j = 0; j < bkTimeTables.size(); j++){
                             String time = bkTimeTables.get(j).getTime();
@@ -134,39 +137,39 @@ public class BkTimeTableSelectionFragment extends Fragment {
                             for (String s : week) {
                                 if (s.equals("--")) continue;
                                 calendar.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 1);
-                                if (date == 8) {
-                                    for (int x = Calendar.SUNDAY; x <= Calendar.SATURDAY; x++) {
-                                        if (x == Calendar.SUNDAY) {
-                                            calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
-                                            calendarForSunday.set(Calendar.DAY_OF_WEEK, x);
-                                            theDate = format.format(calendarForSunday.getTime());
-                                            Log.e("date", format.format(calendarForSunday.getTime()));
-                                            arrayList.add(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
-                                            continue;
-                                        }
-                                        calendar.set(Calendar.DAY_OF_WEEK, x);
-                                        Log.e("date", format.format(calendar.getTime()));
-                                        theDate = format.format(calendar.getTime());
-                                        arrayList.add(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
-                                    }
-                                } else if (date != 0) {
-                                    if (date == Calendar.SUNDAY) {
-                                        calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
-                                        calendarForSunday.set(Calendar.DAY_OF_WEEK, date);
-                                        Log.e("date", format.format(calendarForSunday.getTime()));
-                                        theDate = format.format(calendarForSunday.getTime());
-                                        arrayList.add(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
-                                    } else {
-                                        calendar.set(Calendar.DAY_OF_WEEK, date);
-                                        Log.e("date", format.format(calendar.getTime()));
-                                        theDate = format.format(calendar.getTime());
-                                        arrayList.add(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
-                                    }
-                                }
+//                                if (date == 8) {
+//                                    for (int x = Calendar.SUNDAY; x <= Calendar.SATURDAY; x++) {
+//                                        if (x == Calendar.SUNDAY) {
+//                                            calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
+//                                            calendarForSunday.set(Calendar.DAY_OF_WEEK, x);
+//                                            theDate = format.format(calendarForSunday.getTime());
+//                                            Log.e("date", format.format(calendarForSunday.getTime()));
+//                                            dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+//                                            continue;
+//                                        }
+//                                        calendar.set(Calendar.DAY_OF_WEEK, x);
+//                                        Log.e("date", format.format(calendar.getTime()));
+//                                        theDate = format.format(calendar.getTime());
+//                                        dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+//                                    }
+//                                } else if (date != 0) {
+//                                    if (date == Calendar.SUNDAY) {
+//                                        calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
+//                                        calendarForSunday.set(Calendar.DAY_OF_WEEK, date);
+//                                        Log.e("date", format.format(calendarForSunday.getTime()));
+//                                        theDate = format.format(calendarForSunday.getTime());
+//                                        dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+//                                    } else {
+//                                        calendar.set(Calendar.DAY_OF_WEEK, date);
+//                                        Log.e("date", format.format(calendar.getTime()));
+//                                        theDate = format.format(calendar.getTime());
+//                                        dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+//                                    }
+//                                }
                             }
-                        }
 
-                        Log.e("hello", arrayList.toString());
+                        }
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendar).commit();
                     }
                 });
                 builder.show();

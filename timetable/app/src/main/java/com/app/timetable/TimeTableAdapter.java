@@ -51,61 +51,53 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.subject_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.startTime_txt.setText(arrayList.get(position).getStart_time());
-        holder.endTime_txt.setText(arrayList.get(position).getEnd_time());
-        holder.name_txt.setText(arrayList.get(position).getName());
-        holder.location_txt.setText(arrayList.get(position).getLocation());
-        if (position == 0){
-            holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.first_item_style));
-            holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
-        }
-        else if (position == arrayList.size()-1){
-            holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.last_item_style));
-            holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
-        }
-        else {
-            holder.cardView.setBackgroundColor(Color.parseColor(colors2[position % 6]));
-        }
-        holder.timetableLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                info_subject = new fragment_calendar_info_subject();
-                info_subject.setTimeTable(arrayList.get(position));
-                info_subject.set_calendar(fragmentCalendar);
-                info_subject.setBottomNavigationView(bottomNavigationView);
-                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, info_subject).commit();
+        if(arrayList.size() != 0)
+        {
+            holder.startTime_txt.setText(arrayList.get(position).getStart_time());
+            holder.endTime_txt.setText(arrayList.get(position).getEnd_time());
+            holder.name_txt.setText(arrayList.get(position).getName());
+            holder.location_txt.setText(arrayList.get(position).getLocation());
+            if (position == 0){
+                holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.first_item_style));
+                holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
             }
-        });
-        holder.bellLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(itemClick != null)
-                    itemClick.onClick(arrayList.get(position));
+            else if (position == arrayList.size()-1){
+                holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.last_item_style));
+                holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
             }
-        });
+            else {
+                holder.cardView.setBackgroundColor(Color.parseColor(colors2[position % 6]));
+            }
+            holder.timetableLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    info_subject = new fragment_calendar_info_subject();
+                    info_subject.setTimeTable(arrayList.get(position));
+                    info_subject.set_calendar(fragmentCalendar);
+                    info_subject.setBottomNavigationView(bottomNavigationView);
+                    fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, info_subject).commit();
+                }
+            });
+            holder.bellLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(itemClick != null)
+                        itemClick.onClick(arrayList.get(position));
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        if (arrayList.size() == 0) return 1;
         return arrayList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (arrayList.size() == 0) {
-            Log.d("check layout","blank");
-            return R.layout.blank_item_tkb;
-        }
-        Log.d("check layout","subject_item");
-        return R.layout.subject_item;
     }
 
     public void setArrayList(ArrayList<TimeTable> arrayList) {
