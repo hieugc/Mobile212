@@ -571,10 +571,10 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private void open_float_button_background(){
         calendar_float_button_background.getLayoutParams().width = -1;//match_parent/
         calendar_float_button_background.getLayoutParams().height = -1;
-        calendar_float_button_background.setBackgroundColor(Color.parseColor("#52000000"));
+        calendar_float_button_background.setBackgroundColor(Color.parseColor("#52232F34"));
 
 
-        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#52000000")));
+        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#52232F34")));
 
         floatingActionButton.setImageResource(R.drawable.icon_close);
         calendar_tkb_button.setVisibility(VISIBLE);
