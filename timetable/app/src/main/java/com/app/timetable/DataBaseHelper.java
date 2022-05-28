@@ -751,13 +751,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public ArrayList<TimeTable> getTimeTablesByForeignID(int timetable_id)
+    public boolean deleteSubject(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM "+TABLE_SUBJECT+" WHERE ID = "+id;
+        db.execSQL(sql);
+        return true;
+    }
+
+    public ArrayList<TimeTable> getTimeTablesByForeignID(TimeTable timeTable)
     {
         ArrayList<TimeTable> timeTables = new ArrayList<>();
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String sql = "SELECT * FROM "+TABLE_TIMETABLE+" WHERE "+COLUMN_TIMETABLE_TYPE+" = 1 AND "+COLUMN_TIMETABLE_ID+" = "+timetable_id;
+        String sql = "SELECT * FROM "+TABLE_TIMETABLE+" WHERE "+COLUMN_TIMETABLE_TYPE+" = "+timeTable.getType()+" AND "+COLUMN_TIMETABLE_ID+" = "+timeTable.getTimetable_id();
 
         Cursor cursor = db.rawQuery(sql, null);
 
@@ -780,7 +787,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String notification_time = cursor.getString(11);
                 int type = cursor.getInt(12);
 
-                timeTables.add(new TimeTable(id, name, group, location, date, start_time, end_time, TA_name, TA_number, TA_email, notification, notification_time, type , timetable_id));
+                timeTables.add(new TimeTable(id, name, group, location, date, start_time, end_time, TA_name, TA_number, TA_email, notification, notification_time, type , timeTable.getTimetable_id()));
 
             }while(cursor.moveToNext());
         }
@@ -790,4 +797,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return timeTables;
     }
+
+    public boolean deleteOne(TimeTable timeTable)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM "+TABLE_TIMETABLE+" WHERE ID = "+timeTable.getId();
+        db.execSQL(sql);
+        return true;
+    }
+
+
+
 }
