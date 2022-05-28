@@ -411,6 +411,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
         return tables;
     }
+    public boolean updateOne(TimeTable timeTable){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "UPDATE " + TABLE_TIMETABLE
+                + " SET "  + COLUMN_NAME + " = \"" + timeTable.getName() + "\", "
+                        + COLUMN_GROUP +" = \"" + timeTable.getGroup() + "\", "
+                        + COLUMN_LOCATION + " = \"" + timeTable.getLocation() + "\", "
+                        + COLUMN_DATE + " = \"" + timeTable.getDate() + "\", "
+                        + COLUMN_START_TIME + " = \"" + timeTable.getStart_time() + "\", "
+                        + COLUMN_END_TIME + " = \"" + timeTable.getEnd_time() + "\", "
+                        + COLUMN_TA_NAME + " = \"" + timeTable.getTA_name() + "\", "
+                        + COLUMN_TA_NUMBER + " = \"" + timeTable.getTA_number() + "\", "
+                        + COLUMN_TA_EMAIL + " = \"" + timeTable.getTA_email() + "\", "
+                        + COLUMN_NOTIFICATION + " = " + timeTable.getNotification() + ", "
+                        + COLUMN_NOTIFICATION_TIME + " = \"" + timeTable.getNotification_time() + "\", "
+                        + COLUMN_TIMETABLE_TYPE + " = " + timeTable.getType() + ", "
+                        + COLUMN_TIMETABLE_ID + " = " + timeTable.getTimetable_id()
+                + " WHERE " + COLUMN_ID + " = " + timeTable.getId();
+        db.execSQL(sql);
+        return true;
+    }
 
     public int addOne(meeting meet)
     {

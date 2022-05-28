@@ -195,12 +195,12 @@
 
     <RelativeLayout
         android:id="@+id/calendar_popup_bg"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialog">
         <RelativeLayout
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/calendar_popup_notification"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

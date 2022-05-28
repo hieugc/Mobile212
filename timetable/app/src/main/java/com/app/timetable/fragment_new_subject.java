@@ -93,9 +93,10 @@ public class fragment_new_subject extends Fragment {
                 String location = bundle.getString("location");
                 String group =  bundle.getString("group");
                 String name = bundle.getString("name");
-                String TA_mail = bundle.getString("TA_mail");
+                String TA_mail = bundle.getString("TA_email");
                 String TA_name = bundle.getString("TA_name");
                 String TA_number = bundle.getString("TA_number");
+                Log.e("TA", "name = " + TA_name + "\nnum = " + TA_number + "\nmail = " + TA_mail);
                 String date = bundle.getString("date");
                 String time_start = bundle.getString("start_time");
                 String time_end = bundle.getString("end_time");
@@ -121,22 +122,18 @@ public class fragment_new_subject extends Fragment {
                 study_time_end.setText(time_end);
 
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-
                 int year = calendar.get(Calendar.YEAR);
-
                 calendar.set(Calendar.YEAR, year -1 );
                 long lastYear = calendar.getTimeInMillis();
-
                 calendar.set(Calendar.YEAR, year + 1);
                 long nextYear = calendar.getTimeInMillis();
-
                 CalendarConstraints.Builder constraints = new CalendarConstraints.Builder();
                 constraints.setStart(lastYear);
                 constraints.setEnd(nextYear);
                 constraints.setOpenAt(MaterialDatePicker.todayInUtcMilliseconds());
 
                 MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Chọn ngày bắt đầu")
+                        .setTitleText("Chọn ngày cho môn học")
                         .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                         .setTheme(R.style.ThemeOverlay_App_DatePicker)
                         .setCalendarConstraints(constraints.build());
@@ -168,6 +165,40 @@ public class fragment_new_subject extends Fragment {
                     }
                 });
 
+                save_new_subject_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //check validation
+
+                        TimeTable timeTable = new TimeTable(id,
+                                edttext_subject_name.getText().toString().trim(),
+                                edttext_group_subject.getText().toString().trim(),
+                                edttext_subject_room.getText().toString().trim(),
+                                text_for_change.getText().toString().trim(),
+                                study_time_start.getText().toString().trim(),
+                                study_time_end.getText().toString().trim(),
+                                edttext_lecturer_name.getText().toString().trim(),
+                                edttext_lecturer_number.getText().toString().trim(),
+                                edttext_lecturer_mail.getText().toString().trim(),
+                                notify,
+                                time_notify,
+                                type,
+                                timeTable_id
+                                );
+
+                        //confirm
+
+                        dataBaseHelper.updateOne(timeTable);//update
+
+                        fragment_calendar_info_subject fragmentCalendarInfoSubject = new fragment_calendar_info_subject();
+                        fragmentCalendarInfoSubject.set_calendar(fragmentCalendar);
+                        fragmentCalendarInfoSubject.setTimeTable(timeTable);
+                        fragmentCalendarInfoSubject.setBottomNavigationView(bottomNavigationView);
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendarInfoSubject).commit();
+
+                    }
+                });
 
             }
             this.setArguments(null);
@@ -194,7 +225,9 @@ public class fragment_new_subject extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        bottomNavigationView.setForeground(null);
+        if (bottomNavigationView != null){
+            bottomNavigationView.setForeground(null);
+        }
         View view = inflater.inflate(R.layout.new_subject_layout, container, false);
 
 

@@ -1,6 +1,8 @@
 package com.app.timetable;
 
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +31,11 @@ public class fragment_calendar_info_subject extends Fragment {
     private LinearLayout back_button;
     private TimeTable timeTable;
     private fragment_calendar fragmentCalendar;
+
+    private BottomNavigationView bottomNavigationView;
+    public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
+        this.bottomNavigationView = bottomNavigationView;
+    }
 
     private ImageView edit_sub;
 
@@ -142,6 +151,7 @@ public class fragment_calendar_info_subject extends Fragment {
                 //int timetable_id
 
                 fragment_new_subject newView = new fragment_new_subject();
+                newView.setBottomNavigationView(bottomNavigationView);
                 newView.setArguments(createBundle());
                 getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, newView).commit();
             }
@@ -162,6 +172,8 @@ public class fragment_calendar_info_subject extends Fragment {
         bundle.putString("date", this.timeTable.getDate());
         bundle.putString("start_time", this.timeTable.getStart_time());
         bundle.putString("end_time", this.timeTable.getEnd_time());
+
+        Log.e("TA", "name = " + this.timeTable.getTA_name() + "\nnum = " + this.timeTable.getTA_number() + "\nmail = " + this.timeTable.getTA_email());
         bundle.putString("TA_name", this.timeTable.getTA_name());
         bundle.putString("TA_number", this.timeTable.getTA_number());
         bundle.putString("TA_email", this.timeTable.getTA_email());

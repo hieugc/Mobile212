@@ -15,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
@@ -28,6 +29,11 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
     private fragment_calendar fragmentCalendar;
     private fragment_calendar_info_subject info_subject;
     private FragmentActivity fragmentActivity;
+    private BottomNavigationView bottomNavigationView;
+    public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
+        this.bottomNavigationView = bottomNavigationView;
+    }
+
 
     public interface onItemClick{
         public void onClick(TimeTable timeTable);
@@ -73,6 +79,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
                 info_subject = new fragment_calendar_info_subject();
                 info_subject.setTimeTable(arrayList.get(position));
                 info_subject.set_calendar(fragmentCalendar);
+                info_subject.setBottomNavigationView(bottomNavigationView);
                 fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, info_subject).commit();
             }
         });

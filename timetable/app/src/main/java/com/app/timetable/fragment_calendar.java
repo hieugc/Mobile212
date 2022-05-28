@@ -69,6 +69,25 @@ public class fragment_calendar extends Fragment implements Parcelable {
     }
 
     private BottomNavigationView bottomNavigationView;
+
+    protected fragment_calendar(Parcel in) {
+        tmpStudyDay = in.createBooleanArray();
+        selectedDate = in.readLong();
+        currentposition = in.readInt();
+    }
+
+    public static final Creator<fragment_calendar> CREATOR = new Creator<fragment_calendar>() {
+        @Override
+        public fragment_calendar createFromParcel(Parcel in) {
+            return new fragment_calendar(in);
+        }
+
+        @Override
+        public fragment_calendar[] newArray(int size) {
+            return new fragment_calendar[size];
+        }
+    };
+
     public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
         this.bottomNavigationView = bottomNavigationView;
     }
@@ -133,7 +152,9 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeBooleanArray(tmpStudyDay);
+        parcel.writeLong(selectedDate);
+        parcel.writeInt(currentposition);
     }
 
     public interface ISendDataListener {
@@ -389,6 +410,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 Log.e("timetable", timeTable.toString());
             }
         });
+        timeTableAdapter.setBottomNavigationView(bottomNavigationView);
 
         notification_btn.setOnClickListener(new View.OnClickListener() {
             @Override
