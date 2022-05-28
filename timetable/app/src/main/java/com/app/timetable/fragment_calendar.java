@@ -4,6 +4,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +40,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import androidx.recyclerview.widget.SnapHelper;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.sql.Time;
 import java.text.ParseException;
@@ -107,6 +110,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private LinearLayout backward_calendar,forward_calendar, calendar_dropdown;
     private TimeTableAdapter timeTableAdapter;
     private DateAdapter dateAdapter;
+    private Context context;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private long selectedDate;
     private MaterialDatePicker.Builder pickerBuilder;
     private MaterialDatePicker<Long> picker;
@@ -183,11 +188,14 @@ public class fragment_calendar extends Fragment implements Parcelable {
         // Inflate the layout for this
         bottomNavigationView.setForeground(null);
         View calendarView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        context = calendarView.getContext();
 
         dataBaseHelper = new DataBaseHelper(calendarView.getContext());
         dateAdapter.setDataBaseHelper(dataBaseHelper);
         subjectRecyclerView = (RecyclerView) calendarView.findViewById(R.id.tkb_list);
         dateAdapter.setFragmentCalendar(this);
+
+        swipeRefreshLayout = calendarView.findViewById(R.id.swipeRefreshLayout);
 
         add_subject_success = calendarView.findViewById(R.id.add_subject_successfully);
         bell_popup_bg = calendarView.findViewById(R.id.calendar_popup_bg);
@@ -425,8 +433,15 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 bell_popup_bg.setVisibility(VISIBLE);
                 Log.e("timetable", timeTable.toString());
             }
+
+            @Override
+            public void onDelete(TimeTable timeTable)
+            {
+                Log.e("delete", "click");
+            }
         });
         timeTableAdapter.setBottomNavigationView(bottomNavigationView);
+
 
         notification_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -488,12 +503,109 @@ public class fragment_calendar extends Fragment implements Parcelable {
         subjectRecyclerView.setLayoutManager(new LinearLayoutManager(calendarView.getContext()));
         setImageView(timeTables);
 
+        setItemTouchHelper();
+
         Log.e("timetable", timeTables.toString());
 //        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
 //        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
 //        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
 
         return calendarView;
+    }
+
+    private void setItemTouchHelper() {
+
+        new ItemTouchHelper(new ItemTouchHelper.Callback() {
+
+            private int limitScrollX = dipToPx(100f, context);
+            private int currentScrollX = 0;
+            private int currentScrollXWhenInActive = 0;
+            private float initXWhenInActive = 0f;
+            private boolean firstInActive = false;
+
+
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                int dragFlags = 0;
+                int swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+            }
+
+            @Override
+            public float getSwipeEscapeVelocity(float defaultValue) {
+                return (float) Integer.MAX_VALUE;
+            }
+
+            @Override
+            public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
+                return (float) Integer.MAX_VALUE;
+
+            }
+
+            @Override
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+
+                if(viewHolder.itemView.getScrollX() > limitScrollX)
+                {
+                    viewHolder.itemView.scrollTo(limitScrollX, 0);
+                }
+                else if(viewHolder.itemView.getScrollX() < 0)
+                {
+                    viewHolder.itemView.scrollTo(0, 0);
+                }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE)
+                {
+                    if(dX == 0f)
+                    {
+                        currentScrollX = viewHolder.itemView.getScrollX();
+                        firstInActive = true;
+                    }
+
+                    if(isCurrentlyActive)
+                    {
+                        int scrollOffset = currentScrollX + (int) (-dX);
+                        if(scrollOffset > limitScrollX)
+                        {
+                            scrollOffset = limitScrollX;
+                        }
+                        else if(scrollOffset < 0)
+                        {
+                            scrollOffset = 0;
+                        }
+
+                        viewHolder.itemView.scrollTo(scrollOffset, 0);
+                    }
+                    else{
+                        if(firstInActive)
+                        {
+                            firstInActive = false;
+                            currentScrollXWhenInActive = viewHolder.itemView.getScrollX();
+                            initXWhenInActive = dX;
+                        }
+                        if(viewHolder.itemView.getScrollX() < limitScrollX)
+                        {
+                            viewHolder.itemView.scrollTo((int)(currentScrollXWhenInActive* dX/ initXWhenInActive) , 0);
+                        }
+                    }
+                }
+            }
+
+        }).attachToRecyclerView(subjectRecyclerView);
     }
 
     private int getSnapPostion(SnapHelper snap, RecyclerView.LayoutManager layoutManager){
@@ -635,6 +747,11 @@ public class fragment_calendar extends Fragment implements Parcelable {
         else{
             imageView.setVisibility(GONE);
         }
+    }
+
+    public int dipToPx(float dp, Context context)
+    {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
 
 }

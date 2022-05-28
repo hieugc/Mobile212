@@ -102,6 +102,14 @@ public class BkTimeTableSelectionFragment extends Fragment {
                             String[] result = time.split(" - ");
                             String startTime = result[0];
                             String endTime = result[1];
+                            if(startTime.length() == 3)
+                            {
+                                startTime = "0"+startTime;
+                            }
+                            if(endTime.length() == 3)
+                            {
+                                endTime = "0"+endTime;
+                            }
                             String theDate;
                             int timetable_id = bkTimeTables.get(j).getId();
                             String[] week = bkTimeTables.get(j).getWeek().split("\\|");
@@ -137,35 +145,35 @@ public class BkTimeTableSelectionFragment extends Fragment {
                             for (String s : week) {
                                 if (s.equals("--")) continue;
                                 calendar.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 1);
-//                                if (date == 8) {
-//                                    for (int x = Calendar.SUNDAY; x <= Calendar.SATURDAY; x++) {
-//                                        if (x == Calendar.SUNDAY) {
-//                                            calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
-//                                            calendarForSunday.set(Calendar.DAY_OF_WEEK, x);
-//                                            theDate = format.format(calendarForSunday.getTime());
-//                                            Log.e("date", format.format(calendarForSunday.getTime()));
-//                                            dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
-//                                            continue;
-//                                        }
-//                                        calendar.set(Calendar.DAY_OF_WEEK, x);
-//                                        Log.e("date", format.format(calendar.getTime()));
-//                                        theDate = format.format(calendar.getTime());
-//                                        dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
-//                                    }
-//                                } else if (date != 0) {
-//                                    if (date == Calendar.SUNDAY) {
-//                                        calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
-//                                        calendarForSunday.set(Calendar.DAY_OF_WEEK, date);
-//                                        Log.e("date", format.format(calendarForSunday.getTime()));
-//                                        theDate = format.format(calendarForSunday.getTime());
-//                                        dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
-//                                    } else {
-//                                        calendar.set(Calendar.DAY_OF_WEEK, date);
-//                                        Log.e("date", format.format(calendar.getTime()));
-//                                        theDate = format.format(calendar.getTime());
-//                                        dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
-//                                    }
-//                                }
+                                if (date == 8) {
+                                    for (int x = Calendar.SUNDAY; x <= Calendar.SATURDAY; x++) {
+                                        if (x == Calendar.SUNDAY) {
+                                            calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
+                                            calendarForSunday.set(Calendar.DAY_OF_WEEK, x);
+                                            theDate = format.format(calendarForSunday.getTime());
+                                            Log.e("date", format.format(calendarForSunday.getTime()));
+                                            dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                            continue;
+                                        }
+                                        calendar.set(Calendar.DAY_OF_WEEK, x);
+                                        Log.e("date", format.format(calendar.getTime()));
+                                        theDate = format.format(calendar.getTime());
+                                        dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                    }
+                                } else if (date != 0) {
+                                    if (date == Calendar.SUNDAY) {
+                                        calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
+                                        calendarForSunday.set(Calendar.DAY_OF_WEEK, date);
+                                        Log.e("date", format.format(calendarForSunday.getTime()));
+                                        theDate = format.format(calendarForSunday.getTime());
+                                        dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                    } else {
+                                        calendar.set(Calendar.DAY_OF_WEEK, date);
+                                        Log.e("date", format.format(calendar.getTime()));
+                                        theDate = format.format(calendar.getTime());
+                                        dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                    }
+                                }
                             }
 
                         }

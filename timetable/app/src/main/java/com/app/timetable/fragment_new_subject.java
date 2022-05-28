@@ -563,8 +563,8 @@ public class fragment_new_subject extends Fragment {
     }
     private void chosen_day_pick(View view, int i, TextView day_pick){
         studyDay[i] = true;
-        day_pick.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
-        day_pick.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
+        day_pick.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.nav_primary));
+        day_pick.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
         day_pick.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
     }
     private void un_day_pick(View view, int i, TextView day_pick){

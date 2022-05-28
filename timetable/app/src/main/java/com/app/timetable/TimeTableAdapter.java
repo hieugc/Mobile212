@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
 
     public interface onItemClick{
         public void onClick(TimeTable timeTable);
+        public void onDelete(TimeTable timeTable);
     }
 
     private onItemClick itemClick;
@@ -58,41 +60,46 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(arrayList.size() != 0)
-        {
-            holder.startTime_txt.setText(arrayList.get(position).getStart_time());
-            holder.endTime_txt.setText(arrayList.get(position).getEnd_time());
-            holder.name_txt.setText(arrayList.get(position).getName());
-            holder.location_txt.setText(arrayList.get(position).getLocation());
-            if (position == 0){
-                holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.first_item_style));
-                holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
-            }
-            else if (position == arrayList.size()-1){
-                holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.last_item_style));
-                holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
-            }
-            else {
-                holder.cardView.setBackgroundColor(Color.parseColor(colors2[position % 6]));
-            }
-            holder.timetableLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    info_subject = new fragment_calendar_info_subject();
-                    info_subject.setTimeTable(arrayList.get(position));
-                    info_subject.set_calendar(fragmentCalendar);
-                    info_subject.setBottomNavigationView(bottomNavigationView);
-                    fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, info_subject).commit();
-                }
-            });
-            holder.bellLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(itemClick != null)
-                        itemClick.onClick(arrayList.get(position));
-                }
-            });
+        holder.startTime_txt.setText(arrayList.get(position).getStart_time());
+        holder.endTime_txt.setText(arrayList.get(position).getEnd_time());
+        holder.name_txt.setText(arrayList.get(position).getName());
+        holder.location_txt.setText(arrayList.get(position).getLocation());
+        if (position == 0){
+            holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.first_item_style));
+            holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
         }
+        else if (position == arrayList.size()-1){
+            holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.last_item_style));
+            holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
+        }
+        else {
+            holder.cardView.setBackgroundColor(Color.parseColor(colors2[position % 6]));
+        }
+        holder.timetableLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                info_subject = new fragment_calendar_info_subject();
+                info_subject.setTimeTable(arrayList.get(position));
+                info_subject.set_calendar(fragmentCalendar);
+                info_subject.setBottomNavigationView(bottomNavigationView);
+                fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, info_subject).commit();
+            }
+        });
+        holder.bellLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(itemClick != null)
+                    itemClick.onClick(arrayList.get(position));
+            }
+        });
+
+        holder.delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(itemClick != null)
+                    itemClick.onDelete(arrayList.get(position));
+            }
+        });
     }
 
     @Override
@@ -110,6 +117,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
         private RelativeLayout bellLayout, itemLayout;
         private ConstraintLayout timetableLayout;
         private MaterialCardView cardView;
+        private ImageView delete_btn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,6 +130,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
             itemLayout = itemView.findViewById(R.id.itemLayout);
             cardView = itemView.findViewById(R.id.subject_layout);
             timetableLayout = itemView.findViewById(R.id.timetableLayout);
+            delete_btn = itemView.findViewById(R.id.delete_timetable);
         }
     }
 }

@@ -13,21 +13,20 @@
             android:id="@+id/calendar_top_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:elevation="20dp"
-            android:paddingBottom="5dp">
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:id="@+id/back_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/ic_back_icon"
-                    app:tint="@color/nav_primary" />
+                    app:tint="@color/black" />
 
                 <TextView
                     android:id="@+id/label_back_head"
@@ -35,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Thêm môn mới"
-                    android:textColor="@color/nav_primary"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -305,16 +304,16 @@
                             android:layout_below="@id/day_t3"
                             android:layout_toStartOf="@id/day_t4"
                             />
+
                         <TextView
                             android:id="@+id/day_cn"
+                            style="@style/Dat_pick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="CN"
-                            android:layout_marginTop="10dp"
-                            style="@style/Dat_pick"
-                            android:layout_toStartOf="@id/day_t5"
                             android:layout_below="@id/day_t4"
-                            />
+                            android:layout_marginTop="10dp"
+                            android:layout_toEndOf="@id/day_t7"
+                            android:text="CN" />
                     </RelativeLayout>
                 <TextView
                     android:id="@+id/text_for_change"

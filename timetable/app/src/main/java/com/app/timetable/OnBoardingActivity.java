@@ -79,6 +79,9 @@ public class OnBoardingActivity extends AppCompatActivity {
             {
                 skip_txt.setText(R.string.finish);
             }
+            else{
+                skip_txt.setText(R.string.skip);
+            }
         }
     }
 
