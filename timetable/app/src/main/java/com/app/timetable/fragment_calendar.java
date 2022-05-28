@@ -478,6 +478,10 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
     }
 
+    private void hide_bell(){
+
+    }
+
     private void setTest(){
         calendarRecyclerView.smoothScrollToPosition(6);
     }

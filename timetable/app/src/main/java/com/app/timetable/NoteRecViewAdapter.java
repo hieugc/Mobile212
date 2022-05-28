@@ -73,7 +73,7 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
             public void onClick(View view) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(view.getContext(), R.style.RoundShapeTheme);
                 builder.setTitle("Xác nhận xoá ghi chú?");
-                builder.setMessage("Bạn chắc chắn muốn xoá ghi chú này chứ?");
+                builder.setMessage("Bạn muốn xoá ghi chú này chứ?");
                 builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

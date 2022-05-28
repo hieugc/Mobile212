@@ -1,157 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/subject_info_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginTop="10dp"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_back_icon"/>
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thông tin môn học"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginRight="10dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp">
+                <ImageView
+                    android:id="@+id/edit_sub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit_icon"/>
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_back_icon"/>
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/nav_primary">
 
             <TextView
-                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giải tích 2"
+                android:id="@+id/info_subject_name"
+                android:textColor="@color/black"
+                android:textSize="29sp"/>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/info_subject_date"
+                android:text="Thứ 5 - ngày 17/03/2022"
+                android:textSize="17sp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thông tin môn học"
+                android:textSize="21sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:layout_marginLeft="15dp"/>
+            <TextView
+                android:id="@+id/group_subject_id"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nhóm - Tổ: L01"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phòng học:"
+                android:id="@+id/info_study_room"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/info_study_time"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Giờ học:"
+                android:textColor="@color/black"/>
         </LinearLayout>
-
-
         <LinearLayout
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="10dp"
-            android:layout_width="28dp"
-            android:layout_height="28dp">
-            <ImageView
-                android:id="@+id/edit_sub"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_edit_icon"/>
+                android:text="Thông tin giảng viên"
+                android:textSize="21sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Họ và tên:"
+                android:id="@+id/info_lecturer_name"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/info_lecturer_number"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Số điện thoại: "
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/info_lecturer_mail"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email: "
+                android:textColor="@color/black"/>
         </LinearLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:background="@color/nav_primary">
-
-        <TextView
-            android:textStyle="bold"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Giải tích 2"
-            android:id="@+id/info_subject_name"
-            android:textColor="@color/black"
-            android:textSize="29sp"/>
-
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/info_subject_date"
-            android:text="Thứ 5 - ngày 17/03/2022"
-            android:textSize="17sp"
-            android:textColor="@color/black"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thông tin môn học"
-            android:textSize="21sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginLeft="15dp"/>
-        <TextView
-            android:id="@+id/group_subject_id"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
+        android:layout_height="match_parent"
+        android:background="@color/dialog"
+        >
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nhóm - Tổ: L01"
-            android:textColor="@color/black"/>
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Phòng học:"
-            android:id="@+id/info_study_room"
-            android:textColor="@color/black"/>
-        <TextView
-            android:id="@+id/info_study_time"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Giờ học:"
-            android:textColor="@color/black"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thông tin giảng viên"
-            android:textSize="21sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginLeft="15dp"/>
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Họ và tên:"
-            android:id="@+id/info_lecturer_name"
-            android:textColor="@color/black"/>
-        <TextView
-            android:id="@+id/info_lecturer_number"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Số điện thoại: "
-            android:textColor="@color/black"/>
-        <TextView
-            android:id="@+id/info_lecturer_mail"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email: "
-            android:textColor="@color/black"/>
-    </LinearLayout>
-</LinearLayout>
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:layout_margin="20dp"
+            android:padding="20dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thao tác chỉnh sửa:"
+                android:textSize="@dimen/nav_title"
+                />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
