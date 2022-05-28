@@ -34,6 +34,12 @@ public class LogInFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String username, password;
     private BottomNavigationView bottomNavigationView;
+    private fragment_calendar fragmentCalendar;
+
+    public LogInFragment(fragment_calendar fragmentCalendar) {
+        this.fragmentCalendar = fragmentCalendar;
+    }
+
     public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
         this.bottomNavigationView = bottomNavigationView;
     }
@@ -59,7 +65,7 @@ public class LogInFragment extends Fragment {
 
             if(user != null)
             {
-                bkTimeTableFragment = new BkTimeTableFragment(user.getId());
+                bkTimeTableFragment = new BkTimeTableFragment(user.getId(), fragmentCalendar);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
             }
         }
@@ -167,7 +173,7 @@ public class LogInFragment extends Fragment {
 //                        BKTimeTable bkTimeTable1 = new BKTimeTable(-1,"Nguyên lý ngôn ngữ lập trình (CO3005)","L01","H6-109","Thứ 4","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|","212",user.getId());
 //                        success = dataBaseHelper.addOne(bkTimeTable1);
 //                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
-                        bkTimeTableFragment = new BkTimeTableFragment(user.getId());
+                        bkTimeTableFragment = new BkTimeTableFragment(user.getId(), fragmentCalendar);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
                     }
                 }

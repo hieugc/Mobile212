@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
     private fragment_calendar calendarView = new fragment_calendar();
     private fragment_new_subject new_subject = new fragment_new_subject();
     private fragment_calendar_info_subject subject_info = new fragment_calendar_info_subject();
-    private LogInFragment logInFragment = new LogInFragment();
+    private LogInFragment logInFragment = new LogInFragment(calendarView);
     //todo
     private fragment_todo todoView = new fragment_todo();
     private fragment_todo_meeting_form meeting_form = new fragment_todo_meeting_form();

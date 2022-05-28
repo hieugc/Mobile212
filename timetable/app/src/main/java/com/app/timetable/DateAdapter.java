@@ -1,5 +1,8 @@
 package com.app.timetable;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -118,6 +121,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
                 String date = new SimpleDateFormat("dd/MM/yyyy").format(pickedDate);
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(date);
                 fragmentCalendar.getTimeTableAdapter().setArrayList(arrayList);
+                fragmentCalendar.setImageView(arrayList);
             }
         });
     }

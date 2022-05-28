@@ -24,9 +24,11 @@ public class TimeTableRecViewAdapter extends RecyclerView.Adapter<TimeTableRecVi
     private FragmentActivity fragmentActivity;
 
     private BkTimeTableSelectionFragment bkTimeTableSelectionFragment;
+    private fragment_calendar fragmentCalendar;
 
-    public TimeTableRecViewAdapter(FragmentActivity fragmentActivity) {
+    public TimeTableRecViewAdapter(FragmentActivity fragmentActivity, fragment_calendar fragmentCalendar) {
         this.fragmentActivity = fragmentActivity;
+        this.fragmentCalendar = fragmentCalendar;
     }
 
     @NonNull
@@ -49,6 +51,7 @@ public class TimeTableRecViewAdapter extends RecyclerView.Adapter<TimeTableRecVi
             @Override
             public boolean onLongClick(View view) {
                 bkTimeTableSelectionFragment = new BkTimeTableSelectionFragment(timetable.get(position).getName(), timetable.get(position).getUserID());
+                bkTimeTableSelectionFragment.setFragmentCalendar(fragmentCalendar);
                 fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableSelectionFragment).commit();
                 return false;
             }

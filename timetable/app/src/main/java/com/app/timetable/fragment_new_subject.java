@@ -121,20 +121,32 @@ public class fragment_new_subject extends Fragment {
                 study_time_start.setText(time_start);
                 study_time_end.setText(time_end);
 
+                Log.e("date", date);
+
+                Date selectedDate = new Date();
+                try {
+                     selectedDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Log.e("date", new SimpleDateFormat("dd/MM/yyyy").format(selectedDate));
+
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
                 int year = calendar.get(Calendar.YEAR);
-                calendar.set(Calendar.YEAR, year -1 );
+                calendar.set(Calendar.YEAR, year - 1);
                 long lastYear = calendar.getTimeInMillis();
                 calendar.set(Calendar.YEAR, year + 1);
                 long nextYear = calendar.getTimeInMillis();
+
+
                 CalendarConstraints.Builder constraints = new CalendarConstraints.Builder();
                 constraints.setStart(lastYear);
                 constraints.setEnd(nextYear);
-                constraints.setOpenAt(MaterialDatePicker.todayInUtcMilliseconds());
+                constraints.setOpenAt(selectedDate.getTime() + MILLIS_IN_A_DAY);
 
                 MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker()
                         .setTitleText("Chọn ngày cho môn học")
-                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                        .setSelection(selectedDate.getTime() + MILLIS_IN_A_DAY)
                         .setTheme(R.style.ThemeOverlay_App_DatePicker)
                         .setCalendarConstraints(constraints.build());
 

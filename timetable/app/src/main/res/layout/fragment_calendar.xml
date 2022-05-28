@@ -267,6 +267,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/notification_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:checked="true"
@@ -276,9 +277,10 @@
                     android:textSize="16sp" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/notification_switch_all"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:checked="true"
+                    android:checked="false"
                     android:minWidth="220dp"
                     android:text="Áp dụng tất cả"
                     android:textColor="@color/black"
