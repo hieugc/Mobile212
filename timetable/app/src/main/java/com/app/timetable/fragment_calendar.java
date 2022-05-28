@@ -517,7 +517,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
         new ItemTouchHelper(new ItemTouchHelper.Callback() {
 
-            private int limitScrollX = dipToPx(100f, context);
+            private int limitScrollX = dipToPx(65f, context);
             private int currentScrollX = 0;
             private int currentScrollXWhenInActive = 0;
             private float initXWhenInActive = 0f;

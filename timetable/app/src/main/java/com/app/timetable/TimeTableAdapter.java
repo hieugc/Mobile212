@@ -67,10 +67,12 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
         if (position == 0){
             holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.first_item_style));
             holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
+            holder.delete_btn.setBackground(context.getResources().getDrawable(R.drawable.first_item_delete));
         }
         else if (position == arrayList.size()-1){
             holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.last_item_style));
             holder.cardView.setBackgroundTintList(context.getResources().getColorStateList(colors[position % 6]));
+            holder.delete_btn.setBackground(context.getResources().getDrawable(R.drawable.last_item_delete));
         }
         else {
             holder.cardView.setBackgroundColor(Color.parseColor(colors2[position % 6]));
@@ -114,10 +116,8 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView startTime_txt, endTime_txt, name_txt, location_txt;
-        private RelativeLayout bellLayout, itemLayout;
-        private ConstraintLayout timetableLayout;
-        private MaterialCardView cardView;
-        private ImageView delete_btn;
+        private RelativeLayout bellLayout, itemLayout,delete_btn;
+        private ConstraintLayout timetableLayout, cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
