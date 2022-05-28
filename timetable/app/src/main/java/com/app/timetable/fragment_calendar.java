@@ -434,6 +434,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 Log.e("delete", "click");
                 delete_popup_timetable = timeTable;
                 delete_popup_bg.setVisibility(VISIBLE);
+                bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
             }
         });
 
@@ -445,6 +446,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
             public void onClick(View view) {
                 dataBaseHelper.deleteOne(delete_popup_timetable);
                 delete_popup_bg.setVisibility(GONE);
+                bottomNavigationView.setForeground(null);
+
                 String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
@@ -463,6 +466,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
                     dataBaseHelper.deleteSubject(delete_popup_timetable.getTimetable_id());
                 }
                 delete_popup_bg.setVisibility(GONE);
+                bottomNavigationView.setForeground(null);
                 String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
                 ArrayList<TimeTable> timeTables = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(timeTables);
@@ -737,6 +741,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
         Log.d("test func2",adapter.getSubjectList().toString());
         Log.d("test functionality",adapter.getItemCount()+"");
         delete_popup_bg.setVisibility(VISIBLE);
+        bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
+
     }
 
     public void setDatePicker()

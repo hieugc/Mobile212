@@ -709,8 +709,14 @@ public class fragment_new_subject extends Fragment {
         study_time_selector.setVisibility(View.VISIBLE);
         bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
 
-        hoursPicker.setValue(Integer.parseInt(study_time_start.getText().toString().split(":")[0]));
-        minutesPicker.setValue(Integer.parseInt(study_time_start.getText().toString().split(":")[1]));
+        if(study_time_start.getText().toString().trim().indexOf(":") != -1){
+            hoursPicker.setValue(Integer.parseInt(study_time_start.getText().toString().split(":")[0]));
+            minutesPicker.setValue(Integer.parseInt(study_time_start.getText().toString().split(":")[1]));
+        }
+        else{
+            hoursPicker.setValue(7);
+            minutesPicker.setValue(0);
+        }
         done_add_time_study_bttn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -734,8 +740,14 @@ public class fragment_new_subject extends Fragment {
         popup_bg.setVisibility(View.VISIBLE);
         study_time_selector.setVisibility(View.VISIBLE);
         bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
-        hoursPicker.setValue(Integer.parseInt(study_time_end.getText().toString().split(":")[0]));
-        minutesPicker.setValue(Integer.parseInt(study_time_end.getText().toString().split(":")[1]));
+        if (study_time_end.getText().toString().trim().indexOf(":") != -1){
+            hoursPicker.setValue(Integer.parseInt(study_time_end.getText().toString().split(":")[0]));
+            minutesPicker.setValue(Integer.parseInt(study_time_end.getText().toString().split(":")[1]));
+        }
+        else{
+            hoursPicker.setValue(7);
+            minutesPicker.setValue(0);
+        }
         done_add_time_study_bttn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
