@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="65dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/note_item">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/noteLayout">
         <ImageView
             android:layout_width="45dp"
@@ -34,10 +34,9 @@
                 android:textStyle="bold" />
 
             <RelativeLayout
+                android:id="@+id/content_timeLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/content_timeLayout"
-                android:layout_toStartOf="@+id/delete_box"
                 android:layout_below="@+id/note_txt">
 
                 <TextView
@@ -50,31 +49,13 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:layout_alignParentBottom="true"
                     android:id="@+id/note_time_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_marginEnd="10dp"
                     android:text="11/04/2021" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/delete_box"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="@color/divider"
-                android:padding="5dp"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:tint="@color/error_form"
-                    android:src="@drawable/ic_baseline_delete_24" />
 
             </RelativeLayout>
 
@@ -82,13 +63,26 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="65dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@+id/noteLayout"
+        android:background="@color/error_form"
+        android:gravity="center"
+        android:id="@+id/delete_note">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/delete" />
+
+    </RelativeLayout>
 
 
     <com.google.android.material.divider.MaterialDivider
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/noteLayout"
         app:dividerColor="@color/divider"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

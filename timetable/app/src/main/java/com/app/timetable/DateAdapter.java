@@ -122,6 +122,11 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(date);
                 fragmentCalendar.getTimeTableAdapter().setArrayList(arrayList);
                 fragmentCalendar.setImageView(arrayList);
+                Calendar c = Calendar.getInstance(TimeZone.getDefault());
+                c.setTime(pickedDate);
+                int month = c.get(Calendar.MONTH) + 1;
+                int year = c.get(Calendar.YEAR);
+                fragmentCalendar.setTxt_month("Tháng "+month+"/"+year);
             }
         });
     }

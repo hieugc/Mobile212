@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -94,6 +95,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
         this.bottomNavigationView = bottomNavigationView;
     }
     private ImageView imageView;
+    private TextView txt_month;
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     private RecyclerView subjectRecyclerView, calendarRecyclerView;
     private SubjectAdapter adapter;
@@ -185,6 +187,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
         dateAdapter.setFragmentCalendar(this);
 
         swipeRefreshLayout = calendarView.findViewById(R.id.swipeRefreshLayout);
+        txt_month = calendarView.findViewById(R.id.txt_month);
 
         btn_delete_timetable = calendarView.findViewById(R.id.btn_delete_timetable);
         btn_delete_all_timetable = calendarView.findViewById(R.id.btn_delete_all_timetable);
@@ -214,6 +217,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH)+1;
+        txt_month.setText("Tháng "+month+"/"+year);
 
         calendar.set(Calendar.YEAR, year -1 );
         long lastYear = calendar.getTimeInMillis();
@@ -301,6 +306,12 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 dateAdapter.getArrayList().clear();
                 dateAdapter.setArrayList(dateArrayList);
 
+                Calendar c = Calendar.getInstance(TimeZone.getDefault());
+                c.setTime(date);
+                int month = c.get(Calendar.MONTH) + 1;
+                int year = c.get(Calendar.YEAR);
+                txt_month.setText("Tháng "+month+"/"+year);
+
                 String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
@@ -352,6 +363,12 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 dateAdapter.getArrayList().add(nextDay);
                 dateAdapter.notifyDataSetChanged();
                 selectedDate = dateAdapter.getArrayList().get(2).getTime();
+                Calendar c = Calendar.getInstance(TimeZone.getDefault());
+                c.setTime(dateAdapter.getArrayList().get(2));
+                int month = c.get(Calendar.MONTH) + 1;
+                int year = c.get(Calendar.YEAR);
+                txt_month.setText("Tháng "+month+"/"+year);
+
                 setDatePicker();
                 String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
@@ -369,6 +386,11 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 dateAdapter.getArrayList().add(0, previousDay);
                 dateAdapter.notifyDataSetChanged();
                 selectedDate = dateAdapter.getArrayList().get(2).getTime();
+                Calendar c = Calendar.getInstance(TimeZone.getDefault());
+                c.setTime(dateAdapter.getArrayList().get(2));
+                int month = c.get(Calendar.MONTH) + 1;
+                int year = c.get(Calendar.YEAR);
+                txt_month.setText("Tháng "+month+"/"+year);
                 setDatePicker();
                 String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
@@ -451,6 +473,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
+                setImageView(arrayList);
             }
         });
 
@@ -470,6 +493,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
                 ArrayList<TimeTable> timeTables = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(timeTables);
+                setImageView(timeTables);
             }
         });
 
@@ -769,6 +793,12 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 dateAdapter.getArrayList().clear();
                 dateAdapter.setArrayList(dateArrayList);
 
+                Calendar c = Calendar.getInstance(TimeZone.getDefault());
+                c.setTime(date);
+                int month = c.get(Calendar.MONTH) + 1;
+                int year = c.get(Calendar.YEAR);
+                txt_month.setText("Tháng "+month+"/"+year);
+
                 String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
@@ -790,6 +820,10 @@ public class fragment_calendar extends Fragment implements Parcelable {
     public int dipToPx(float dp, Context context)
     {
         return (int) (dp * context.getResources().getDisplayMetrics().density);
+    }
+
+    public void setTxt_month(String text){
+        txt_month.setText(text);
     }
 
 }

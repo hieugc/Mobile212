@@ -743,7 +743,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean deleteOne(TimeTable timeTable)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "DELETE FROM " + TABLE_SUBJECT + " WHERE " + COLUMN_ID + " = " + timeTable.getId();
+        String sql = "DELETE FROM " + TABLE_TIMETABLE + " WHERE " + COLUMN_ID + " = " + timeTable.getId();
         db.execSQL(sql);
         return true;
     }

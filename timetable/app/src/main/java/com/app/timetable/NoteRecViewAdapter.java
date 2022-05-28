@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,17 +57,6 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
             e.printStackTrace();
         }
         holder.time_txt.setText(created_at);
-        holder.parent.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if(listener != null)
-                {
-                    listener.onLongClick(holder);
-                }
-                holder.delete_box.setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
 
         holder.delete_box.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,15 +128,14 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView heading_txt, content_txt, time_txt;
-        private RelativeLayout parent, delete_box;
+        private RelativeLayout delete_box;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             heading_txt = itemView.findViewById(R.id.note_txt);
             content_txt = itemView.findViewById(R.id.note_content);
             time_txt = itemView.findViewById(R.id.note_time_txt);
-            parent = itemView.findViewById(R.id.note_item);
-            delete_box = itemView.findViewById(R.id.delete_box);
+            delete_box = itemView.findViewById(R.id.delete_note);
         }
 
         public TextView getTime_txt() {
