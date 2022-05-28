@@ -162,28 +162,63 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/dialog_contain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialog"
         android:visibility="gone"
         >
-        <LinearLayout
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@color/white"
-            android:layout_margin="20dp"
+            android:elevation="20dp"
             android:padding="20dp"
+            android:backgroundTintMode="src_over"
             >
+
             <TextView
+                android:id="@+id/dialog_info_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Thao tác chỉnh sửa:"
-                android:textSize="@dimen/nav_title"
-                />
+                android:layout_marginTop="10dp"
+                android:text="Bạn muốn chỉnh sửa ngày này hay tất cả?"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
+            <Button
+                android:id="@+id/dialog_info_btn_1"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dialog_info_1"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Một ngày"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                app:cornerRadius="@dimen/button_radius" />
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/dialog_info_btn_2"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dialog_info_1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@id/dialog_info_btn_1"
+                android:gravity="center"
+                android:text="Tất cả"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                app:cornerRadius="@dimen/button_radius" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

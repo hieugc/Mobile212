@@ -1,17 +1,21 @@
 package com.app.timetable;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,6 +41,9 @@ public class fragment_calendar_info_subject extends Fragment {
         this.bottomNavigationView = bottomNavigationView;
     }
 
+    private RelativeLayout dialog_contain;
+    private Button dialog_info_btn_1, dialog_info_btn_2;
+
     private ImageView edit_sub;
 
     public void setTimeTable(TimeTable timeTable) {
@@ -59,6 +66,29 @@ public class fragment_calendar_info_subject extends Fragment {
         txtView_info_lecturer_name = subjectInfoView.findViewById(R.id.info_lecturer_name);
         txtView_info_lecturer_number = subjectInfoView.findViewById(R.id.info_lecturer_number);
         txtView_info_lecturer_mail = subjectInfoView.findViewById(R.id.info_lecturer_mail);
+        dialog_contain = subjectInfoView.findViewById(R.id.dialog_contain);
+        dialog_contain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog();
+            }
+        });
+        dialog_info_btn_1 = subjectInfoView.findViewById(R.id.dialog_info_btn_1);
+        dialog_info_btn_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendEditOne();
+            }
+        });
+        dialog_info_btn_2 = subjectInfoView.findViewById(R.id.dialog_info_btn_2);
+        dialog_info_btn_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendEditAll();
+            }
+        });
+
+
 
         txtView_info_subject_name.setText(timeTable.getName());
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -135,7 +165,7 @@ public class fragment_calendar_info_subject extends Fragment {
         edit_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendEditOne();
+                dialog();
             }
         });
         //end
@@ -173,11 +203,11 @@ public class fragment_calendar_info_subject extends Fragment {
         bundle.putString("TA_name", this.timeTable.getTA_name());
         bundle.putString("TA_number", this.timeTable.getTA_number());
         bundle.putString("TA_email", this.timeTable.getTA_email());
-
+        checkLog(this.timeTable.getTA_name(), this.timeTable.getTA_number(), this.timeTable.getTA_email());
         bundle.putBoolean("notification", this.timeTable.getNotification());
         bundle.putString("notification_time", this.timeTable.getNotification_time());
         bundle.putInt("type", this.timeTable.getType());
-        bundle.putInt("timeTable_id", this.timeTable.getId());
+        bundle.putInt("timeTable_id", this.timeTable.getTimetable_id());
 
         bundle.putParcelable("fragment_calendar", this.fragmentCalendar);
         return bundle;
@@ -192,6 +222,21 @@ public class fragment_calendar_info_subject extends Fragment {
         lecturerName = subject.getLecturerName();
         lecturerNumber = subject.getLecturerNumber();
         lecturerMail = subject.getLecturerMail();
+    }
+
+    private void dialog(){
+        if (dialog_contain.getVisibility() == View.VISIBLE){
+            dialog_contain.setVisibility(View.GONE);
+            bottomNavigationView.setForeground(null);
+        }
+        else{
+            dialog_contain.setVisibility(View.VISIBLE);
+            bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
+        }
+    }
+
+    private void checkLog(String s1, String s2, String s3){
+        Log.e("TA", "name = " + s1 + "\nnum = " + s2 + "\nmail = " + s3);
     }
 
 }

@@ -126,7 +126,7 @@ public class SubjectAdapter extends RecyclerView.Adapter <SubjectAdapter.ViewHol
             holder.subjectname.setText(subject.getClassName());
             holder.starthour.setText(subject.getStartHour());
             holder.endhour.setText(subject.getEndHour());
-            holder.note.setText(subject.getNote());
+            holder.note.setText("subject.getNote()");
             holder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {

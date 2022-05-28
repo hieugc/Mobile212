@@ -740,6 +740,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
         return true;
     }
+    public boolean deleteOne(TimeTable timeTable)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + TABLE_SUBJECT + " WHERE " + COLUMN_ID + " = " + timeTable.getId();
+        db.execSQL(sql);
+        return true;
+    }
     public boolean updateOne(assignment assignment){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -781,7 +788,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
         return true;
     }
+    public boolean updateOne(Subject subject, int id){
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        String sql =
+                "UPDATE " + TABLE_SUBJECT +
+                " SET " + COLUMN_NAME + " = \"" + subject.getClassName() + "\", " +
+                        COLUMN_GROUP + " = \"" + subject.getClassGroup() + "\", " +
+                        COLUMN_LOCATION + " = \"" + subject.getClassRoom() + "\", " +
+                        COLUMN_START_DATE + " = \"" + subject.getStartDate() + "\", " +
+                        COLUMN_END_DATE + " = \"" + subject.getEndDate() + "\", " +
+                        COLUMN_START_TIME + " = \"" + subject.getStartHour() + "\", " +
+                        COLUMN_END_TIME + " = \"" + subject.getEndHour() + "\", " +
+                        COLUMN_STUDY_DAY + " = \"" + subject.getStudy() + "\", " +
+                        COLUMN_TA_NAME + " = \"" + subject.getLecturerName() + "\", " +
+                        COLUMN_TA_NUMBER + " = \"" + subject.getLecturerNumber() + "\", " +
+                        COLUMN_TA_EMAIL + " = \"" + subject.getLecturerMail() + "\"" +
+                " WHERE " + COLUMN_ID + " = " + id;
+        db.execSQL(sql);
+        return true;
+    }
     public ArrayList<TimeTable> getTimeTablesByForeignID(int timetable_id)
     {
         ArrayList<TimeTable> timeTables = new ArrayList<>();

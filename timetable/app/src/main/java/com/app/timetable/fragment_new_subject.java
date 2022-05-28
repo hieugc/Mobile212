@@ -45,6 +45,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class fragment_new_subject extends Fragment {
+
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     private String className,classRoom,classGroup, note;
     private String startDate = "",endDate = "",startHour = "",endHour = "";
@@ -53,6 +54,7 @@ public class fragment_new_subject extends Fragment {
     private int lastSelectedYear;
     private int lastSelectedMonth;
     private int lastSelectedDayOfMonth;
+
     private Button add_info_lecturer_buttn,done_info_lecturer_bttn,done_add_time_study_bttn;
     private TextView day_start,day_end;
     private TextView day_t2,day_t3,day_t4,day_t5,day_t6,day_t7,day_cn;
@@ -97,6 +99,10 @@ public class fragment_new_subject extends Fragment {
                 String TA_mail = bundle.getString("TA_email");
                 String TA_name = bundle.getString("TA_name");
                 String TA_number = bundle.getString("TA_number");
+                Log.e("TA", "name = " + TA_mail + "\nnum = " + TA_name + "\nmail = " + TA_number);
+                if (TA_mail != "" || TA_number != "" || TA_name != ""){
+                    add_info_lecturer_buttn.setText("Sửa");
+                }
 
                 String date = bundle.getString("date");
                 String time_start = bundle.getString("start_time");
@@ -106,6 +112,15 @@ public class fragment_new_subject extends Fragment {
                 int type = bundle.getInt("type");
                 int timeTable_id = bundle.getInt("timeTable_id");
                 fragment_calendar fragmentCalendar = bundle.getParcelable("fragment_calendar");
+
+                this.fragmentCalendar = fragmentCalendar;
+
+                lecturerNumber = TA_number;
+                lecturerMail = TA_mail;
+                lecturerName = TA_name;
+                startHour = time_start;
+                endHour = time_end;
+
                 label_back_head.setText("Hủy");
                 edttext_subject_room.setText(location);
                 edttext_group_subject.setText(group);
@@ -115,6 +130,7 @@ public class fragment_new_subject extends Fragment {
                 edttext_lecturer_number.setText(TA_number);
                 study_time_start.setText(time_start);
                 study_time_end.setText(time_end);
+
 
                 if (func.trim().equals("editSubject")){
                     date_hide.setVisibility(View.GONE);
@@ -133,8 +149,6 @@ public class fragment_new_subject extends Fragment {
                     long lastYear = calendar.getTimeInMillis();
                     calendar.set(Calendar.YEAR, year + 1);
                     long nextYear = calendar.getTimeInMillis();
-
-
                     CalendarConstraints.Builder constraints = new CalendarConstraints.Builder();
                     constraints.setStart(lastYear);
                     constraints.setEnd(nextYear);
@@ -205,8 +219,101 @@ public class fragment_new_subject extends Fragment {
                     });
                 }
                 else if(func.trim().equals("editAllSubject")){
-                    Subject subject = dataBaseHelper.getSubject(id);
+                    Subject subject = dataBaseHelper.getSubject(timeTable_id);
+                    studyDay = subject.getStudyDate();
+                    startDate = subject.getStartDate();
+                    endDate = subject.getEndDate();
 
+
+                    for (int i = 0; i < studyDay.length; i++){
+                        if (studyDay[i]){
+                            switch (i){
+                                case 0:
+                                    chosen_day_pick(day_t2, 0, day_t2);
+                                    break;
+                                case 1:
+                                    chosen_day_pick(day_t3, 0, day_t3);
+                                    break;
+                                case 2:
+                                    chosen_day_pick(day_t4, 0, day_t4);
+                                    break;
+                                case 3:
+                                    chosen_day_pick(day_t5, 0, day_t5);
+                                    break;
+                                case 4:
+                                    chosen_day_pick(day_t6, 0, day_t6);
+                                    break;
+                                case 5:
+                                    chosen_day_pick(day_t7, 0, day_t7);
+                                    break;
+                                case 6:
+                                    chosen_day_pick(day_cn, 0, day_cn);
+                                    break;
+                            }
+                        }
+                    }
+                    day_start.setText(subject.getStartDate());
+                    day_end.setText(subject.getEndDate());
+                    back_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendar).commit();
+                        }
+                    });
+                    save_new_subject_layout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            //check validation
+
+                            subject.setClassGroup(edttext_group_subject.getText().toString().trim());
+                            subject.setClassName(edttext_subject_name.getText().toString().trim());
+                            subject.setClassRoom(edttext_subject_room.getText().toString().trim());
+                            subject.setEndDate(day_end.getText().toString().trim());
+                            subject.setStartDate(day_start.getText().toString().trim());
+                            subject.setLecturerName(edttext_lecturer_name.getText().toString().trim());
+                            subject.setLecturerMail(edttext_lecturer_mail.getText().toString().trim());
+                            subject.setLecturerNumber(edttext_lecturer_number.getText().toString().trim());
+                            subject.setStudy("f-f-f-f-f-f-f");
+                            subject.setEndHour(study_time_end.getText().toString().trim());
+                            subject.setStartHour(study_time_start.getText().toString().trim());
+                            dataBaseHelper.updateOne(subject, timeTable_id);
+
+                            ArrayList<TimeTable> timeTables = dataBaseHelper.getTimeTablesByForeignID(timeTable_id);
+                            for (TimeTable t: timeTables){
+                                dataBaseHelper.deleteOne(t);
+                            }
+                            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                            Calendar calendar = Calendar.getInstance();
+                            Date start,end;
+                            try {
+                                start = format.parse(day_start.getText().toString().trim());
+                                end = format.parse(day_end.getText().toString().trim());
+
+                                for(Date i = start; !start.after(end); i.setTime(i.getTime() + MILLIS_IN_A_DAY))
+                                {
+                                    String date = format.format(i);
+                                    calendar.setTime(i);
+                                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                                    if(dayOfWeek == 1)
+                                    {
+                                        dayOfWeek += 7;
+                                    }
+                                    if(studyDay[dayOfWeek-2])
+                                    {
+                                        TimeTable timeTable = new TimeTable(-1, subject.getClassName(), subject.getClassGroup(), subject.getClassRoom(), date, subject.getStartHour(), subject.getEndHour(), subject.getLecturerName(), subject.getLecturerNumber(), subject.getLecturerMail(), true, "0:05", 1, timeTable_id);
+                                        dataBaseHelper.addOne(timeTable);
+                                    }
+                                }
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            //confirm
+
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendar).commit();
+                        }
+                    });
                 }
             }
             this.setArguments(null);
@@ -559,8 +666,8 @@ public class fragment_new_subject extends Fragment {
     }
     private void chosen_day_pick(View view, int i, TextView day_pick){
         studyDay[i] = true;
-        day_pick.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
-        day_pick.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
+        day_pick.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.nav_primary));
+        day_pick.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
         day_pick.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
     }
     private void un_day_pick(View view, int i, TextView day_pick){
@@ -583,9 +690,13 @@ public class fragment_new_subject extends Fragment {
     }
 
     private void open_study_time_begin(){
+        closeKeyBoard();
         popup_bg.setVisibility(View.VISIBLE);
         study_time_selector.setVisibility(View.VISIBLE);
         bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
+
+        hoursPicker.setValue(Integer.parseInt(study_time_start.getText().toString().split(":")[0]));
+        minutesPicker.setValue(Integer.parseInt(study_time_start.getText().toString().split(":")[1]));
         done_add_time_study_bttn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -605,22 +716,24 @@ public class fragment_new_subject extends Fragment {
     }
 
     private void open_study_time_end(){
+        closeKeyBoard();
         popup_bg.setVisibility(View.VISIBLE);
         study_time_selector.setVisibility(View.VISIBLE);
         bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
-        closeKeyBoard();
+        hoursPicker.setValue(Integer.parseInt(study_time_end.getText().toString().split(":")[0]));
+        minutesPicker.setValue(Integer.parseInt(study_time_end.getText().toString().split(":")[1]));
         done_add_time_study_bttn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                String hour_start = hoursPicker.getValue()+"";
-                String minute_start = minutesPicker.getValue()+"";
+                String hour_start = hoursPicker.getValue() + "";
+                String minute_start = minutesPicker.getValue() + "";
                 if (hour_start.length() == 1) {
                     hour_start = "0" + hour_start;
                 }
                 if (minute_start.length() == 1){
                     minute_start = "0" + minute_start;
                 }
-                endHour = hour_start+":"+minute_start;
+                endHour = hour_start + ":" + minute_start;
                 study_time_end.setText(endHour);
                 close_popup_selector();
             }
@@ -628,13 +741,14 @@ public class fragment_new_subject extends Fragment {
     }
 
     private void close_popup_selector(){
+        closeKeyBoard();
         popup_bg.setVisibility(View.GONE);
         study_time_selector.setVisibility(View.GONE);
         bottomNavigationView.setForeground(null);
-        closeKeyBoard();
     }
 
     private void close_info_lecturer_bg(){
+        closeKeyBoard();
         popup_bg.setVisibility(View.GONE);
         add_info_lecturer_layout.setVisibility(View.GONE);
         bottomNavigationView.setForeground(null);
@@ -649,7 +763,6 @@ public class fragment_new_subject extends Fragment {
 
         add_info_lecturer_layout.setVisibility(View.VISIBLE);
         popup_bg.setVisibility(View.VISIBLE);
-
         bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
 
         done_info_lecturer_bttn.setOnClickListener(new View.OnClickListener() {
@@ -672,57 +785,6 @@ public class fragment_new_subject extends Fragment {
             }
         });
     }
-
-
-//    private void buttonSelectDateBegin(View view) {
-//
-//        // Date Select Listener.
-//        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-//
-//            @Override
-//            public void onDateSet(DatePicker view, int year,
-//                                  int monthOfYear, int dayOfMonth) {
-//                startDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-//                day_start.setText(startDate);
-//
-//                lastSelectedYear = year;
-//                lastSelectedMonth = monthOfYear;
-//                lastSelectedDayOfMonth = dayOfMonth;
-//            }
-//        };
-//
-//        DatePickerDialog datePickerDialog = null;
-//
-//        datePickerDialog = new DatePickerDialog(view.getContext(),
-//                dateSetListener, lastSelectedYear, lastSelectedMonth, lastSelectedDayOfMonth);
-////        }
-//
-//        // Show
-//        datePickerDialog.show();
-//    }
-//    private void buttonSelectDateEnd(View view) {
-//
-//        // Date Select Listener.
-//        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-//
-//            @Override
-//            public void onDateSet(DatePicker view, int year,
-//                                  int monthOfYear, int dayOfMonth) {
-//                endDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-//                day_end.setText(endDate);
-//
-//                lastSelectedYear = year;
-//                lastSelectedMonth = monthOfYear;
-//                lastSelectedDayOfMonth = dayOfMonth;
-//            }
-//        };
-//
-//        DatePickerDialog datePickerDialog = null;
-//        datePickerDialog = new DatePickerDialog(view.getContext(),
-//                dateSetListener, lastSelectedYear, lastSelectedMonth, lastSelectedDayOfMonth);
-//        // Show
-//        datePickerDialog.show();
-//    }
 
     private void addSubjectData(Subject subject){
         AddSubjectListener.AddSubject(subject);
