@@ -114,10 +114,12 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private MaterialDatePicker.Builder pickerBuilder;
     private MaterialDatePicker<Long> picker;
     private  CalendarConstraints.Builder builder;
-    private TimeTable notification_popup_timetable;
+    private TimeTable notification_popup_timetable, delete_popup_timetable;
     private SwitchMaterial notification_switch, notification_switch_all;
+    private Button btn_delete_timetable, btn_delete_all_timetable;
 
-    private LinearLayout add_subject_success, notificationLayout;
+    private LinearLayout notificationLayout;
+    private RelativeLayout delete_popup_bg;
 
     private NumberPicker hour_noti, minutes_noti;
     private ArrayList<MyCalendar> calendarList= new ArrayList<>();
@@ -126,17 +128,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private int currentposition;
     private LogInFragment logInFragment;
     private DataBaseHelper dataBaseHelper;
-
-
-
-//        subjectList.add(new Subject("Giải tích 2","7:00","9:50",""));
-//        subjectList.add(new Subject("Đại số tuyến tính","7:00","9:50",""));
-//        subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022","20/06/2022","9:00","10:50",tmpStudyDay,"","",""));
-//        subjects.add(new Subject("Giáo dục thể chất","10:00","11:50","Note.."));
-//        subjects.add(new Subject("Hệ thống số","7:00","9:50",""));
-//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
-//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
-//        subjects.add(new Subject("Hệ thống số (Lab)","7:00","9:50",""));
 
     public void set_info_subject(fragment_calendar_info_subject info_subject){
         this.info_subject = info_subject;
@@ -195,7 +186,11 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
         swipeRefreshLayout = calendarView.findViewById(R.id.swipeRefreshLayout);
 
-        add_subject_success = calendarView.findViewById(R.id.add_subject_successfully);
+        btn_delete_timetable = calendarView.findViewById(R.id.btn_delete_timetable);
+        btn_delete_all_timetable = calendarView.findViewById(R.id.btn_delete_all_timetable);
+
+
+        delete_popup_bg = calendarView.findViewById(R.id.delete_popup_bg);
         bell_popup_bg = calendarView.findViewById(R.id.calendar_popup_bg);
         notification_btn = calendarView.findViewById(R.id.done_add_time_study);
         notificationLayout = calendarView.findViewById(R.id.notificationLayout);
@@ -435,10 +430,44 @@ public class fragment_calendar extends Fragment implements Parcelable {
             @Override
             public void onDelete(TimeTable timeTable)
             {
+
                 Log.e("delete", "click");
+                delete_popup_timetable = timeTable;
+                delete_popup_bg.setVisibility(VISIBLE);
             }
         });
+
         timeTableAdapter.setBottomNavigationView(bottomNavigationView);
+
+
+        btn_delete_timetable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dataBaseHelper.deleteOne(delete_popup_timetable);
+                delete_popup_bg.setVisibility(GONE);
+                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
+                ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
+                timeTableAdapter.setArrayList(arrayList);
+            }
+        });
+
+        btn_delete_all_timetable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<TimeTable> arrayList = dataBaseHelper.getTimeTablesByForeignID(delete_popup_timetable);
+                for(int i = 0; i < arrayList.size(); i++){
+                    dataBaseHelper.deleteOne(arrayList.get(i));
+                }
+                if(delete_popup_timetable.getType() == 1)
+                {
+                    dataBaseHelper.deleteSubject(delete_popup_timetable.getTimetable_id());
+                }
+                delete_popup_bg.setVisibility(GONE);
+                String selectedDate = new SimpleDateFormat("dd/MM/yyyy").format(dateAdapter.getArrayList().get(2));
+                ArrayList<TimeTable> timeTables = dataBaseHelper.getTimetableByDate(selectedDate);
+                timeTableAdapter.setArrayList(timeTables);
+            }
+        });
 
 
         notification_btn.setOnClickListener(new View.OnClickListener() {
@@ -463,7 +492,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
                 if(notification_switch_all.isChecked())
                 {
-                    ArrayList<TimeTable> timeTables = dataBaseHelper.getTimeTablesByForeignID(notification_popup_timetable.getTimetable_id());
+                    ArrayList<TimeTable> timeTables = dataBaseHelper.getTimeTablesByForeignID(notification_popup_timetable);
                     for(int i = 0; i < timeTables.size(); i++)
                     {
                         timeTables.get(i).setNotification(notification_switch.isChecked());
@@ -517,7 +546,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
         new ItemTouchHelper(new ItemTouchHelper.Callback() {
 
-            private int limitScrollX = dipToPx(100f, context);
+            private int limitScrollX = dipToPx(65f, context);
             private int currentScrollX = 0;
             private int currentScrollXWhenInActive = 0;
             private float initXWhenInActive = 0f;
@@ -707,7 +736,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
         Log.d("test func",subjectList.toString());
         Log.d("test func2",adapter.getSubjectList().toString());
         Log.d("test functionality",adapter.getItemCount()+"");
-        add_subject_success.setVisibility(VISIBLE);
+        delete_popup_bg.setVisibility(VISIBLE);
     }
 
     public void setDatePicker()

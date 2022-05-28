@@ -279,7 +279,21 @@ public class fragment_new_subject extends Fragment {
                             subject.setStartHour(study_time_start.getText().toString().trim());
                             dataBaseHelper.updateOne(subject, timeTable_id);
 
-                            ArrayList<TimeTable> timeTables = dataBaseHelper.getTimeTablesByForeignID(timeTable_id);
+                            ArrayList<TimeTable> timeTables = dataBaseHelper.getTimeTablesByForeignID(new TimeTable(id,
+                                    edttext_subject_name.getText().toString().trim(),
+                                    edttext_group_subject.getText().toString().trim(),
+                                    edttext_subject_room.getText().toString().trim(),
+                                    text_for_change.getText().toString().trim(),
+                                    study_time_start.getText().toString().trim(),
+                                    study_time_end.getText().toString().trim(),
+                                    edttext_lecturer_name.getText().toString().trim(),
+                                    edttext_lecturer_number.getText().toString().trim(),
+                                    edttext_lecturer_mail.getText().toString().trim(),
+                                    notify,
+                                    time_notify,
+                                    type,
+                                    timeTable_id
+                            ));
                             for (TimeTable t: timeTables){
                                 dataBaseHelper.deleteOne(t);
                             }

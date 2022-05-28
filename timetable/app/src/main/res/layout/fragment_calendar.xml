@@ -112,7 +112,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/tkb_list_background"
         android:overScrollMode="always"
-        android:paddingHorizontal="30dp"
+        android:paddingHorizontal="15dp"
         android:paddingTop="25dp"
         android:paddingBottom="10dp">
 
@@ -309,32 +309,65 @@
                     android:text="Xong" />
             </LinearLayout>
         </RelativeLayout>
+
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/add_subject_successfully"
-        android:paddingHorizontal="30dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="10dp"
-        android:background="@drawable/calendar_popup_background"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/delete_popup_bg"
         android:visibility="gone"
-        android:layout_centerInParent="true"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thêm môn thành công!"
-            style="@style/roboto_normal"
-            android:textSize="15dp"/>
-        <Button
-            android:layout_marginTop="15dp"
-            android:layout_width="60dp"
-            android:layout_height="45dp"
-            android:text="OK"/>
-    </LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dialog">
+
+        <LinearLayout
+            android:id="@+id/add_subject_successfully"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_marginHorizontal="20dp"
+                android:padding="15dp"
+                android:background="@drawable/calendar_popup_background"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bạn muốn xoá môn chỉ trong buổi này hay trong toàn bộ lịch?"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Xoá buổi này"
+                        android:id="@+id/btn_delete_timetable"
+                        android:backgroundTint="@color/error_form"
+                        android:layout_marginEnd="20dp"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_delete_all_timetable"
+                        android:backgroundTint="@color/error_form"
+                        android:text="Xoá toàn bộ"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
 
 </RelativeLayout>
