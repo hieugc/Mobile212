@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +27,8 @@ public class fragment_calendar_info_subject extends Fragment {
     private LinearLayout back_button;
     private TimeTable timeTable;
     private fragment_calendar fragmentCalendar;
+
+    private ImageView edit_sub;
 
     public void setTimeTable(TimeTable timeTable) {
         this.timeTable = timeTable;
@@ -117,7 +120,60 @@ public class fragment_calendar_info_subject extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentCalendar).commit();
             }
         });
+
+        //todo
+        edit_sub = subjectInfoView.findViewById(R.id.edit_sub);
+        edit_sub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //int id,
+                // String name,
+                // String group,
+                // String location,
+                // String date,
+                // String start_time,
+                // String end_time,
+                // String TA_name,
+                // String TA_number,
+                // String TA_email,
+                // boolean notification,
+                // String notification_time,
+                // int type,
+                //int timetable_id
+
+                fragment_new_subject newView = new fragment_new_subject();
+                newView.setArguments(createBundle());
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, newView).commit();
+            }
+        });
+        //end
+
         return subjectInfoView;
+    }
+
+    private Bundle createBundle(){
+        Bundle bundle= new Bundle();
+
+        bundle.putString("func", "editSubject");
+        bundle.putInt("id", this.timeTable.getId());
+        bundle.putString("name", this.timeTable.getName());
+        bundle.putString("group", this.timeTable.getGroup());
+        bundle.putString("location", this.timeTable.getLocation());
+        bundle.putString("date", this.timeTable.getDate());
+        bundle.putString("start_time", this.timeTable.getStart_time());
+        bundle.putString("end_time", this.timeTable.getEnd_time());
+        bundle.putString("TA_name", this.timeTable.getTA_name());
+        bundle.putString("TA_number", this.timeTable.getTA_number());
+        bundle.putString("TA_email", this.timeTable.getTA_email());
+
+        bundle.putBoolean("notification", this.timeTable.getNotification());
+        bundle.putString("notification_time", this.timeTable.getNotification_time());
+        bundle.putInt("type", this.timeTable.getType());
+        bundle.putInt("timeTable_id", this.timeTable.getId());
+
+        bundle.putParcelable("fragment_calendar", this.fragmentCalendar);
+
+        return bundle;
     }
 
     public void receiveDataFromCalendarFragment(Subject subject){

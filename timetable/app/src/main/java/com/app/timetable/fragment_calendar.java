@@ -7,6 +7,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -44,7 +46,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class fragment_calendar extends Fragment {
+public class fragment_calendar extends Fragment implements Parcelable {
     public fragment_calendar(){
         subjectList = new ArrayList<>();
         subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022",
@@ -76,6 +78,7 @@ public class fragment_calendar extends Fragment {
     private SubjectAdapter adapter;
     boolean tmpStudyDay[] = {false,false,false,false,false,false,false};
     private ArrayList<Subject> subjectList;
+
     private FloatingActionButton floatingActionButton;
     private Button calendar_tkbbk_button, calendar_tkb_button, notification_btn;
     private RelativeLayout calendar_float_button_background, bell_popup_bg;
@@ -122,6 +125,17 @@ public class fragment_calendar extends Fragment {
     }
 
     private ISendDataListener mISendDataListener;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+    }
+
     public interface ISendDataListener {
         void sendData(Subject subject);
     }

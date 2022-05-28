@@ -30,6 +30,7 @@
                     app:tint="@color/nav_primary" />
 
                 <TextView
+                    android:id="@+id/label_back_head"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -168,11 +169,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/date_hide"
                 android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible"
+                >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -237,110 +241,91 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_marginTop="15dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:textSize="17sp"
                         android:text="Ngày học:"/>
-                    <TextView
-                        android:id="@+id/day_t2"
-                        android:backgroundTintMode="multiply"
+                    <RelativeLayout
+                        android:id="@+id/rangeDayOfWeek"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/calendar_shape_background"
-                        android:text="T2"
-                        android:textSize="17sp"
-                        android:textColor="@color/black"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="3dp"
-                        android:layout_marginLeft="10dp"/>
-                    <TextView
-                        android:id="@+id/day_t3"
-                        android:backgroundTintMode="multiply"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/calendar_shape_background"
-                        android:text="T3"
-                        android:textSize="17sp"
-                        android:textColor="@color/black"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="3dp"
-                        android:layout_marginLeft="5dp"/>
-                    <TextView
-                        android:id="@+id/day_t4"
-                        android:backgroundTintMode="multiply"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/calendar_shape_background"
-                        android:text="T4"
-                        android:textSize="17sp"
-                        android:textColor="@color/black"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="3dp"
-                        android:layout_marginLeft="5dp"/>
-                    <TextView
-                        android:id="@+id/day_t5"
-                        android:backgroundTintMode="multiply"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/calendar_shape_background"
-                        android:text="T5"
-                        android:textSize="17sp"
-                        android:textColor="@color/black"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="3dp"
-                        android:layout_marginLeft="5dp"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="57dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/day_t6"
-                        android:backgroundTintMode="multiply"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/calendar_shape_background"
-                        android:text="T6"
-                        android:textSize="17sp"
-                        android:textColor="@color/black"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="3dp"/>
-                    <TextView
-                        android:id="@+id/day_t7"
-                        android:backgroundTintMode="multiply"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/calendar_shape_background"
-                        android:text="T7"
-                        android:textSize="17sp"
-                        android:textColor="@color/black"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="3dp"
-                        android:layout_marginLeft="5dp"/>
-                    <TextView
-                        android:backgroundTintMode="multiply"
-                        android:id="@+id/day_cn"
-                        android:background="@drawable/calendar_shape_background"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CN"
-                        android:textSize="17sp"
-                        android:textColor="@color/black"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="3dp"
-                        android:layout_marginLeft="5dp"/>
-                </LinearLayout>
+                        android:visibility="visible"
+                        >
+                        <TextView
+                            android:id="@+id/day_t2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="T2"
+                            android:layout_marginLeft="10dp"
+                            style="@style/Dat_pick"
+                            />
+                        <TextView
+                            android:id="@+id/day_t3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="T3"
+                            android:layout_toEndOf="@id/day_t2"
+                            style="@style/Dat_pick"
+                            />
+                        <TextView
+                            android:id="@+id/day_t4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/Dat_pick"
+                            android:layout_toEndOf="@id/day_t3"
+                            android:text="T4" />
+                        <TextView
+                            android:id="@+id/day_t5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="T5"
+                            style="@style/Dat_pick"
+                            android:layout_toEndOf="@id/day_t4"
+                            />
+                        <TextView
+                            android:id="@+id/day_t6"
+                            style="@style/Dat_pick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/day_t2"
+                            android:layout_marginTop="10dp"
+                            android:layout_toStartOf="@id/day_t3"
+                            android:text="T6" />
+                        <TextView
+                            android:id="@+id/day_t7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="T7"
+                            style="@style/Dat_pick"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@id/day_t3"
+                            android:layout_toStartOf="@id/day_t4"
+                            />
+                        <TextView
+                            android:id="@+id/day_cn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CN"
+                            android:layout_marginTop="10dp"
+                            style="@style/Dat_pick"
+                            android:layout_toStartOf="@id/day_t5"
+                            android:layout_below="@id/day_t4"
+                            />
+                    </RelativeLayout>
+                <TextView
+                    android:id="@+id/text_for_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="20/10/2022"
+                    android:textStyle="bold"
+                    style="@style/Dat_pick"
+                    android:visibility="gone"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -392,7 +377,7 @@
         android:id="@+id/popup_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#CC333333"
+        android:background="@color/dialog"
         android:visibility="gone"
         android:layout_alignParentTop="true"
         >

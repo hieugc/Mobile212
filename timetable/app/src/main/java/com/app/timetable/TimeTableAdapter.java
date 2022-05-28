@@ -2,6 +2,7 @@ package com.app.timetable;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.subject_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -86,9 +87,19 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
 
     @Override
     public int getItemCount() {
+        if (arrayList.size() == 0) return 1;
         return arrayList.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (arrayList.size() == 0) {
+            Log.d("check layout","blank");
+            return R.layout.blank_item_tkb;
+        }
+        Log.d("check layout","subject_item");
+        return R.layout.subject_item;
+    }
 
     public void setArrayList(ArrayList<TimeTable> arrayList) {
         this.arrayList = arrayList;

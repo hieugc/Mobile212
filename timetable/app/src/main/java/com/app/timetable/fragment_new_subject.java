@@ -68,6 +68,11 @@ public class fragment_new_subject extends Fragment {
 
     private AddSubject AddSubjectListener;
 
+
+    private LinearLayout date_hide;
+    private RelativeLayout rangeDayOfWeek;
+    private TextView text_for_change, label_back_head;
+
     public interface AddSubject {
         void AddSubject(Subject subject);
     }
@@ -80,12 +85,102 @@ public class fragment_new_subject extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        edttext_subject_room.setText("");
-        edttext_group_subject.setText("");
-        edttext_subject_name.setText("");
-        edttext_lecturer_mail.setText("");
-        edttext_lecturer_name.setText("");
-        edttext_lecturer_number.setText("");
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            String func = bundle.getString("func");
+            if (func.trim().equals("editSubject")){
+                int id = bundle.getInt("id");
+                String location = bundle.getString("location");
+                String group =  bundle.getString("group");
+                String name = bundle.getString("name");
+                String TA_mail = bundle.getString("TA_mail");
+                String TA_name = bundle.getString("TA_name");
+                String TA_number = bundle.getString("TA_number");
+                String date = bundle.getString("date");
+                String time_start = bundle.getString("start_time");
+                String time_end = bundle.getString("end_time");
+                boolean notify = bundle.getBoolean("notification");
+                String time_notify = bundle.getString("notification_time");
+                int type = bundle.getInt("type");
+                int timeTable_id = bundle.getInt("timeTable_id");
+                fragment_calendar fragmentCalendar = bundle.getParcelable("fragment_calendar");
+
+                label_back_head.setText("Hủy");
+                date_hide.setVisibility(View.GONE);
+                rangeDayOfWeek.setVisibility(View.GONE);
+                text_for_change.setText(date);
+                text_for_change.setVisibility(View.VISIBLE);
+
+                edttext_subject_room.setText(location);
+                edttext_group_subject.setText(group);
+                edttext_subject_name.setText(name);
+                edttext_lecturer_mail.setText(TA_mail);
+                edttext_lecturer_name.setText(TA_name);
+                edttext_lecturer_number.setText(TA_number);
+                study_time_start.setText(time_start);
+                study_time_end.setText(time_end);
+
+                Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+
+                int year = calendar.get(Calendar.YEAR);
+
+                calendar.set(Calendar.YEAR, year -1 );
+                long lastYear = calendar.getTimeInMillis();
+
+                calendar.set(Calendar.YEAR, year + 1);
+                long nextYear = calendar.getTimeInMillis();
+
+                CalendarConstraints.Builder constraints = new CalendarConstraints.Builder();
+                constraints.setStart(lastYear);
+                constraints.setEnd(nextYear);
+                constraints.setOpenAt(MaterialDatePicker.todayInUtcMilliseconds());
+
+                MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker()
+                        .setTitleText("Chọn ngày bắt đầu")
+                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                        .setTheme(R.style.ThemeOverlay_App_DatePicker)
+                        .setCalendarConstraints(constraints.build());
+
+                MaterialDatePicker<Long> datePicker = builder.build();
+                datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+                    @Override
+                    public void onPositiveButtonClick(Long selection) {
+                        Date date = new Date(selection);
+                        startDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                        text_for_change.setText(startDate);
+                    }
+                });
+
+                text_for_change.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        datePicker.show(getActivity().getSupportFragmentManager(), "DATE_PICKER");
+                    }
+                });
+
+                back_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        fragment_calendar_info_subject fragmentCalendarInfoSubject = new fragment_calendar_info_subject();
+                        fragmentCalendarInfoSubject.set_calendar(fragmentCalendar);
+                        fragmentCalendarInfoSubject.setTimeTable(new TimeTable(id, name, group, location, date, time_start, time_end, TA_name, TA_number, TA_mail, notify, time_notify, type, timeTable_id));
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendarInfoSubject).commit();
+                    }
+                });
+
+
+            }
+            this.setArguments(null);
+        }
+        else
+        {
+            edttext_subject_room.setText("");
+            edttext_group_subject.setText("");
+            edttext_subject_name.setText("");
+            edttext_lecturer_mail.setText("");
+            edttext_lecturer_name.setText("");
+            edttext_lecturer_number.setText("");
+        }
     }
 
     @Override
@@ -102,8 +197,16 @@ public class fragment_new_subject extends Fragment {
         bottomNavigationView.setForeground(null);
         View view = inflater.inflate(R.layout.new_subject_layout, container, false);
 
-        dataBaseHelper = new DataBaseHelper(view.getContext());
 
+        //todo
+        text_for_change = view.findViewById(R.id.text_for_change);
+        date_hide = view.findViewById(R.id.date_hide);
+        rangeDayOfWeek = view.findViewById(R.id.rangeDayOfWeek);
+        label_back_head = view.findViewById(R.id.label_back_head);
+        //end
+
+
+        dataBaseHelper = new DataBaseHelper(view.getContext());
         hoursPicker = view.findViewById(R.id.calendar_add_hours);
         minutesPicker = view.findViewById(R.id.calendar_add_minutes);
 
@@ -180,6 +283,7 @@ public class fragment_new_subject extends Fragment {
                 classGroup = edttext_group_subject.getText().toString();
                 classRoom = edttext_subject_room.getText().toString();
                 Subject subject = new Subject(className,classRoom,classGroup,"",startDate,endDate,startHour,endHour,studyDay,lecturerName,lecturerNumber,lecturerMail);
+
                 String study = "";
                 for(int i = 0; i < subject.getStudyDate().length; i++){
                     if(study.equals(""))
@@ -212,21 +316,19 @@ public class fragment_new_subject extends Fragment {
                         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                         if(dayOfWeek == 1)
                         {
-                            if(studyDay[6])
-                            {
-                                TimeTable timeTable = new TimeTable(-1, className, classGroup, classRoom, date, startHour, endHour, lecturerName, lecturerNumber, lecturerMail, true, "0:05", 1, subject_id);
-                                success = dataBaseHelper.addOne(timeTable);
-                                Log.e("timetable", ""+success);
-                            }
+                            dayOfWeek += 7;
+//                            if(studyDay[6])
+//                            {
+//                                TimeTable timeTable = new TimeTable(-1, className, classGroup, classRoom, date, startHour, endHour, lecturerName, lecturerNumber, lecturerMail, true, "0:05", 1, subject_id);
+//                                success = dataBaseHelper.addOne(timeTable);
+//                                Log.e("timetable", ""+success);
+//                            }
                         }
-                        else{
-                            if(studyDay[dayOfWeek-2])
-                            {
-
-                                TimeTable timeTable = new TimeTable(-1, className, classGroup, classRoom, date, startHour, endHour, lecturerName, lecturerNumber, lecturerMail, true, "0:05", 1, subject_id);
-                                success = dataBaseHelper.addOne(timeTable);
-                                Log.e("timetable", ""+success);
-                            }
+                        if(studyDay[dayOfWeek-2])
+                        {
+                            TimeTable timeTable = new TimeTable(-1, className, classGroup, classRoom, date, startHour, endHour, lecturerName, lecturerNumber, lecturerMail, true, "0:05", 1, subject_id);
+                            success = dataBaseHelper.addOne(timeTable);
+                            Log.e("timetable", ""+success);
                         }
                     }
                 } catch (ParseException e) {
@@ -271,7 +373,7 @@ public class fragment_new_subject extends Fragment {
         MaterialDatePicker<Long> startPicker = builder.build();
 
         MaterialDatePicker.Builder builder2 = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Chọn ngày bắt đầu")
+                .setTitleText("Chọn ngày kết thúc")
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .setTheme(R.style.ThemeOverlay_App_DatePicker)
                 .setCalendarConstraints(constraints.build());
@@ -316,127 +418,49 @@ public class fragment_new_subject extends Fragment {
         day_t2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if (day_t2.getBackgroundTintMode() == PorterDuff.Mode.MULTIPLY) {
-                    studyDay[0] = true;
-                    day_t2.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
-                    day_t2.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t2.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
-                }
-                else {
-                    studyDay[0] = false;
-                    day_t2.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t2.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
-                    day_t2.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
-                }
+                pickDayOfWeek(view, 0, day_t2);
             }
         });
 
         day_t3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if (day_t3.getBackgroundTintMode() == PorterDuff.Mode.MULTIPLY) {
-                    studyDay[1] = true;
-                    day_t3.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
-                    day_t3.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t3.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
-                }
-                else {
-                    studyDay[1] = false;
-                    day_t3.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t3.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
-                    day_t3.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
-                }
+                pickDayOfWeek(view, 1, day_t3);
             }
         });
 
         day_t4.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if (day_t4.getBackgroundTintMode() == PorterDuff.Mode.MULTIPLY) {
-                    studyDay[2] = true;
-                    day_t4.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
-                    day_t4.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t4.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
-                }
-                else {
-                    studyDay[2] = false;
-                    day_t4.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t4.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
-                    day_t4.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
-                }
+                pickDayOfWeek(view, 2, day_t4);
             }
         });
 
         day_t5.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if (day_t5.getBackgroundTintMode() == PorterDuff.Mode.MULTIPLY) {
-                    studyDay[3] = true;
-                    day_t5.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
-                    day_t5.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t5.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
-                }
-                else {
-                    studyDay[3] = false;
-                    day_t5.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t5.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
-                    day_t5.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
-                }
+                pickDayOfWeek(view, 3, day_t5);
             }
         });
 
         day_t6.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if (day_t6.getBackgroundTintMode() == PorterDuff.Mode.MULTIPLY) {
-                    studyDay[4] = true;
-                    day_t6.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
-                    day_t6.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t6.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
-                }
-                else {
-                    studyDay[4] = false;
-                    day_t6.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t6.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
-                    day_t6.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
-                }
+                pickDayOfWeek(view, 4, day_t6);
             }
         });
 
         day_t7.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if (day_t7.getBackgroundTintMode() == PorterDuff.Mode.MULTIPLY) {
-                    studyDay[5] = true;
-                    day_t7.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
-                    day_t7.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t7.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
-                }
-                else {
-                    studyDay[5] = false;
-                    day_t7.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_t7.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
-                    day_t7.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
-                }
+                pickDayOfWeek(view, 5, day_t7);
             }
         });
 
         day_cn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                if (day_cn.getBackgroundTintMode() == PorterDuff.Mode.MULTIPLY) {
-                    studyDay[6] = true;
-                    day_cn.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
-                    day_cn.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_cn.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
-                }
-                else {
-                    studyDay[6] = false;
-//                    day_cn.setBackground(view.getContext().getResources().getDrawable(R.drawable.calendar_shape_background));
-                    day_cn.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.white));
-                    day_cn.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
-                    day_cn.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
-                }
+                pickDayOfWeek(view, 6, day_cn);
             }
         });
 
@@ -482,6 +506,28 @@ public class fragment_new_subject extends Fragment {
 //        this.lastSelectedMonth = c.get(Calendar.MONTH);
 //        this.lastSelectedDayOfMonth = c.get(Calendar.DAY_OF_MONTH);
         return view;
+    }
+
+    private void pickDayOfWeek(View view, int i, TextView day_pick){
+        if (day_pick.getBackgroundTintMode() == PorterDuff.Mode.MULTIPLY) {
+            chosen_day_pick(view, i, day_pick);
+        }
+        else {
+            un_day_pick(view, i, day_pick);
+        }
+    }
+    private void chosen_day_pick(View view, int i, TextView day_pick){
+        studyDay[i] = true;
+        day_pick.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.choosen_day));
+        day_pick.setTextColor(view.getContext().getResources().getColorStateList(R.color.white));
+        day_pick.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
+    }
+    private void un_day_pick(View view, int i, TextView day_pick){
+        studyDay[i] = false;
+//                    day_cn.setBackground(view.getContext().getResources().getDrawable(R.drawable.calendar_shape_background));
+        day_pick.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.white));
+        day_pick.setTextColor(view.getContext().getResources().getColorStateList(R.color.black));
+        day_pick.setBackgroundTintMode(PorterDuff.Mode.MULTIPLY);
     }
 
     private void setMin_Max(NumberPicker picker, int min, int max){
