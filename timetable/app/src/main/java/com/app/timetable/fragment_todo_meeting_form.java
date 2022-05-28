@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -342,7 +343,7 @@ public class fragment_todo_meeting_form extends Fragment {
     private void open_dialog(){
         if(todo_meet_form_add_time_dialog.getVisibility() == View.GONE){
 
-            bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+            bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
             todo_meet_form_add_time_dialog.getLayoutParams().height = -1;
             todo_meet_form_add_time_dialog.getLayoutParams().width = -1;
 

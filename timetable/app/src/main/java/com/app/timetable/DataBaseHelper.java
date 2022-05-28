@@ -649,6 +649,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Log.e("NoteDB", String.valueOf(cursor) + " " + id);
         return null;
     }
+    public Subject getSubject(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM " + TABLE_SUBJECT + " WHERE " + COLUMN_ID + " = " + id;
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            String name = cursor.getString(1);
+            String group = cursor.getString(2);
+            String location = cursor.getString(3);
+            String date_start = cursor.getString(4);
+            String date_end = cursor.getString(5);
+            String time_start = cursor.getString(6);
+            String time_end = cursor.getString(7);
+            String study_day = cursor.getString(8);
+            String TA_name = cursor.getString(9);
+            String TA_number = cursor.getString(10);
+            String TA_email = cursor.getString(11);
+
+            boolean[] booleans = {false, false, false, false, false, false, false};
+            for (int i = 0; i < study_day.split("-").length; i++){
+                if (study_day.toLowerCase().split("-")[i].trim().equals("t")){
+                    booleans[i] = true;
+                }
+            }
+
+            return new Subject(name, group, location, date_start, date_end, time_start, time_end, booleans, TA_name, TA_number, TA_email);
+        }
+        cursor.close();
+        db.close();
+        return null;
+    }
     public ArrayList<Note> getOne(ArrayList<list_check> list_checks){
         ArrayList<Note> arrayList = new ArrayList<>();
 

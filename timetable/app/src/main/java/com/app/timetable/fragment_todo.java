@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -328,12 +329,12 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
     private void open_float_button_background(){
         todo_meeting_button.setVisibility(VISIBLE);
         todo_assignment_button.setVisibility(VISIBLE);
-        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+        bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
 
 
         todo_floating_button_background.getLayoutParams().width = -1;//match_parent/match_parent
         todo_floating_button_background.getLayoutParams().height = -1;
-        todo_floating_button_background.setBackgroundColor(Color.parseColor("#CC333333"));
+        todo_floating_button_background.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.dialog, null));
 
         todo_floating_button.setImageResource(R.drawable.icon_close);
     }

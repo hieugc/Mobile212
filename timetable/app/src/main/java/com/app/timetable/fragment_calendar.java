@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -50,9 +51,6 @@ import java.util.TimeZone;
 public class fragment_calendar extends Fragment implements Parcelable {
     public fragment_calendar(){
         subjectList = new ArrayList<>();
-        subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022",
-                "20/06/2022","9:00","10:50",tmpStudyDay,"",""
-                ,""));
         selectedDate = MaterialDatePicker.todayInUtcMilliseconds();
         dateAdapter = new DateAdapter();
         ArrayList<Date> dates = new ArrayList<>();
@@ -196,7 +194,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
         notification_switch = calendarView.findViewById(R.id.notification_switch);
         notification_switch_all = calendarView.findViewById(R.id.notification_switch_all);
-
 
         floatingActionButton = calendarView.findViewById(R.id.calendar_float_button);
         calendar_tkb_button = calendarView.findViewById(R.id.calendar_tkb_button);
@@ -423,6 +420,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 hour_noti.setValue(hour);
                 minutes_noti.setValue(minute);
                 bell_popup_bg.setVisibility(VISIBLE);
+                bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
                 Log.e("timetable", timeTable.toString());
             }
         });
@@ -432,6 +430,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
             @Override
             public void onClick(View view) {
                 bell_popup_bg.setVisibility(GONE);
+                bottomNavigationView.setForeground(null);
                 Log.e("noti", ""+notification_switch.isChecked());
                 Log.e("all", ""+notification_switch_all.isChecked());
                 String hour = hour_noti.getValue()+"";
@@ -473,6 +472,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
             @Override
             public void onClick(View view) {
                 bell_popup_bg.setVisibility(GONE);
+                bottomNavigationView.setForeground(null);
                 notification_switch_all.setChecked(false);
                 Log.e("bg", "hey");
             }
@@ -575,10 +575,9 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private void open_float_button_background(){
         calendar_float_button_background.getLayoutParams().width = -1;//match_parent/
         calendar_float_button_background.getLayoutParams().height = -1;
-        calendar_float_button_background.setBackgroundColor(Color.parseColor("#52232F34"));
+        calendar_float_button_background.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.dialog, null));
 
-
-        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#52232F34")));
+        bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
 
         floatingActionButton.setImageResource(R.drawable.icon_close);
         calendar_tkb_button.setVisibility(VISIBLE);

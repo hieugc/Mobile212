@@ -6,14 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 public class Subject {
-    private String className,classRoom,classGroup, note;
+    private String className,classRoom,classGroup;
     private String startDate,endDate,startHour,endHour;
     private boolean[] studyDay = {false,false,false,false,false,false,false};
     private String study;
     private String lecturerName, lecturerMail, lecturerNumber;
 
 
-    public Subject(String className, String classRoom,String classGroup, String note, String startdate,String enddate,
+    public Subject(String className, String classRoom,String classGroup, String startdate,String enddate,
             String starthour,String endhour, boolean[] studyday,String lecturerName,String lecturerNumber,String lecturerMail){
         this.className = className;
         this.classRoom = classRoom;
@@ -23,7 +23,6 @@ public class Subject {
         this.startHour = starthour;
         this.endHour = endhour;
         this.studyDay = studyday;
-        this.note= note;
         this.lecturerName = lecturerName;
         this.lecturerNumber = lecturerNumber;
         this.lecturerMail = lecturerMail;
@@ -32,7 +31,6 @@ public class Subject {
         this.className = classname;
         this.startHour = startHour;
         this.endHour = endHour;
-        this.note = note;
         this.classRoom = "";
         this.classGroup = "";
         this.startDate = "";
@@ -50,9 +48,6 @@ public class Subject {
     }
     public void setClassRoom(String room){
         this.classRoom = room;
-    }
-    public void setNote(String note){
-        this.note = note;
     }
     public void setEndDate(String date){
         this.endDate = date;
@@ -80,9 +75,6 @@ public class Subject {
     }
     public String getLecturerNumber(){
         return lecturerNumber;
-    }
-    public String getNote(){
-        return this.note;
     }
     public String getClassName(){
         return this.className;
@@ -141,7 +133,6 @@ public class Subject {
                 "className='" + className + '\'' +
                 ", classRoom='" + classRoom + '\'' +
                 ", classGroup='" + classGroup + '\'' +
-                ", note='" + note + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", startHour='" + startHour + '\'' +

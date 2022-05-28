@@ -28,6 +28,7 @@ import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -88,7 +89,7 @@ public class fragment_new_subject extends Fragment {
         Bundle bundle = getArguments();
         if(bundle != null){
             String func = bundle.getString("func");
-            if (func.trim().equals("editSubject")){
+            if (func.trim().equals("editSubject") || func.trim().equals("editAllSubject")){
                 int id = bundle.getInt("id");
                 String location = bundle.getString("location");
                 String group =  bundle.getString("group");
@@ -96,7 +97,7 @@ public class fragment_new_subject extends Fragment {
                 String TA_mail = bundle.getString("TA_email");
                 String TA_name = bundle.getString("TA_name");
                 String TA_number = bundle.getString("TA_number");
-                Log.e("TA", "name = " + TA_name + "\nnum = " + TA_number + "\nmail = " + TA_mail);
+
                 String date = bundle.getString("date");
                 String time_start = bundle.getString("start_time");
                 String time_end = bundle.getString("end_time");
@@ -105,13 +106,7 @@ public class fragment_new_subject extends Fragment {
                 int type = bundle.getInt("type");
                 int timeTable_id = bundle.getInt("timeTable_id");
                 fragment_calendar fragmentCalendar = bundle.getParcelable("fragment_calendar");
-
                 label_back_head.setText("Hủy");
-                date_hide.setVisibility(View.GONE);
-                rangeDayOfWeek.setVisibility(View.GONE);
-                text_for_change.setText(date);
-                text_for_change.setVisibility(View.VISIBLE);
-
                 edttext_subject_room.setText(location);
                 edttext_group_subject.setText(group);
                 edttext_subject_name.setText(name);
@@ -121,97 +116,98 @@ public class fragment_new_subject extends Fragment {
                 study_time_start.setText(time_start);
                 study_time_end.setText(time_end);
 
-                Log.e("date", date);
+                if (func.trim().equals("editSubject")){
+                    date_hide.setVisibility(View.GONE);
+                    rangeDayOfWeek.setVisibility(View.GONE);
+                    text_for_change.setText(date);
+                    text_for_change.setVisibility(View.VISIBLE);
+                    Date selectedDate = new Date();
+                    try {
+                        selectedDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+                    int year = calendar.get(Calendar.YEAR);
+                    calendar.set(Calendar.YEAR, year - 1);
+                    long lastYear = calendar.getTimeInMillis();
+                    calendar.set(Calendar.YEAR, year + 1);
+                    long nextYear = calendar.getTimeInMillis();
 
-                Date selectedDate = new Date();
-                try {
-                     selectedDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+
+                    CalendarConstraints.Builder constraints = new CalendarConstraints.Builder();
+                    constraints.setStart(lastYear);
+                    constraints.setEnd(nextYear);
+                    constraints.setOpenAt(selectedDate.getTime() + MILLIS_IN_A_DAY);
+                    MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker()
+                            .setTitleText("Chọn ngày cho môn học")
+                            .setSelection(selectedDate.getTime() + MILLIS_IN_A_DAY)
+                            .setTheme(R.style.ThemeOverlay_App_DatePicker)
+                            .setCalendarConstraints(constraints.build());
+
+                    MaterialDatePicker<Long> datePicker = builder.build();
+                    datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+                        @Override
+                        public void onPositiveButtonClick(Long selection) {
+                            Date date = new Date(selection);
+                            startDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                            text_for_change.setText(startDate);
+                        }
+                    });
+
+                    text_for_change.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            datePicker.show(getActivity().getSupportFragmentManager(), "DATE_PICKER");
+                        }
+                    });
+
+                    back_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            fragment_calendar_info_subject fragmentCalendarInfoSubject = new fragment_calendar_info_subject();
+                            fragmentCalendarInfoSubject.set_calendar(fragmentCalendar);
+                            fragmentCalendarInfoSubject.setTimeTable(new TimeTable(id, name, group, location, date, time_start, time_end, TA_name, TA_number, TA_mail, notify, time_notify, type, timeTable_id));
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendarInfoSubject).commit();
+                        }
+                    });
+                    save_new_subject_layout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            //check validation
+
+                            TimeTable timeTable = new TimeTable(id,
+                                    edttext_subject_name.getText().toString().trim(),
+                                    edttext_group_subject.getText().toString().trim(),
+                                    edttext_subject_room.getText().toString().trim(),
+                                    text_for_change.getText().toString().trim(),
+                                    study_time_start.getText().toString().trim(),
+                                    study_time_end.getText().toString().trim(),
+                                    edttext_lecturer_name.getText().toString().trim(),
+                                    edttext_lecturer_number.getText().toString().trim(),
+                                    edttext_lecturer_mail.getText().toString().trim(),
+                                    notify,
+                                    time_notify,
+                                    type,
+                                    timeTable_id
+                            );
+                            //confirm
+
+                            dataBaseHelper.updateOne(timeTable);//update
+
+                            fragment_calendar_info_subject fragmentCalendarInfoSubject = new fragment_calendar_info_subject();
+                            fragmentCalendarInfoSubject.set_calendar(fragmentCalendar);
+                            fragmentCalendarInfoSubject.setTimeTable(timeTable);
+                            fragmentCalendarInfoSubject.setBottomNavigationView(bottomNavigationView);
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendarInfoSubject).commit();
+                        }
+                    });
                 }
-                Log.e("date", new SimpleDateFormat("dd/MM/yyyy").format(selectedDate));
+                else if(func.trim().equals("editAllSubject")){
+                    Subject subject = dataBaseHelper.getSubject(id);
 
-                Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-                int year = calendar.get(Calendar.YEAR);
-                calendar.set(Calendar.YEAR, year - 1);
-                long lastYear = calendar.getTimeInMillis();
-                calendar.set(Calendar.YEAR, year + 1);
-                long nextYear = calendar.getTimeInMillis();
-
-
-                CalendarConstraints.Builder constraints = new CalendarConstraints.Builder();
-                constraints.setStart(lastYear);
-                constraints.setEnd(nextYear);
-                constraints.setOpenAt(selectedDate.getTime() + MILLIS_IN_A_DAY);
-
-                MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Chọn ngày cho môn học")
-                        .setSelection(selectedDate.getTime() + MILLIS_IN_A_DAY)
-                        .setTheme(R.style.ThemeOverlay_App_DatePicker)
-                        .setCalendarConstraints(constraints.build());
-
-                MaterialDatePicker<Long> datePicker = builder.build();
-                datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-                    @Override
-                    public void onPositiveButtonClick(Long selection) {
-                        Date date = new Date(selection);
-                        startDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
-                        text_for_change.setText(startDate);
-                    }
-                });
-
-                text_for_change.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        datePicker.show(getActivity().getSupportFragmentManager(), "DATE_PICKER");
-                    }
-                });
-
-                back_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        fragment_calendar_info_subject fragmentCalendarInfoSubject = new fragment_calendar_info_subject();
-                        fragmentCalendarInfoSubject.set_calendar(fragmentCalendar);
-                        fragmentCalendarInfoSubject.setTimeTable(new TimeTable(id, name, group, location, date, time_start, time_end, TA_name, TA_number, TA_mail, notify, time_notify, type, timeTable_id));
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendarInfoSubject).commit();
-                    }
-                });
-
-                save_new_subject_layout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        //check validation
-
-                        TimeTable timeTable = new TimeTable(id,
-                                edttext_subject_name.getText().toString().trim(),
-                                edttext_group_subject.getText().toString().trim(),
-                                edttext_subject_room.getText().toString().trim(),
-                                text_for_change.getText().toString().trim(),
-                                study_time_start.getText().toString().trim(),
-                                study_time_end.getText().toString().trim(),
-                                edttext_lecturer_name.getText().toString().trim(),
-                                edttext_lecturer_number.getText().toString().trim(),
-                                edttext_lecturer_mail.getText().toString().trim(),
-                                notify,
-                                time_notify,
-                                type,
-                                timeTable_id
-                                );
-
-                        //confirm
-
-                        dataBaseHelper.updateOne(timeTable);//update
-
-                        fragment_calendar_info_subject fragmentCalendarInfoSubject = new fragment_calendar_info_subject();
-                        fragmentCalendarInfoSubject.set_calendar(fragmentCalendar);
-                        fragmentCalendarInfoSubject.setTimeTable(timeTable);
-                        fragmentCalendarInfoSubject.setBottomNavigationView(bottomNavigationView);
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendarInfoSubject).commit();
-
-                    }
-                });
-
+                }
             }
             this.setArguments(null);
         }
@@ -327,7 +323,7 @@ public class fragment_new_subject extends Fragment {
                 className = edttext_subject_name.getText().toString();
                 classGroup = edttext_group_subject.getText().toString();
                 classRoom = edttext_subject_room.getText().toString();
-                Subject subject = new Subject(className,classRoom,classGroup,"",startDate,endDate,startHour,endHour,studyDay,lecturerName,lecturerNumber,lecturerMail);
+                Subject subject = new Subject(className,classRoom,classGroup,startDate,endDate,startHour,endHour,studyDay,lecturerName,lecturerNumber,lecturerMail);
 
                 String study = "";
                 for(int i = 0; i < subject.getStudyDate().length; i++){
@@ -589,7 +585,7 @@ public class fragment_new_subject extends Fragment {
     private void open_study_time_begin(){
         popup_bg.setVisibility(View.VISIBLE);
         study_time_selector.setVisibility(View.VISIBLE);
-        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+        bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
         done_add_time_study_bttn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -611,7 +607,7 @@ public class fragment_new_subject extends Fragment {
     private void open_study_time_end(){
         popup_bg.setVisibility(View.VISIBLE);
         study_time_selector.setVisibility(View.VISIBLE);
-        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+        bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
         closeKeyBoard();
         done_add_time_study_bttn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -654,7 +650,7 @@ public class fragment_new_subject extends Fragment {
         add_info_lecturer_layout.setVisibility(View.VISIBLE);
         popup_bg.setVisibility(View.VISIBLE);
 
-        bottomNavigationView.setForeground(new ColorDrawable(Color.parseColor("#CC333333")));
+        bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
 
         done_info_lecturer_bttn.setOnClickListener(new View.OnClickListener() {
             @Override

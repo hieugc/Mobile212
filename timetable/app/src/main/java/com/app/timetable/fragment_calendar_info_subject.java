@@ -135,36 +135,34 @@ public class fragment_calendar_info_subject extends Fragment {
         edit_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //int id,
-                // String name,
-                // String group,
-                // String location,
-                // String date,
-                // String start_time,
-                // String end_time,
-                // String TA_name,
-                // String TA_number,
-                // String TA_email,
-                // boolean notification,
-                // String notification_time,
-                // int type,
-                //int timetable_id
-
-                fragment_new_subject newView = new fragment_new_subject();
-                newView.setBottomNavigationView(bottomNavigationView);
-                newView.setArguments(createBundle());
-                getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, newView).commit();
+                sendEditOne();
             }
         });
         //end
 
         return subjectInfoView;
     }
+    private void sendEditOne(){
+        fragment_new_subject newView = new fragment_new_subject();
+        newView.setBottomNavigationView(bottomNavigationView);
+        newView.setArguments(createBundle("editSubject"));
+        getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, newView).commit();
+    }
+    private void sendEditAll(){
+        fragment_new_subject newView = new fragment_new_subject();
+        newView.setBottomNavigationView(bottomNavigationView);
+        newView.setArguments(createBundleForAll());
+        getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, newView).commit();
+    }
+    private Bundle createBundleForAll(){
+        Bundle bundle = createBundle("editAllSubject");
 
-    private Bundle createBundle(){
+        return bundle;
+    }
+
+    private Bundle createBundle(String func){
         Bundle bundle= new Bundle();
-
-        bundle.putString("func", "editSubject");
+        bundle.putString("func", func);
         bundle.putInt("id", this.timeTable.getId());
         bundle.putString("name", this.timeTable.getName());
         bundle.putString("group", this.timeTable.getGroup());
@@ -172,8 +170,6 @@ public class fragment_calendar_info_subject extends Fragment {
         bundle.putString("date", this.timeTable.getDate());
         bundle.putString("start_time", this.timeTable.getStart_time());
         bundle.putString("end_time", this.timeTable.getEnd_time());
-
-        Log.e("TA", "name = " + this.timeTable.getTA_name() + "\nnum = " + this.timeTable.getTA_number() + "\nmail = " + this.timeTable.getTA_email());
         bundle.putString("TA_name", this.timeTable.getTA_name());
         bundle.putString("TA_number", this.timeTable.getTA_number());
         bundle.putString("TA_email", this.timeTable.getTA_email());
@@ -184,7 +180,6 @@ public class fragment_calendar_info_subject extends Fragment {
         bundle.putInt("timeTable_id", this.timeTable.getId());
 
         bundle.putParcelable("fragment_calendar", this.fragmentCalendar);
-
         return bundle;
     }
 
