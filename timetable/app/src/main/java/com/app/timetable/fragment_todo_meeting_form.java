@@ -495,6 +495,8 @@ public class fragment_todo_meeting_form extends Fragment {
         this.todo_meet_form_add_time_show.setText("00:05");
         this.meet_form_minus_picker.setValue(5);
         this.meet_form_hour_picker.setValue(0);
-
+        this.subtitle.setError(null);
+        this.location.setError(null);
+        this.link.setError(null);
     }
 }

@@ -38,7 +38,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
 
     public interface onItemClick{
         public void onClick(TimeTable timeTable);
-        public void onDelete(TimeTable timeTable);
+        public void onDelete(TimeTable timeTable, RecyclerView.ViewHolder viewHolder);
     }
 
     private onItemClick itemClick;
@@ -62,7 +62,13 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.startTime_txt.setText(arrayList.get(position).getStart_time());
         holder.endTime_txt.setText(arrayList.get(position).getEnd_time());
-        holder.name_txt.setText(arrayList.get(position).getName());
+        if (arrayList.get(position).getName().length() > 30){
+            String txt = arrayList.get(position).getName().substring(0, 29) + "...";
+            holder.name_txt.setText(txt);
+        }
+        else{
+            holder.name_txt.setText(arrayList.get(position).getName());
+        }
         holder.location_txt.setText(arrayList.get(position).getLocation());
         if (position == 0){
             holder.cardView.setBackground(context.getResources().getDrawable(R.drawable.first_item_style));
@@ -99,7 +105,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
             @Override
             public void onClick(View view) {
                 if(itemClick != null)
-                    itemClick.onDelete(arrayList.get(position));
+                    itemClick.onDelete(arrayList.get(position), holder);
             }
         });
     }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,8 +28,11 @@ import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import Model.ItemClickListener;
@@ -41,8 +45,11 @@ import Model.todo_check_list_form_dialog_RecViewAdapter;
 public class fragment_todo_assignment_form extends Fragment implements ItemClickListener {
 
     public fragment_todo_assignment_form(){
+        selectedDate = new Pair<>(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()+7*MILLIS_IN_A_DAY);
         //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain_todo_form, this).commit();
     }
+    private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+    private Pair<Long, Long> selectedDate;
     ConstraintLayout todo_assignment_form_dialog;
     RelativeLayout todo_assignment_form_dialog_add_list, todo_assignment_form;
     Button assignment_form_button_done;
@@ -113,6 +120,16 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             if (func.trim().equals("edit_assignment")){
                 this._bundle_ = "edit_assignment";
                 assignment_form_sub.setText(bundle.getString("title"));
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Date timeStart = new Date(), timeEnd = new Date() ;
+                try {
+                    timeStart= format.parse(bundle.getString("time_start"));
+                    timeEnd = format.parse(bundle.getString("time_end"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                selectedDate =  new Pair(timeStart.getTime() + MILLIS_IN_A_DAY, timeEnd.getTime() + MILLIS_IN_A_DAY);
+
                 time_show("Bắt đầu: " + bundle.getString("time_start"), "Kết thúc: " + bundle.getString("time_end"), bundle.getString("time_left"));
                 this.list_note = bundle.getParcelableArrayList("list_note");
                 this.list_checks = bundle.getParcelableArrayList("list_checks");
@@ -437,17 +454,20 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
 
         CalendarConstraints.Builder builder = new CalendarConstraints.Builder();
-        builder.setOpenAt(today);
+        builder.setOpenAt(selectedDate.first);
         builder.setStart(today);
         builder.setEnd(next_year);
         builder.setValidator(DateValidatorPointForward.now());
 
 
-        MaterialDatePicker picker = MaterialDatePicker.Builder.dateRangePicker()
+        MaterialDatePicker.Builder materialBuilder = MaterialDatePicker.Builder.dateRangePicker()
                 .setTitleText("Chọn ngày")
+                .setSelection(selectedDate)
                 .setTheme(R.style.ThemeOverlay_App_DatePicker)
-                .setCalendarConstraints(builder.build())
-                .build();
+                .setCalendarConstraints(builder.build());
+
+
+        MaterialDatePicker picker = materialBuilder.build();
 
         //SHOW DATE PICKER
         picker.show(getActivity().getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
@@ -456,30 +476,40 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             @Override
             public void onPositiveButtonClick(Object selection) {
                 String[] rangedate = picker.getHeaderText().split(" ",7);
+                String time_start = "", time_end;
                 if(rangedate.length == 5){
-                    String time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
-                    String time_end = "Kết thúc: " + hash_day(rangedate[4]) + "/" + hash_month(rangedate[3]) + "/2022";
+                    time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
+                    time_end = "Kết thúc: " + hash_day(rangedate[4]) + "/" + hash_month(rangedate[3]) + "/2022";
                     int nday_1 = numOfday(2022, Integer.parseInt(hash_month(rangedate[0])), Integer.parseInt(hash_day(rangedate[1])));
                     int nday_2 = numOfday(2022, Integer.parseInt(hash_month(rangedate[3])), Integer.parseInt(hash_day(rangedate[4])));
                     String time = String.valueOf(nday_2 - nday_1) + " ngày";
                     time_show(time_start, time_end, time);
                 }
                 else if(rangedate.length == 6){
-                    String time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
-                    String time_end = "Kết thúc: " + hash_day(rangedate[4].replace(",", " ")) + "/" + hash_month(rangedate[3]) + "/2023";
+                    time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
+                    time_end = "Kết thúc: " + hash_day(rangedate[4].replace(",", " ")) + "/" + hash_month(rangedate[3]) + "/2023";
                     int nday_1 = numOfday(2022, Integer.parseInt(hash_month(rangedate[0])), Integer.parseInt(hash_day(rangedate[1])));
                     int nday_2 = numOfday(2023, Integer.parseInt(hash_month(rangedate[3])), Integer.parseInt(hash_day(rangedate[4].replace(",", " "))));
                     String time = String.valueOf(nday_2 - nday_1) + " ngày";
                     time_show(time_start, time_end, time);
                 }
                 else if(rangedate.length == 7){
-                    String time_start = "Bắt đầu: " + hash_day(rangedate[1].replace(",", " ")) + "/" + hash_month(rangedate[0]) + "/2022";
-                    String time_end = "Kết thúc: " + hash_day(rangedate[5].replace(",", " ")) + "/" + hash_month(rangedate[4]) + "/2023";
+                    time_start = "Bắt đầu: " + hash_day(rangedate[1].replace(",", " ")) + "/" + hash_month(rangedate[0]) + "/2022";
+                    time_end = "Kết thúc: " + hash_day(rangedate[5].replace(",", " ")) + "/" + hash_month(rangedate[4]) + "/2023";
                     int nday_1 = numOfday(2023, Integer.parseInt(hash_month(rangedate[0])), Integer.parseInt(hash_day(hash_day(rangedate[1].replace(",", " ")))));
                     int nday_2 = numOfday(2023, Integer.parseInt(hash_month(rangedate[4])), Integer.parseInt(hash_day(rangedate[5].replace(",", " "))));
                     String time = String.valueOf(nday_2 - nday_1) + " ngày";
                     time_show(time_start, time_end, time);
                 }
+//                materialBuilder.setSelection(selection);
+//                try {
+//                    Date date = new SimpleDateFormat("dd/MM/yyyy").parse(time_start);
+//                    builder.setOpenAt(date.getTime());
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+                selectedDate = (Pair<Long, Long>) selection;
+
             }
         });
     }
@@ -528,13 +558,15 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         show_recycle_dialog();
     }
     private void remove_list_item_dialog_id(list_check listCheck, ArrayList<list_check> list_checks){
+        Log.e("list_checks", list_checks.toString());
+        Log.e("list_note", list_note.toString());
         if(!list_checks.isEmpty()){
             for (int i = 0; i < list_checks.size(); i++){
                 if (list_checks.get(i).getId() == listCheck.getId()){
                     Log.e("check_l", String.valueOf(list_checks));
                     Log.e("check_n", String.valueOf(list_note));
                     list_checks.remove(i);
-                    if (list_note != null){
+                    if (list_note != null && !list_note.isEmpty()){
                         list_note.remove(i);
                     }
                     break;
@@ -724,6 +756,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
                 AddnoteFragment addnoteFragment = new AddnoteFragment();
                 addnoteFragment.setArguments(bundle);
+                addnoteFragment.setBottomNavigationView(bottomNavigationView);
                 getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, addnoteFragment).commit();
                 break;
             }

@@ -22,16 +22,16 @@
 
     <TextView
         android:id="@+id/content_list_item"
+        style="@style/todo_title_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/nav_primary"
-        android:text="Thiet ke mockup"
-        android:maxLines="1"
-        android:maxLength="30"
-        android:paddingLeft="10dp"
-        android:layout_toEndOf="@id/remove_list_item"
         android:layout_toLeftOf="@id/edit_list_item"
-        style="@style/todo_title_picker"/>
+        android:layout_toEndOf="@id/remove_list_item"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:text="Thiet ke mockup"
+        android:textColor="@color/black" />
 
     <ImageView
         android:id="@+id/edit_list_item"

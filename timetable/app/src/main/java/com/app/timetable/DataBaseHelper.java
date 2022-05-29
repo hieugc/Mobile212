@@ -385,7 +385,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     {
         ArrayList<TimeTable> tables = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM "+TABLE_TIMETABLE+" WHERE "+COLUMN_DATE+" = \""+date+"\"";
+        String sql = "SELECT * FROM "+TABLE_TIMETABLE+" WHERE "+COLUMN_DATE+" = \""+date+"\" ORDER BY strftime("+COLUMN_START_TIME+")";
         Cursor cursor = db.rawQuery(sql, null);
         if(cursor.moveToFirst())
         {

@@ -18,7 +18,7 @@
             android:paddingBottom="12dp"
             android:text="@string/todo_meeting_form"
             android:textAlignment="center"
-            android:textColor="@color/nav_primary"
+            android:textColor="@color/black"
             android:textSize="@dimen/todo_form_title"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -56,14 +56,13 @@
 
             <TextView
                 android:id="@+id/todo_meet_form_line_1_title"
+                style="@style/todo_meet_form_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="12dp"
-                android:text="@string/todo_meeting_form_time"
 
-                style="@style/todo_meet_form_description"
-                />
+                android:text="@string/todo_meeting_form_time" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -226,7 +225,7 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
                 android:maxLines="1"
-                android:text="@string/todo_clear"
+                android:text=" "
                 android:inputType="textAutoComplete"
                 app:boxBackgroundColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -255,6 +254,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:boxBackgroundColor="@color/white"
+                android:textColor="@color/black"
                 android:text=" "
                 android:maxLines="1"
                 android:inputType="textAutoComplete"
@@ -335,7 +335,7 @@
 
                 android:text="00:00"
                 android:textAlignment="center"
-                android:textColor="@color/nav_primary"
+                android:textColor="@color/black"
                 android:textSize="@dimen/nav_title"
                 android:textStyle="bold"
                 android:gravity="center"
@@ -354,7 +354,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginBottom="20dp"
-
+            android:textColor="@color/black"
             android:text="@string/todo_save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -380,13 +380,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialog"
-        android:visibility="visible">
+        android:visibility="gone"
+        android:padding="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/calendar_popup_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -494,7 +495,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginBottom="20dp"
-
+                android:textColor="@color/black"
                 android:text="@string/todo_save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

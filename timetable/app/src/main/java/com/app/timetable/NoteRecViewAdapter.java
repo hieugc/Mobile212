@@ -2,6 +2,7 @@ package com.app.timetable;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,8 +43,8 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.heading_txt.setText(noteArrayList.get(position).getTitle());
-        if (noteArrayList.get(position).getContent().length() > 17){
-            String txt = noteArrayList.get(position).getContent().substring(0, 16) + "...";
+        if (noteArrayList.get(position).getContent().length() > 40){
+            String txt = noteArrayList.get(position).getContent().substring(0, 39) + "...";
             holder.content_txt.setText(txt);
         }
         else{
@@ -67,12 +68,14 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
                 builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        holder.itemView.scrollTo(0, 0);
                         Toast.makeText(view.getContext(), "Huỷ", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        holder.itemView.scrollTo(0, 0);
                         boolean success = dataBaseHelper.deleteOne(noteArrayList.get(position));
                         Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
                         if(success){
@@ -81,6 +84,13 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
                             else fragmentNote.getNoData_txt().setVisibility(View.GONE);
                             fragmentNote.setCancelView();
                         }
+                    }
+                });
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        holder.itemView.scrollTo(0, 0);
+                        Log.e("dismiss", "dialog");
                     }
                 });
                 builder.show();

@@ -203,7 +203,7 @@ public class fragment_note extends Fragment {
         sub_heading_txt.setVisibility(View.VISIBLE);
         cancel_txt.setVisibility(View.GONE);
         heading_txt.setText(R.string.note);
-        viewHolder.getDelete_box().setVisibility(View.GONE);
+//        viewHolder.getDelete_box().setVisibility(View.GONE);
     }
 
     public int dipToPx(float dp, Context context)
