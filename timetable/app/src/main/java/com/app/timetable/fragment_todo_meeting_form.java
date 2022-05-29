@@ -98,7 +98,7 @@ public class fragment_todo_meeting_form extends Fragment {
             public void afterTextChanged(Editable editable) {
                 if(editable.toString().trim().equals(""))
                 {
-                    subtitle.setError("Phải nhập nội dụng cuộc họp");
+                    subtitle.setError("Hãy nhập nội dụng cuộc họp");
                 }
             }
         });
@@ -158,7 +158,7 @@ public class fragment_todo_meeting_form extends Fragment {
         todo_meet_form_refresh_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                todo_meet_form_add_time_show.setText("00:00");
+                todo_meet_form_add_time_show.setText("00:05");
             }
         });
 

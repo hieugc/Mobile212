@@ -452,7 +452,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
             @Override
             public void onDelete(TimeTable timeTable)
             {
-
                 Log.e("delete", "click");
                 delete_popup_timetable = timeTable;
                 delete_popup_bg.setVisibility(VISIBLE);

@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 
 import io.realm.Realm;
@@ -23,7 +24,10 @@ public class AddnoteFragment extends Fragment {
     private EditText title_txt, content_txt;
     private TextView done_txt;
     private DataBaseHelper dataBaseHelper;
-
+    private BottomNavigationView bottomNavigationView;
+    public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
+        this.bottomNavigationView = bottomNavigationView;
+    }
 
 
     private TextView add_note_txt;
@@ -213,6 +217,7 @@ public class AddnoteFragment extends Fragment {
 
         fragment_todo fragmentTodo = bundle.getParcelable("todoView");
         fragmentTodo.setArguments(bundle1);
+        fragmentTodo.setBottomNavigationView(bottomNavigationView);
 
         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentTodo).commit();
     }
@@ -236,6 +241,7 @@ public class AddnoteFragment extends Fragment {
         bundle1.putInt("_id_", bundle.getInt("_id_"));
         fragment_todo_assignment_form fragment_todo_assignment_form = new fragment_todo_assignment_form();
         fragment_todo_assignment_form.setArguments(bundle1);
+        fragment_todo_assignment_form.setBottomNavigationView(bottomNavigationView);
 
         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragment_todo_assignment_form).commit();
     }
