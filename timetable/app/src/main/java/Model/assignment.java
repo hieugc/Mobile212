@@ -102,7 +102,20 @@ public class assignment {
     }
 
     public void setTimeEnd(String timeEnd) {
-        this.timeEnd = timeEnd;
+        Calendar d = Calendar.getInstance();
+        String now = d.get(Calendar.DAY_OF_MONTH) + "/" + (d.get(Calendar.MONTH) + 1) + "/" + d.get(Calendar.YEAR);
+        int year = getYear(timeEnd) - getYear(now);
+        if (year < 0){
+            this.time = "Đã hết hạn";
+        }
+        else{
+            int nday_1 = numOfday(timeEnd);
+            int nday_2 = numOfday(now);
+            if(nday_1 < nday_2)
+                this.time = "Đã hết hạn";
+            else
+                this.time = String.valueOf(nday_1 - nday_2) + " ngày";
+        }
     }
 
     public void setTimeStart(String timeStart) {
@@ -125,7 +138,8 @@ public class assignment {
         this.id = id;
     }
 
-    public void setTime(String time) {
+    public void setTime(String timeEnd) {
+
         this.time = time;
     }
 

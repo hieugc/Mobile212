@@ -18,4 +18,5 @@ public interface ItemClickListener {
     void unlinkNote(int id);
     void openNote(list_check listCheck, String type);
     void openNoteView(list_check listCheck);
+    void updateDB(list_check listCheck);
 }

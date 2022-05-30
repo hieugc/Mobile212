@@ -217,7 +217,7 @@ public class AddnoteFragment extends Fragment {
 
         fragment_todo fragmentTodo = bundle.getParcelable("todoView");
         fragmentTodo.setArguments(bundle1);
-        fragmentTodo.setBottomNavigationView(bottomNavigationView);
+        Log.e("b", String.valueOf(fragmentTodo));
 
         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentTodo).commit();
     }
@@ -241,6 +241,8 @@ public class AddnoteFragment extends Fragment {
         bundle1.putInt("_id_", bundle.getInt("_id_"));
         fragment_todo_assignment_form fragment_todo_assignment_form = new fragment_todo_assignment_form();
         fragment_todo_assignment_form.setArguments(bundle1);
+        Log.e("bottom", String.valueOf(bottomNavigationView));
+        Log.e("bottom", String.valueOf(fragment_todo_assignment_form.getBottomNavigationView()));
         fragment_todo_assignment_form.setBottomNavigationView(bottomNavigationView);
 
         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragment_todo_assignment_form).commit();

@@ -20,6 +20,17 @@ public class list_check implements Parcelable {
     private int id;
     private int assign;
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "List_check{"
+                + "id = " + id
+                + " link = " + link
+                + " content = " + content
+                + " assgin = " + assign
+                + "}";
+    }
+
     protected list_check(Parcel in) {
         content = in.readString();
         link = in.readInt();

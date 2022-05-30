@@ -60,6 +60,9 @@ public class fragment_todo_meeting_form extends Fragment {
         fragment_todo = fragment;
     }
 
+    public com.app.timetable.fragment_todo getFragment_todo() {
+        return fragment_todo;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -167,6 +170,8 @@ public class fragment_todo_meeting_form extends Fragment {
         todo_meet_form_add_time_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                meet_form_hour_picker.setValue(Integer.parseInt(todo_meet_form_add_time_show.getText().toString().trim().split(":")[0]));
+                meet_form_minus_picker.setValue(Integer.parseInt(todo_meet_form_add_time_show.getText().toString().trim().split(":")[1]));
                 open_dialog();
             }
         });
@@ -346,7 +351,6 @@ public class fragment_todo_meeting_form extends Fragment {
             bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
             todo_meet_form_add_time_dialog.getLayoutParams().height = -1;
             todo_meet_form_add_time_dialog.getLayoutParams().width = -1;
-
             todo_meet_form_add_time_dialog.setVisibility(View.VISIBLE);
         }
     }

@@ -124,7 +124,7 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
                 }
             });
         }
-        private void resetView(){
+        public void resetView(){
             if(assignment.getList_checks().size() != 0){
                 LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
                 todo_list_assignment_item.setLayoutManager(layoutManager);
