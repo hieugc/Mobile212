@@ -189,7 +189,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 for (int i = 0; i < meetings.size(); i ++){
                     if (meetings.get(i).getId() == Integer.parseInt(id)){
                         this.dataBaseHelper.deleteOne(this.meetings.get(i));
-                        //ch xoa notify
+                        cancelAlarm(Integer.parseInt(id));
                         this.meetings.remove(i);
                         break;
                     }
@@ -213,6 +213,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                         m.setTitle(title);
                         m.setTime(time);
                         this.dataBaseHelper.updateOne(m);
+                        cancelAlarm(m.getId());
                         setAlarm(m.getId(), m.getTime(), m.getAlert(), "Thông báo cuộc họp", "Cuộc họp " + m.getTitle() + " sẽ diễn ra", 0);
                         break;
                     }
@@ -296,6 +297,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                         assignments.get(idx).setTime(time_end);
                         Log.e("time", time_start + " " + time_end + " " + assignments.get(idx).getTime());
                         dataBaseHelper.updateOne(assignments.get(idx));
+                        cancelAlarm(assignments.get(idx).getId());
                         setAlarm(assignments.get(idx).getId(), "00:00 " + assignments.get(idx).getTimeEnd(), "02:00", "Thông báo Công việc", "Bài tập " + assignments.get(idx).getTitle() + " sẽ kết thúc sau 2 giờ nữa", 1);
                         break;
                     }
@@ -306,6 +308,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 for (int idx = 0; idx < assignments.size(); idx ++){
                     if(assignments.get(idx).getId() == id){
                         dataBaseHelper.deleteOne(assignments.get(idx));
+                        cancelAlarm(assignments.get(idx).getId());
                         assignments.remove(idx);
                         break;
                     }
@@ -650,9 +653,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         }
         intent.putExtra("titleExtra", title);
         intent.putExtra("messageExtra", message);
-
         pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-
         Date selectedDate = new Date();
         LocalTime localTime = null;
         try {
@@ -663,14 +664,12 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         int hour = 0,minute = 0;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             hour = localTime.get(ChronoField.HOUR_OF_DAY);
             minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
         }
-
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(selectedDate);
         Log.e("day", ""+calendar.get(Calendar.DAY_OF_MONTH));
@@ -688,6 +687,20 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
         Log.e("alarm","SET ALARM SUCCESSFULLY");
+    }
+    public void cancelAlarm(int id)
+    {
+        Intent intent = new Intent(getActivity() , AlarmReceiver.class);
+
+        pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(alarmManager == null)
+        {
+            alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        }
+
+        alarmManager.cancel(pendingIntent);
+        Log.e("alarm", "CANCEL ALARM SUCCESSFULLY");
     }
 
 }
