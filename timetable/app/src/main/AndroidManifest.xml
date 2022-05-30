@@ -28,6 +28,10 @@
 
         <receiver android:name=".AlarmReceiver"
             android:enabled="true"/>
+        <receiver android:name=".MeetingAlarmReceiver"
+            android:enabled="true"/>
+        <receiver android:name=".AssignmentAlarmReceiver"
+            android:enabled="true"/>
 
     </application>
 
