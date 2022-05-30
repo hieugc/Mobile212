@@ -14,7 +14,7 @@
         <RelativeLayout
             android:id="@+id/note_headings"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:background="@color/nav_primary"
             android:padding="10dp">
 
@@ -23,7 +23,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="30dp"
                 android:text="Cài đặt"
                 android:textColor="@color/black"
                 android:textSize="@dimen/headings"
@@ -33,7 +32,7 @@
                 android:id="@+id/note_heading_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/note_heading_txt"
                 android:layout_marginBottom="1dp"
                 android:text="Các tùy chọn cài đặt"
                 android:textColor="@color/black"

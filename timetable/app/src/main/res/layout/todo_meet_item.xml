@@ -34,19 +34,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/icon_edit"
+        android:src="@drawable/ic_edit_icon"
         app:tint="@color/nav_primary" />
 
     <TextView
         android:id="@+id/time_meeting_item"
+        style="@style/text_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="08:00 20/05/2022"
-        style="@style/text_item"
         android:layout_below="@+id/title_meeting_item"
         android:layout_toRightOf="@id/check_meeting_item"
-        />
+        android:textColor="@color/black"
+        android:text="08:00 20/05/2022" />
 
     <RelativeLayout
         android:id="@+id/f_local_meeting_item"
@@ -65,13 +66,13 @@
 
         <TextView
             android:id="@+id/local_meeting_item"
+            style="@style/text_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="phường 5, Gò Công, Tiền Giang"
-            style="@style/text_item"
-            android:layout_toEndOf="@id/icon_local_meeting_item"
             android:layout_marginLeft="5dp"
-            />
+            android:textColor="@color/black"
+            android:layout_toEndOf="@id/icon_local_meeting_item"
+            android:text="phường 5, Gò Công, Tiền Giang" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -81,7 +82,9 @@
         android:layout_below="@id/f_local_meeting_item"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@id/check_meeting_item"
+
         >
+
         <ImageView
             android:id="@+id/icon_link_meeting_item"
             android:layout_width="wrap_content"
@@ -91,13 +94,13 @@
 
         <TextView
             android:id="@+id/link_meeting_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="abcd-ákdasdk"
             style="@style/text_item"
-            android:layout_toEndOf="@id/icon_link_meeting_item"
+            android:layout_width="wrap_content"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            />
+            android:layout_toEndOf="@id/icon_link_meeting_item"
+            android:text="abcd-ákdasdk" />
     </RelativeLayout>
 
 </RelativeLayout>

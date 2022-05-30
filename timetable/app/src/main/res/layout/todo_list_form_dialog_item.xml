@@ -18,17 +18,17 @@
 
     <EditText
         android:id="@+id/content_list_item"
+        style="@style/todo_title_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/nav_primary"
-        android:inputType="textShortMessage"
-        android:maxLines="1"
-        android:maxLength="30"
-        android:hint="nội dung công việc"
-        android:paddingLeft="10dp"
-        android:layout_toEndOf="@id/remove_list_item"
         android:layout_toLeftOf="@id/edit_list_item"
-        style="@style/todo_title_picker"/>
+        android:layout_toEndOf="@id/remove_list_item"
+        android:hint="nội dung công việc"
+        android:inputType="textShortMessage"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black" />
 
     <ImageView
         android:id="@+id/edit_list_item"
@@ -37,7 +37,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_toEndOf="@id/content_list_item"
-        android:src="@drawable/icon_edit"
+        android:src="@drawable/ic_edit_icon"
         app:tint="@color/nav_primary" />
 
     <ImageView

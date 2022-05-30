@@ -181,6 +181,7 @@ public class fragment_new_subject extends Fragment {
                         public void onClick(View view) {
                             fragment_calendar_info_subject fragmentCalendarInfoSubject = new fragment_calendar_info_subject();
                             fragmentCalendarInfoSubject.set_calendar(fragmentCalendar);
+                            fragmentCalendarInfoSubject.setBottomNavigationView(bottomNavigationView);
                             fragmentCalendarInfoSubject.setTimeTable(new TimeTable(id, name, group, location, date, time_start, time_end, TA_name, TA_number, TA_mail, notify, time_notify, type, timeTable_id));
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendarInfoSubject).commit();
                         }
@@ -257,7 +258,12 @@ public class fragment_new_subject extends Fragment {
                     back_button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendar).commit();
+                            //TODO IF THIS POSSIBLE
+                            fragment_calendar_info_subject fragmentCalendarInfoSubject = new fragment_calendar_info_subject();
+                            fragmentCalendarInfoSubject.set_calendar(fragmentCalendar);
+                            fragmentCalendarInfoSubject.setBottomNavigationView(bottomNavigationView);
+                            fragmentCalendarInfoSubject.setTimeTable(new TimeTable(id, name, group, location, date, time_start, time_end, TA_name, TA_number, TA_mail, notify, time_notify, type, timeTable_id));
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendarInfoSubject).commit();
                         }
                     });
                     save_new_subject_layout.setOnClickListener(new View.OnClickListener() {

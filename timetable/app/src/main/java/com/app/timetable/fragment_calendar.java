@@ -3,7 +3,10 @@ package com.app.timetable;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import static com.app.timetable.DataBaseHelper.*;
+
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -101,6 +104,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private SubjectAdapter adapter;
     boolean tmpStudyDay[] = {false,false,false,false,false,false,false};
     private ArrayList<Subject> subjectList;
+    private RecyclerView.ViewHolder viewHolder;
 
     private FloatingActionButton floatingActionButton;
     private Button calendar_tkbbk_button, calendar_tkb_button, notification_btn;
@@ -450,9 +454,10 @@ public class fragment_calendar extends Fragment implements Parcelable {
             }
 
             @Override
-            public void onDelete(TimeTable timeTable)
+            public void onDelete(TimeTable timeTable, RecyclerView.ViewHolder holder)
             {
                 Log.e("delete", "click");
+                viewHolder = holder;
                 delete_popup_timetable = timeTable;
                 delete_popup_bg.setVisibility(VISIBLE);
                 bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
@@ -465,6 +470,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
         btn_delete_timetable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                viewHolder.itemView.scrollTo(0, 0);
                 dataBaseHelper.deleteOne(delete_popup_timetable);
                 delete_popup_bg.setVisibility(GONE);
                 bottomNavigationView.setForeground(null);
@@ -479,6 +485,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
         btn_delete_all_timetable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                viewHolder.itemView.scrollTo(0, 0);
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimeTablesByForeignID(delete_popup_timetable);
                 for(int i = 0; i < arrayList.size(); i++){
                     dataBaseHelper.deleteOne(arrayList.get(i));
@@ -493,6 +500,15 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 ArrayList<TimeTable> timeTables = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(timeTables);
                 setImageView(timeTables);
+            }
+        });
+
+        delete_popup_bg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewHolder.itemView.scrollTo(0, 0);
+                delete_popup_bg.setVisibility(GONE);
+                bottomNavigationView.setForeground(null);
             }
         });
 
