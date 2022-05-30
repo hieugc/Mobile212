@@ -47,6 +47,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     public fragment_todo_assignment_form(){
         selectedDate = new Pair<>(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()+7*MILLIS_IN_A_DAY);
         //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain_todo_form, this).commit();
+        _bundle_ = "";
     }
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     private Pair<Long, Long> selectedDate;
@@ -58,11 +59,15 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     fragment_todo todoView;
     LinearLayout todo_assignment_time_show;
     RecyclerView list_item_form, list_item_dialog;
-    String _bundle_ = "";
+    String _bundle_;
     int _id_ = -1;
     private BottomNavigationView bottomNavigationView;
     public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
         this.bottomNavigationView = bottomNavigationView;
+    }
+
+    public void set_bundle_(String _bundle_) {
+        this._bundle_ = _bundle_;
     }
 
     Button assignment_form_button_remove;
@@ -80,6 +85,10 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
     View assignment_form;
 
+    public BottomNavigationView getBottomNavigationView() {
+        return bottomNavigationView;
+    }
+
     public void setList_note(ArrayList<Note> list_note) {
         this.list_note = list_note;
     }
@@ -90,6 +99,10 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
     public void setList_checks(ArrayList<list_check> list_checks){
         this.list_checks = list_checks;
+    }
+
+    public void set_id_(int _id_) {
+        this._id_ = _id_;
     }
 
     private static final String TAG = "MyActivity";
@@ -118,8 +131,12 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         if(bundle != null){
             String func = bundle.getString("func");
             if (func.trim().equals("edit_assignment")){
+                todoView = bundle.getParcelable("todoView");
                 this._bundle_ = "edit_assignment";
-                assignment_form_sub.setText(bundle.getString("title"));
+
+                String time_start = "Bắt đầu: " + bundle.getString("time_start");
+                String time_end = "Kết thúc: " + bundle.getString("time_end");
+                String time_left = bundle.getString("time_left");
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                 Date timeStart = new Date(), timeEnd = new Date() ;
                 try {
@@ -129,13 +146,10 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     e.printStackTrace();
                 }
                 selectedDate =  new Pair(timeStart.getTime() + MILLIS_IN_A_DAY, timeEnd.getTime() + MILLIS_IN_A_DAY);
+                time_show(time_start, time_end, time_left);
+                getLastState(bundle);
+                assignment_form_sub.setText(bundle.getString("title"));
 
-                time_show("Bắt đầu: " + bundle.getString("time_start"), "Kết thúc: " + bundle.getString("time_end"), bundle.getString("time_left"));
-                this.list_note = bundle.getParcelableArrayList("list_note");
-                this.list_checks = bundle.getParcelableArrayList("list_checks");
-                this.list_checks_dialog = bundle.getParcelableArrayList("list_checks_dialog");
-
-                int id =  bundle.getInt("id");
                 show_recycle();
                 assignment_form_button_remove.setVisibility(View.VISIBLE);
                 assignment_form_button_remove.setOnClickListener(new View.OnClickListener() {
@@ -143,20 +157,24 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     public void onClick(View view) {
                         Bundle bundle = new Bundle();
                         bundle.putString("func", "remove_assignment");
-                        bundle.putInt("id", id);
+                        bundle.putInt("id", _id_);
+                        _bundle_ = "";
                         todoView.setArguments(bundle);
                         assignment_form_sub.setText("");
                         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
                     }
                 });
+                assignment_form_button_done.setText("Cập nhật");
                 assignment_form_button_done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (checkValidation()){
+                            _bundle_ = "";
                             //tạo assignment
                             Bundle bundle = new Bundle();
                             bundle.putString("func", "edit_assignment");
-                            bundle.putString("id", String.valueOf(id));
+                            bundle.putInt("id", _id_);
+                            Log.e("edit_id", String.valueOf(_id_));
                             bundle.putString("title", assignment_form_sub.getText().toString());
                             bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
                             bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
@@ -169,6 +187,9 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                         }
                     }
                 });
+
+                assignment_form_sub.setText(bundle.getString("title"));
+                Log.e("ge", assignment_form_sub.getText().toString());
             }
             else if(func.trim().equals("linked_note")){
                 getLastState(bundle);
@@ -215,10 +236,15 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 }
             }
         });
+
+        Log.e("_id_", String.valueOf(_id_));
+        Log.e("list_checks", String.valueOf(list_checks));
+        Log.e("list_checks_dialog", String.valueOf(list_checks_dialog));
+        Log.e("list_note", String.valueOf(list_note));
     }
     private void checkBundle(Bundle bundle){
-        if (bundle.getString("bundle").trim().equals("edit_assignment")){
-            _bundle_ = bundle.getString("bundle").trim();
+        if (bundle.getString("bundle") != null && bundle.getString("bundle").trim().equals("edit_assignment") || _id_ != -1){
+            _bundle_ = String.valueOf(bundle.getString("bundle"));
             _id_ = bundle.getInt("_id_");
             assignment_form_button_remove.setVisibility(View.VISIBLE);
             assignment_form_button_remove.setOnClickListener(new View.OnClickListener() {
@@ -226,29 +252,32 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
                     bundle.putString("func", "remove_assignment");
-                    bundle.putInt("id", bundle.getInt("_id_"));
+                    bundle.putInt("id", _id_);
                     todoView.setArguments(bundle);
 
                     assignment_form_sub.setText("");
                     getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
                 }
             });
+            assignment_form_button_done.setText("Cập nhật");
             assignment_form_button_done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //tạo assignment
                     Bundle bundle = new Bundle();
                     bundle.putString("func", "edit_assignment");
-                    bundle.putString("id", String.valueOf(bundle.getInt("_id_")));
+                    bundle.putInt("id", _id_);
                     bundle.putString("title", assignment_form_sub.getText().toString());
+
+                    Log.e("list_check", String.valueOf(list_checks));
+                    Log.e("list_note", String.valueOf(list_note));
+                    Log.e("time", String.valueOf(todo_assignment_form_add_time_start.getText().toString()));
                     bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
                     bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
 
                     bundle.putParcelableArrayList("list_check", (ArrayList<? extends Parcelable>) list_checks);
                     bundle.putParcelableArrayList("list_note", (ArrayList<? extends Parcelable>) list_note);
                     todoView.setArguments(bundle);
-                    assignment_form_sub.setText("");
-
                     assignment_form_sub.setText("");
                     getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
                 }
@@ -260,14 +289,33 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         for (list_check l: this.list_checks){
             this.list_checks_dialog.add(l);
         }
+        for (int i = list_note.size(); i < list_checks.size(); i++){
+            list_note.add(null);
+        }
+        for (int i = list_checks.size(); i < list_note.size(); i++){
+            list_note.remove(i);
+        }
     }
     private void getLastState(Bundle bundle){
         this.list_checks = bundle.getParcelableArrayList("list_checks");
         this.list_checks_dialog = bundle.getParcelableArrayList("list_checks_dialog");
         this.list_note = bundle.getParcelableArrayList("list_note");
+
         this.todoView = bundle.getParcelable("todoView");
+        _id_ = bundle.getInt("_id_");
+        _bundle_ = bundle.getString("_bundle_");
         assignment_form_sub.setText(bundle.getString("sub"));
-        time_show(bundle.getString("time_start"), bundle.getString("time_end"), bundle.getString("time_left"));
+
+        String time_start = bundle.getString("time_start");
+        String time_end = bundle.getString("time_end");
+        String time_left = bundle.getString("time_left");
+        if (time_start.indexOf(": ") == -1){
+            time_start = "Bắt đầu: " + time_start;
+        }
+        if (time_end.indexOf(": ") == -1){
+            time_end = "Kết thúc: " + time_end;
+        }
+        time_show(time_start, time_end, time_left);
     }
     private void update_note(Note note, list_check listCheck, ArrayList<list_check> list_checks){
         for (int i = 0; i < list_checks.size(); i++){
@@ -307,6 +355,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 todo_assignment_form_close.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View view) {
+                       _bundle_ = "";
                        close();
                     }
                 });
@@ -339,6 +388,10 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             public void onClick(View view) {
                 //close dialog
                 close_add_list_dialog();
+                for (int i = list_checks.size(); i < list_note.size(); i++){
+                    list_note.remove(i);
+                }
+                show_recycle();
             }
         });
         todo_assignment_form_add_list_head_back = assignment_form.findViewById(R.id.todo_assignment_form_add_list_head_back);
@@ -347,6 +400,10 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             public void onClick(View view) {
                 //close dialog
                 close_add_list_dialog();
+                for (int i = list_checks.size(); i < list_note.size(); i++){
+                    list_note.remove(i);
+                }
+                show_recycle();
             }
         });
         todo_assignment_form_add_list_head_text_done = assignment_form.findViewById(R.id.todo_assignment_form_add_list_head_text_done);
@@ -398,6 +455,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     Bundle bundle = new Bundle();
                     bundle.putString("func", "create_assignment");
                     bundle.putString("title", assignment_form_sub.getText().toString());
+                    Log.e("time", todo_assignment_form_add_time_start.getText().toString());
                     bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
                     bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
                     bundle.putParcelableArrayList("list_check", (ArrayList<? extends Parcelable>) list_checks);
@@ -438,6 +496,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         list_item_form.setLayoutManager(new LinearLayoutManager(list_item_form.getContext()));
     }
     private void close(){
+        Log.e("todoView", String.valueOf(todoView));
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
     }
 
@@ -551,10 +610,15 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
     private void add_list_item_dialog(){
         if(!(!list_checks_dialog.isEmpty() && list_checks_dialog.get((list_checks_dialog.size() - 1)).getContent().trim().equals("")) || list_checks_dialog.isEmpty()){
-            list_check node = new list_check(list_checks_dialog.size() , "", false, -1);
+            int id = 0;
+            if (!list_checks_dialog.isEmpty()){
+                id = list_checks_dialog.get(list_checks_dialog.size()-1).getId() + 1;
+            }
+            list_check node = new list_check( id, "", false, -1);
             list_checks_dialog.add(node);
             list_note.add(null);
         }
+        Log.e("checkkk", "list_note " + list_note + "\n" + "list_checks " + list_checks + "\n" + "list_checks_dialog " + list_checks_dialog);
         show_recycle_dialog();
     }
     private void remove_list_item_dialog_id(list_check listCheck, ArrayList<list_check> list_checks){
@@ -581,10 +645,9 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     Log.e("check_l", String.valueOf(list_checks));
                     Log.e("check_n", String.valueOf(list_note));
                     list_checks.remove(i);
-                    if (list_note != null){
+                    if (list_note != null && !list_note.isEmpty()){
                         list_note.remove(i);
                     }
-                    i -= 1;
                 }
             }
         }
@@ -606,8 +669,14 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         return month;
     }
 
+    @Override
+    public void updateDB(list_check listCheck) {
+
+    }
+
     private void time_show(CharSequence time_start, CharSequence time_end, CharSequence time_left){
         if(time_start.equals("") || time_end.equals("") || time_left.equals("")) return;
+
 
         todo_assignment_time_show.setVisibility(View.VISIBLE);
         todo_assignment_form_add_time_start.setText(time_start);
@@ -705,6 +774,8 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         bundle.putString("title", listCheck.getContent());
         bundle.putParcelable("listCheck", listCheck);
 
+        if (this._bundle_ == null || !this._bundle_.trim().equals("edit_assignment"))
+            this._bundle_ = "link";
         addBundle(bundle);
 
         AddnoteFragment addnoteFragment = new AddnoteFragment();
@@ -721,6 +792,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         bundle.putParcelableArrayList("list_checks_dialog", this.list_checks_dialog);
         bundle.putParcelableArrayList("list_note", this.list_note);
         bundle.putParcelable("todoView", this.todoView);
+
         bundle.putString("sub", assignment_form_sub.getText().toString());
         bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString());
         bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString());
@@ -753,6 +825,8 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 bundle.putParcelable("listCheck", listCheck);
                 bundle.putString("type", type);
                 addBundle(bundle);
+                if (this._bundle_ == null || !this._bundle_.trim().equals("edit_assignment"))
+                    this._bundle_ = "open_note";
 
                 AddnoteFragment addnoteFragment = new AddnoteFragment();
                 addnoteFragment.setArguments(bundle);

@@ -473,7 +473,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String location = cursor.getString(3);
                 String link = cursor.getString(4);
                 String alert = cursor.getString(5);
-                boolean done = Boolean.parseBoolean(cursor.getString(6));
+                boolean done = true;
+                if (cursor.getInt(6) == 0){
+                    done = false;
+                }
 
                 arrayList.add(new meeting(id_res, time, title, location, link, alert, done));
             }
@@ -565,9 +568,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 if (link == 0){
                     link = -1;
                 }
-                Log.e("link", String.valueOf(link));
                 int assign = cursor.getInt(3);
-                boolean done = Boolean.parseBoolean(cursor.getString(4));
+                boolean done;
+                if (cursor.getInt(4) == 0){
+                    done = false;
+                }
+                else{
+                    done = true;
+                }
                 list_check listCheck = new list_check(id_res, content, done, assign);
                 listCheck.setLink(link);
                 arrayList.add(listCheck);
@@ -600,6 +608,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         + COLUMN_CHECKED + " = " + listCheck.getDone()
                 + " WHERE " + COLUMN_ID + " = " + listCheck.getId();
 
+        Log.e("SQL", sql);
         db.execSQL(sql);
         return true;
     }
@@ -633,7 +642,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String content = cursor.getString(1);
                 String time_s = cursor.getString(2);
                 String time_e = cursor.getString(3);
-                boolean done = Boolean.parseBoolean(cursor.getString(4));
+                boolean done = true;
+                if (cursor.getInt(4) == 0){
+                    done = false;
+                }
                 ArrayList<list_check> list_checks = getAllListCheck(id_res);
                 assignment assignment = new assignment(id_res, content, time_s, time_e, done);
                 assignment.setList_checks(list_checks);
@@ -703,15 +715,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 SQLiteDatabase db = this.getReadableDatabase();
                 String sql = "SELECT * FROM " + TABLE_NOTE + " WHERE " + COLUMN_ID + " = " + l.getLink();
                 Cursor cursor = db.rawQuery(sql, null);
-                Log.e("check_end", String.valueOf(cursor.getCount()));
-                Log.e("check_end", String.valueOf(cursor));
                 if(cursor.getCount() > 0)
                 {
                     cursor.moveToFirst();
                     int id_res = cursor.getInt(0);
-                    Log.e("check_li1", String.valueOf(id_res));
                     String title = cursor.getString(1);
-                    Log.e("check_li1", title);
                     String content = cursor.getString(2);
                     String date = cursor.getString(3);
                     arrayList.add(new Note(id_res, title, content, date));

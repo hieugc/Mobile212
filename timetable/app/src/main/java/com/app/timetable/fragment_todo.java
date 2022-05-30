@@ -30,6 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import Model.ItemClickListener;
 import Model.assignment;
@@ -81,6 +82,11 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
     public void set_assignment_form(fragment_todo_assignment_form form) {
         todo_assignment_form = form;
     }
+
+    public BottomNavigationView getBottomNavigationView() {
+        return bottomNavigationView;
+    }
+
     private static final String TAG = "MyActivity";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -195,6 +201,8 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
             else if(func.trim().equals("create_assignment")){
                 ArrayList<list_check> list_check = bundle.<list_check>getParcelableArrayList("list_check");
                 ArrayList<Note> list_note = bundle.<Note>getParcelableArrayList("list_note");
+                Log.e("assign", String.valueOf(list_check));
+                Log.e("assign", String.valueOf(list_note));
                 assignment new_ass = new assignment(
                         -1,
                         bundle.getString("title"),
@@ -204,23 +212,35 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 );
                 new_ass.setId(dataBaseHelper.addOne(new_ass));
                 for (int i = 0; i < list_check.size(); i++){
-                    if (list_check.get(i).getLink() != -1){
+                    if (list_note.get(i) != null && list_check.get(i).getLink() == list_note.get(i).getId()){
                         list_check.get(i).setLink(dataBaseHelper.linkNote(list_note.get(i)));
+                    }
+                    else{
+                        list_check.get(i).setLink(-1);
                     }
                     list_check.get(i).setAssign(new_ass.getId());
                     list_check.get(i).setId(dataBaseHelper.addOne(list_check.get(i)));
                 }
                 new_ass.setList_checks(list_check);
+                ArrayList<list_check> l = dataBaseHelper.getAllListCheck(new_ass.getId());
+                for (list_check a: l){
+                    Log.e("check_show", String.valueOf(a.getLink()));
+                }
                 assignments.add(new_ass);
             }
             else if(func.trim().equals("edit_assignment")){
-                int id = Integer.parseInt(bundle.getString("id"));
+                Log.e("id", String.valueOf(bundle.getInt("id")));
+                int id = bundle.getInt("id");
                 String time_start = bundle.getString("time_start");
                 String time_end = bundle.getString("time_end");
                 String title = bundle.getString("title");
                 ArrayList<list_check> list_checks = bundle.getParcelableArrayList("list_check");
+                Log.e("list_checks.get(i)", String.valueOf(list_checks));
                 ArrayList<Note> list_note = bundle.getParcelableArrayList("list_note");
+                Log.e("list_checks_n", String.valueOf(list_note));
+
                 for (int idx = 0; idx < assignments.size(); idx ++){
+                    Log.e("list_checks", assignments.get(idx).getId() + " " + id);
                     if(assignments.get(idx).getId() == id){
                         ArrayList<list_check> all = dataBaseHelper.getAllListCheck(assignments.get(idx).getId());
                         for (int i = 0; i < all.size(); i++){
@@ -230,8 +250,10 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                             }
                             dataBaseHelper.deleteOne(all.get(i));
                         }
+
+                        Log.e("list_checks.get(i)", String.valueOf(list_checks));
                         for (int i = 0; i < list_checks.size(); i ++){
-                            if (list_note.get(i) != null){
+                            if (list_note.get(i) != null ){
                                 list_checks.get(i).setLink(dataBaseHelper.linkNote(list_note.get(i)));
                             }
                             else{
@@ -239,14 +261,20 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                             }
                             list_checks.get(i).setAssign(assignments.get(idx).getId());
                             dataBaseHelper.addOne(list_checks.get(i));
+                            Log.e("list_checks.get(i)", String.valueOf(list_checks.get(i).getLink()));
                         }
 
+                        ArrayList<list_check> l = dataBaseHelper.getAllListCheck(assignments.get(idx).getId());
+                        for (list_check a: l){
+                            Log.e("check_show", String.valueOf(a.getLink()));
+                        }
 
                         assignments.get(idx).setTitle(title);
                         assignments.get(idx).setTimeStart(time_start);
                         assignments.get(idx).setTimeEnd(time_end);
+                        assignments.get(idx).setTime(time_end);
+                        Log.e("time", time_start + " " + time_end + " " + assignments.get(idx).getTime());
                         dataBaseHelper.updateOne(assignments.get(idx));
-
                         break;
                     }
                 }
@@ -319,7 +347,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         todo_assignment_button.setVisibility(View.GONE);
 
         bottomNavigationView.setForeground(null);
-        todo_floating_button_background.getLayoutParams().width = 300;
+        todo_floating_button_background.getLayoutParams().width = 170;
         todo_floating_button_background.getLayoutParams().height = -2;//wrap_content
         todo_floating_button_background.setBackgroundColor(0);
 
@@ -397,7 +425,9 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
     public void editAssignment(assignment assign) {
         Bundle bundle = new Bundle();
         bundle.putString("func", "edit_assignment");
-        bundle.putInt("id", assign.getId());
+        bundle.putInt("_id_", assign.getId());
+        Log.e("ge", String.valueOf(assign.getId()));
+        Log.e("ge", String.valueOf(assign.getTitle()));
         bundle.putString("title", assign.getTitle());
         bundle.putString("time_start", assign.getTimeStart());
         bundle.putString("time_end", assign.getTimeEnd());
@@ -405,8 +435,13 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         bundle.putParcelableArrayList("list_checks", assign.getList_checks());
         bundle.putParcelableArrayList("list_checks_dialog", new ArrayList<>());
         bundle.putParcelableArrayList("list_note", dataBaseHelper.getOne(assign.getList_checks()));
+        bundle.putParcelable("todoView", todo_meeting_form.getFragment_todo());
+        bundle.putString("bundle", "edit_assignment");
 
         todo_assignment_form.setArguments(bundle);
+        todo_assignment_form.set_id_(assign.getId());
+        todo_assignment_form.setTodoView(todo_meeting_form.getFragment_todo());
+        todo_assignment_form.set_bundle_("edit_assignment");
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todo_assignment_form).commit();
     }
 
@@ -415,12 +450,52 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         for (int i = 0; i < assignments.size(); i++){
             if(assignments.get(i).getId() == assign.getId()){
                 assignments.get(i).setDone(assign.getDone());
+                dataBaseHelper.updateOne(assignments.get(i));
                 for (int j = 0; j < assignments.get(i).getList_checks().size(); j ++){
                     assignments.get(i).getList_checks().get(j).setDone(assignments.get(i).getDone());
+                    Log.e("check_lok", "assign " + assignments.get(i).getId() + " " + assignments.get(i).getDone() + " " + assignments.get(i).getList_checks().get(j).getContent() + " " + assignments.get(i).getList_checks().get(j).getDone());
+                    dataBaseHelper.updateOne(assignments.get(i).getList_checks().get(j));
+                }
+                ArrayList<list_check> l = dataBaseHelper.getAllListCheck(assignments.get(i).getId());
+                for (list_check a: l){
+                    Log.e("check_lok", "assign " + assignments.get(i).getId() + " " + assignments.get(i).getDone() + " " + a.getContent() + " " + a.getDone());
                 }
                 break;
             }
         }
+    }
+
+    @Override
+    public void updateDB(list_check listCheck) {
+        if (listCheck.getDone() == false){
+            for (assignment a: assignments){
+                if (a.getId() == listCheck.getAssign()){
+                    a.setDone(false);
+                    dataBaseHelper.updateOne(a);
+                    break;
+                }
+            }
+        }
+        else {
+            for (assignment a: assignments){
+                if (a.getId() == listCheck.getAssign()){
+                    boolean check = true;
+                    for (list_check l: a.getList_checks()){
+                        if (!l.getDone()){
+                            check = false;
+                            break;
+                        }
+                    }
+                    if (check){
+                        a.setDone(true);
+                        dataBaseHelper.updateOne(a);
+                    }
+                    break;
+                }
+            }
+        }
+        dataBaseHelper.updateOne(listCheck);
+        item_show();
     }
 
     @Override
@@ -445,6 +520,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         bundle.putString("head_back", "Quay lại");
         bundle.putString("head_add", "Xong");
         Note note = dataBaseHelper.getNote(listCheck.getLink());
+        Log.e("NOTEVIEW", listCheck.getLink() + " " + listCheck.getContent() + " " + listCheck.getId());
         bundle.putString("title", note.getTitle());
         bundle.putString("content", note.getContent());
         bundle.putParcelable("note", note);

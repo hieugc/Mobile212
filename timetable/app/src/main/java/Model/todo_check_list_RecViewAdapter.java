@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.timetable.DataBaseHelper;
 import com.app.timetable.R;
 
 import java.util.ArrayList;
@@ -78,6 +79,15 @@ public class todo_check_list_RecViewAdapter extends RecyclerView.Adapter<todo_ch
             else {
                 link.setVisibility(View.VISIBLE);
             }
+            done.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    list_checks.setDone(!list_checks.getDone());
+                    Log.e("checkk", String.valueOf(list_checks.getDone()));
+                    listener.updateDB(list_checks);
+                    done.setChecked(list_checks.getDone());
+                }
+            });
             link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
