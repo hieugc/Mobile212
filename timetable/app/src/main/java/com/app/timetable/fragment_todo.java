@@ -181,7 +181,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                         false
                 );
                 m.setId(this.dataBaseHelper.addOne(m));
-                setAlarm(m.getId(), m.getTime(), m.getAlert(), "Thông báo cuộc họp", "Cuộc họp " + m.getTitle() + " sẽ diễn ra", 0);
+                setAlarm(m.getId(), m.getTime(), m.getAlert(), "Thông báo cuộc họp", "Cuộc họp " + m.getTitle() + " sẽ diễn ra sau " + m.getAlert(), 0);
                 this.meetings.add(m);
             }
             else if(func == "remove_meeting"){
@@ -214,7 +214,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                         m.setTime(time);
                         this.dataBaseHelper.updateOne(m);
                         cancelAlarm(m.getId());
-                        setAlarm(m.getId(), m.getTime(), m.getAlert(), "Thông báo cuộc họp", "Cuộc họp " + m.getTitle() + " sẽ diễn ra", 0);
+                        setAlarm(m.getId(), m.getTime(), m.getAlert(), "Thông báo cuộc họp", "Cuộc họp " + m.getTitle() + " sẽ diễn ra sau " + m.getAlert(), 0);
                         break;
                     }
                 }
