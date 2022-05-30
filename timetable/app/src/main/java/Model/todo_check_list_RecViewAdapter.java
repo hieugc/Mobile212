@@ -1,20 +1,17 @@
 package Model;
 
-import android.content.Context;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.app.timetable.DataBaseHelper;
 import com.app.timetable.R;
 
 import java.util.ArrayList;
@@ -52,10 +49,6 @@ public class todo_check_list_RecViewAdapter extends RecyclerView.Adapter<todo_ch
         return list_checks.size();
     }
 
-    public void setList_checks(ArrayList<list_check> list_checks) {
-        this.list_checks = list_checks;
-        notifyDataSetChanged();
-    }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
         list_check list_checks;

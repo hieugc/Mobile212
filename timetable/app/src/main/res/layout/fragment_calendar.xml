@@ -117,22 +117,15 @@
         android:paddingTop="25dp"
         android:paddingBottom="10dp">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tkb_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
+            android:overScrollMode="always"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tkb_list"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:overScrollMode="always" />
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
         <ImageView

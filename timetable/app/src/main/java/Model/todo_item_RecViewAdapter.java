@@ -1,12 +1,8 @@
 package Model;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -14,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.timetable.R;
-import com.app.timetable.fragment_todo;
 
 import java.util.ArrayList;
 
@@ -63,15 +58,6 @@ public class todo_item_RecViewAdapter extends RecyclerView.Adapter<todo_item_Rec
     @Override
     public int getItemCount() {
         return items.size();
-    }
-
-    public ArrayList<todo_item> getItems() {
-        return items;
-    }
-
-    public void setItems(ArrayList<todo_item> items) {
-        this.items = items;
-        notifyDataSetChanged();
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{

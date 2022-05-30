@@ -1,12 +1,8 @@
 package com.app.timetable;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +29,6 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,7 +45,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
     public fragment_todo_assignment_form(){
         selectedDate = new Pair<>(MaterialDatePicker.todayInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds()+7*MILLIS_IN_A_DAY);
-        //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain_todo_form, this).commit();
         _bundle_ = "";
     }
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
@@ -180,7 +172,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                             Bundle bundle = new Bundle();
                             bundle.putString("func", "edit_assignment");
                             bundle.putInt("id", _id_);
-                            Log.e("edit_id", String.valueOf(_id_));
                             bundle.putString("title", assignment_form_sub.getText().toString());
                             bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
                             bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
@@ -195,7 +186,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                 });
 
                 assignment_form_sub.setText(bundle.getString("title"));
-                Log.e("ge", assignment_form_sub.getText().toString());
             }
             else if(func.trim().equals("linked_note")){
                 getLastState(bundle);
@@ -243,10 +233,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             }
         });
 
-        Log.e("_id_", String.valueOf(_id_));
-        Log.e("list_checks", String.valueOf(list_checks));
-        Log.e("list_checks_dialog", String.valueOf(list_checks_dialog));
-        Log.e("list_note", String.valueOf(list_note));
     }
     private void checkBundle(Bundle bundle){
         if (bundle.getString("bundle") != null && bundle.getString("bundle").trim().equals("edit_assignment") || _id_ != -1){
@@ -275,9 +261,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     bundle.putInt("id", _id_);
                     bundle.putString("title", assignment_form_sub.getText().toString());
 
-                    Log.e("list_check", String.valueOf(list_checks));
-                    Log.e("list_note", String.valueOf(list_note));
-                    Log.e("time", String.valueOf(todo_assignment_form_add_time_start.getText().toString()));
                     bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
                     bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
 
@@ -461,7 +444,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     Bundle bundle = new Bundle();
                     bundle.putString("func", "create_assignment");
                     bundle.putString("title", assignment_form_sub.getText().toString());
-                    Log.e("time", todo_assignment_form_add_time_start.getText().toString());
                     bundle.putString("time_start", todo_assignment_form_add_time_start.getText().toString().split(": ")[1]);
                     bundle.putString("time_end", todo_assignment_form_add_time_end.getText().toString().split(": ")[1]);
                     bundle.putParcelableArrayList("list_check", (ArrayList<? extends Parcelable>) list_checks);
@@ -502,7 +484,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         list_item_form.setLayoutManager(new LinearLayoutManager(list_item_form.getContext()));
     }
     private void close(){
-        Log.e("todoView", String.valueOf(todoView));
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todoView).commit();
     }
 
@@ -566,13 +547,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     String time = String.valueOf(nday_2 - nday_1) + " ngày";
                     time_show(time_start, time_end, time);
                 }
-//                materialBuilder.setSelection(selection);
-//                try {
-//                    Date date = new SimpleDateFormat("dd/MM/yyyy").parse(time_start);
-//                    builder.setOpenAt(date.getTime());
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
                 selectedDate = (Pair<Long, Long>) selection;
 
             }
@@ -624,17 +598,12 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             list_checks_dialog.add(node);
             list_note.add(null);
         }
-        Log.e("checkkk", "list_note " + list_note + "\n" + "list_checks " + list_checks + "\n" + "list_checks_dialog " + list_checks_dialog);
         show_recycle_dialog();
     }
     private void remove_list_item_dialog_id(list_check listCheck, ArrayList<list_check> list_checks){
-        Log.e("list_checks", list_checks.toString());
-        Log.e("list_note", list_note.toString());
         if(!list_checks.isEmpty()){
             for (int i = 0; i < list_checks.size(); i++){
                 if (list_checks.get(i).getId() == listCheck.getId()){
-                    Log.e("check_l", String.valueOf(list_checks));
-                    Log.e("check_n", String.valueOf(list_note));
                     list_checks.remove(i);
                     if (list_note != null && !list_note.isEmpty()){
                         list_note.remove(i);
@@ -648,8 +617,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         if(!list_checks.isEmpty()){
             for (int i = 0; i < list_checks.size(); i++){
                 if(list_checks.get(i).getContent().trim().equals("")){
-                    Log.e("check_l", String.valueOf(list_checks));
-                    Log.e("check_n", String.valueOf(list_note));
                     list_checks.remove(i);
                     if (list_note != null && !list_note.isEmpty()){
                         list_note.remove(i);

@@ -115,21 +115,7 @@ public class fragment_setting extends Fragment {
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(selectedDate);
-        Log.e("day", ""+calendar.get(Calendar.DAY_OF_MONTH));
-        Log.e("month", ""+(calendar.get(Calendar.MONTH) + 1));
-        Log.e("day", ""+calendar.get(Calendar.YEAR));
-        Log.e("hour", ""+calendar.get(Calendar.HOUR_OF_DAY));
-        Log.e("minute", ""+calendar.get(Calendar.MINUTE));
-        Log.e("hour", ""+hour);
-        Log.e("minute", ""+minute);
         calendar.setTimeInMillis(calendar.getTimeInMillis()-hour*MILLIS_IN_AN_HOUR-minute*MILLIS_IN_AN_MINUTE);
-        Log.e("day", ""+calendar.get(Calendar.DAY_OF_MONTH));
-        Log.e("month", ""+(calendar.get(Calendar.MONTH) + 1));
-        Log.e("day", ""+calendar.get(Calendar.YEAR));
-        Log.e("hour", ""+calendar.get(Calendar.HOUR_OF_DAY));
-        Log.e("minute", ""+calendar.get(Calendar.MINUTE));
-        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendar.getTime()));
-        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date(calendar.getTimeInMillis())));
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 

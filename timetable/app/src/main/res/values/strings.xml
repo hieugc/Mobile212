@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-    <string name="app_name">timetable</string>
+    <string name="app_name">Thời Khoá Biểu Bách Khoa</string>
     <string name="nav_calendar">Lịch học</string>
     <string name="nav_todo">Công việc</string>
     <string name="nav_note">Ghi chú</string>

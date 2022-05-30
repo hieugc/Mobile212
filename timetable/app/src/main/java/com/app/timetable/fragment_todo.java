@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,13 +47,8 @@ import Model.todo_item_RecViewAdapter;
 @SuppressLint("ParcelCreator")
 public class fragment_todo extends Fragment implements ItemClickListener, Parcelable {
 
-
-    private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     private static final long MILLIS_IN_AN_HOUR = 1000 * 60 * 60;
     private static final long MILLIS_IN_AN_MINUTE = 1000 * 60;
-
-    private MeetingAlarmReceiver meetingAlarmReceiver;
-    private AssignmentAlarmReceiver assignmentAlarmReceiver;
     private PendingIntent pendingIntent;
     private AlarmManager alarmManager;
 
@@ -222,8 +216,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
             else if(func.trim().equals("create_assignment")){
                 ArrayList<list_check> list_check = bundle.<list_check>getParcelableArrayList("list_check");
                 ArrayList<Note> list_note = bundle.<Note>getParcelableArrayList("list_note");
-                Log.e("assign", String.valueOf(list_check));
-                Log.e("assign", String.valueOf(list_note));
                 assignment new_ass = new assignment(
                         -1,
                         bundle.getString("title"),
@@ -244,25 +236,17 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 }
                 new_ass.setList_checks(list_check);
                 ArrayList<list_check> l = dataBaseHelper.getAllListCheck(new_ass.getId());
-                for (list_check a: l){
-                    Log.e("check_show", String.valueOf(a.getLink()));
-                }
                 setAlarm(new_ass.getId(), "00:00 " + new_ass.getTimeEnd(), "02:00", "Thông báo Công việc", "Bài tập " + new_ass.getTitle() + " sẽ kết thúc sau 2 giờ nữa", 1);
                 assignments.add(new_ass);
             }
             else if(func.trim().equals("edit_assignment")){
-                Log.e("id", String.valueOf(bundle.getInt("id")));
                 int id = bundle.getInt("id");
                 String time_start = bundle.getString("time_start");
                 String time_end = bundle.getString("time_end");
                 String title = bundle.getString("title");
                 ArrayList<list_check> list_checks = bundle.getParcelableArrayList("list_check");
-                Log.e("list_checks.get(i)", String.valueOf(list_checks));
                 ArrayList<Note> list_note = bundle.getParcelableArrayList("list_note");
-                Log.e("list_checks_n", String.valueOf(list_note));
-
                 for (int idx = 0; idx < assignments.size(); idx ++){
-                    Log.e("list_checks", assignments.get(idx).getId() + " " + id);
                     if(assignments.get(idx).getId() == id){
                         ArrayList<list_check> all = dataBaseHelper.getAllListCheck(assignments.get(idx).getId());
                         for (int i = 0; i < all.size(); i++){
@@ -273,7 +257,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                             dataBaseHelper.deleteOne(all.get(i));
                         }
 
-                        Log.e("list_checks.get(i)", String.valueOf(list_checks));
                         for (int i = 0; i < list_checks.size(); i ++){
                             if (list_note.get(i) != null ){
                                 list_checks.get(i).setLink(dataBaseHelper.linkNote(list_note.get(i)));
@@ -283,19 +266,14 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                             }
                             list_checks.get(i).setAssign(assignments.get(idx).getId());
                             dataBaseHelper.addOne(list_checks.get(i));
-                            Log.e("list_checks.get(i)", String.valueOf(list_checks.get(i).getLink()));
                         }
 
                         ArrayList<list_check> l = dataBaseHelper.getAllListCheck(assignments.get(idx).getId());
-                        for (list_check a: l){
-                            Log.e("check_show", String.valueOf(a.getLink()));
-                        }
 
                         assignments.get(idx).setTitle(title);
                         assignments.get(idx).setTimeStart(time_start);
                         assignments.get(idx).setTimeEnd(time_end);
                         assignments.get(idx).setTime(time_end);
-                        Log.e("time", time_start + " " + time_end + " " + assignments.get(idx).getTime());
                         dataBaseHelper.updateOne(assignments.get(idx));
                         cancelAlarm(assignments.get(idx).getId());
                         setAlarm(assignments.get(idx).getId(), "00:00 " + assignments.get(idx).getTimeEnd(), "02:00", "Thông báo Công việc", "Bài tập " + assignments.get(idx).getTitle() + " sẽ kết thúc sau 2 giờ nữa", 1);
@@ -324,8 +302,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 else{
                     dataBaseHelper.updateLinkedNote(note);
                 }
-            }
-            else{
             }
             this.setArguments(null);
         }
@@ -451,8 +427,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         Bundle bundle = new Bundle();
         bundle.putString("func", "edit_assignment");
         bundle.putInt("_id_", assign.getId());
-        Log.e("ge", String.valueOf(assign.getId()));
-        Log.e("ge", String.valueOf(assign.getTitle()));
         bundle.putString("title", assign.getTitle());
         bundle.putString("time_start", assign.getTimeStart());
         bundle.putString("time_end", assign.getTimeEnd());
@@ -478,13 +452,9 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 dataBaseHelper.updateOne(assignments.get(i));
                 for (int j = 0; j < assignments.get(i).getList_checks().size(); j ++){
                     assignments.get(i).getList_checks().get(j).setDone(assignments.get(i).getDone());
-                    Log.e("check_lok", "assign " + assignments.get(i).getId() + " " + assignments.get(i).getDone() + " " + assignments.get(i).getList_checks().get(j).getContent() + " " + assignments.get(i).getList_checks().get(j).getDone());
                     dataBaseHelper.updateOne(assignments.get(i).getList_checks().get(j));
                 }
                 ArrayList<list_check> l = dataBaseHelper.getAllListCheck(assignments.get(i).getId());
-                for (list_check a: l){
-                    Log.e("check_lok", "assign " + assignments.get(i).getId() + " " + assignments.get(i).getDone() + " " + a.getContent() + " " + a.getDone());
-                }
                 break;
             }
         }
@@ -545,7 +515,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         bundle.putString("head_back", "Quay lại");
         bundle.putString("head_add", "Xong");
         Note note = dataBaseHelper.getNote(listCheck.getLink());
-        Log.e("NOTEVIEW", listCheck.getLink() + " " + listCheck.getContent() + " " + listCheck.getId());
         bundle.putString("title", note.getTitle());
         bundle.putString("content", note.getContent());
         bundle.putParcelable("note", note);
@@ -672,21 +641,8 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         }
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(selectedDate);
-        Log.e("day", ""+calendar.get(Calendar.DAY_OF_MONTH));
-        Log.e("month", ""+(calendar.get(Calendar.MONTH) + 1));
-        Log.e("day", ""+calendar.get(Calendar.YEAR));
-        Log.e("hour", ""+calendar.get(Calendar.HOUR_OF_DAY));
-        Log.e("minute", ""+calendar.get(Calendar.MINUTE));
-        Log.e("notification_hour", ""+hour);
-        Log.e("notification_minute", ""+minute);
-
         calendar.setTimeInMillis(calendar.getTimeInMillis()-hour * MILLIS_IN_AN_HOUR - minute * MILLIS_IN_AN_MINUTE);
-        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendar.getTime()));
-        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date(calendar.getTimeInMillis())));
-
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-        Log.e("alarm","SET ALARM SUCCESSFULLY");
     }
     public void cancelAlarm(int id)
     {
@@ -700,7 +656,6 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         }
 
         alarmManager.cancel(pendingIntent);
-        Log.e("alarm", "CANCEL ALARM SUCCESSFULLY");
     }
 
 }

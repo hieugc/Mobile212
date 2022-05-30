@@ -2,13 +2,12 @@ package com.app.timetable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class Subject {
     private String className,classRoom,classGroup;
     private String startDate,endDate,startHour,endHour;
-    private boolean[] studyDay = {false,false,false,false,false,false,false};
+    private boolean[] studyDay;
     private String study;
     private String lecturerName, lecturerMail, lecturerNumber;
 
@@ -26,15 +25,6 @@ public class Subject {
         this.lecturerName = lecturerName;
         this.lecturerNumber = lecturerNumber;
         this.lecturerMail = lecturerMail;
-    }
-    public Subject(String classname,String startHour,String endHour,String note){
-        this.className = classname;
-        this.startHour = startHour;
-        this.endHour = endHour;
-        this.classRoom = "";
-        this.classGroup = "";
-        this.startDate = "";
-        this.endDate = "";
     }
 
     public void setClassName(String name){
@@ -111,21 +101,9 @@ public class Subject {
         return studyDay;
     }
 
-    public int[] getStudyDay(){
-        List<Integer> list = new ArrayList<Integer>();
-        for (int index = 0; index < this.studyDay.length;index++){
-            if (studyDay[index] == true) {
-                list.add(index);
-            }
-        }
-        int[] ret = new int[list.size()];
-        for (int i=0; i < ret.length; i++)
-        {
-            ret[i] = list.get(i).intValue();
-        }
-        return ret;
+    public void setStudyDay(boolean[] studyDay) {
+        this.studyDay = studyDay;
     }
-
 
     @Override
     public String toString() {

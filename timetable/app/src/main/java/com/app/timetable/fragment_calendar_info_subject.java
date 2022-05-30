@@ -2,7 +2,6 @@ package com.app.timetable;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
@@ -35,6 +32,7 @@ public class fragment_calendar_info_subject extends Fragment {
     private LinearLayout back_button;
     private TimeTable timeTable;
     private fragment_calendar fragmentCalendar;
+    private DataBaseHelper dataBaseHelper;
 
     private BottomNavigationView bottomNavigationView;
     public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
@@ -57,6 +55,8 @@ public class fragment_calendar_info_subject extends Fragment {
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View subjectInfoView = inflater.inflate(R.layout.subject_info_layout, container, false);
+
+        dataBaseHelper = new DataBaseHelper(subjectInfoView.getContext());
         back_button = subjectInfoView.findViewById(R.id.back_button);
         txtView_info_subject_name = subjectInfoView.findViewById(R.id.info_subject_name);
         txtView_info_subject_date = subjectInfoView.findViewById(R.id.info_subject_date);
@@ -186,7 +186,6 @@ public class fragment_calendar_info_subject extends Fragment {
     }
     private Bundle createBundleForAll(){
         Bundle bundle = createBundle("editAllSubject");
-
         return bundle;
     }
 

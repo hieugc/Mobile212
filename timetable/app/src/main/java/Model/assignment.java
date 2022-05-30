@@ -1,8 +1,5 @@
 package Model;
 
-import android.os.Build;
-
-import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -139,7 +136,6 @@ public class assignment {
     }
 
     public void setTime(String timeEnd) {
-
         this.time = time;
     }
 

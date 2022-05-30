@@ -3,22 +3,17 @@ package com.app.timetable;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-import static com.app.timetable.DataBaseHelper.*;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,13 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -50,9 +43,11 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -103,12 +98,15 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private ImageView imageView;
     private TextView txt_month;
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+    private static final long MILLIS_IN_AN_HOUR = 1000 * 60 * 60;
+    private static final long MILLIS_IN_AN_MINUTE = 1000 * 60;
     private RecyclerView subjectRecyclerView, calendarRecyclerView;
-    private SubjectAdapter adapter;
     boolean tmpStudyDay[] = {false,false,false,false,false,false,false};
     private ArrayList<Subject> subjectList;
     private RecyclerView.ViewHolder viewHolder;
 
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
     private FloatingActionButton floatingActionButton;
     private Button calendar_tkbbk_button, calendar_tkb_button, notification_btn;
     private RelativeLayout calendar_float_button_background, bell_popup_bg;
@@ -118,7 +116,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private TimeTableAdapter timeTableAdapter;
     private DateAdapter dateAdapter;
     private Context context;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private long selectedDate;
     private MaterialDatePicker.Builder pickerBuilder;
     private MaterialDatePicker<Long> picker;
@@ -131,9 +128,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
     private RelativeLayout delete_popup_bg;
 
     private NumberPicker hour_noti, minutes_noti;
-    private ArrayList<MyCalendar> calendarList= new ArrayList<>();
     private ArrayList<Date> list = new ArrayList<>();
-    private CalendarAdapter mAdapter;
     private int currentposition;
     private LogInFragment logInFragment;
     private DataBaseHelper dataBaseHelper;
@@ -190,10 +185,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
         dataBaseHelper = new DataBaseHelper(calendarView.getContext());
         dateAdapter.setDataBaseHelper(dataBaseHelper);
-        subjectRecyclerView = (RecyclerView) calendarView.findViewById(R.id.tkb_list);
+        subjectRecyclerView = calendarView.findViewById(R.id.tkb_list);
         dateAdapter.setFragmentCalendar(this);
-
-        swipeRefreshLayout = calendarView.findViewById(R.id.swipeRefreshLayout);
         txt_month = calendarView.findViewById(R.id.txt_month);
 
         btn_delete_timetable = calendarView.findViewById(R.id.btn_delete_timetable);
@@ -323,7 +316,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
                 setImageView(arrayList);
-                Log.e("date", new SimpleDateFormat("dd/MM/yyyy").format(date));
             }
         });
 
@@ -337,29 +329,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(calendarRecyclerView);
-
-        //mAdapter = new CalendarAdapter(calendarList);
-
-
-//        calendarRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView,
-//                                   int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                int totalItemCount = mLayoutManager.getChildCount();
-//                for (int i = 0; i < totalItemCount; i++){
-//                    View childView = recyclerView.getChildAt(i);
-//                    TextView childTextView = (TextView) (childView.findViewById(R.id.calendar_day));
-//                    String childTextViewText = (String) (childTextView.getText());
-//                    if (childTextViewText.equals("Sun"))
-//                        childTextView.setTextColor(Color.RED);
-//                    else
-//                        childTextView.setTextColor(Color.BLACK);
-//                }
-//
-//
-//            }
-//        });
 
         forward_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -381,7 +350,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
                 setImageView(arrayList);
-                Log.e("selected", String.valueOf(selectedDate));
             }
         });
         backward_calendar.setOnClickListener(new View.OnClickListener() {
@@ -403,41 +371,12 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
                 setImageView(arrayList);
-                Log.e("selected", String.valueOf(selectedDate));
             }
         });
-
-//        calendarRecyclerView.addItemDecoration(new DividerItemDecoration(calendarView.getContext(), LinearLayoutManager.HORIZONTAL));
 
         calendarRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         calendarRecyclerView.setAdapter(dateAdapter);
-//        calendarRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(calendarView.getContext(), calendarRecyclerView, new RecyclerTouchListener.ClickListener() {
-//            @Override
-//            public void onClick(View view, int position) {
-//                MyCalendar calendar = calendarList.get(position);
-//                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
-//
-//                Animation startRotateAnimation = AnimationUtils.makeInChildBottomAnimation(calendarView.getContext());
-//                childTextView.startAnimation(startRotateAnimation);
-//                childTextView.setTextColor(Color.CYAN);
-//                Toast.makeText(calendarView.getContext(), calendar.getDay() + " is selected!", Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//            @Override
-//            public void onLongClick(View view, int position) {
-//                MyCalendar calendar = calendarList.get(position);
-//
-//                TextView childTextView = (TextView) (view.findViewById(R.id.calendar_day));
-//                childTextView.setTextColor(Color.GREEN);
-//
-//                Toast.makeText(calendarView.getContext(), calendar.getDate()+"/" + calendar.getDay()+"/" +calendar.getMonth()+"   selected!", Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }));
-
-//        prepareCalendarData();
 
         // recyclerView for subject item
 
@@ -453,14 +392,12 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 minutes_noti.setValue(minute);
                 bell_popup_bg.setVisibility(VISIBLE);
                 bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
-                Log.e("timetable", timeTable.toString());
             }
 
             @Override
             public void onDelete(TimeTable timeTable, RecyclerView.ViewHolder holder)
             {
                 if(viewHolder != null) viewHolder.itemView.scrollTo(0, 0);
-                Log.e("delete", "click");
                 viewHolder = holder;
                 delete_popup_timetable = timeTable;
                 delete_popup_bg.setVisibility(VISIBLE);
@@ -476,6 +413,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
             public void onClick(View view) {
                 viewHolder.itemView.scrollTo(0, 0);
                 dataBaseHelper.deleteOne(delete_popup_timetable);
+                cancelAlarm(delete_popup_timetable.getId());
                 delete_popup_bg.setVisibility(GONE);
                 bottomNavigationView.setForeground(null);
 
@@ -493,6 +431,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimeTablesByForeignID(delete_popup_timetable);
                 for(int i = 0; i < arrayList.size(); i++){
                     dataBaseHelper.deleteOne(arrayList.get(i));
+                    cancelAlarm(arrayList.get(i).getId());
                 }
                 if(delete_popup_timetable.getType() == 1)
                 {
@@ -522,8 +461,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
             public void onClick(View view) {
                 bell_popup_bg.setVisibility(GONE);
                 bottomNavigationView.setForeground(null);
-                Log.e("noti", ""+notification_switch.isChecked());
-                Log.e("all", ""+notification_switch_all.isChecked());
                 String hour = hour_noti.getValue()+"";
                 String minute = minutes_noti.getValue()+"";
                 if (hour.length() == 1) {
@@ -536,7 +473,16 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 notification_popup_timetable.setNotification(notification_switch.isChecked());
                 notification_popup_timetable.setNotification_time(notification_time);
                 dataBaseHelper.updateOne(notification_popup_timetable);
-
+                //Cancel Alarm
+                cancelAlarm(notification_popup_timetable.getId());
+                if(notification_switch.isChecked())
+                {
+                    String startTime = notification_popup_timetable.getStart_time();
+                    if(startTime.length() == 3)
+                        startTime = "0"+startTime;
+                    String date = notification_popup_timetable.getDate()+" "+startTime;
+                    setAlarm(notification_popup_timetable.getId(), date, notification_time, "Thông báo lịch học" ,"Đã tới giờ cho lịch học môn "+notification_popup_timetable.getName()+". Hãy nhanh chóng chuẩn bị nào");
+                }
                 if(notification_switch_all.isChecked())
                 {
                     ArrayList<TimeTable> timeTables = dataBaseHelper.getTimeTablesByForeignID(notification_popup_timetable);
@@ -545,19 +491,21 @@ public class fragment_calendar extends Fragment implements Parcelable {
                         timeTables.get(i).setNotification(notification_switch.isChecked());
                         timeTables.get(i).setNotification_time(notification_time);
                         dataBaseHelper.updateOne(timeTables.get(i));
+                        cancelAlarm(timeTables.get(i).getId());
+                        if(notification_switch.isChecked())
+                        {
+                            String startTime = timeTables.get(i).getStart_time();
+                            if(startTime.length() == 3)
+                                startTime = "0"+startTime;
+                            String date = timeTables.get(i).getDate()+" "+startTime;
+                            setAlarm(timeTables.get(i).getId(), date, notification_time,"Thông báo lịch học", "Đã tới giờ cho lịch học môn "+timeTables.get(i).getName()+". Hãy nhanh chóng chuẩn bị nào");
+                        }
                     }
                 }
-                Log.e("button", notification_time);
                 notification_switch_all.setChecked(false);
             }
         });
 
-        notificationLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e("layout", "hey");
-            }
-        });
 
         bell_popup_bg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -565,7 +513,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 bell_popup_bg.setVisibility(GONE);
                 bottomNavigationView.setForeground(null);
                 notification_switch_all.setChecked(false);
-                Log.e("bg", "hey");
             }
         });
 
@@ -580,11 +527,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
         setImageView(timeTables);
 
         setItemTouchHelper();
-
-        Log.e("timetable", timeTables.toString());
-//        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
-//        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
-//        timeTables.add(new TimeTable(-1, "Đại số tuyến tính", "L01", "H6-109", "05/01/2022","9:00","10:50", 1, 1));
 
         return calendarView;
     }
@@ -684,57 +626,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
         }).attachToRecyclerView(subjectRecyclerView);
     }
 
-    private int getSnapPostion(SnapHelper snap, RecyclerView.LayoutManager layoutManager){
-        View snapView = snap.findSnapView(layoutManager);
-        int snapPos = layoutManager.getPosition(snapView);
-        return snapPos;
-    }
-
-    private int getCurrentItem(){
-        return ((LinearLayoutManager)calendarRecyclerView.getLayoutManager())
-                .findLastCompletelyVisibleItemPosition();
-    }
-
-    private void setCurrentItem(int position, int incr){
-        position=position+incr;
-
-        if (position <0)
-            position=0;
-
-        calendarRecyclerView.smoothScrollToPosition(position);
-
-
-    }
-
-    private void hide_bell(){
-
-    }
-
-    private void setTest(){
-        calendarRecyclerView.smoothScrollToPosition(6);
-    }
-
-    private void prepareCalendarData() {
-
-        // run a for loop for all the next 30 days of the current month starting today
-        // initialize mycalendarData and get Instance
-        // getnext to get next set of date etc.. which can be used to populate MyCalendarList in for loop
-
-        myCalendarData m_calendar = new myCalendarData(-2);
-
-        for ( int i=0; i <30; i++) {
-
-            MyCalendar calendar = new MyCalendar(m_calendar.getWeekDay(), String.valueOf(m_calendar.getDay()), String.valueOf(m_calendar.getMonth()), String.valueOf(m_calendar.getYear()),i);
-            m_calendar.getNextWeekDay(1);
-
-            calendarList.add(calendar);
-
-        }
-        // notify adapter about data set changes
-        // so that it will render the list with new data
-
-        mAdapter.notifyDataSetChanged();
-    }
 
     private void setMin_Max(NumberPicker picker, int min, int max){
         picker.setMinValue(min);
@@ -772,17 +663,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
         calendar_tkbbk_button.setVisibility(VISIBLE);
     }
 
-    private void sendDataToSubjectInfo(Subject subject){
-        mISendDataListener.sendData(subject);
-    }
-
     public void getSubjectToList(Subject subject){
-        Log.d("test functionality",adapter.getItemCount()+"");
         subjectList.add(subject);
-        adapter.setSubjectList(subjectList);
-        Log.d("test func",subjectList.toString());
-        Log.d("test func2",adapter.getSubjectList().toString());
-        Log.d("test functionality",adapter.getItemCount()+"");
         delete_popup_bg.setVisibility(VISIBLE);
         bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
 
@@ -822,7 +704,6 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 ArrayList<TimeTable> arrayList = dataBaseHelper.getTimetableByDate(selectedDate);
                 timeTableAdapter.setArrayList(arrayList);
                 setImageView(arrayList);
-                Log.e("date", new SimpleDateFormat("dd/MM/yyyy").format(date));
             }
         });
     }
@@ -845,19 +726,54 @@ public class fragment_calendar extends Fragment implements Parcelable {
         txt_month.setText(text);
     }
 
-//
-//    public void cancelAlarm(int id)
-//    {
-//        Intent intent = new Intent(getActivity() , AlarmReceiver.class);
-//
-//        pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        if(alarmManager == null)
-//        {
-//            alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-//        }
-//
-//        alarmManager.cancel(pendingIntent);
-//        Log.e("alarm", "CANCEL ALARM SUCCESSFULLY");
-//    }
+    public void setAlarm(int id, String date, String time, String title, String message)
+    {
+        alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(getActivity() , AlarmReceiver.class);
+        intent.putExtra("titleExtra", title);
+        intent.putExtra("messageExtra", message);
+
+        pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Date selectedDate = new Date();
+        LocalTime localTime = null;
+        try {
+            selectedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int hour = 0,minute = 0;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            hour = localTime.get(ChronoField.HOUR_OF_DAY);
+            minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
+        }
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        calendar.setTime(selectedDate);
+
+        calendar.setTimeInMillis(calendar.getTimeInMillis()-hour*MILLIS_IN_AN_HOUR-minute*MILLIS_IN_AN_MINUTE);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+
+    public void cancelAlarm(int id)
+    {
+        Intent intent = new Intent(getActivity() , AlarmReceiver.class);
+
+        pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(alarmManager == null)
+        {
+            alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        }
+
+        alarmManager.cancel(pendingIntent);
+    }
 }

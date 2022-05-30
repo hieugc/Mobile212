@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
 
 public class todo_item {
     public todo_item(assignment assignments, meeting meetings){
@@ -11,13 +10,6 @@ public class todo_item {
     private meeting meetings;
     private assignment assignments;
 
-    public void setAssignments(assignment assignments) {
-        this.assignments = assignments;
-    }
-
-    public void setMeetings(meeting meetings) {
-        this.meetings = meetings;
-    }
 
     public assignment getAssignments() {
         return assignments;

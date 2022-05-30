@@ -1,14 +1,10 @@
 package Model;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,15 +45,6 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
         }
     }
 
-    private ArrayList<list_check> splitArr(ArrayList<list_check> list_checks, int id){
-        ArrayList<list_check> res = new ArrayList<>();
-        for(list_check index: list_checks){
-            if(index.getAssign() == id){
-                res.add(index);
-            }
-        }
-        return res;
-    }
 
     @Override
     public int getItemCount() {
@@ -65,22 +52,6 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
         return assignments.size();
     }
 
-    public void setAssignments(ArrayList<assignment> assignments) {
-        this.assignments = assignments;
-        notifyDataSetChanged();
-    }
-
-    public FragmentActivity getFragmentActivity() {
-        return fragmentActivity;
-    }
-
-    public void setFragmentActivity(FragmentActivity fragmentActivity) {
-        this.fragmentActivity = fragmentActivity;
-    }
-
-    public ArrayList<assignment> getAssignments() {
-        return assignments;
-    }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
         assignment assignment;

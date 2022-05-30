@@ -42,10 +42,6 @@ public class BKTimeTable {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getTime() {
         return time;
     }
@@ -56,10 +52,6 @@ public class BKTimeTable {
 
     public String getWeek() {
         return week;
-    }
-
-    public void setWeek(String week) {
-        this.week = week;
     }
 
     public int getUserID() {
@@ -80,14 +72,6 @@ public class BKTimeTable {
 
     public String getGroup() {
         return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 
     @Override

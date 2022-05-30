@@ -2,20 +2,16 @@ package com.app.timetable;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -167,12 +163,6 @@ public class LogInFragment extends Fragment {
 
                         editor.commit();
 
-//                        BKTimeTable bkTimeTable = new BKTimeTable(-1,"Đồ án đa ngành (CO3011)","L01", "H1-603","Thứ --","7:00 - 8:50", "01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|","212",user.getId());
-//                        boolean success = dataBaseHelper.addOne(bkTimeTable);
-//                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
-//                        BKTimeTable bkTimeTable1 = new BKTimeTable(-1,"Nguyên lý ngôn ngữ lập trình (CO3005)","L01","H6-109","Thứ 4","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|","212",user.getId());
-//                        success = dataBaseHelper.addOne(bkTimeTable1);
-//                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
                         bkTimeTableFragment = new BkTimeTableFragment(user.getId(), fragmentCalendar);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, bkTimeTableFragment).commit();
                     }

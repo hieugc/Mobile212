@@ -11,13 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +29,6 @@ import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 public class BkTimeTableSelectionFragment extends Fragment {
@@ -163,7 +160,6 @@ public class BkTimeTableSelectionFragment extends Fragment {
                                             calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
                                             calendarForSunday.set(Calendar.DAY_OF_WEEK, x);
                                             theDate = format.format(calendarForSunday.getTime());
-                                            Log.e("date", format.format(calendarForSunday.getTime()));
                                             dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
                                             int id = dataBaseHelper.getNewlyInsertedTimeTable();
                                             String timetableStart = theDate+" "+startTime;
@@ -171,7 +167,6 @@ public class BkTimeTableSelectionFragment extends Fragment {
                                             continue;
                                         }
                                         calendar.set(Calendar.DAY_OF_WEEK, x);
-                                        Log.e("date", format.format(calendar.getTime()));
                                         theDate = format.format(calendar.getTime());
                                         dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
                                         int id = dataBaseHelper.getNewlyInsertedTimeTable();
@@ -182,7 +177,6 @@ public class BkTimeTableSelectionFragment extends Fragment {
                                     if (date == Calendar.SUNDAY) {
                                         calendarForSunday.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(s) + 2);
                                         calendarForSunday.set(Calendar.DAY_OF_WEEK, date);
-                                        Log.e("date", format.format(calendarForSunday.getTime()));
                                         theDate = format.format(calendarForSunday.getTime());
                                         dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
                                         int id = dataBaseHelper.getNewlyInsertedTimeTable();
@@ -190,7 +184,6 @@ public class BkTimeTableSelectionFragment extends Fragment {
                                         setAlarm(id, timetableStart, "00:05", "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+name+". Hãy nhanh chóng chuẩn bị nào");
                                     } else {
                                         calendar.set(Calendar.DAY_OF_WEEK, date);
-                                        Log.e("date", format.format(calendar.getTime()));
                                         theDate = format.format(calendar.getTime());
                                         dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
                                         int id = dataBaseHelper.getNewlyInsertedTimeTable();
@@ -298,19 +291,8 @@ public class BkTimeTableSelectionFragment extends Fragment {
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(selectedDate);
-        Log.e("day", ""+calendar.get(Calendar.DAY_OF_MONTH));
-        Log.e("month", ""+(calendar.get(Calendar.MONTH) + 1));
-        Log.e("day", ""+calendar.get(Calendar.YEAR));
-        Log.e("hour", ""+calendar.get(Calendar.HOUR_OF_DAY));
-        Log.e("minute", ""+calendar.get(Calendar.MINUTE));
-        Log.e("notification_hour", ""+hour);
-        Log.e("notification_minute", ""+minute);
         calendar.setTimeInMillis(calendar.getTimeInMillis()-hour*MILLIS_IN_AN_HOUR-minute*MILLIS_IN_AN_MINUTE);
-        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendar.getTime()));
-        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date(calendar.getTimeInMillis())));
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-        Log.e("alarm","SET ALARM SUCCESSFULLY");
     }
 }
