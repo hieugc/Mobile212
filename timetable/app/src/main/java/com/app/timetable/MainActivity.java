@@ -3,6 +3,11 @@ package com.app.timetable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -21,7 +26,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import Model.assignment;
 import Model.list_check;
@@ -60,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
 //        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
 //        getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_main);
+        createNotificationChannel();
 
         dataBaseHelper = new DataBaseHelper(this.getBaseContext());
         sharedPreferences = getSharedPreferences("user_settings", MODE_PRIVATE);
@@ -172,4 +186,35 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
     public void AddSubject(Subject subject) {
         calendarView.getSubjectToList(subject);
     }
+
+
+    public void createNotificationChannel()
+    {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            String channel_name = "ChannelTimeTable";
+            String description = "Channel thông báo cho timetable";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("TimeTable", channel_name, importance);
+            channel.setDescription(description);
+
+            String channel_name_2 = "ChannelMeeting";
+            String description_2 = "Channel thông báo cho meeting";
+            int importance_2 = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel_2 = new NotificationChannel("Meeting", channel_name_2, importance_2);
+            channel_2.setDescription(description_2);
+
+            String channel_name_3 = "ChannelAssignment";
+            String description_3 = "Channel thông báo cho assignment";
+            int importance_3 = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel_3 = new NotificationChannel("Assignment", channel_name_3, importance_3);
+            channel_3.setDescription(description_3);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+            notificationManager.createNotificationChannel(channel_2);
+            notificationManager.createNotificationChannel(channel_3);
+        }
+    }
+
 }

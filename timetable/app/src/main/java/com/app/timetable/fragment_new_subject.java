@@ -2,8 +2,11 @@ package com.app.timetable;
 
 import static com.app.timetable.DataBaseHelper.*;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -39,6 +42,9 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,6 +53,8 @@ import java.util.TimeZone;
 public class fragment_new_subject extends Fragment {
 
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+    private static final long MILLIS_IN_AN_HOUR = 1000 * 60 * 60;
+    private static final long MILLIS_IN_AN_MINUTE = 1000 * 60;
     private String className,classRoom,classGroup, note;
     private String startDate = "",endDate = "",startHour = "",endHour = "";
     private boolean[] studyDay = {false,false,false,false,false,false,false};
@@ -55,6 +63,8 @@ public class fragment_new_subject extends Fragment {
     private int lastSelectedMonth;
     private int lastSelectedDayOfMonth;
 
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
     private Button add_info_lecturer_buttn,done_info_lecturer_bttn,done_add_time_study_bttn;
     private TextView day_start,day_end;
     private TextView day_t2,day_t3,day_t4,day_t5,day_t6,day_t7,day_cn;
@@ -321,8 +331,14 @@ public class fragment_new_subject extends Fragment {
                                     }
                                     if(studyDay[dayOfWeek-2])
                                     {
-                                        TimeTable timeTable = new TimeTable(-1, subject.getClassName(), subject.getClassGroup(), subject.getClassRoom(), date, subject.getStartHour(), subject.getEndHour(), subject.getLecturerName(), subject.getLecturerNumber(), subject.getLecturerMail(), true, "0:05", 1, timeTable_id);
+                                        TimeTable timeTable = new TimeTable(-1, subject.getClassName(), subject.getClassGroup(), subject.getClassRoom(), date, subject.getStartHour(), subject.getEndHour(), subject.getLecturerName(), subject.getLecturerNumber(), subject.getLecturerMail(), true, "00:05", 1, timeTable_id);
                                         dataBaseHelper.addOne(timeTable);
+                                        int id = dataBaseHelper.getNewlyInsertedTimeTable();
+                                        String startTime = subject.getStartHour();
+                                        if (startTime.length() == 3)
+                                            startTime = "0"+startTime;
+                                        String timetableStart = date+" "+startTime;
+                                        setAlarm(id, timetableStart, "00:05", "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+subject.getClassName()+". Hãy nhanh chóng chuẩn bị nào");
                                     }
                                 }
 
@@ -494,9 +510,14 @@ public class fragment_new_subject extends Fragment {
                         }
                         if(studyDay[dayOfWeek-2])
                         {
-                            TimeTable timeTable = new TimeTable(-1, className, classGroup, classRoom, date, startHour, endHour, lecturerName, lecturerNumber, lecturerMail, true, "0:05", 1, subject_id);
+                            TimeTable timeTable = new TimeTable(-1, className, classGroup, classRoom, date, startHour, endHour, lecturerName, lecturerNumber, lecturerMail, true, "00:05", 1, subject_id);
                             success = dataBaseHelper.addOne(timeTable);
-                            Log.e("timetable", ""+success);
+                            int id = dataBaseHelper.getNewlyInsertedTimeTable();
+                            String startTime = subject.getStartHour();
+                            if (startTime.length() == 3)
+                                startTime = "0"+startTime;
+                            String timetableStart = date+" "+startTime;
+                            setAlarm(id, timetableStart, "00:05", "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+subject.getClassName()+". Hãy nhanh chóng chuẩn bị nào");
                         }
                     }
                 } catch (ParseException e) {
@@ -827,5 +848,52 @@ public class fragment_new_subject extends Fragment {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+
+    public void setAlarm(int id, String date, String time, String title, String message)
+    {
+        alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(getActivity() , AlarmReceiver.class);
+        intent.putExtra("titleExtra", title);
+        intent.putExtra("messageExtra", message);
+
+        pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Date selectedDate = new Date();
+        LocalTime localTime = null;
+        try {
+            selectedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int hour = 0,minute = 0;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            hour = localTime.get(ChronoField.HOUR_OF_DAY);
+            minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
+        }
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        calendar.setTime(selectedDate);
+        Log.e("day", ""+calendar.get(Calendar.DAY_OF_MONTH));
+        Log.e("month", ""+(calendar.get(Calendar.MONTH) + 1));
+        Log.e("day", ""+calendar.get(Calendar.YEAR));
+        Log.e("hour", ""+calendar.get(Calendar.HOUR_OF_DAY));
+        Log.e("minute", ""+calendar.get(Calendar.MINUTE));
+        Log.e("notification_hour", ""+hour);
+        Log.e("notification_minute", ""+minute);
+        calendar.setTimeInMillis(calendar.getTimeInMillis()-hour*MILLIS_IN_AN_HOUR-minute*MILLIS_IN_AN_MINUTE);
+        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendar.getTime()));
+        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date(calendar.getTimeInMillis())));
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+        Log.e("alarm","SET ALARM SUCCESSFULLY");
     }
 }

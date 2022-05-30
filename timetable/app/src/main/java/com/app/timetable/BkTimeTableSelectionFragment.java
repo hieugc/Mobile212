@@ -1,6 +1,10 @@
 package com.app.timetable;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,14 +23,21 @@ import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
 public class BkTimeTableSelectionFragment extends Fragment {
 
+    private static final long MILLIS_IN_AN_HOUR = 1000 * 60 * 60;
+    private static final long MILLIS_IN_AN_MINUTE = 1000 * 60;
     private RecyclerView timetableView;
     private TextView cancel_txt,selection_txt,add_txt;
     private int userId;
@@ -34,7 +45,8 @@ public class BkTimeTableSelectionFragment extends Fragment {
     private CheckBox btn_select_all;
     private DataBaseHelper dataBaseHelper;
     private fragment_calendar fragmentCalendar;
-
+    private PendingIntent pendingIntent;
+    private AlarmManager alarmManager;
     private ArrayList<String> arrayList = new ArrayList();
 
     public BkTimeTableSelectionFragment(String name, int userId) {
@@ -101,11 +113,11 @@ public class BkTimeTableSelectionFragment extends Fragment {
                             String location = bkTimeTables.get(j).getLocation();
                             String[] result = time.split(" - ");
                             String startTime = result[0];
-                            String endTime = result[1];
                             if(startTime.length() == 3)
                             {
                                 startTime = "0"+startTime;
                             }
+                            String endTime = result[1];
                             if(endTime.length() == 3)
                             {
                                 endTime = "0"+endTime;
@@ -153,12 +165,18 @@ public class BkTimeTableSelectionFragment extends Fragment {
                                             theDate = format.format(calendarForSunday.getTime());
                                             Log.e("date", format.format(calendarForSunday.getTime()));
                                             dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                            int id = dataBaseHelper.getNewlyInsertedTimeTable();
+                                            String timetableStart = theDate+" "+startTime;
+                                            setAlarm(id, timetableStart, "00:05", "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+name+". Hãy nhanh chóng chuẩn bị nào");
                                             continue;
                                         }
                                         calendar.set(Calendar.DAY_OF_WEEK, x);
                                         Log.e("date", format.format(calendar.getTime()));
                                         theDate = format.format(calendar.getTime());
                                         dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                        int id = dataBaseHelper.getNewlyInsertedTimeTable();
+                                        String timetableStart = theDate+" "+startTime;
+                                        setAlarm(id, timetableStart, "00:05", "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+name+". Hãy nhanh chóng chuẩn bị nào");
                                     }
                                 } else if (date != 0) {
                                     if (date == Calendar.SUNDAY) {
@@ -167,11 +185,17 @@ public class BkTimeTableSelectionFragment extends Fragment {
                                         Log.e("date", format.format(calendarForSunday.getTime()));
                                         theDate = format.format(calendarForSunday.getTime());
                                         dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                        int id = dataBaseHelper.getNewlyInsertedTimeTable();
+                                        String timetableStart = theDate+" "+startTime;
+                                        setAlarm(id, timetableStart, "00:05", "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+name+". Hãy nhanh chóng chuẩn bị nào");
                                     } else {
                                         calendar.set(Calendar.DAY_OF_WEEK, date);
                                         Log.e("date", format.format(calendar.getTime()));
                                         theDate = format.format(calendar.getTime());
                                         dataBaseHelper.addOne(new TimeTable(-1, name, group, location, theDate, startTime, endTime, 2, timetable_id));
+                                        int id = dataBaseHelper.getNewlyInsertedTimeTable();
+                                        String timetableStart = theDate+" "+startTime;
+                                        setAlarm(id, timetableStart, "00:05", "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+name+". Hãy nhanh chóng chuẩn bị nào");
                                     }
                                 }
                             }
@@ -242,5 +266,51 @@ public class BkTimeTableSelectionFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void setAlarm(int id, String date, String time, String title, String message)
+    {
+        alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(getActivity() , AlarmReceiver.class);
+        intent.putExtra("titleExtra", title);
+        intent.putExtra("messageExtra", message);
+
+        pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Date selectedDate = new Date();
+        LocalTime localTime = null;
+        try {
+            selectedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int hour = 0,minute = 0;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            hour = localTime.get(ChronoField.HOUR_OF_DAY);
+            minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
+        }
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        calendar.setTime(selectedDate);
+        Log.e("day", ""+calendar.get(Calendar.DAY_OF_MONTH));
+        Log.e("month", ""+(calendar.get(Calendar.MONTH) + 1));
+        Log.e("day", ""+calendar.get(Calendar.YEAR));
+        Log.e("hour", ""+calendar.get(Calendar.HOUR_OF_DAY));
+        Log.e("minute", ""+calendar.get(Calendar.MINUTE));
+        Log.e("notification_hour", ""+hour);
+        Log.e("notification_minute", ""+minute);
+        calendar.setTimeInMillis(calendar.getTimeInMillis()-hour*MILLIS_IN_AN_HOUR-minute*MILLIS_IN_AN_MINUTE);
+        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendar.getTime()));
+        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date(calendar.getTimeInMillis())));
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+        Log.e("alarm","SET ALARM SUCCESSFULLY");
     }
 }

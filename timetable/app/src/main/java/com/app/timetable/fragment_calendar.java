@@ -5,7 +5,10 @@ import static android.view.View.VISIBLE;
 
 import static com.app.timetable.DataBaseHelper.*;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -456,6 +459,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
             @Override
             public void onDelete(TimeTable timeTable, RecyclerView.ViewHolder holder)
             {
+                if(viewHolder != null) viewHolder.itemView.scrollTo(0, 0);
                 Log.e("delete", "click");
                 viewHolder = holder;
                 delete_popup_timetable = timeTable;
@@ -841,4 +845,19 @@ public class fragment_calendar extends Fragment implements Parcelable {
         txt_month.setText(text);
     }
 
+//
+//    public void cancelAlarm(int id)
+//    {
+//        Intent intent = new Intent(getActivity() , AlarmReceiver.class);
+//
+//        pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        if(alarmManager == null)
+//        {
+//            alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+//        }
+//
+//        alarmManager.cancel(pendingIntent);
+//        Log.e("alarm", "CANCEL ALARM SUCCESSFULLY");
+//    }
 }

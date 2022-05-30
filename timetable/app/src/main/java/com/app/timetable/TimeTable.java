@@ -45,7 +45,7 @@ public class TimeTable {
         this.TA_number = "";
         this.TA_email = "";
         this.notification = true;
-        this.notification_time = "0:05";
+        this.notification_time = "00:05";
         this.type = type;
         this.timetable_id = timetable_id;
     }

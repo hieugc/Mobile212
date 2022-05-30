@@ -233,6 +233,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+    public int getNewlyInsertedTimeTable()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT * FROM "+TABLE_TIMETABLE+" ORDER BY ID DESC LIMIT 1";
+        Cursor cursor = db.rawQuery(sql, null);
+        if(cursor.moveToFirst())
+        {
+            return cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return 0;
+    }
+
     public boolean addOne(Subject subject)
     {
         SQLiteDatabase db = this.getWritableDatabase();
