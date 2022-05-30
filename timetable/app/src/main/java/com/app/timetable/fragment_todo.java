@@ -4,14 +4,14 @@ import static android.view.View.VISIBLE;
 
 
 import android.annotation.SuppressLint;
-import android.companion.WifiDeviceFilter;
-import android.graphics.Color;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,20 +28,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import Model.ItemClickListener;
 import Model.assignment;
 import Model.list_check;
 import Model.meeting;
-import Model.todo_assignment_RecViewAdapter;
 import Model.todo_item;
 import Model.todo_item_RecViewAdapter;
 
 @SuppressLint("ParcelCreator")
 public class fragment_todo extends Fragment implements ItemClickListener, Parcelable {
+
+
+    private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+    private static final long MILLIS_IN_AN_HOUR = 1000 * 60 * 60;
+    private static final long MILLIS_IN_AN_MINUTE = 1000 * 60;
+
+    private MeetingAlarmReceiver meetingAlarmReceiver;
+    private AssignmentAlarmReceiver assignmentAlarmReceiver;
+    private PendingIntent pendingIntent;
+    private AlarmManager alarmManager;
+
+
     public fragment_todo(){
     }
     private fragment_todo_meeting_form todo_meeting_form;
@@ -164,6 +181,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                         false
                 );
                 m.setId(this.dataBaseHelper.addOne(m));
+                setAlarm(m.getId(), m.getTime(), m.getAlert(), "Thông báo cuộc họp", "Cuộc họp " + m.getTitle() + " sẽ diễn ra", 0);
                 this.meetings.add(m);
             }
             else if(func == "remove_meeting"){
@@ -171,6 +189,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 for (int i = 0; i < meetings.size(); i ++){
                     if (meetings.get(i).getId() == Integer.parseInt(id)){
                         this.dataBaseHelper.deleteOne(this.meetings.get(i));
+                        //ch xoa notify
                         this.meetings.remove(i);
                         break;
                     }
@@ -194,6 +213,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                         m.setTitle(title);
                         m.setTime(time);
                         this.dataBaseHelper.updateOne(m);
+                        setAlarm(m.getId(), m.getTime(), m.getAlert(), "Thông báo cuộc họp", "Cuộc họp " + m.getTitle() + " sẽ diễn ra", 0);
                         break;
                     }
                 }
@@ -226,6 +246,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 for (list_check a: l){
                     Log.e("check_show", String.valueOf(a.getLink()));
                 }
+                setAlarm(new_ass.getId(), "00:00 " + new_ass.getTimeEnd(), "02:00", "Thông báo Công việc", "Bài tập " + new_ass.getTitle() + " sẽ kết thúc sau 2 giờ nữa", 1);
                 assignments.add(new_ass);
             }
             else if(func.trim().equals("edit_assignment")){
@@ -275,6 +296,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                         assignments.get(idx).setTime(time_end);
                         Log.e("time", time_start + " " + time_end + " " + assignments.get(idx).getTime());
                         dataBaseHelper.updateOne(assignments.get(idx));
+                        setAlarm(assignments.get(idx).getId(), "00:00 " + assignments.get(idx).getTimeEnd(), "02:00", "Thông báo Công việc", "Bài tập " + assignments.get(idx).getTitle() + " sẽ kết thúc sau 2 giờ nữa", 1);
                         break;
                     }
                 }
@@ -614,4 +636,58 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
     public void writeToParcel(Parcel parcel, int i) {
 
     }
+
+    public void setAlarm(int id, String date, String time, String title, String message, int type)
+    {
+        alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent;
+        if (type == 0){
+            intent = new Intent(getActivity() , MeetingAlarmReceiver.class);
+        }
+        else{
+            intent = new Intent(getActivity() , AssignmentAlarmReceiver.class);
+        }
+        intent.putExtra("titleExtra", title);
+        intent.putExtra("messageExtra", message);
+
+        pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Date selectedDate = new Date();
+        LocalTime localTime = null;
+        try {
+            selectedDate = new SimpleDateFormat("HH:mm dd/MM/yyyy").parse(date);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int hour = 0,minute = 0;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            hour = localTime.get(ChronoField.HOUR_OF_DAY);
+            minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
+        }
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        calendar.setTime(selectedDate);
+        Log.e("day", ""+calendar.get(Calendar.DAY_OF_MONTH));
+        Log.e("month", ""+(calendar.get(Calendar.MONTH) + 1));
+        Log.e("day", ""+calendar.get(Calendar.YEAR));
+        Log.e("hour", ""+calendar.get(Calendar.HOUR_OF_DAY));
+        Log.e("minute", ""+calendar.get(Calendar.MINUTE));
+        Log.e("notification_hour", ""+hour);
+        Log.e("notification_minute", ""+minute);
+
+        calendar.setTimeInMillis(calendar.getTimeInMillis()-hour * MILLIS_IN_AN_HOUR - minute * MILLIS_IN_AN_MINUTE);
+        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendar.getTime()));
+        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date(calendar.getTimeInMillis())));
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+        Log.e("alarm","SET ALARM SUCCESSFULLY");
+    }
+
 }

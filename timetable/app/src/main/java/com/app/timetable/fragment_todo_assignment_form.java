@@ -1,6 +1,9 @@
 package com.app.timetable;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -30,6 +33,9 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -839,9 +845,6 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
     @Override
     public void openNoteView(list_check listCheck) {
-
-    }
-    private void resetForm(){
 
     }
 }
