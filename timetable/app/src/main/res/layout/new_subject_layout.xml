@@ -211,7 +211,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@id/subject_day_begin"
                         android:src="@drawable/ic_calendar" />
                 </RelativeLayout>
@@ -220,7 +220,7 @@
                     android:id="@+id/subject_day_end_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="5dp"
                     android:background="@drawable/calendar_shape_background"
                     android:padding="5dp">
 
@@ -238,7 +238,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/subject_day_end"
                         android:src="@drawable/ic_calendar" />
                 </RelativeLayout>
