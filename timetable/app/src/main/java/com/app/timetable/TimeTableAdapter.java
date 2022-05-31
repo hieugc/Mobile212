@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,7 +34,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
 
 
     public interface onItemClick{
-        public void onClick(TimeTable timeTable);
+        public void onClick(TimeTable timeTable, ViewHolder holder);
         public void onDelete(TimeTable timeTable, RecyclerView.ViewHolder viewHolder);
     }
 
@@ -56,6 +57,15 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if(arrayList.get(position).getNotification())
+        {
+            holder.imageView.setImageDrawable(context.getDrawable(R.drawable.ic_bell_1));
+        }
+        else
+        {
+            holder.imageView.setImageDrawable(context.getDrawable(R.drawable.ic_bell_2));
+        }
+
         holder.startTime_txt.setText(arrayList.get(position).getStart_time());
         holder.endTime_txt.setText(arrayList.get(position).getEnd_time());
         if (arrayList.get(position).getName().length() > 30){
@@ -93,7 +103,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
             @Override
             public void onClick(View view) {
                 if(itemClick != null)
-                    itemClick.onClick(arrayList.get(position));
+                    itemClick.onClick(arrayList.get(position), holder);
             }
         });
 
@@ -120,6 +130,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
         private TextView startTime_txt, endTime_txt, name_txt, location_txt;
         private RelativeLayout bellLayout, itemLayout,delete_btn;
         private ConstraintLayout timetableLayout, cardView;
+        private ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -132,7 +143,13 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.View
             itemLayout = itemView.findViewById(R.id.itemLayout);
             cardView = itemView.findViewById(R.id.subject_layout);
             timetableLayout = itemView.findViewById(R.id.timetableLayout);
+            imageView = itemView.findViewById(R.id.imageView);
             delete_btn = itemView.findViewById(R.id.delete_timetable);
         }
+
+        public ImageView getImageView() {
+            return imageView;
+        }
+
     }
 }

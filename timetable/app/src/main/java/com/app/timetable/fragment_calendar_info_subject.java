@@ -33,6 +33,7 @@ public class fragment_calendar_info_subject extends Fragment {
     private TimeTable timeTable;
     private fragment_calendar fragmentCalendar;
     private DataBaseHelper dataBaseHelper;
+    private int type;
 
     private BottomNavigationView bottomNavigationView;
     public void setBottomNavigationView(BottomNavigationView bottomNavigationView) {
@@ -133,6 +134,7 @@ public class fragment_calendar_info_subject extends Fragment {
         txtView_group_subject_id.setText("Nhóm - Tổ: " +timeTable.getGroup());
         txtView_info_study_room.setText("Phòng học: " +timeTable.getLocation());
         txtView_info_study_time.setText("Giờ học: " + timeTable.getStart_time() + " - " + timeTable.getEnd_time());
+        type = timeTable.getType();
         String TA_name, TA_number, TA_email;
         if(timeTable.getTA_name().equals(""))
         {
@@ -202,7 +204,6 @@ public class fragment_calendar_info_subject extends Fragment {
         bundle.putString("TA_name", this.timeTable.getTA_name());
         bundle.putString("TA_number", this.timeTable.getTA_number());
         bundle.putString("TA_email", this.timeTable.getTA_email());
-        checkLog(this.timeTable.getTA_name(), this.timeTable.getTA_number(), this.timeTable.getTA_email());
         bundle.putBoolean("notification", this.timeTable.getNotification());
         bundle.putString("notification_time", this.timeTable.getNotification_time());
         bundle.putInt("type", this.timeTable.getType());
@@ -230,12 +231,13 @@ public class fragment_calendar_info_subject extends Fragment {
         }
         else{
             dialog_contain.setVisibility(View.VISIBLE);
+            if(type == 2)
+            {
+                dialog_info_btn_2.setVisibility(View.GONE);
+            }
+            else
+                dialog_info_btn_2.setVisibility(View.VISIBLE);
             bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
         }
     }
-
-    private void checkLog(String s1, String s2, String s3){
-        Log.e("TA", "name = " + s1 + "\nnum = " + s2 + "\nmail = " + s3);
-    }
-
 }

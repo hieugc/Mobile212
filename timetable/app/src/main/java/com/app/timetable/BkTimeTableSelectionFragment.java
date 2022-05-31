@@ -273,22 +273,15 @@ public class BkTimeTableSelectionFragment extends Fragment {
         pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         Date selectedDate = new Date();
-        LocalTime localTime = null;
         try {
             selectedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
-            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        int hour = 0,minute = 0;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            hour = localTime.get(ChronoField.HOUR_OF_DAY);
-            minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
-        }
+        int hour,minute;
+        hour = Integer.parseInt(time.split(":")[0]);
+        minute = Integer.parseInt(time.split(":")[1]);
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(selectedDate);

@@ -59,7 +59,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
         selectedDate = MaterialDatePicker.todayInUtcMilliseconds();
         dateAdapter = new DateAdapter();
         ArrayList<Date> dates = new ArrayList<>();
-        Date date = new Date();
+        Date date = new Date(MaterialDatePicker.todayInUtcMilliseconds());
         Date yesterday = new Date(date.getTime() - MILLIS_IN_A_DAY);
         Date thePreviousDay = new Date(date.getTime() - 2*MILLIS_IN_A_DAY);
         Date tomorrow = new Date(date.getTime() + MILLIS_IN_A_DAY);
@@ -104,6 +104,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
     boolean tmpStudyDay[] = {false,false,false,false,false,false,false};
     private ArrayList<Subject> subjectList;
     private RecyclerView.ViewHolder viewHolder;
+    private TimeTableAdapter.ViewHolder holder;
 
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
@@ -324,8 +325,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
         calendarRecyclerView = calendarView.findViewById(R.id.calendar_recyclerview);
         calendarRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new CenterZoomLayoutManager(calendarView.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        calendarRecyclerView.setLayoutManager(mLayoutManager);
+        calendarRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(calendarRecyclerView);
@@ -382,7 +382,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
         timeTableAdapter = new TimeTableAdapter(getActivity(), calendarView.getContext(), this, new TimeTableAdapter.onItemClick() {
             @Override
-            public void onClick(TimeTable timeTable) {
+            public void onClick(TimeTable timeTable, TimeTableAdapter.ViewHolder viewHolder) {
+                holder = viewHolder;
                 notification_popup_timetable = timeTable;
                 notification_switch.setChecked(timeTable.getNotification());
                 String[] notification_time = timeTable.getNotification_time().split(":");
@@ -477,11 +478,16 @@ public class fragment_calendar extends Fragment implements Parcelable {
                 cancelAlarm(notification_popup_timetable.getId());
                 if(notification_switch.isChecked())
                 {
+                    holder.getImageView().setImageDrawable(context.getDrawable(R.drawable.ic_bell_1));
                     String startTime = notification_popup_timetable.getStart_time();
                     if(startTime.length() == 3)
                         startTime = "0"+startTime;
                     String date = notification_popup_timetable.getDate()+" "+startTime;
                     setAlarm(notification_popup_timetable.getId(), date, notification_time, "Thông báo lịch học" ,"Đã tới giờ cho lịch học môn "+notification_popup_timetable.getName()+". Hãy nhanh chóng chuẩn bị nào");
+                }
+                else
+                {
+                    holder.getImageView().setImageDrawable(context.getDrawable(R.drawable.ic_bell_2));
                 }
                 if(notification_switch_all.isChecked())
                 {
@@ -737,22 +743,15 @@ public class fragment_calendar extends Fragment implements Parcelable {
         pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         Date selectedDate = new Date();
-        LocalTime localTime = null;
         try {
             selectedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
-            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        int hour = 0,minute = 0;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            hour = localTime.get(ChronoField.HOUR_OF_DAY);
-            minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
-        }
+        int hour,minute;
+        hour = Integer.parseInt(time.split(":")[0]);
+        minute = Integer.parseInt(time.split(":")[1]);
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(selectedDate);
