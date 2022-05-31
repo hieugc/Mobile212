@@ -7,12 +7,15 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 public class AlarmReceiver extends BroadcastReceiver {
+    private SharedPreferences sharedPreferences;
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -20,6 +23,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 //        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i , PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
+        sharedPreferences = context.getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+        boolean notification = sharedPreferences.getBoolean("notification_bar", true);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "TimeTable")
                 .setSmallIcon(R.drawable.ic_launcher_background)
@@ -30,11 +35,11 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 //                .setContentIntent(pendingIntent);
 
+        if(!notification)
+            return;
+
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(123, builder.build());
     }
-
-
-
 
 }

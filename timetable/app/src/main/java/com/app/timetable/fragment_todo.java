@@ -641,6 +641,11 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         }
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(selectedDate);
+
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        if(c.getTimeInMillis() > calendar.getTimeInMillis())
+            return;
+
         calendar.setTimeInMillis(calendar.getTimeInMillis()-hour * MILLIS_IN_AN_HOUR - minute * MILLIS_IN_AN_MINUTE);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
