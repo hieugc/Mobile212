@@ -202,15 +202,15 @@
                         android:id="@+id/subject_day_begin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
                         android:text="Ngày đầu"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|center"
                         android:layout_marginStart="8dp"
                         android:layout_toEndOf="@id/subject_day_begin"
                         android:src="@drawable/ic_calendar" />
@@ -228,10 +228,11 @@
                         android:id="@+id/subject_day_end"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
                         android:text="Ngày cuối"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -387,12 +388,11 @@
 
                 <TextView
                     android:id="@+id/study_time_start"
-                    android:layout_width="100dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="22dp"
                     android:background="@drawable/calendar_shape_background"
                     android:gravity="center"
-                    android:paddingHorizontal="15dp"
                     android:paddingVertical="5dp"
                     android:textSize="13sp"
                     android:text="Bắt đầu"
@@ -408,12 +408,11 @@
 
                 <TextView
                     android:id="@+id/study_time_end"
-                    android:layout_width="100dp"
+                    android:layout_width="85dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/calendar_shape_background"
                     android:gravity="center"
-                    android:paddingHorizontal="15dp"
                     android:paddingVertical="5dp"
                     android:textSize="13sp"
                     android:text="Kết thúc"

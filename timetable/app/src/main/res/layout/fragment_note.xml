@@ -89,10 +89,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bạn chưa có ghi chú nào cả"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textColor="@color/nav_primary"
             android:textStyle="bold"
-            android:visibility="gone"
+            android:visibility="visible"
             />
     </RelativeLayout>
 
