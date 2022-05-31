@@ -138,7 +138,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + COLUMN_LOCATION + " STRING, "
                 + COLUMN_LINK + " STRING, "
                 + COLUMN_ALERT + " STRING,"
-                + COLUMN_CHECKED + " BOOL )";
+                + COLUMN_CHECKED + " STRING )";
         db.execSQL(sql);
 
         sql = "CREATE TABLE " + TABLE_ASSIGN
@@ -146,7 +146,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + COLUMN_TITLE + " STRING, "
                 + COLUMN_TIME_START + " STRING,"
                 + COLUMN_TIME_END + " STRING,"
-                + COLUMN_CHECKED + " BOOL)";
+                + COLUMN_CHECKED + " STRING)";
 
         db.execSQL(sql);
 
@@ -155,7 +155,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + COLUMN_CONTENT + " STRING, "
                 + COLUMN_LINK_NOTE + " INTEGER,"
                 + COLUMN_LINK_ASSIGN + " INTEGER,"
-                + COLUMN_CHECKED + " BOOL, FOREIGN KEY("+COLUMN_LINK_NOTE+") REFERENCES "+TABLE_NOTE+"("+COLUMN_ID+") )";
+                + COLUMN_CHECKED + " STRING, FOREIGN KEY("+COLUMN_LINK_NOTE+") REFERENCES "+TABLE_NOTE+"("+COLUMN_ID+") )";
         db.execSQL(sql);
     }
 
@@ -437,7 +437,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         String sql ="INSERT INTO "+TABLE_MEET
                 +   " ("+ COLUMN_TITLE + ", " + COLUMN_TIME + ", " + COLUMN_LOCATION + ", " + COLUMN_LINK + ", " + COLUMN_ALERT + ", " + COLUMN_CHECKED + ")"
-                +   " VALUES (\"" + meet.getTitle() +"\", \"" + meet.getTime() + "\", \"" + meet.getLocation() + "\", \"" + meet.getLink() + "\", \"" + meet.getAlert() + "\", " + meet.getDone() + ");";
+                +   " VALUES (\"" + meet.getTitle() +"\", \"" + meet.getTime() + "\", \"" + meet.getLocation() + "\", \"" + meet.getLink() + "\", \"" + meet.getAlert() + "\", \"" + meet.getDone() + "\");";
         db.execSQL(sql);
 
         return getID(TABLE_MEET);
@@ -472,7 +472,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String link = cursor.getString(4);
                 String alert = cursor.getString(5);
                 boolean done = true;
-                if (cursor.getInt(6) == 0){
+                if (cursor.getString(6).equals("false")){
                     done = false;
                 }
 
@@ -504,7 +504,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                             + COLUMN_LINK + " = \"" + meeting.getLink() + "\", "
                             + COLUMN_LOCATION + " = \"" + meeting.getLocation() + "\", "
                             + COLUMN_ALERT + " = \"" + meeting.getAlert() + "\", "
-                            + COLUMN_CHECKED + " = " + meeting.getDone()
+                            + COLUMN_CHECKED + " = \"" + meeting.getDone() + "\""
                     + " WHERE " + COLUMN_ID + " = " + meeting.getId() + ";";
 
         db.execSQL(sql);
@@ -519,12 +519,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (listCheck.getLink() != -1){
             sql ="INSERT INTO "+TABLE_CHECKLIST
                     +   " (\""+ COLUMN_CONTENT + "\"," + COLUMN_LINK_NOTE + ", " + COLUMN_LINK_ASSIGN + ", " + COLUMN_CHECKED + ")"
-                    +   " VALUES (\"" + listCheck.getContent() +"\", " + listCheck.getLink() + ", " + listCheck.getAssign() + ", " + listCheck.getDone() +  ")";
+                    +   " VALUES (\"" + listCheck.getContent() +"\", " + listCheck.getLink() + ", " + listCheck.getAssign() + ", \"" + listCheck.getDone() +  "\")";
         }
         else{
             sql ="INSERT INTO "+TABLE_CHECKLIST
                     +   " (\""+ COLUMN_CONTENT + "\"," + COLUMN_LINK_NOTE + ", " + COLUMN_LINK_ASSIGN + ", " + COLUMN_CHECKED + ")"
-                    +   " VALUES (\"" + listCheck.getContent() +"\", NULL, " + listCheck.getAssign() + ", " + listCheck.getDone() +  ")";
+                    +   " VALUES (\"" + listCheck.getContent() +"\", NULL, " + listCheck.getAssign() + ", \"" + listCheck.getDone() +  "\")";
 
         }
 
@@ -566,7 +566,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 }
                 int assign = cursor.getInt(3);
                 boolean done;
-                if (cursor.getInt(4) == 0){
+                if (cursor.getString(4).equals("false")){
                     done = false;
                 }
                 else{
@@ -601,7 +601,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + " SET " + COLUMN_CONTENT + " = \"" + listCheck.getContent() + "\", "
                         + COLUMN_LINK_NOTE + " = " + listCheck.getLink() + ", "
                         + COLUMN_LINK_ASSIGN + " = " + listCheck.getAssign() + ", "
-                        + COLUMN_CHECKED + " = " + listCheck.getDone()
+                        + COLUMN_CHECKED + " = \"" + listCheck.getDone() + "\""
                 + " WHERE " + COLUMN_ID + " = " + listCheck.getId();
         db.execSQL(sql);
         return true;
@@ -614,7 +614,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         String sql ="INSERT INTO "+TABLE_ASSIGN
                 +   " ("+ COLUMN_TITLE + ", " + COLUMN_TIME_START + ", " + COLUMN_TIME_END + ", " + COLUMN_CHECKED + ")"
-                +   " VALUES (\"" + assignment.getTitle() +"\", \"" + assignment.getTimeStart() + "\", \"" + assignment.getTimeEnd() + "\", " + assignment.getDone() +  ")";
+                +   " VALUES (\"" + assignment.getTitle() +"\", \"" + assignment.getTimeStart() + "\", \"" + assignment.getTimeEnd() + "\", \"" + assignment.getDone() +  "\")";
 
         db.execSQL(sql);
         return getID(TABLE_ASSIGN);
@@ -637,7 +637,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String time_s = cursor.getString(2);
                 String time_e = cursor.getString(3);
                 boolean done = true;
-                if (cursor.getInt(4) == 0){
+                if (cursor.getString(4).equals("false")){
                     done = false;
                 }
                 ArrayList<list_check> list_checks = getAllListCheck(id_res);
