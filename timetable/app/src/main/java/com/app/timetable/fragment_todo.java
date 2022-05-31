@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -275,6 +276,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                         assignments.get(idx).setTimeEnd(time_end);
                         assignments.get(idx).setTime(time_end);
                         dataBaseHelper.updateOne(assignments.get(idx));
+                        assignments.get(idx).setList_checks(l);
                         cancelAlarm(assignments.get(idx).getId());
                         setAlarm(assignments.get(idx).getId(), "00:00 " + assignments.get(idx).getTimeEnd(), "02:00", "Thông báo Công việc", "Bài tập " + assignments.get(idx).getTitle() + " sẽ kết thúc sau 2 giờ nữa", 1);
                         break;
