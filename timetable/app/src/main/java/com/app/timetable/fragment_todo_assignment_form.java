@@ -3,6 +3,7 @@ package com.app.timetable;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -523,7 +524,18 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
             public void onPositiveButtonClick(Object selection) {
                 String[] rangedate = picker.getHeaderText().split(" ",7);
                 String time_start = "", time_end;
+                Log.e("time", String.valueOf(picker.getHeaderText()));
                 if(rangedate.length == 5){
+                    if (rangedate[1].indexOf("T") != -1){
+                        String a = rangedate[1];
+                        rangedate[1] = rangedate[0];
+                        rangedate[0] = a;
+                    }
+                    if (rangedate[4].indexOf("T") != -1){
+                        String a = rangedate[4];
+                        rangedate[4] = rangedate[3];
+                        rangedate[3] = a;
+                    }
                     time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
                     time_end = "Kết thúc: " + hash_day(rangedate[4]) + "/" + hash_month(rangedate[3]) + "/2022";
                     int nday_1 = numOfday(2022, Integer.parseInt(hash_month(rangedate[0])), Integer.parseInt(hash_day(rangedate[1])));
@@ -532,6 +544,16 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     time_show(time_start, time_end, time);
                 }
                 else if(rangedate.length == 6){
+                    if (rangedate[1].indexOf("T") != -1){
+                        String a = rangedate[1];
+                        rangedate[1] = rangedate[0];
+                        rangedate[0] = a;
+                    }
+                    if (rangedate[4].indexOf("T") != -1){
+                        String a = rangedate[4];
+                        rangedate[4] = rangedate[3];
+                        rangedate[3] = a;
+                    }
                     time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
                     time_end = "Kết thúc: " + hash_day(rangedate[4].replace(",", " ")) + "/" + hash_month(rangedate[3]) + "/2023";
                     int nday_1 = numOfday(2022, Integer.parseInt(hash_month(rangedate[0])), Integer.parseInt(hash_day(rangedate[1])));
@@ -540,6 +562,16 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
                     time_show(time_start, time_end, time);
                 }
                 else if(rangedate.length == 7){
+                    if (rangedate[1].indexOf("T") != -1){
+                        String a = rangedate[1];
+                        rangedate[1] = rangedate[0];
+                        rangedate[0] = a;
+                    }
+                    if (rangedate[5].indexOf("T") != -1){
+                        String a = rangedate[5];
+                        rangedate[5] = rangedate[4];
+                        rangedate[4] = a;
+                    }
                     time_start = "Bắt đầu: " + hash_day(rangedate[1].replace(",", " ")) + "/" + hash_month(rangedate[0]) + "/2022";
                     time_end = "Kết thúc: " + hash_day(rangedate[5].replace(",", " ")) + "/" + hash_month(rangedate[4]) + "/2023";
                     int nday_1 = numOfday(2023, Integer.parseInt(hash_month(rangedate[0])), Integer.parseInt(hash_day(hash_day(rangedate[1].replace(",", " ")))));
@@ -627,18 +659,18 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
     }
 
     private String hash_month(String month){
-        if (month.trim().toUpperCase().indexOf("JAN") != -1) return "01";
-        if (month.trim().toUpperCase().indexOf("FEB") != -1) return "02";
-        if (month.trim().toUpperCase().indexOf("MAR") != -1) return "03";
-        if (month.trim().toUpperCase().indexOf("APR") != -1) return "04";
-        if (month.trim().toUpperCase().indexOf("MAY") != -1) return "05";
-        if (month.trim().toUpperCase().indexOf("JUN") != -1) return "06";
-        if (month.trim().toUpperCase().indexOf("JUL") != -1) return "07";
-        if (month.trim().toUpperCase().indexOf("AUG") != -1) return "08";
-        if (month.trim().toUpperCase().indexOf("SEP") != -1) return "09";
-        if (month.trim().toUpperCase().indexOf("OCT") != -1) return "10";
-        if (month.trim().toUpperCase().indexOf("NOV") != -1) return "11";
-        if (month.trim().toUpperCase().indexOf("DEC") != -1) return "12";
+        if (month.trim().toUpperCase().indexOf("JAN") != -1 || month.trim().toUpperCase().indexOf("TH1") != -1 || month.trim().toUpperCase().indexOf("TH01") != -1 || month.trim().toUpperCase().indexOf("T1") != -1 || month.trim().toUpperCase().indexOf("T01") != -1) return "01";
+        if (month.trim().toUpperCase().indexOf("FEB") != -1 || month.trim().toUpperCase().indexOf("TH2") != -1 || month.trim().toUpperCase().indexOf("TH02") != -1 || month.trim().toUpperCase().indexOf("T2") != -1 || month.trim().toUpperCase().indexOf("T02") != -1) return "02";
+        if (month.trim().toUpperCase().indexOf("MAR") != -1 || month.trim().toUpperCase().indexOf("TH3") != -1 || month.trim().toUpperCase().indexOf("TH03") != -1 || month.trim().toUpperCase().indexOf("T3") != -1 || month.trim().toUpperCase().indexOf("T03") != -1) return "03";
+        if (month.trim().toUpperCase().indexOf("APR") != -1 || month.trim().toUpperCase().indexOf("TH4") != -1 || month.trim().toUpperCase().indexOf("TH04") != -1 || month.trim().toUpperCase().indexOf("T4") != -1 || month.trim().toUpperCase().indexOf("T04") != -1) return "04";
+        if (month.trim().toUpperCase().indexOf("MAY") != -1 || month.trim().toUpperCase().indexOf("TH5") != -1 || month.trim().toUpperCase().indexOf("TH05") != -1 || month.trim().toUpperCase().indexOf("T5") != -1 || month.trim().toUpperCase().indexOf("T05") != -1) return "05";
+        if (month.trim().toUpperCase().indexOf("JUN") != -1 || month.trim().toUpperCase().indexOf("TH6") != -1 || month.trim().toUpperCase().indexOf("TH06") != -1 || month.trim().toUpperCase().indexOf("T6") != -1 || month.trim().toUpperCase().indexOf("T06") != -1) return "06";
+        if (month.trim().toUpperCase().indexOf("JUL") != -1 || month.trim().toUpperCase().indexOf("TH7") != -1 || month.trim().toUpperCase().indexOf("TH07") != -1 || month.trim().toUpperCase().indexOf("T7") != -1 || month.trim().toUpperCase().indexOf("T07") != -1) return "07";
+        if (month.trim().toUpperCase().indexOf("AUG") != -1 || month.trim().toUpperCase().indexOf("TH8") != -1 || month.trim().toUpperCase().indexOf("TH08") != -1 || month.trim().toUpperCase().indexOf("T8") != -1 || month.trim().toUpperCase().indexOf("T08") != -1) return "08";
+        if (month.trim().toUpperCase().indexOf("SEP") != -1 || month.trim().toUpperCase().indexOf("TH9") != -1 || month.trim().toUpperCase().indexOf("TH09") != -1 || month.trim().toUpperCase().indexOf("T9") != -1 || month.trim().toUpperCase().indexOf("T09") != -1) return "09";
+        if (month.trim().toUpperCase().indexOf("OCT") != -1 || month.trim().toUpperCase().indexOf("TH10") != -1 || month.trim().toUpperCase().indexOf("T10") != -1) return "10";
+        if (month.trim().toUpperCase().indexOf("NOV") != -1 || month.trim().toUpperCase().indexOf("TH11") != -1 || month.trim().toUpperCase().indexOf("T11") != -1) return "11";
+        if (month.trim().toUpperCase().indexOf("DEC") != -1 || month.trim().toUpperCase().indexOf("TH12") != -1 || month.trim().toUpperCase().indexOf("T12") != -1) return "12";
         return month;
     }
 
