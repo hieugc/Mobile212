@@ -739,6 +739,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
         return true;
     }
+    public boolean updateOne(assignment assignment){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String sql =  "UPDATE " + TABLE_ASSIGN
+                + " SET " + COLUMN_TITLE + " = \"" + assignment.getTitle() + "\", "
+                + COLUMN_TIME_START + " = \"" + assignment.getTimeStart() + "\", "
+                + COLUMN_TIME_END + " = \"" + assignment.getTimeEnd() + "\", "
+                + COLUMN_CHECKED + " = \"" + assignment.getDone() + "\""
+                + " WHERE " + COLUMN_ID + " = " + assignment.getId();
+
+        db.execSQL(sql);
+        return true;
+    }
     public boolean deleteOne(assignment assignment)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -758,19 +771,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "DELETE FROM " + TABLE_TIMETABLE + " WHERE " + COLUMN_ID + " = " + timeTable.getId();
-        db.execSQL(sql);
-        return true;
-    }
-    public boolean updateOne(assignment assignment){
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        String sql =  "UPDATE " + TABLE_ASSIGN
-                + " SET " + COLUMN_TITLE + " = \"" + assignment.getTitle() + "\", "
-                + COLUMN_TIME_START + " = \"" + assignment.getTimeStart() + "\", "
-                + COLUMN_TIME_END + " = \"" + assignment.getTimeEnd() + "\", "
-                + COLUMN_CHECKED + " = " + assignment.getDone()
-                + " WHERE " + COLUMN_ID + " = " + assignment.getId();
-
         db.execSQL(sql);
         return true;
     }
