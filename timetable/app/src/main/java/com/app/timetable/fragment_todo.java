@@ -457,7 +457,11 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         bundle.putString("time_start", assign.getTimeStart());
         bundle.putString("time_end", assign.getTimeEnd());
         bundle.putString("time_left", assign.getTime());
-        bundle.putParcelableArrayList("list_checks", assign.getList_checks());
+        ArrayList<list_check> a = new ArrayList<>();
+        for (list_check l: assign.getList_checks()){
+            a.add(l);
+        }
+        bundle.putParcelableArrayList("list_checks", a);
         bundle.putParcelableArrayList("list_checks_dialog", new ArrayList<>());
         bundle.putParcelableArrayList("list_note", dataBaseHelper.getOne(assign.getList_checks()));
         bundle.putParcelable("todoView", todo_meeting_form.getFragment_todo());

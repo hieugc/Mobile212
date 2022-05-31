@@ -18,6 +18,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public static final String TABLE_BKEL = "BKEL_ACC";
+    public static final String TABLE_BK_TIMETABLE = "BK_TIMETABLE";
+    public static final String TABLE_NOTE = "NOTE";
+    public static final String TABLE_MEET = "MEET";
+    public static final String TABLE_ASSIGN = "ASSIGN";
+    public static final String TABLE_CHECKLIST = "CHECKLIST";
+    public static final String TABLE_TIMETABLE = "TIMETABLE";
+    public static final String TABLE_SUBJECT = "SUBJECT";
+    public static final String COLUMN_LINK_NOTE = "LINK_" + TABLE_NOTE;
     public static final String COLUMN_USER = "USER";
     public static final String COLUMN_PWD = "PWD";
     public static final String COLUMN_ID = "ID";
@@ -29,13 +37,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_LOCATION = "LOCATION";
     public static final String COLUMN_LINK = "LINK";
     public static final String COLUMN_ALERT = "ALERT";
-    public static final String TABLE_NOTE = "NOTE";
-    public static final String COLUMN_LINK_NOTE = "LINK_" + TABLE_NOTE;
-    public static final String TABLE_MEET = "MEET";
-    public static final String TABLE_ASSIGN = "ASSIGN";
-    public static final String TABLE_CHECKLIST = "CHECKLIST";
     public static final String COLUMN_CHECKED = "CHECKED";
-    public static final String TABLE_BK_TIMETABLE = "BK_TIMETABLE";
     public static final String COLUMN_USERID = "USERID";
     public static final String COLUMN_SEMESTER = "SEMESTER";
     public static final String COLUMN_WEEK = "WEEK";
@@ -55,8 +57,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TIMETABLE_TYPE = "TIMETABLE_TYPE";
     public static final String COLUMN_NOTIFICATION = "NOTI";
     public static final String COLUMN_NOTIFICATION_TIME = "NOTI_TIME";
-    public static final String TABLE_TIMETABLE = "TIMETABLE";
-    public static final String TABLE_SUBJECT = "SUBJECT";
     public static final String COLUMN_START_DATE = "START_DATE";
     public static final String COLUMN_END_DATE = "END_DATE";
     public static final String COLUMN_STUDY_DAY = "STUDY_DAY";
