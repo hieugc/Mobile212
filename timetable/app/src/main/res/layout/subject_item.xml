@@ -3,11 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/subject_layout"
     android:layout_width="match_parent"
-    android:layout_height="65dp">
+    android:layout_height="80dp">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/itemLayout">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/itemLayout"
+        android:visibility="visible"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/timetableLayout"
@@ -80,24 +84,21 @@
         </RelativeLayout>
     </RelativeLayout>
 
-
     <RelativeLayout
         android:layout_width="65dp"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toEndOf="@+id/itemLayout"
         android:background="@color/error_form"
+        app:layout_constraintStart_toEndOf="@+id/itemLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/itemLayout"
         android:gravity="center"
         android:id="@+id/delete_timetable">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:src="@mipmap/delete" />
 
     </RelativeLayout>
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

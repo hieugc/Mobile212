@@ -52,8 +52,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/add_note_heading"
         android:hint="@string/note_heading_hint"
-        android:paddingHorizontal="20dp"
-        android:lines="3" />
+        android:maxLines="1"
+        android:lines="2"
+        android:paddingHorizontal="20dp" />
 
     <EditText
         android:id="@+id/note_content_editText"

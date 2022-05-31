@@ -101,7 +101,7 @@ public class LogInFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 if(editable.toString().equals(""))
                 {
-                    username_layout.setError("Username is needed");
+                    username_layout.setError("Tài khoản phải được nhập");
                 }
             }
         });
@@ -124,7 +124,7 @@ public class LogInFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 if(editable.toString().equals(""))
                 {
-                    password_layout.setError("Password is needed");
+                    password_layout.setError("Mật khẩu phải được nhập");
                 }
             }
         });

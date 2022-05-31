@@ -166,7 +166,7 @@
 
                 <Button
                     android:id="@+id/add_lecturer_info_button"
-                    android:layout_width="80dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:inputType="none"
@@ -387,13 +387,14 @@
 
                 <TextView
                     android:id="@+id/study_time_start"
-                    android:layout_width="85dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="22dp"
                     android:background="@drawable/calendar_shape_background"
                     android:gravity="center"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="5dp"
+                    android:textSize="13sp"
                     android:text="Bắt đầu"
                     android:textColor="@color/black" />
 
@@ -407,13 +408,14 @@
 
                 <TextView
                     android:id="@+id/study_time_end"
-                    android:layout_width="85dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:background="@drawable/calendar_shape_background"
                     android:gravity="center"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="5dp"
+                    android:textSize="13sp"
                     android:text="Kết thúc"
                     android:textColor="@color/black" />
 

@@ -90,9 +90,9 @@
                         android:id="@+id/todo_meet_form_day"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/todo_form_number_picker_height"
-                        android:scaleX="0.8"
-
                         android:layout_below="@id/todo_meet_form_day_title"
+
+                        android:scaleX="0.8"
                         android:theme="@style/todo_number_picker" />
 
                 </RelativeLayout>
@@ -124,8 +124,7 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/todo_meet_form_year_title"
@@ -141,9 +140,9 @@
                         android:id="@+id/todo_meet_form_year"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/todo_form_number_picker_height"
-                        android:scaleX="0.8"
-
                         android:layout_below="@id/todo_meet_form_year_title"
+
+                        android:scaleX="0.8"
                         android:theme="@style/todo_number_picker" />
 
 
@@ -182,7 +181,6 @@
                         android:id="@+id/todo_meet_form_minus_title"
                         style="@style/todo_title_picker"
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
 
@@ -192,9 +190,9 @@
                         android:id="@+id/todo_meet_form_minus"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/todo_form_number_picker_height"
-                        android:scaleX="0.8"
-
                         android:layout_below="@id/todo_meet_form_minus_title"
+
+                        android:scaleX="0.8"
                         android:theme="@style/todo_number_picker" />
 
                 </RelativeLayout>
