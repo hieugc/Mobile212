@@ -55,7 +55,8 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
         {
             holder.cardView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#94E0E0")));
             ViewGroup.LayoutParams layoutParams = holder.txtView_calendar_day.getLayoutParams();
-            layoutParams.height = (int) (layoutParams.height * 1.2);
+            layoutParams.height =
+                    (int) (layoutParams.height * 1.2);
             layoutParams.width = (int) (layoutParams.width*1.2);
             holder.txtView_calendar_day.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
