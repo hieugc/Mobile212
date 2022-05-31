@@ -229,9 +229,7 @@ public class fragment_new_subject extends Fragment {
                                 edttext_subject_room.setError("Hãy nhập phòng học");
                             }
 
-                            int hour_start = 0, hour_end = 0, minute_start = 0, minute_end = 0;
-
-                            LocalTime startTime = null, endTime = null;
+                            int hour_start, hour_end, minute_start,minute_end ;
 
                             String timeStart, timeEnd;
                             timeStart = study_time_start.getText().toString().trim();
@@ -243,17 +241,11 @@ public class fragment_new_subject extends Fragment {
                             }
                             else
                             {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    startTime = LocalTime.parse(timeStart, DateTimeFormatter.ofPattern("HH:mm"));
-                                    endTime = LocalTime.parse(timeEnd, DateTimeFormatter.ofPattern("HH:mm"));
-                                }
+                                hour_start = Integer.parseInt(timeStart.split(":")[0]);
+                                minute_start = Integer.parseInt(timeStart.split(":")[1]);
 
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                    hour_start = startTime.get(ChronoField.HOUR_OF_DAY);
-                                    minute_start = startTime.get(ChronoField.MINUTE_OF_HOUR);
-                                    hour_end = endTime.get(ChronoField.HOUR_OF_DAY);
-                                    minute_end = endTime.get(ChronoField.MINUTE_OF_HOUR);
-                                }
+                                hour_end = Integer.parseInt(timeEnd.split(":")[0]);
+                                minute_end = Integer.parseInt(timeEnd.split(":")[1]);
 
                                 if(hour_start > hour_end)
                                 {
@@ -402,9 +394,8 @@ public class fragment_new_subject extends Fragment {
                                 edttext_subject_room.setError("Hãy nhập phòng học");
                             }
 
-                            int hour_start = 0, hour_end = 0, minute_start = 0, minute_end = 0;
+                            int hour_start, hour_end, minute_start, minute_end;
 
-                            LocalTime startTime = null, endTime = null;
 
                             if(study_time_start.getText().toString().trim().equals("") || study_time_end.getText().toString().trim().equals(""))
                             {
@@ -413,17 +404,11 @@ public class fragment_new_subject extends Fragment {
                             }
                             else
                             {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    startTime = LocalTime.parse(study_time_start.getText().toString().trim(), DateTimeFormatter.ofPattern("HH:mm"));
-                                    endTime = LocalTime.parse(study_time_end.getText().toString().trim(), DateTimeFormatter.ofPattern("HH:mm"));
-                                }
+                                hour_start = Integer.parseInt(study_time_start.getText().toString().trim().split(":")[0]);
+                                minute_start = Integer.parseInt(study_time_start.getText().toString().trim().split(":")[1]);
 
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                    hour_start = startTime.get(ChronoField.HOUR_OF_DAY);
-                                    minute_start = startTime.get(ChronoField.MINUTE_OF_HOUR);
-                                    hour_end = endTime.get(ChronoField.HOUR_OF_DAY);
-                                    minute_end = endTime.get(ChronoField.MINUTE_OF_HOUR);
-                                }
+                                hour_end = Integer.parseInt(study_time_end.getText().toString().trim().split(":")[0]);
+                                minute_end = Integer.parseInt(study_time_end.getText().toString().trim().split(":")[1]);
 
                                 if(hour_start > hour_end)
                                 {
@@ -712,9 +697,7 @@ public class fragment_new_subject extends Fragment {
                     edttext_subject_room.setError("Hãy nhập phòng học");
                 }
 
-                int hour_start = 0, hour_end = 0, minute_start = 0, minute_end = 0;
-
-                LocalTime startTime = null, endTime = null;
+                int hour_start, hour_end, minute_start, minute_end;
 
                 if(startHour.equals("") || endHour.equals(""))
                 {
@@ -723,17 +706,11 @@ public class fragment_new_subject extends Fragment {
                 }
                 else
                 {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        startTime = LocalTime.parse(startHour, DateTimeFormatter.ofPattern("HH:mm"));
-                        endTime = LocalTime.parse(endHour, DateTimeFormatter.ofPattern("HH:mm"));
-                    }
+                    hour_start = Integer.parseInt(startHour.split(":")[0]);
+                    minute_start = Integer.parseInt(startHour.split(":")[1]);
 
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        hour_start = startTime.get(ChronoField.HOUR_OF_DAY);
-                        minute_start = startTime.get(ChronoField.MINUTE_OF_HOUR);
-                        hour_end = endTime.get(ChronoField.HOUR_OF_DAY);
-                        minute_end = endTime.get(ChronoField.MINUTE_OF_HOUR);
-                    }
+                    hour_end = Integer.parseInt(endHour.split(":")[0]);
+                    minute_end = Integer.parseInt(endHour.split(":")[1]);
 
                     if(hour_start > hour_end)
                     {
@@ -1129,22 +1106,15 @@ public class fragment_new_subject extends Fragment {
         pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         Date selectedDate = new Date();
-        LocalTime localTime = null;
         try {
             selectedDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
-            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        int hour = 0,minute = 0;
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            hour = localTime.get(ChronoField.HOUR_OF_DAY);
-            minute = localTime.get(ChronoField.MINUTE_OF_HOUR);
-        }
+        int hour,minute;
+        hour = Integer.parseInt(time.split(":")[0]);
+        minute = Integer.parseInt(time.split(":")[1]);
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(selectedDate);

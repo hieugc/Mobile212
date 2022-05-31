@@ -1,12 +1,15 @@
 package com.app.timetable;
 
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +28,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     private fragment_calendar fragmentCalendar;
     private DataBaseHelper dataBaseHelper;
+    private int normalHeight, middleHeight;
 
     public DateAdapter() {
     }
@@ -54,15 +58,15 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
         if(position == 2)
         {
             holder.cardView.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#94E0E0")));
-            ViewGroup.LayoutParams layoutParams = holder.txtView_calendar_day.getLayoutParams();
-            layoutParams.height = (int) (layoutParams.height * 1.2);
+            ViewGroup.LayoutParams layoutParams =  holder.txtView_calendar_day.getLayoutParams();
+            layoutParams.height = (int) (layoutParams.height* 1.2);
             layoutParams.width = (int) (layoutParams.width*1.2);
-            holder.txtView_calendar_day.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+            holder.txtView_calendar_day.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
 
             ViewGroup.LayoutParams layoutParams1 = holder.txtView_calendar_date.getLayoutParams();
             layoutParams1.width = (int) (layoutParams1.width * 1.2);
             layoutParams1.height = (int) (layoutParams1.height * 1.2);
-            holder.txtView_calendar_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+            holder.txtView_calendar_date.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
         }
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(arrayList.get(position));
@@ -146,5 +150,10 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder>{
             txtView_calendar_day = itemView.findViewById(R.id.calendar_day);
             cardView = itemView.findViewById(R.id.calendar_item);
         }
+    }
+
+    public int dipToPx(float dp, Context context)
+    {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
     }
 }
