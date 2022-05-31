@@ -1,12 +1,10 @@
 package com.app.timetable;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,7 +26,6 @@ public class fragment_note extends Fragment {
     private RecyclerView note_recycleView;
     private DataBaseHelper dataBaseHelper;
     private Context context;
-    private NoteRecViewAdapter.ViewHolder viewHolder;
     private TextView heading_txt, sub_heading_txt, cancel_txt, noData_txt;
 
     @Override
@@ -56,14 +53,6 @@ public class fragment_note extends Fragment {
 
         setNoData(adapter);
 
-        adapter.setListener(new NoteRecViewAdapter.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(NoteRecViewAdapter.ViewHolder holder) {
-                setDeleteView();
-                viewHolder = holder;
-                return false;
-            }
-        });
 
         note_recycleView.setAdapter(adapter);
         note_recycleView.setLayoutManager(new LinearLayoutManager(note_view.getContext()));
@@ -203,7 +192,6 @@ public class fragment_note extends Fragment {
         sub_heading_txt.setVisibility(View.VISIBLE);
         cancel_txt.setVisibility(View.GONE);
         heading_txt.setText(R.string.note);
-//        viewHolder.getDelete_box().setVisibility(View.GONE);
     }
 
     public int dipToPx(float dp, Context context)

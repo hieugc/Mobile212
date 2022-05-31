@@ -1,7 +1,6 @@
 package com.app.timetable;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,9 +11,6 @@ public class CenterZoomLayoutManager extends LinearLayoutManager {
     private final float mShrinkAmount = 0.15f;
     private final float mShrinkDistance = 0.9f;
 
-    public CenterZoomLayoutManager(Context context) {
-        super(context);
-    }
 
     public CenterZoomLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);

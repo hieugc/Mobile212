@@ -70,16 +70,8 @@ public class TimeTable {
         return group;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
     public String getLocation() {
         return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getDate() {
@@ -94,46 +86,25 @@ public class TimeTable {
         return start_time;
     }
 
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
-    }
-
     public String getEnd_time() {
         return end_time;
-    }
-
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
     }
 
     public String getTA_name() {
         return TA_name;
     }
 
-    public void setTA_name(String TA_name) {
-        this.TA_name = TA_name;
-    }
-
     public String getTA_number() {
         return TA_number;
-    }
-
-    public void setTA_number(String TA_number) {
-        this.TA_number = TA_number;
     }
 
     public String getTA_email() {
         return TA_email;
     }
 
-    public void setTA_email(String TA_email) {
-        this.TA_email = TA_email;
-    }
-
     public boolean getNotification() {
         return notification;
     }
-
 
     public void setNotification(boolean notification) {
         this.notification = notification;
@@ -157,10 +128,6 @@ public class TimeTable {
 
     public int getTimetable_id() {
         return timetable_id;
-    }
-
-    public void setTimetable_id(int timetable_id) {
-        this.timetable_id = timetable_id;
     }
 
     @Override

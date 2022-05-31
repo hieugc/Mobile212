@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -439,7 +438,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String sql ="INSERT INTO "+TABLE_MEET
                 +   " ("+ COLUMN_TITLE + ", " + COLUMN_TIME + ", " + COLUMN_LOCATION + ", " + COLUMN_LINK + ", " + COLUMN_ALERT + ", " + COLUMN_CHECKED + ")"
                 +   " VALUES (\"" + meet.getTitle() +"\", \"" + meet.getTime() + "\", \"" + meet.getLocation() + "\", \"" + meet.getLink() + "\", \"" + meet.getAlert() + "\", " + meet.getDone() + ");";
-        Log.e("DB", sql);
         db.execSQL(sql);
 
         return getID(TABLE_MEET);
@@ -544,8 +542,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     +"SET " + COLUMN_TITLE + " = \"" + note.getTitle() + "\",\n"
                     +      COLUMN_CONTENT + " = \"" + note.getContent() + "\"\n"
                     +"WHERE " + COLUMN_ID + " = " + note.getId();
-        Log.e("note",note.toString());
-        Log.e("sql", sql);
         db.execSQL(sql);
         return true;
     }
@@ -607,8 +603,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         + COLUMN_LINK_ASSIGN + " = " + listCheck.getAssign() + ", "
                         + COLUMN_CHECKED + " = " + listCheck.getDone()
                 + " WHERE " + COLUMN_ID + " = " + listCheck.getId();
-
-        Log.e("SQL", sql);
         db.execSQL(sql);
         return true;
     }
@@ -672,7 +666,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         db.close();
-        Log.e("NoteDB", String.valueOf(cursor) + " " + id);
         return null;
     }
     public Subject getSubject(int id){
@@ -710,7 +703,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<Note> arrayList = new ArrayList<>();
 
         for (list_check l: list_checks){
-            Log.e("check_li", String.valueOf(l.getLink()));
             if (l.getLink() != -1){
                 SQLiteDatabase db = this.getReadableDatabase();
                 String sql = "SELECT * FROM " + TABLE_NOTE + " WHERE " + COLUMN_ID + " = " + l.getLink();

@@ -9,11 +9,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:id="@+id/calendar_top_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:id="@+id/back_button"
@@ -58,138 +59,144 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_alignTop="@id/calendar_top_nav"
-            android:layout_marginTop="50dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/calendar_top_nav"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
             android:paddingHorizontal="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tên môn học"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
                 <EditText
                     android:id="@+id/edttext_subject_name"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@drawable/custom_input"
-                    android:inputType="textAutoComplete"
-                    android:textColorHint="#BBBBBB"
-                    android:paddingStart="12dp"
-                    android:hint="VD: Giải tích 2"
-                    android:lines="1"
-                    android:textColor="@color/black"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"/>
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/custom_input"
+                    android:hint="VD: Giải tích 2"
+                    android:inputType="textAutoComplete"
+                    android:lines="1"
+                    android:paddingStart="12dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BBBBBB" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nhóm - Tổ"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
                 <EditText
                     android:id="@+id/edttext_group_subject"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@drawable/custom_input"
-                    android:inputType="textAutoComplete"
-                    android:textColorHint="#BBBBBB"
-                    android:paddingStart="12dp"
-                    android:hint="VD: L01"
-                    android:textColor="@color/black"
                     android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/custom_input"
+                    android:hint="VD: L01"
+                    android:inputType="textAutoComplete"
                     android:lines="1"
-                    android:layout_height="35dp"/>
+                    android:paddingStart="12dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BBBBBB" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Phòng học"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
                 <EditText
                     android:id="@+id/edttext_subject_room"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@drawable/custom_input"
-                    android:inputType="textAutoComplete"
-                    android:textColorHint="#BBBBBB"
-                    android:paddingStart="12dp"
-                    android:hint="VD: H6 305"
-                    android:textColor="@color/black"
-                    android:lines="1"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"/>
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/custom_input"
+                    android:hint="VD: H6 305"
+                    android:inputType="textAutoComplete"
+                    android:lines="1"
+                    android:paddingStart="12dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="#BBBBBB" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Thông tin giảng viên:"
-                    android:textSize="17sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
 
                 <Button
                     android:id="@+id/add_lecturer_info_button"
-                    android:layout_marginLeft="20dp"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="Thêm"
+                    android:layout_marginLeft="20dp"
                     android:inputType="none"
-                    />
+                    android:text="Thêm"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/date_hide"
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="visible"
-                >
+                android:visibility="visible">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lịch học:"
                     android:textColor="@color/black"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
+
                 <RelativeLayout
                     android:id="@+id/subject_day_begin_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:background="@drawable/calendar_shape_background"
-                    android:paddingHorizontal="7dp"
-                    android:paddingVertical="7dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:padding="5dp">
 
                     <TextView
                         android:id="@+id/subject_day_begin"
@@ -211,21 +218,20 @@
 
                 <RelativeLayout
                     android:id="@+id/subject_day_end_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/calendar_shape_background"
-                    android:paddingHorizontal="7dp"
-                    android:paddingVertical="7dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:padding="5dp">
 
                     <TextView
                         android:id="@+id/subject_day_end"
-                        android:layout_gravity="start|center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
                         android:text="Ngày cuối"
                         android:textColor="@color/black"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -238,136 +244,195 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/errorDatePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="15dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="17sp"
-                        android:text="Ngày học:"/>
-                    <RelativeLayout
-                        android:id="@+id/rangeDayOfWeek"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="visible"
-                        >
-                        <TextView
-                            android:id="@+id/day_t2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="T2"
-                            android:layout_marginLeft="10dp"
-                            style="@style/Dat_pick"
-                            />
-                        <TextView
-                            android:id="@+id/day_t3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="T3"
-                            android:layout_toEndOf="@id/day_t2"
-                            style="@style/Dat_pick"
-                            />
-                        <TextView
-                            android:id="@+id/day_t4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/Dat_pick"
-                            android:layout_toEndOf="@id/day_t3"
-                            android:text="T4" />
-                        <TextView
-                            android:id="@+id/day_t5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="T5"
-                            style="@style/Dat_pick"
-                            android:layout_toEndOf="@id/day_t4"
-                            />
-                        <TextView
-                            android:id="@+id/day_t6"
-                            style="@style/Dat_pick"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/day_t2"
-                            android:layout_marginTop="10dp"
-                            android:layout_toStartOf="@id/day_t3"
-                            android:text="T6" />
-                        <TextView
-                            android:id="@+id/day_t7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="T7"
-                            style="@style/Dat_pick"
-                            android:layout_marginTop="10dp"
-                            android:layout_below="@id/day_t3"
-                            android:layout_toStartOf="@id/day_t4"
-                            />
+                android:gravity="center"
+                android:visibility="gone">
 
-                        <TextView
-                            android:id="@+id/day_cn"
-                            style="@style/Dat_pick"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/day_t4"
-                            android:layout_marginTop="10dp"
-                            android:layout_toEndOf="@id/day_t7"
-                            android:text="CN" />
-                    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bạn cần nhập đúng ngày đầu - ngày cuối"
+                    android:textColor="@color/error_form"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày học:"
+                    android:textColor="@color/black"
+                    android:textSize="17sp" />
+
+                <RelativeLayout
+                    android:id="@+id/rangeDayOfWeek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/day_t2"
+                        style="@style/Dat_pick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="T2" />
+
+                    <TextView
+                        android:id="@+id/day_t3"
+                        style="@style/Dat_pick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/day_t2"
+                        android:text="T3" />
+
+                    <TextView
+                        android:id="@+id/day_t4"
+                        style="@style/Dat_pick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/day_t3"
+                        android:text="T4" />
+
+                    <TextView
+                        android:id="@+id/day_t5"
+                        style="@style/Dat_pick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/day_t4"
+                        android:text="T5" />
+
+                    <TextView
+                        android:id="@+id/day_t6"
+                        style="@style/Dat_pick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/day_t2"
+                        android:layout_marginTop="10dp"
+                        android:layout_toStartOf="@id/day_t3"
+                        android:text="T6" />
+
+                    <TextView
+                        android:id="@+id/day_t7"
+                        style="@style/Dat_pick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/day_t3"
+                        android:layout_marginTop="10dp"
+                        android:layout_toStartOf="@id/day_t4"
+                        android:text="T7" />
+
+                    <TextView
+                        android:id="@+id/day_cn"
+                        style="@style/Dat_pick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/day_t4"
+                        android:layout_marginTop="10dp"
+                        android:layout_toEndOf="@id/day_t7"
+                        android:text="CN" />
+                </RelativeLayout>
+
                 <TextView
                     android:id="@+id/text_for_change"
+                    style="@style/Dat_pick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="20/10/2022"
                     android:textStyle="bold"
-                    style="@style/Dat_pick"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/studyDayError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bạn cần chọn ít nhất một ngày trong tuần"
+                    android:textColor="@color/error_form"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:gravity="center_vertical"
                 android:layout_height="35dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Giờ học:"
                     android:textColor="@color/black"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
+
                 <TextView
                     android:id="@+id/study_time_start"
-                    android:background="@drawable/calendar_shape_background"
                     android:layout_width="85dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:background="@drawable/calendar_shape_background"
                     android:gravity="center"
-                    android:text="Bắt đầu"
-                    android:textColor="@color/black"
-                    android:paddingVertical="5dp"
                     android:paddingHorizontal="15dp"
-                    android:layout_marginLeft="22dp"/>
+                    android:paddingVertical="5dp"
+                    android:text="Bắt đầu"
+                    android:textColor="@color/black" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:text="-"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:layout_marginLeft="20dp"/>
+                    android:textSize="20sp" />
+
                 <TextView
                     android:id="@+id/study_time_end"
-                    android:background="@drawable/calendar_shape_background"
                     android:layout_width="85dp"
-                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:text="Kết thúc"
-                    android:textColor="@color/black"
-                    android:paddingVertical="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/calendar_shape_background"
+                    android:gravity="center"
                     android:paddingHorizontal="15dp"
-                    android:layout_marginLeft="20dp"/>
+                    android:paddingVertical="5dp"
+                    android:text="Kết thúc"
+                    android:textColor="@color/black" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/timeError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bạn cần nhập đúng thời gian bắt đầu - kết thúc"
+                    android:textColor="@color/error_form"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -477,6 +542,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="15dp"
                 android:backgroundTint="@color/nav_primary"
+                android:textColor="@color/black"
                 android:text="Xong" />
 
         </LinearLayout>
@@ -587,6 +653,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/nav_primary"
+                android:textColor="@color/black"
                 android:text="Xong" />
         </RelativeLayout>
 

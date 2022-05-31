@@ -3,7 +3,6 @@ package com.app.timetable;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -33,12 +30,6 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
         this.dataBaseHelper = dataBaseHelper;
         this.fragmentNote = fragmentNote;
     }
-
-    public interface OnLongClickListener {
-        boolean onLongClick(ViewHolder viewHolder);
-    }
-
-    private OnLongClickListener listener;
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -132,10 +123,6 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
         notifyDataSetChanged();
     }
 
-    public void setListener(OnLongClickListener listener) {
-        this.listener = listener;
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView heading_txt, content_txt, time_txt;
         private RelativeLayout delete_box;
@@ -146,14 +133,6 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
             content_txt = itemView.findViewById(R.id.note_content);
             time_txt = itemView.findViewById(R.id.note_time_txt);
             delete_box = itemView.findViewById(R.id.delete_note);
-        }
-
-        public TextView getTime_txt() {
-            return time_txt;
-        }
-
-        public RelativeLayout getDelete_box() {
-            return delete_box;
         }
 
     }

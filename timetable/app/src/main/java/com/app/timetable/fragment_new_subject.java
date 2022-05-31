@@ -1,20 +1,15 @@
 package com.app.timetable;
 
-import static com.app.timetable.DataBaseHelper.*;
 
 import android.app.AlarmManager;
-import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,9 +18,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -41,7 +34,6 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
@@ -55,13 +47,11 @@ public class fragment_new_subject extends Fragment {
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     private static final long MILLIS_IN_AN_HOUR = 1000 * 60 * 60;
     private static final long MILLIS_IN_AN_MINUTE = 1000 * 60;
-    private String className,classRoom,classGroup, note;
+    private LinearLayout errorDatePicker, errorTimePicker, errorStudyDayPicker;
+    private String className,classRoom,classGroup;
     private String startDate = "",endDate = "",startHour = "",endHour = "";
     private boolean[] studyDay = {false,false,false,false,false,false,false};
     private String lecturerName = "", lecturerMail = "", lecturerNumber = "";
-    private int lastSelectedYear;
-    private int lastSelectedMonth;
-    private int lastSelectedDayOfMonth;
 
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
@@ -98,6 +88,9 @@ public class fragment_new_subject extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        edttext_subject_name.setError(null);
+        edttext_group_subject.setError(null);
+        edttext_subject_room.setError(null);
         Bundle bundle = getArguments();
         if(bundle != null){
             String func = bundle.getString("func");
@@ -109,7 +102,6 @@ public class fragment_new_subject extends Fragment {
                 String TA_mail = bundle.getString("TA_email");
                 String TA_name = bundle.getString("TA_name");
                 String TA_number = bundle.getString("TA_number");
-                Log.e("TA", "name = " + TA_mail + "\nnum = " + TA_name + "\nmail = " + TA_number);
                 if (TA_mail != "" || TA_number != "" || TA_name != ""){
                     add_info_lecturer_buttn.setText("Sửa");
                 }
@@ -219,7 +211,81 @@ public class fragment_new_subject extends Fragment {
                             );
                             //confirm
 
+                            boolean errorFlag = false;
+
+                            if(edttext_subject_name.getText().toString().trim().equals(""))
+                            {
+                                edttext_subject_name.setError("Hãy nhập tên môn học");
+                                errorFlag = true;
+                            }
+                            if(edttext_group_subject.getText().toString().trim().equals(""))
+                            {
+                                edttext_group_subject.setError("Hãy nhập nhóm - tổ");
+                                errorFlag = true;
+                            }
+                            if(edttext_subject_room.getText().toString().equals(""))
+                            {
+                                errorFlag = true;
+                                edttext_subject_room.setError("Hãy nhập phòng học");
+                            }
+
+                            int hour_start = 0, hour_end = 0, minute_start = 0, minute_end = 0;
+
+                            LocalTime startTime = null, endTime = null;
+
+                            String timeStart, timeEnd;
+                            timeStart = study_time_start.getText().toString().trim();
+                            timeEnd =study_time_end.getText().toString().trim();
+                            if(timeStart.equals("") || timeEnd.equals(""))
+                            {
+                                errorFlag = true;
+                                errorTimePicker.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    startTime = LocalTime.parse(timeStart, DateTimeFormatter.ofPattern("HH:mm"));
+                                    endTime = LocalTime.parse(timeEnd, DateTimeFormatter.ofPattern("HH:mm"));
+                                }
+
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                    hour_start = startTime.get(ChronoField.HOUR_OF_DAY);
+                                    minute_start = startTime.get(ChronoField.MINUTE_OF_HOUR);
+                                    hour_end = endTime.get(ChronoField.HOUR_OF_DAY);
+                                    minute_end = endTime.get(ChronoField.MINUTE_OF_HOUR);
+                                }
+
+                                if(hour_start > hour_end)
+                                {
+                                    errorFlag = true;
+                                    errorTimePicker.setVisibility(View.VISIBLE);
+                                }
+                                else if(hour_start == hour_end){
+                                    if(minute_start >= minute_end)
+                                    {
+                                        errorFlag = true;
+                                        errorTimePicker.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }
+
+                            if(errorFlag)
+                                return;
+
+                            edttext_subject_name.setError(null);
+                            edttext_group_subject.setError(null);
+                            edttext_subject_room.setError(null);
+                            errorTimePicker.setVisibility(View.GONE);
+
                             dataBaseHelper.updateOne(timeTable);//update
+                            cancelAlarm(timeTable.getId());
+                            String notification_time = time_notify;
+                            if(timeStart.length() == 3)
+                                timeStart = "0"+timeStart;
+                            String date = text_for_change.getText().toString().trim()+" "+timeStart;
+                            if(notification_time.length() == 3)
+                                notification_time = "0"+notification_time;
+                            setAlarm(timeTable.getId(), date, notification_time, "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+timeTable.getName()+". Hãy nhanh chóng chuẩn bị nào");
 
                             fragment_calendar_info_subject fragmentCalendarInfoSubject = new fragment_calendar_info_subject();
                             fragmentCalendarInfoSubject.set_calendar(fragmentCalendar);
@@ -234,7 +300,6 @@ public class fragment_new_subject extends Fragment {
                     studyDay = subject.getStudyDate();
                     startDate = subject.getStartDate();
                     endDate = subject.getEndDate();
-
 
                     for (int i = 0; i < studyDay.length; i++){
                         if (studyDay[i]){
@@ -281,6 +346,126 @@ public class fragment_new_subject extends Fragment {
                         public void onClick(View view) {
 
                             //check validation
+                            errorDatePicker.setVisibility(View.GONE);
+                            errorTimePicker.setVisibility(View.GONE);
+                            errorStudyDayPicker.setVisibility(View.GONE);
+
+                            boolean errorFlag = false;
+                            SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+
+                            boolean studyFlag = false;
+                            for(int i = 0; i < studyDay.length; i++)
+                            {
+                                if(studyDay[i])
+                                    studyFlag = true;
+                            }
+
+                            if(!studyFlag)
+                            {
+                                errorFlag = true;
+                                errorStudyDayPicker.setVisibility(View.VISIBLE);
+                            }
+
+                            if(day_start.getText().toString().trim().equals("") || day_end.getText().toString().trim().equals(""))
+                            {
+                                errorFlag = true;
+                                errorDatePicker.setVisibility(View.VISIBLE);
+                            }
+                            else {
+                                Date dateStart = new Date(), dateEnd = new Date();
+                                try {
+                                    dateStart = format1.parse(day_start.getText().toString().trim());
+                                    dateEnd = format1.parse(day_end.getText().toString().trim());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if(dateStart.getTime() > dateEnd.getTime()){
+                                    errorFlag = true;
+                                    errorDatePicker.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            if(edttext_subject_name.getText().toString().trim().equals(""))
+                            {
+                                edttext_subject_name.setError("Hãy nhập tên môn học");
+                                errorFlag = true;
+                            }
+                            if(edttext_group_subject.getText().toString().trim().equals(""))
+                            {
+                                edttext_group_subject.setError("Hãy nhập nhóm - tổ");
+                                errorFlag = true;
+                            }
+                            if(edttext_subject_room.getText().toString().trim().equals(""))
+                            {
+                                errorFlag = true;
+                                edttext_subject_room.setError("Hãy nhập phòng học");
+                            }
+
+                            int hour_start = 0, hour_end = 0, minute_start = 0, minute_end = 0;
+
+                            LocalTime startTime = null, endTime = null;
+
+                            if(study_time_start.getText().toString().trim().equals("") || study_time_end.getText().toString().trim().equals(""))
+                            {
+                                errorFlag = true;
+                                errorTimePicker.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    startTime = LocalTime.parse(study_time_start.getText().toString().trim(), DateTimeFormatter.ofPattern("HH:mm"));
+                                    endTime = LocalTime.parse(study_time_end.getText().toString().trim(), DateTimeFormatter.ofPattern("HH:mm"));
+                                }
+
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                    hour_start = startTime.get(ChronoField.HOUR_OF_DAY);
+                                    minute_start = startTime.get(ChronoField.MINUTE_OF_HOUR);
+                                    hour_end = endTime.get(ChronoField.HOUR_OF_DAY);
+                                    minute_end = endTime.get(ChronoField.MINUTE_OF_HOUR);
+                                }
+
+                                if(hour_start > hour_end)
+                                {
+                                    errorFlag = true;
+                                    errorTimePicker.setVisibility(View.VISIBLE);
+                                }
+                                else if(hour_start == hour_end){
+                                    if(minute_start >= minute_end)
+                                    {
+                                        errorFlag = true;
+                                        errorTimePicker.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }
+
+                            if(errorFlag)
+                                return;
+
+                            edttext_subject_name.setError(null);
+                            edttext_group_subject.setError(null);
+                            edttext_subject_room.setError(null);
+                            errorDatePicker.setVisibility(View.GONE);
+                            errorTimePicker.setVisibility(View.GONE);
+                            errorStudyDayPicker.setVisibility(View.GONE);
+
+                            String study = "";
+                            for(boolean t : studyDay)
+                            {
+                                if (study.equals(""))
+                                {
+                                    if(t)
+                                        study = "T";
+                                    else
+                                        study = "F";
+                                    continue;
+                                }
+                                if(t)
+                                    study += "-T";
+                                else
+                                    study += "-F";
+                            }
+
 
                             subject.setClassGroup(edttext_group_subject.getText().toString().trim());
                             subject.setClassName(edttext_subject_name.getText().toString().trim());
@@ -290,7 +475,7 @@ public class fragment_new_subject extends Fragment {
                             subject.setLecturerName(edttext_lecturer_name.getText().toString().trim());
                             subject.setLecturerMail(edttext_lecturer_mail.getText().toString().trim());
                             subject.setLecturerNumber(edttext_lecturer_number.getText().toString().trim());
-                            subject.setStudy("f-f-f-f-f-f-f");
+                            subject.setStudy(study);
                             subject.setEndHour(study_time_end.getText().toString().trim());
                             subject.setStartHour(study_time_start.getText().toString().trim());
                             dataBaseHelper.updateOne(subject, timeTable_id);
@@ -312,6 +497,7 @@ public class fragment_new_subject extends Fragment {
                             ));
                             for (TimeTable t: timeTables){
                                 dataBaseHelper.deleteOne(t);
+                                cancelAlarm(t.getId());
                             }
                             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                             Calendar calendar = Calendar.getInstance();
@@ -334,10 +520,10 @@ public class fragment_new_subject extends Fragment {
                                         TimeTable timeTable = new TimeTable(-1, subject.getClassName(), subject.getClassGroup(), subject.getClassRoom(), date, subject.getStartHour(), subject.getEndHour(), subject.getLecturerName(), subject.getLecturerNumber(), subject.getLecturerMail(), true, "00:05", 1, timeTable_id);
                                         dataBaseHelper.addOne(timeTable);
                                         int id = dataBaseHelper.getNewlyInsertedTimeTable();
-                                        String startTime = subject.getStartHour();
-                                        if (startTime.length() == 3)
-                                            startTime = "0"+startTime;
-                                        String timetableStart = date+" "+startTime;
+                                        String timeStart = subject.getStartHour();
+                                        if (timeStart.length() == 3)
+                                            timeStart = "0"+timeStart;
+                                        String timetableStart = date+" "+timeStart;
                                         setAlarm(id, timetableStart, "00:05", "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+subject.getClassName()+". Hãy nhanh chóng chuẩn bị nào");
                                     }
                                 }
@@ -389,10 +575,13 @@ public class fragment_new_subject extends Fragment {
         label_back_head = view.findViewById(R.id.label_back_head);
         //end
 
-
         dataBaseHelper = new DataBaseHelper(view.getContext());
         hoursPicker = view.findViewById(R.id.calendar_add_hours);
         minutesPicker = view.findViewById(R.id.calendar_add_minutes);
+
+        errorDatePicker = view.findViewById(R.id.errorDatePicker);
+        errorTimePicker = view.findViewById(R.id.timeError);
+        errorStudyDayPicker = view.findViewById(R.id.studyDayError);
 
         setMin_Max(hoursPicker,00,23);
         setMin_Max(minutesPicker,00,59);
@@ -466,6 +655,109 @@ public class fragment_new_subject extends Fragment {
                 className = edttext_subject_name.getText().toString();
                 classGroup = edttext_group_subject.getText().toString();
                 classRoom = edttext_subject_room.getText().toString();
+
+                errorDatePicker.setVisibility(View.GONE);
+                errorTimePicker.setVisibility(View.GONE);
+                errorStudyDayPicker.setVisibility(View.GONE);
+
+                boolean errorFlag = false;
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                boolean studyFlag = false;
+                for(int i = 0; i < studyDay.length; i++)
+                {
+                    if(studyDay[i])
+                        studyFlag = true;
+                }
+
+                if(!studyFlag)
+                {
+                    errorFlag = true;
+                    errorStudyDayPicker.setVisibility(View.VISIBLE);
+                }
+
+                if(startDate.equals("") || endDate.equals(""))
+                {
+                    errorFlag = true;
+                    errorDatePicker.setVisibility(View.VISIBLE);
+                }
+                else {
+                    Date dateStart = new Date(), dateEnd = new Date();
+                    try {
+                        dateStart = format.parse(startDate);
+                        dateEnd = format.parse(endDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(dateStart.getTime() > dateEnd.getTime()){
+                        errorFlag = true;
+                        errorDatePicker.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                if(className.trim().equals(""))
+                {
+                    edttext_subject_name.setError("Hãy nhập tên môn học");
+                    errorFlag = true;
+                }
+                if(classGroup.trim().equals(""))
+                {
+                    edttext_group_subject.setError("Hãy nhập nhóm - tổ");
+                    errorFlag = true;
+                }
+                if(classRoom.trim().equals(""))
+                {
+                    errorFlag = true;
+                    edttext_subject_room.setError("Hãy nhập phòng học");
+                }
+
+                int hour_start = 0, hour_end = 0, minute_start = 0, minute_end = 0;
+
+                LocalTime startTime = null, endTime = null;
+
+                if(startHour.equals("") || endHour.equals(""))
+                {
+                    errorFlag = true;
+                    errorTimePicker.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startTime = LocalTime.parse(startHour, DateTimeFormatter.ofPattern("HH:mm"));
+                        endTime = LocalTime.parse(endHour, DateTimeFormatter.ofPattern("HH:mm"));
+                    }
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        hour_start = startTime.get(ChronoField.HOUR_OF_DAY);
+                        minute_start = startTime.get(ChronoField.MINUTE_OF_HOUR);
+                        hour_end = endTime.get(ChronoField.HOUR_OF_DAY);
+                        minute_end = endTime.get(ChronoField.MINUTE_OF_HOUR);
+                    }
+
+                    if(hour_start > hour_end)
+                    {
+                        errorFlag = true;
+                        errorTimePicker.setVisibility(View.VISIBLE);
+                    }
+                    else if(hour_start == hour_end){
+                        if(minute_start >= minute_end)
+                        {
+                            errorFlag = true;
+                            errorTimePicker.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+                if(errorFlag)
+                    return;
+
+                edttext_subject_name.setError(null);
+                edttext_group_subject.setError(null);
+                edttext_subject_room.setError(null);
+                errorDatePicker.setVisibility(View.GONE);
+                errorTimePicker.setVisibility(View.GONE);
+                errorStudyDayPicker.setVisibility(View.GONE);
                 Subject subject = new Subject(className,classRoom,classGroup,startDate,endDate,startHour,endHour,studyDay,lecturerName,lecturerNumber,lecturerMail);
 
                 String study = "";
@@ -485,9 +777,7 @@ public class fragment_new_subject extends Fragment {
                 }
                 subject.setStudy(study);
                 boolean success = dataBaseHelper.addOne(subject);
-                Log.e("subject", ""+success);
                 int subject_id = dataBaseHelper.getNewlyInsertedSubject();
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                 Date start, end;
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
                 try {
@@ -501,22 +791,16 @@ public class fragment_new_subject extends Fragment {
                         if(dayOfWeek == 1)
                         {
                             dayOfWeek += 7;
-//                            if(studyDay[6])
-//                            {
-//                                TimeTable timeTable = new TimeTable(-1, className, classGroup, classRoom, date, startHour, endHour, lecturerName, lecturerNumber, lecturerMail, true, "0:05", 1, subject_id);
-//                                success = dataBaseHelper.addOne(timeTable);
-//                                Log.e("timetable", ""+success);
-//                            }
                         }
                         if(studyDay[dayOfWeek-2])
                         {
                             TimeTable timeTable = new TimeTable(-1, className, classGroup, classRoom, date, startHour, endHour, lecturerName, lecturerNumber, lecturerMail, true, "00:05", 1, subject_id);
                             success = dataBaseHelper.addOne(timeTable);
                             int id = dataBaseHelper.getNewlyInsertedTimeTable();
-                            String startTime = subject.getStartHour();
-                            if (startTime.length() == 3)
-                                startTime = "0"+startTime;
-                            String timetableStart = date+" "+startTime;
+                            String timeStart = subject.getStartHour();
+                            if (timeStart.length() == 3)
+                                timeStart = "0"+timeStart;
+                            String timetableStart = date+" "+timeStart;
                             setAlarm(id, timetableStart, "00:05", "Thông báo lịch học", "Đã tới giờ cho lịch học môn "+subject.getClassName()+". Hãy nhanh chóng chuẩn bị nào");
                         }
                     }
@@ -524,17 +808,7 @@ public class fragment_new_subject extends Fragment {
                     e.printStackTrace();
                 }
 
-//                addSubjectData(subject);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentCalendar).commit();
-//                private String className,classRoom,classGroup, note;
-//                private String startDate = "",endDate = "",startHour = "",endHour = "";
-//                private boolean[] studyDay = {false,false,false,false,false,false,false};
-//                private String lecturerName = "", lecturerMail = "", lecturerNumber = "";
-                if (TextUtils.isEmpty(className)) {
-                    edttext_subject_name.setError("This can't be empty!!");
-                }
-                // another field errors haven't implemented
-
             }
         });
 
@@ -575,7 +849,6 @@ public class fragment_new_subject extends Fragment {
                 Date date = new Date(selection);
                 startDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
                 day_start.setText(startDate);
-                Log.e("start", startDate);
             }
         });
 
@@ -585,7 +858,6 @@ public class fragment_new_subject extends Fragment {
                 Date date = new Date(selection);
                 endDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
                 day_end.setText(endDate);
-                Log.e("end", endDate);
             }
         });
 
@@ -824,7 +1096,6 @@ public class fragment_new_subject extends Fragment {
                 String name = edttext_lecturer_name.getText().toString().trim();
                 String number = edttext_lecturer_number.getText().toString().trim();
                 String mail = edttext_lecturer_mail.getText().toString().trim();
-                Log.d("test",name + " " + number + " " + mail);
                 if (!(name.equals("")) || !(number.equals("")) || !(mail.equals(""))){
                     add_info_lecturer_buttn.setText("Sửa");
                     lecturerName = name;
@@ -837,10 +1108,6 @@ public class fragment_new_subject extends Fragment {
                 close_info_lecturer_bg();
             }
         });
-    }
-
-    private void addSubjectData(Subject subject){
-        AddSubjectListener.AddSubject(subject);
     }
     private void closeKeyBoard(){
         View view = getActivity().getCurrentFocus();
@@ -881,19 +1148,29 @@ public class fragment_new_subject extends Fragment {
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.setTime(selectedDate);
-        Log.e("day", ""+calendar.get(Calendar.DAY_OF_MONTH));
-        Log.e("month", ""+(calendar.get(Calendar.MONTH) + 1));
-        Log.e("day", ""+calendar.get(Calendar.YEAR));
-        Log.e("hour", ""+calendar.get(Calendar.HOUR_OF_DAY));
-        Log.e("minute", ""+calendar.get(Calendar.MINUTE));
-        Log.e("notification_hour", ""+hour);
-        Log.e("notification_minute", ""+minute);
+
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+
+        if(c.getTimeInMillis() > calendar.getTimeInMillis())
+            return;
+
         calendar.setTimeInMillis(calendar.getTimeInMillis()-hour*MILLIS_IN_AN_HOUR-minute*MILLIS_IN_AN_MINUTE);
-        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendar.getTime()));
-        Log.e("calendar", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date(calendar.getTimeInMillis())));
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
-        Log.e("alarm","SET ALARM SUCCESSFULLY");
+    }
+
+    public void cancelAlarm(int id)
+    {
+        Intent intent = new Intent(getActivity() , AlarmReceiver.class);
+
+        pendingIntent = PendingIntent.getBroadcast(getContext(), id, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(alarmManager == null)
+        {
+            alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        }
+
+        alarmManager.cancel(pendingIntent);
     }
 }

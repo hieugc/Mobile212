@@ -1,22 +1,17 @@
 package com.app.timetable;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TimeTableSelRecViewAdapter extends RecyclerView.Adapter<TimeTableSelRecViewAdapter.ViewHolder> {
 
@@ -52,8 +47,6 @@ public class TimeTableSelRecViewAdapter extends RecyclerView.Adapter<TimeTableSe
         holder.date_txt.setText(timetable.get(position).getDate());
         holder.time_txt.setText(timetable.get(position).getTime());
         holder.week_txt.setText(timetable.get(position).getWeek());
-        Log.d("List: ", bkTimeTableList.toString());
-        Log.d("Id", String.valueOf(timetable.get(position).getName()));
         for(int i = 0; i < bkTimeTableList.size(); i++) {
             if (bkTimeTableList.get(i).equals(timetable.get(position).getName()))
             {
@@ -63,8 +56,6 @@ public class TimeTableSelRecViewAdapter extends RecyclerView.Adapter<TimeTableSe
         holder.btn_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("ListTT", timetable.toString());
-                Log.d("ListBK", bkTimeTableList.toString());
                 if (holder.btn_select.isChecked()) {
                     bkTimeTableList.add(timetable.get(position).getName());
                 } else {

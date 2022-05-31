@@ -3,8 +3,6 @@ package Model;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,10 +47,6 @@ public class todo_check_list_form_RecViewAdapter extends RecyclerView.Adapter<to
         return list_checks.size();
     }
 
-    public void setList_checks(ArrayList<list_check> list_checks) {
-        this.list_checks = list_checks;
-        notifyDataSetChanged();
-    }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
         list_check list_checks;

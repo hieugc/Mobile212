@@ -1,11 +1,6 @@
 package Model;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +11,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.timetable.BKTimeTable;
 import com.app.timetable.R;
-import com.app.timetable.TimeTableSelRecViewAdapter;
-import com.app.timetable.fragment_todo;
-import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_RecViewAdapter.ViewHolder>{
@@ -41,25 +31,6 @@ public class todo_meet_RecViewAdapter extends RecyclerView.Adapter<todo_meet_Rec
         this.fragment_todo = fragment_todo;
     }
 
-    public ArrayList<Model.meeting> getMeetings() {
-        return meetings;
-    }
-
-    public FragmentActivity getFragmentActivity() {
-        return fragmentActivity;
-    }
-
-    public ItemClickListener getListener() {
-        return listener;
-    }
-
-    public void setFragmentActivity(FragmentActivity fragmentActivity) {
-        this.fragmentActivity = fragmentActivity;
-    }
-
-    public void set_todo_Listener(ItemClickListener listener) {
-        this.listener = listener;
-    }
 
     @NonNull
     @Override

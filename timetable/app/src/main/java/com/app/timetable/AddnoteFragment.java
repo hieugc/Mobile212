@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.button.MaterialButton;
 
-import io.realm.Realm;
 
 public class AddnoteFragment extends Fragment {
     private ImageButton back_btn;
@@ -120,7 +117,6 @@ public class AddnoteFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
                             String title = title_txt.getText().toString();
-                            Log.e("no", "|" + title.trim() + "|");
                             if (title.trim().equals("")){
                                 returnNote(bundle, null, "linked_note");
                             }
@@ -217,7 +213,6 @@ public class AddnoteFragment extends Fragment {
 
         fragment_todo fragmentTodo = bundle.getParcelable("todoView");
         fragmentTodo.setArguments(bundle1);
-        Log.e("b", String.valueOf(fragmentTodo));
 
         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentTodo).commit();
     }
@@ -241,8 +236,6 @@ public class AddnoteFragment extends Fragment {
         bundle1.putInt("_id_", bundle.getInt("_id_"));
         fragment_todo_assignment_form fragment_todo_assignment_form = new fragment_todo_assignment_form();
         fragment_todo_assignment_form.setArguments(bundle1);
-        Log.e("bottom", String.valueOf(bottomNavigationView));
-        Log.e("bottom", String.valueOf(fragment_todo_assignment_form.getBottomNavigationView()));
         fragment_todo_assignment_form.setBottomNavigationView(bottomNavigationView);
 
         getParentFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragment_todo_assignment_form).commit();

@@ -3,41 +3,23 @@ package com.app.timetable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
-import android.view.Window;
 
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.MenuItem;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 import Model.assignment;
-import Model.list_check;
 import Model.meeting;
 
 public class MainActivity extends AppCompatActivity implements fragment_calendar.ISendDataListener, fragment_new_subject.AddSubject {
@@ -70,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
-//        getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_main);
         createNotificationChannel();
 
@@ -122,13 +102,6 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, calendarView).commit();
 
-//        FloatingActionButton addNoteBtn = findViewById(R.id.note_add);
-//        addNoteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v){
-//                startActivity(new Intent(MainActivity.this,add_note.class ));
-//            }
-//        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -137,9 +110,6 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
         bottomNavigationView = findViewById(R.id.nav_bot);
 
         //calendar
-//        subjectList.add(new Subject("Đại số tuyến tính","H6 305","L01","","17/03/2022",
-//                "20/06/2022","9:00","10:50",tmpStudyDay,"",""
-//                ,""));
         calendarView.set_new_tkb(new_subject);
         calendarView.setBottomNavigationView(bottomNavigationView);
         new_subject.set_calendar_fragment(calendarView);
@@ -178,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements fragment_calendar
 
     @Override
     public void sendData(Subject subject) {
-//        fragment_calendar_info_subject fragment_info = (fragment_calendar_info_subject) getSupportFragmentManager().findFragmentById(R.id.subject_info_layout);
         subject_info.receiveDataFromCalendarFragment(subject);
     }
 

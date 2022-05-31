@@ -1,10 +1,8 @@
 package Model;
 
 import android.content.Context;
-import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,10 +55,6 @@ public class todo_check_list_form_dialog_RecViewAdapter extends RecyclerView.Ada
         return list_checks.size();
     }
 
-    public void setList_checks(ArrayList<list_check> list_checks) {
-        this.list_checks = list_checks;
-        notifyDataSetChanged();
-    }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
         list_check list_checks;

@@ -1,14 +1,5 @@
 package Model;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.fragment.app.Fragment;
-
-import com.app.timetable.R;
-
 public class meeting{
     public meeting(int id, String time, String title, String location, String link, String alert, Boolean done){
         this.time = time;
