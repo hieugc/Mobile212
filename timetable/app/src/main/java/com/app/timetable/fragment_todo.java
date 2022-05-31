@@ -348,7 +348,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
         todo_assignment_button.setVisibility(View.GONE);
 
         bottomNavigationView.setForeground(null);
-        todo_floating_button_background.getLayoutParams().width = 170;
+        todo_floating_button_background.getLayoutParams().width = 200;
         todo_floating_button_background.getLayoutParams().height = -2;//wrap_content
         todo_floating_button_background.setBackgroundColor(0);
 
