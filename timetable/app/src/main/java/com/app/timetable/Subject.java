@@ -1,8 +1,6 @@
 package com.app.timetable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Subject {
     private String className,classRoom,classGroup;
@@ -101,9 +99,6 @@ public class Subject {
         return studyDay;
     }
 
-    public void setStudyDay(boolean[] studyDay) {
-        this.studyDay = studyDay;
-    }
 
     @Override
     public String toString() {

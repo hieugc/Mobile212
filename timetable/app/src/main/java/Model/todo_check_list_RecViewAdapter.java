@@ -1,7 +1,6 @@
 package Model;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +75,6 @@ public class todo_check_list_RecViewAdapter extends RecyclerView.Adapter<todo_ch
                 @Override
                 public void onClick(View view) {
                     list_checks.setDone(!list_checks.getDone());
-                    Log.e("checkk", String.valueOf(list_checks.getDone()));
                     listener.updateDB(list_checks);
                     done.setChecked(list_checks.getDone());
                 }

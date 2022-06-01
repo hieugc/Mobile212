@@ -41,13 +41,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import androidx.recyclerview.widget.SnapHelper;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,7 +55,7 @@ public class fragment_calendar extends Fragment implements Parcelable {
         selectedDate = MaterialDatePicker.todayInUtcMilliseconds();
         dateAdapter = new DateAdapter();
         ArrayList<Date> dates = new ArrayList<>();
-        Date date = new Date(MaterialDatePicker.todayInUtcMilliseconds());
+        Date date = new Date(selectedDate);
         Date yesterday = new Date(date.getTime() - MILLIS_IN_A_DAY);
         Date thePreviousDay = new Date(date.getTime() - 2*MILLIS_IN_A_DAY);
         Date tomorrow = new Date(date.getTime() + MILLIS_IN_A_DAY);
@@ -306,6 +302,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
                 dateAdapter.getArrayList().clear();
                 dateAdapter.setArrayList(dateArrayList);
+
+                setDatePicker();
 
                 Calendar c = Calendar.getInstance(TimeZone.getDefault());
                 c.setTime(date);
@@ -699,6 +697,8 @@ public class fragment_calendar extends Fragment implements Parcelable {
 
                 dateAdapter.getArrayList().clear();
                 dateAdapter.setArrayList(dateArrayList);
+
+                setDatePicker();
 
                 Calendar c = Calendar.getInstance(TimeZone.getDefault());
                 c.setTime(date);

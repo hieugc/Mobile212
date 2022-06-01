@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,7 +59,6 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         holder.itemView.scrollTo(0, 0);
-                        Toast.makeText(view.getContext(), "Huỷ", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {

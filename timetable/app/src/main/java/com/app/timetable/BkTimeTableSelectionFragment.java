@@ -19,14 +19,10 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,13 +82,12 @@ public class BkTimeTableSelectionFragment extends Fragment {
                 builder.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(view.getContext(), "Huỷ", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(view.getContext(), arrayList.toString(), Toast.LENGTH_SHORT).show();
+
                         ArrayList<BKTimeTable> bkTimeTables = new ArrayList<>();
                         for(int j = 0; j < arrayList.size(); j++)
                         {
@@ -195,6 +190,7 @@ public class BkTimeTableSelectionFragment extends Fragment {
                             }
 
                         }
+                        Toast.makeText(view.getContext(), "Thêm TKB Bách Khoa thành công", Toast.LENGTH_SHORT).show();
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, fragmentCalendar).commit();
                     }
                 });
@@ -211,7 +207,6 @@ public class BkTimeTableSelectionFragment extends Fragment {
             @Override
             public void onItemClick(BKTimeTable bkTimeTable) {
                 selection_txt.setText("Đã chọn " + adapter.getBkTimeTableList().size() + " môn");
-                Toast.makeText(view.getContext(), "Size "+adapter.getBkTimeTableList().size(), Toast.LENGTH_SHORT).show();
                 btn_select_all.setChecked(adapter.getBkTimeTableList().size() == adapter.getTimetable().size());
                 if(adapter.getBkTimeTableList().size() == 0)
                     add_txt.setVisibility(View.INVISIBLE);
@@ -242,7 +237,6 @@ public class BkTimeTableSelectionFragment extends Fragment {
                     timetableView.setAdapter(adapter);
                     add_txt.setVisibility(View.VISIBLE);
                     selection_txt.setText("Đã chọn "+adapter.getBkTimeTableList().size()+" môn");
-                    Toast.makeText(view.getContext(), "Size "+adapter.getBkTimeTableList().size(), Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -253,7 +247,6 @@ public class BkTimeTableSelectionFragment extends Fragment {
                         timetableView.setAdapter(adapter);
                         selection_txt.setText("Đã chọn "+arrayList.size()+" môn");
                         add_txt.setVisibility(View.INVISIBLE);
-                        Toast.makeText(view.getContext(), "Size "+adapter.getBkTimeTableList().size(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

@@ -74,7 +74,14 @@ public class todo_assignment_RecViewAdapter extends RecyclerView.Adapter<todo_as
             assignment = ass;
             content.setText(ass.getTitle());
             time_assignment_item.setText(ass.getTime());
-            done.setChecked(ass.getDone());
+            boolean check = true;
+            for(list_check l: ass.getList_checks())
+            {
+                if(!l.getDone())
+                    check = false;
+            }
+            done.setChecked(check);
+            ass.setDone(check);
             done.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -34,9 +35,6 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -784,7 +782,7 @@ public class fragment_new_subject extends Fragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
+                Toast.makeText(fragmentCalendar.getContext(), "Thêm subject thành công", Toast.LENGTH_SHORT).show();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentCalendar).commit();
             }
         });
