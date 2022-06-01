@@ -59,20 +59,9 @@ public class AddnoteFragment extends Fragment {
                 String title = title_txt.getText().toString().trim();
                 String content = content_txt.getText().toString().trim();
                 if (!title_txt.getText().toString().trim().equals("")){
-
-
-                Note note = new Note(-1, title, content, "");
-                boolean success = dataBaseHelper.addOne(note);
-                Toast.makeText(view.getContext(), "Thêm ghi chú mới thành công", Toast.LENGTH_SHORT).show();
-                fragmentNote = new fragment_note();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentNote).commit();
-
-                    if (dataBaseHelper.addOne(note)){
-                        Toast.makeText(view.getContext(), "Thành công", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(view.getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
-                    }
+                    Note note = new Note(-1, title, content, "");
+                    boolean success = dataBaseHelper.addOne(note);
+                    Toast.makeText(view.getContext(), "Thêm ghi chú mới thành công", Toast.LENGTH_SHORT).show();
                     fragmentNote = new fragment_note();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentNote).commit();
                 }
