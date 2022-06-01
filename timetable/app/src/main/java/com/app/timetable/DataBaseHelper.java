@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import Model.assignment;
@@ -157,6 +158,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + COLUMN_LINK_ASSIGN + " INTEGER,"
                 + COLUMN_CHECKED + " STRING, FOREIGN KEY("+COLUMN_LINK_NOTE+") REFERENCES "+TABLE_NOTE+"("+COLUMN_ID+") )";
         db.execSQL(sql);
+
+        BKEL_USER user = new BKEL_USER(-1, "hieu.locminh", md5("123"));
+        addOne(user);
+        BKTimeTable timeTable = new BKTimeTable(-1,"Đồ án đa ngành (CO3011)", "L01", "H1-603", "Thứ --","7:00 - 8:50","01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|", "212", 1);
+        addOne(timeTable);
+        timeTable = new BKTimeTable(-1,"Nguyên lý ngôn ngữ lập trình (CO3005)", "L01", "H6-109", "Thứ 4","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|", "212", 1);
+        addOne(timeTable);
     }
 
     @Override
@@ -869,5 +877,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public String md5(String password)
+    {
+        String encrypted_password;
+
+        byte[] md5Input = password.getBytes();
+
+        BigInteger md5Data = null;
+
+        try {
+            md5Data = new BigInteger(1, MD5.encryptMD5(md5Input));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        encrypted_password = md5Data.toString(16);
+
+        if(encrypted_password.length() < 32)
+        {
+            encrypted_password = 0 + encrypted_password;
+        }
+
+        return encrypted_password;
+    }
 
 }
