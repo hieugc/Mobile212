@@ -91,7 +91,7 @@ public class fragment_setting extends Fragment {
                 builder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(view.getContext(), "Xoá liên kết thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(view1.getContext(), "Xoá liên kết thành công", Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.remove("username");
                         editor.remove("password");

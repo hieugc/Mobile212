@@ -782,7 +782,7 @@ public class fragment_new_subject extends Fragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(fragmentCalendar.getContext(), "Thêm subject thành công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Thêm subject thành công", Toast.LENGTH_SHORT).show();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentCalendar).commit();
             }
         });
