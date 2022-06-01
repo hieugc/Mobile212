@@ -68,7 +68,6 @@ public class NoteRecViewAdapter extends RecyclerView.Adapter<NoteRecViewAdapter.
                     public void onClick(DialogInterface dialogInterface, int i) {
                         holder.itemView.scrollTo(0, 0);
                         boolean success = dataBaseHelper.deleteOne(noteArrayList.get(position));
-                        Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
                         if(success){
                             setNoteArrayList(dataBaseHelper.getAllNote());
                             if(getItemCount() == 0) fragmentNote.getNoData_txt().setVisibility(View.VISIBLE);

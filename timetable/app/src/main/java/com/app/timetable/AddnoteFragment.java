@@ -56,16 +56,24 @@ public class AddnoteFragment extends Fragment {
         done_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                String title = title_txt.getText().toString();
-                String content = content_txt.getText().toString();
+                String title = title_txt.getText().toString().trim();
+                String content = content_txt.getText().toString().trim();
+                if (!title_txt.getText().toString().trim().equals("")){
 
-                Note note = new Note(-1, title, content, "");
+                    Note note = new Note(-1, title, content, "");
 
-                boolean success = dataBaseHelper.addOne(note);
-                Toast.makeText(view.getContext(), "Success "+ success, Toast.LENGTH_SHORT).show();
-                fragmentNote = new fragment_note();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentNote).commit();
-
+                    if (dataBaseHelper.addOne(note)){
+                        Toast.makeText(view.getContext(), "Thành công", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(view.getContext(), "Thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                    fragmentNote = new fragment_note();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain,fragmentNote).commit();
+                }
+                else {
+                    title_txt.setError("Hãy nhập nội dung cần ghi chú!");
+                }
             }
         });
         return view;
@@ -204,6 +212,7 @@ public class AddnoteFragment extends Fragment {
             }
             this.setArguments(null);
         }
+        title_txt.setError(null);
     }
     private void returnTodo(Bundle bundle, Note note){
         Bundle bundle1 = new Bundle();

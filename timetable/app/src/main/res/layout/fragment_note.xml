@@ -84,16 +84,16 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         >
+
         <TextView
             android:id="@+id/note_noData_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bạn chưa có ghi chú nào cả"
-            android:textSize="25sp"
+            android:text="Chưa có ghi chú"
             android:textColor="@color/nav_primary"
+            android:textSize="28sp"
             android:textStyle="bold"
-            android:visibility="visible"
-            />
+            android:visibility="visible" />
     </RelativeLayout>
 
 

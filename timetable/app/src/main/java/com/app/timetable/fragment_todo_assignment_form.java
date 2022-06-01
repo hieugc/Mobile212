@@ -522,65 +522,97 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
         picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
             @Override
             public void onPositiveButtonClick(Object selection) {
-                String[] rangedate = picker.getHeaderText().split(" ",7);
                 String time_start = "", time_end;
-                Log.e("time", String.valueOf(picker.getHeaderText()));
-                if(rangedate.length == 5){
-                    if (rangedate[1].indexOf("T") != -1){
-                        String a = rangedate[1];
-                        rangedate[1] = rangedate[0];
-                        rangedate[0] = a;
+                Log.e("time", String.valueOf(picker.getHeaderText().toLowerCase()));
+                Calendar d = Calendar.getInstance();
+                String now = d.get(Calendar.DAY_OF_MONTH) + "/" + (d.get(Calendar.MONTH) + 1) + "/" + d.get(Calendar.YEAR);
+                String[] rangenow = now.split("/",3);
+                if (picker.getHeaderText().toLowerCase().indexOf("thg") != -1){
+                    Log.e("check", picker.getHeaderText().toLowerCase().replace("thg ", ""));
+                    String[] rangedate = picker.getHeaderText().toLowerCase().replace("thg ", "").replace(",", "").split(" ");
+                    if(rangedate.length == 5){
+                        time_start = "Bắt đầu: " + hash_day(rangedate[0]) + "/" + hash_day(rangedate[1]) + "/2022";
+                        time_end = "Kết thúc: " + hash_day(rangedate[3]) + "/" + hash_day(rangedate[4]) + "/2022";
+                        int nday_1 = numOfday(Integer.parseInt(rangenow[2]), Integer.parseInt(rangenow[1]), Integer.parseInt(rangenow[0]));
+                        int nday_2 = numOfday(2022, Integer.parseInt(rangedate[4]), Integer.parseInt(rangedate[3]));
+                        String time = String.valueOf(nday_2 - nday_1) + " ngày";
+                        time_show(time_start, time_end, time);
                     }
-                    if (rangedate[4].indexOf("T") != -1){
-                        String a = rangedate[4];
-                        rangedate[4] = rangedate[3];
-                        rangedate[3] = a;
+                    else if(rangedate.length == 6){
+                        time_start = "Bắt đầu: " + hash_day(rangedate[0]) + "/" + hash_day(rangedate[1]) + "/2023";
+                        time_end = "Kết thúc: " + hash_day(rangedate[3]) + "/" + hash_day(rangedate[4].replace(",", "")) + "/2023";
+                        int nday_1 = numOfday(Integer.parseInt(rangenow[2]), Integer.parseInt(rangenow[1]), Integer.parseInt(rangenow[0]));
+                        int nday_2 = numOfday(2023, Integer.parseInt(rangedate[4].replace(",", "")), Integer.parseInt(rangedate[3]));
+                        String time = String.valueOf(nday_2 - nday_1) + " ngày";
+                        time_show(time_start, time_end, time);
                     }
-                    time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
-                    time_end = "Kết thúc: " + hash_day(rangedate[4]) + "/" + hash_month(rangedate[3]) + "/2022";
-                    int nday_1 = numOfday(2022, Integer.parseInt(hash_month(rangedate[0])), Integer.parseInt(hash_day(rangedate[1])));
-                    int nday_2 = numOfday(2022, Integer.parseInt(hash_month(rangedate[3])), Integer.parseInt(hash_day(rangedate[4])));
-                    String time = String.valueOf(nday_2 - nday_1) + " ngày";
-                    time_show(time_start, time_end, time);
+                    else if(rangedate.length == 7){
+                        time_start = "Bắt đầu: " + hash_day(rangedate[0].replace(",", "")) + "/" + hash_day(rangedate[1].replace(",","")) + "/2022";
+                        time_end = "Kết thúc: " + hash_day(rangedate[4].replace(",", "")) + "/" + hash_day(rangedate[5].replace(",", "")) + "/2023";
+                        int nday_1 = numOfday(Integer.parseInt(rangenow[2]), Integer.parseInt(rangenow[1]), Integer.parseInt(rangenow[0]));
+                        int nday_2 = numOfday(2023, Integer.parseInt(rangedate[5].replace(",","")), Integer.parseInt(hash_day(rangedate[4].replace(",", " "))));
+                        String time = String.valueOf(nday_2 - nday_1) + " ngày";
+                        time_show(time_start, time_end, time);
+                    }
                 }
-                else if(rangedate.length == 6){
-                    if (rangedate[1].indexOf("T") != -1){
-                        String a = rangedate[1];
-                        rangedate[1] = rangedate[0];
-                        rangedate[0] = a;
+                else{
+                    String[] rangedate = picker.getHeaderText().toLowerCase().replace(",", "").split(" ", 7);
+                    if(rangedate.length == 5){
+                        if (rangedate[1].indexOf("T") != -1){
+                            String a = rangedate[1];
+                            rangedate[1] = rangedate[0];
+                            rangedate[0] = a;
+                        }
+                        if (rangedate[4].indexOf("T") != -1){
+                            String a = rangedate[4];
+                            rangedate[4] = rangedate[3];
+                            rangedate[3] = a;
+                        }
+                        time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
+                        time_end = "Kết thúc: " + hash_day(rangedate[4]) + "/" + hash_month(rangedate[3]) + "/2022";
+                        int nday_1 = numOfday(Integer.parseInt(rangenow[2]), Integer.parseInt(rangenow[1]), Integer.parseInt(rangenow[0]));
+                        int nday_2 = numOfday(2022, Integer.parseInt(hash_month(rangedate[3])), Integer.parseInt(hash_day(rangedate[4])));
+                        String time = String.valueOf(nday_2 - nday_1) + " ngày";
+                        time_show(time_start, time_end, time);
                     }
-                    if (rangedate[4].indexOf("T") != -1){
-                        String a = rangedate[4];
-                        rangedate[4] = rangedate[3];
-                        rangedate[3] = a;
+                    else if(rangedate.length == 6){
+                        if (rangedate[1].indexOf("T") != -1){
+                            String a = rangedate[1];
+                            rangedate[1] = rangedate[0];
+                            rangedate[0] = a;
+                        }
+                        if (rangedate[4].indexOf("T") != -1){
+                            String a = rangedate[4];
+                            rangedate[4] = rangedate[3];
+                            rangedate[3] = a;
+                        }
+                        time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2023";
+                        time_end = "Kết thúc: " + hash_day(rangedate[4].replace(",", " ")) + "/" + hash_month(rangedate[3]) + "/2023";
+                        int nday_1 = numOfday(Integer.parseInt(rangenow[2]), Integer.parseInt(rangenow[1]), Integer.parseInt(rangenow[0]));
+                        int nday_2 = numOfday(2023, Integer.parseInt(hash_month(rangedate[3])), Integer.parseInt(hash_day(rangedate[4].replace(",", " "))));
+                        String time = String.valueOf(nday_2 - nday_1) + " ngày";
+                        time_show(time_start, time_end, time);
                     }
-                    time_start = "Bắt đầu: " + hash_day(rangedate[1]) + "/" + hash_month(rangedate[0]) + "/2022";
-                    time_end = "Kết thúc: " + hash_day(rangedate[4].replace(",", " ")) + "/" + hash_month(rangedate[3]) + "/2023";
-                    int nday_1 = numOfday(2022, Integer.parseInt(hash_month(rangedate[0])), Integer.parseInt(hash_day(rangedate[1])));
-                    int nday_2 = numOfday(2023, Integer.parseInt(hash_month(rangedate[3])), Integer.parseInt(hash_day(rangedate[4].replace(",", " "))));
-                    String time = String.valueOf(nday_2 - nday_1) + " ngày";
-                    time_show(time_start, time_end, time);
-                }
-                else if(rangedate.length == 7){
-                    if (rangedate[1].indexOf("T") != -1){
-                        String a = rangedate[1];
-                        rangedate[1] = rangedate[0];
-                        rangedate[0] = a;
+                    else if(rangedate.length == 7){
+                        if (rangedate[1].indexOf("T") != -1){
+                            String a = rangedate[1];
+                            rangedate[1] = rangedate[0];
+                            rangedate[0] = a;
+                        }
+                        if (rangedate[5].indexOf("T") != -1){
+                            String a = rangedate[5];
+                            rangedate[5] = rangedate[4];
+                            rangedate[4] = a;
+                        }
+                        time_start = "Bắt đầu: " + hash_day(rangedate[1].replace(",", " ")) + "/" + hash_month(rangedate[0]) + "/2022";
+                        time_end = "Kết thúc: " + hash_day(rangedate[5].replace(",", " ")) + "/" + hash_month(rangedate[4]) + "/2023";
+                        int nday_1 = numOfday(Integer.parseInt(rangenow[2]), Integer.parseInt(rangenow[1]), Integer.parseInt(rangenow[0]));
+                        int nday_2 = numOfday(2023, Integer.parseInt(hash_month(rangedate[4])), Integer.parseInt(hash_day(rangedate[5].replace(",", " "))));
+                        String time = String.valueOf(nday_2 - nday_1) + " ngày";
+                        time_show(time_start, time_end, time);
                     }
-                    if (rangedate[5].indexOf("T") != -1){
-                        String a = rangedate[5];
-                        rangedate[5] = rangedate[4];
-                        rangedate[4] = a;
-                    }
-                    time_start = "Bắt đầu: " + hash_day(rangedate[1].replace(",", " ")) + "/" + hash_month(rangedate[0]) + "/2022";
-                    time_end = "Kết thúc: " + hash_day(rangedate[5].replace(",", " ")) + "/" + hash_month(rangedate[4]) + "/2023";
-                    int nday_1 = numOfday(2023, Integer.parseInt(hash_month(rangedate[0])), Integer.parseInt(hash_day(hash_day(rangedate[1].replace(",", " ")))));
-                    int nday_2 = numOfday(2023, Integer.parseInt(hash_month(rangedate[4])), Integer.parseInt(hash_day(rangedate[5].replace(",", " "))));
-                    String time = String.valueOf(nday_2 - nday_1) + " ngày";
-                    time_show(time_start, time_end, time);
                 }
                 selectedDate = (Pair<Long, Long>) selection;
-
             }
         });
     }
@@ -693,7 +725,7 @@ public class fragment_todo_assignment_form extends Fragment implements ItemClick
 
 
         todo_assignment_form_time_left.setText(time_left);
-        todo_assignment_form_time_left.setVisibility(View.VISIBLE);
+        todo_assignment_form_time_left.setVisibility(View.GONE);
     }
     private void close_add_list_dialog(){
         closeKeyBoard();
