@@ -66,6 +66,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         String sql = "CREATE TABLE " + TABLE_BKEL
                 + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_USER + " STRING UNIQUE,"
@@ -157,6 +158,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + COLUMN_LINK_ASSIGN + " INTEGER,"
                 + COLUMN_CHECKED + " STRING, FOREIGN KEY("+COLUMN_LINK_NOTE+") REFERENCES "+TABLE_NOTE+"("+COLUMN_ID+") )";
         db.execSQL(sql);
+
+        sql = "INSERT INTO "+TABLE_BKEL
+                +" ("+COLUMN_USER+","+COLUMN_PWD+")" +
+                " VALUES (\"hieu.locminh\", \"202cb962ac59075b964b07152d234b70\")";
+
+        db.execSQL(sql);
+
     }
 
     @Override

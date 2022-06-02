@@ -127,7 +127,9 @@
                 android:layout_marginLeft="60dp"
                 android:orientation="vertical"
                 android:paddingTop="10dp"
-                android:visibility="gone">
+                android:visibility="visible"
+                android:layout_marginTop="10dp"
+                >
 
                 <TextView
                     android:id="@+id/todo_assignment_form_add_time_start"
