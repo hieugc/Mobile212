@@ -158,6 +158,8 @@ public class fragment_todo_meeting_form extends Fragment {
             @Override
             public void onClick(View view) {
                 todo_meet_form_add_time_show.setText("00:05");
+                meet_form_hour_picker.setValue(0);
+                meet_form_minus_picker.setValue(5);
             }
         });
 

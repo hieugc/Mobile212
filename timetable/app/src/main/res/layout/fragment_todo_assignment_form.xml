@@ -120,11 +120,12 @@
                 app:tint="@color/nav_primary" />
 
             <LinearLayout
+                android:layout_marginTop="12dp"
                 android:id="@+id/todo_assignment_time_show"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/todo_assignment_form_time_left"
-                android:layout_marginLeft="60dp"
+                android:layout_marginLeft="50dp"
                 android:orientation="vertical"
                 android:paddingTop="10dp"
                 android:visibility="visible"

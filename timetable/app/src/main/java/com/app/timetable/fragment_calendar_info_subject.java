@@ -167,7 +167,10 @@ public class fragment_calendar_info_subject extends Fragment {
         edit_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog();
+                if(type == 2)
+                    sendEditOne();
+                else
+                    dialog();
             }
         });
         //end
@@ -231,12 +234,6 @@ public class fragment_calendar_info_subject extends Fragment {
         }
         else{
             dialog_contain.setVisibility(View.VISIBLE);
-            if(type == 2)
-            {
-                dialog_info_btn_2.setVisibility(View.GONE);
-            }
-            else
-                dialog_info_btn_2.setVisibility(View.VISIBLE);
             bottomNavigationView.setForeground(new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.dialog, null)));
         }
     }

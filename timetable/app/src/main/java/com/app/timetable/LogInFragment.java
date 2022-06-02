@@ -147,8 +147,6 @@ public class LogInFragment extends Fragment {
                     String encrypted_password = md5(password);
                     BKEL_USER bkel_user = new BKEL_USER(-1, username, encrypted_password);
 
-//                    boolean success = dataBaseHelper.addOne(bkel_user);
-//                    Toast.makeText(view.getContext(), "Success "+success, Toast.LENGTH_SHORT).show();
                     BKEL_USER user = dataBaseHelper.getOne(bkel_user);
                     if(user == null)
                     {

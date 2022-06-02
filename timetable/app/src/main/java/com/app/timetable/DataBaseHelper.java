@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 import Model.assignment;
@@ -159,12 +160,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + COLUMN_CHECKED + " STRING, FOREIGN KEY("+COLUMN_LINK_NOTE+") REFERENCES "+TABLE_NOTE+"("+COLUMN_ID+") )";
         db.execSQL(sql);
 
-        sql = "INSERT INTO "+TABLE_BKEL
-                +" ("+COLUMN_USER+","+COLUMN_PWD+")" +
-                " VALUES (\"hieu.locminh\", \"202cb962ac59075b964b07152d234b70\")";
+        sql = "INSERT INTO "+TABLE_BKEL+" ("+COLUMN_USER+","+COLUMN_PWD+")  VALUES(\"hieu.locminh\", \""+md5("123")+"\")";
+        db.execSQL(sql);
+        BKTimeTable bkTimeTable = new BKTimeTable(-1,"Đồ án đa ngành (CO3011)", "L01", "H1-603", "Thứ --","7:00 - 8:50","01|02|03|04|--|--|07|08|09|--|11|12|13|14|15|16|17|18|", "212", 1);
+        sql = "INSERT INTO "+TABLE_BK_TIMETABLE+" ("
+                +COLUMN_NAME+","+COLUMN_GROUP+","+COLUMN_LOCATION+","+COLUMN_DATE+","+COLUMN_TIME+","+COLUMN_WEEK+","+COLUMN_SEMESTER+","+COLUMN_USERID+") " +
+                "VALUES(\""+bkTimeTable.getName()+"\",\""+bkTimeTable.getGroup()+"\",\""+bkTimeTable.getLocation()+"\",\""+bkTimeTable.getDate()+"\",\""+bkTimeTable.getTime()+"\",\""+bkTimeTable.getWeek()+"\",\""+bkTimeTable.getSemester()+"\","+bkTimeTable.getUserID()+")";
 
         db.execSQL(sql);
-
+        bkTimeTable = new BKTimeTable(-1,"Nguyên lý ngôn ngữ lập trình (CO3005)", "L01", "H6-109", "Thứ 4","9:00 - 11:50","01|02|03|04|--|--|07|08|09|--|--|--|--|14|15|16|17|18|", "212", 1);
+        sql = "INSERT INTO "+TABLE_BK_TIMETABLE+" ("
+                +COLUMN_NAME+","+COLUMN_GROUP+","+COLUMN_LOCATION+","+COLUMN_DATE+","+COLUMN_TIME+","+COLUMN_WEEK+","+COLUMN_SEMESTER+","+COLUMN_USERID+") " +
+                "VALUES(\""+bkTimeTable.getName()+"\",\""+bkTimeTable.getGroup()+"\",\""+bkTimeTable.getLocation()+"\",\""+bkTimeTable.getDate()+"\",\""+bkTimeTable.getTime()+"\",\""+bkTimeTable.getWeek()+"\",\""+bkTimeTable.getSemester()+"\","+bkTimeTable.getUserID()+")";
+        db.execSQL(sql);
     }
 
     @Override
@@ -877,5 +885,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public String md5(String password)
+    {
+        String encrypted_password;
+
+        byte[] md5Input = password.getBytes();
+
+        BigInteger md5Data = null;
+
+        try {
+            md5Data = new BigInteger(1, MD5.encryptMD5(md5Input));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        encrypted_password = md5Data.toString(16);
+
+        if(encrypted_password.length() < 32)
+        {
+            encrypted_password = 0 + encrypted_password;
+        }
+
+        return encrypted_password;
+    }
 
 }
