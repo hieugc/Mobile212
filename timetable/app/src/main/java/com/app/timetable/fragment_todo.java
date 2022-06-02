@@ -123,6 +123,7 @@ public class fragment_todo extends Fragment implements ItemClickListener, Parcel
                 todo_assignment_form.setList_checks(new ArrayList<>());
                 todo_assignment_form.setList_checks_dialog(new ArrayList<>());
                 todo_assignment_form.setList_note(new ArrayList<>());
+                todo_assignment_form.set_id_(-1);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contain, todo_assignment_form).commit();
             }
         });
